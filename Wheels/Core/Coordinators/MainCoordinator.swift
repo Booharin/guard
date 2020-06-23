@@ -20,8 +20,15 @@ final class MainCoordinator: BaseCoordinator {
     private func showMainModule() {
         let controller = MainViewController()
         controller.coordinator = self
+		
+		//MARK: - Pass to CameraViewController
+		controller.toCameraViewController = { [weak controller] in
+			let descriptionController = CameraViewController()
+			controller?.navigationController?.pushViewController(descriptionController,
+																 animated: true)
+		}
         
-        let rootController = UINavigationController(rootViewController: controller)
+        let rootController = NavigationController(rootViewController: controller)
         setAsRoot(rootController)
         self.rootController = rootController
     }

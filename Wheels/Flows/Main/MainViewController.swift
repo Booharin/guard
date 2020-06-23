@@ -7,15 +7,53 @@
 //
 
 import UIKit
+import SnapKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
 	
 	var coordinator: MainCoordinator?
+	var toCameraViewController: (() -> (Void))?
+	private var enterButton = ConfirmButton()
+	private let animationDuration = 0.1
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
 		navigationController?.isNavigationBarHidden = true
-		view.backgroundColor = .red
+		view.backgroundColor = Colors.mainBackground
+		
+		addViews()
     }
+	
+	private func addViews() {
+		// enter button
+		enterButton.setImage(#imageLiteral(resourceName: "camera_icn"), for: .normal)
+		enterButton.addTarget(self,
+							  action: #selector(didEnterTap),
+							  for: .touchUpInside)
+		view.addSubview(enterButton)
+		enterButton.snp.makeConstraints() {
+			$0.height.equalTo(50)
+			$0.centerX.equalToSuperview()
+			$0.centerY.equalToSuperview()
+			$0.leading.equalToSuperview().offset(30)
+			$0.trailing.equalToSuperview().offset(-30)
+		}
+	}
+	
+	@objc func didEnterTap() {
+		view.endEditing(true)
+		enterButton.isEnabled = false
+		UIView.animate(withDuration: animationDuration, animations: {
+			self.enterButton.backgroundColor = Colors.confirmButtonLight
+		}, completion: { _ in
+			UIView.animate(withDuration: self.animationDuration, animations: {
+				self.enterButton.backgroundColor = Colors.confirmButton
+			}, completion: { _ in
+				self.enterButton.isEnabled = true
+			})
+		})
+		
+		toCameraViewController?()
+	}
 }
