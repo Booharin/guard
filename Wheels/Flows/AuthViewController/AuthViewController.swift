@@ -14,7 +14,6 @@ final class AuthViewController: UIViewController {
 	private var loginTextField = TextField()
 	private var passwordTextField = TextField()
 	private var enterButton = ConfirmButton(title: "auth.enter.title".localized)
-	private let animationDuration = 0.1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,15 +66,7 @@ final class AuthViewController: UIViewController {
 	@objc func didEnterTap() {
 		view.endEditing(true)
 		enterButton.isEnabled = false
-		UIView.animate(withDuration: animationDuration, animations: {
-			self.enterButton.backgroundColor = Colors.confirmButtonLight
-		}, completion: { _ in
-			UIView.animate(withDuration: self.animationDuration, animations: {
-				self.enterButton.backgroundColor = Colors.confirmButton
-			}, completion: { _ in
-				self.enterButton.isEnabled = true
-			})
-		})
+		enterButton.animateBackground()
 		
 		guard
 			loginTextField.text == "admin",

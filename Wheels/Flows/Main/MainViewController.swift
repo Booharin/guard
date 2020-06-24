@@ -13,8 +13,7 @@ final class MainViewController: UIViewController {
 	
 	var coordinator: MainCoordinator?
 	var toCameraViewController: (() -> (Void))?
-	private var enterButton = ConfirmButton()
-	private let animationDuration = 0.1
+	private var enterButton = ConfirmButton(title: "main.enter.title".localized)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +26,6 @@ final class MainViewController: UIViewController {
 	
 	private func addViews() {
 		// enter button
-		enterButton.setImage(#imageLiteral(resourceName: "camera_icn"), for: .normal)
 		enterButton.addTarget(self,
 							  action: #selector(didEnterTap),
 							  for: .touchUpInside)
@@ -44,15 +42,7 @@ final class MainViewController: UIViewController {
 	@objc func didEnterTap() {
 		view.endEditing(true)
 		enterButton.isEnabled = false
-		UIView.animate(withDuration: animationDuration, animations: {
-			self.enterButton.backgroundColor = Colors.confirmButtonLight
-		}, completion: { _ in
-			UIView.animate(withDuration: self.animationDuration, animations: {
-				self.enterButton.backgroundColor = Colors.confirmButton
-			}, completion: { _ in
-				self.enterButton.isEnabled = true
-			})
-		})
+		enterButton.animateBackground()
 		
 		toCameraViewController?()
 	}
