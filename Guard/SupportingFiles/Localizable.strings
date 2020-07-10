@@ -6,10 +6,14 @@
   Copyright © 2020 ds. All rights reserved.
 */
 
+//CHOOSE
+"choose.client.enter.button" = "Клиент";
+"choose.lawyer.enter.button" = "Юрист";
+
 //AUTH
 "auth.login.placeholder" = "логин";
 "auth.password.placeholder" = "пароль";
 "auth.enter.title" = "Войти";
 
 //MAIN
-"main.enter.title" = "";
+"main.enter.title" = "Осмотр";

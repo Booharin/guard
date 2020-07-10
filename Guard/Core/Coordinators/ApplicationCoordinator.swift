@@ -14,12 +14,12 @@ final class ApplicationCoordinator: BaseCoordinator {
 		if UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.isLogin) {
 			self.toMain()
 		} else {
-			self.toAuth()
+			self.toChoose()
 		}
     }
 	
-	private func toAuth() {
-        let coordinator = AuthCoordinator()
+	private func toChoose() {
+		let coordinator = ChooseCoordinator()
         coordinator.onFinishFlow = { [weak self, weak coordinator] in
             self?.removeDependency(coordinator)
             self?.start()

@@ -11,6 +11,11 @@ final class AuthCoordinator: BaseCoordinator {
     
     var rootController: NavigationController?
     var onFinishFlow: (() -> Void)?
+	private let userType: UserType
+	
+	init(userType: UserType) {
+		self.userType = userType
+	}
     
     override func start() {
         showLoginModule()
@@ -38,5 +43,4 @@ final class AuthCoordinator: BaseCoordinator {
         addDependency(coordinator)
         coordinator.start()
     }
-    
 }
