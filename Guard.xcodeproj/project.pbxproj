@@ -27,6 +27,9 @@
 		5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5251AFBC24A28B2100467E84 /* ConfirmButton.swift */; };
 		5251AFBF24A28F9900467E84 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5251AFBE24A28F9900467E84 /* Localizable.strings */; };
 		5251AFC224A28FBC00467E84 /* String+Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5251AFC124A28FBC00467E84 /* String+Localizable.swift */; };
+		5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753024B84CFC00CC729C /* ChooseCoordinator.swift */; };
+		5253753324B84D5200CC729C /* ChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753224B84D5200CC729C /* ChooseViewController.swift */; };
+		5253753724B84F0200CC729C /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753624B84F0200CC729C /* UserProfile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -65,6 +68,9 @@
 		5251AFBC24A28B2100467E84 /* ConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
 		5251AFBE24A28F9900467E84 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		5251AFC124A28FBC00467E84 /* String+Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localizable.swift"; sourceTree = "<group>"; };
+		5253753024B84CFC00CC729C /* ChooseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseCoordinator.swift; sourceTree = "<group>"; };
+		5253753224B84D5200CC729C /* ChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewController.swift; sourceTree = "<group>"; };
+		5253753624B84F0200CC729C /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				52483BAE24A279760003A56A /* Launch */,
+				5253753424B84D5700CC729C /* Choose */,
 				5251AFA824A2821A00467E84 /* AuthViewController */,
 				52483BAC24A2793B0003A56A /* Main */,
 			);
@@ -186,6 +193,7 @@
 				52483BB424A279FC0003A56A /* ApplicationCoordinator.swift */,
 				52483BB624A27A120003A56A /* MainCoordinator.swift */,
 				5251AFB124A2837D00467E84 /* AuthCoordinator.swift */,
+				5253753024B84CFC00CC729C /* ChooseCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -210,6 +218,7 @@
 		5251AFAB24A2825000467E84 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				5253753524B84EEB00CC729C /* Models */,
 				5251AFB524A2851200467E84 /* NavigationController */,
 				522E5BE424A37C2F00879741 /* Views */,
 				5251AFC024A28FA400467E84 /* Extensions */,
@@ -272,6 +281,22 @@
 				5251AFC124A28FBC00467E84 /* String+Localizable.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5253753424B84D5700CC729C /* Choose */ = {
+			isa = PBXGroup;
+			children = (
+				5253753224B84D5200CC729C /* ChooseViewController.swift */,
+			);
+			path = Choose;
+			sourceTree = "<group>";
+		};
+		5253753524B84EEB00CC729C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5253753624B84F0200CC729C /* UserProfile.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -351,9 +376,12 @@
 				52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */,
 				5251AFB024A2829200467E84 /* Colors.swift in Sources */,
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
+				5253753724B84F0200CC729C /* UserProfile.swift in Sources */,
 				52483BB324A279E40003A56A /* BaseCoordinator.swift in Sources */,
 				52483BB024A279AC0003A56A /* MainViewController.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
+				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
+				5253753324B84D5200CC729C /* ChooseViewController.swift in Sources */,
 				5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */,
 				5251AFB424A283B000467E84 /* Constants.swift in Sources */,
 				52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */,

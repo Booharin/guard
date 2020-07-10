@@ -18,7 +18,6 @@ final class AuthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		navigationController?.isNavigationBarHidden = true
 		view.backgroundColor = Colors.authBackground
 		addViews()
     }

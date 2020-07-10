@@ -18,7 +18,7 @@ final class ConfirmButton: UIButton {
 		super.init(frame: .zero)
 		setTitle(buttonTitle, for: .normal)
 		setTitleColor(Colors.borderColor, for: .normal)
-		layer.cornerRadius = 5
+		layer.cornerRadius = 10
 		backgroundColor = Colors.confirmButton
 	}
 	
