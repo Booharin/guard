@@ -32,6 +32,17 @@
 		5253753724B84F0200CC729C /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753624B84F0200CC729C /* UserProfile.swift */; };
 		52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */; };
 		52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */; };
+		52EB81C324B9E7E5003285BC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81C224B9E7E5003285BC /* ViewModel.swift */; };
+		52EB81C524B9E820003285BC /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81C424B9E820003285BC /* AuthViewModel.swift */; };
+		52EB81C724B9E882003285BC /* ViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81C624B9E882003285BC /* ViewControllerProtocol.swift */; };
+		52EB81C924B9ECE0003285BC /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EB81C824B9ECDF003285BC /* RxCocoa.framework */; };
+		52EB81CA24B9ECE0003285BC /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52EB81C824B9ECDF003285BC /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		52EB81CC24B9ECE4003285BC /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EB81CB24B9ECE4003285BC /* RxSwift.framework */; };
+		52EB81CD24B9ECE4003285BC /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52EB81CB24B9ECE4003285BC /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		52EB81CF24B9ED02003285BC /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EB81CE24B9ED02003285BC /* RxRelay.framework */; };
+		52EB81D024B9ED02003285BC /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52EB81CE24B9ED02003285BC /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81D224B9F245003285BC /* String+withoutExtraSpaces.swift */; };
+		52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,8 +52,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				52EB81CD24B9ECE4003285BC /* RxSwift.framework in Embed Frameworks */,
+				52EB81CA24B9ECE0003285BC /* RxCocoa.framework in Embed Frameworks */,
 				5251AFA424A281F100467E84 /* Alamofire.framework in Embed Frameworks */,
 				5251AFA624A281F100467E84 /* SnapKit.framework in Embed Frameworks */,
+				52EB81D024B9ED02003285BC /* RxRelay.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,6 +89,14 @@
 		5253753624B84F0200CC729C /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCoordinator.swift; sourceTree = "<group>"; };
 		52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		52EB81C224B9E7E5003285BC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		52EB81C424B9E820003285BC /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		52EB81C624B9E882003285BC /* ViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerProtocol.swift; sourceTree = "<group>"; };
+		52EB81C824B9ECDF003285BC /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
+		52EB81CB24B9ECE4003285BC /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
+		52EB81CE24B9ED02003285BC /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxRelay.framework; path = Carthage/Build/iOS/RxRelay.framework; sourceTree = "<group>"; };
+		52EB81D224B9F245003285BC /* String+withoutExtraSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+withoutExtraSpaces.swift"; sourceTree = "<group>"; };
+		52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+isvalidEmail.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,8 +104,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52EB81CC24B9ECE4003285BC /* RxSwift.framework in Frameworks */,
+				52EB81C924B9ECE0003285BC /* RxCocoa.framework in Frameworks */,
 				5251AFA324A281F100467E84 /* Alamofire.framework in Frameworks */,
 				5251AFA524A281F100467E84 /* SnapKit.framework in Frameworks */,
+				52EB81CF24B9ED02003285BC /* RxRelay.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +232,9 @@
 		5251AFA024A281F100467E84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52EB81CE24B9ED02003285BC /* RxRelay.framework */,
+				52EB81CB24B9ECE4003285BC /* RxSwift.framework */,
+				52EB81C824B9ECDF003285BC /* RxCocoa.framework */,
 				5251AFA124A281F100467E84 /* Alamofire.framework */,
 				5251AFA224A281F100467E84 /* SnapKit.framework */,
 			);
@@ -217,6 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				5251AFA924A2823200467E84 /* AuthViewController.swift */,
+				52EB81C424B9E820003285BC /* AuthViewModel.swift */,
 			);
 			path = AuthViewController;
 			sourceTree = "<group>";
@@ -224,6 +253,7 @@
 		5251AFAB24A2825000467E84 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				52EB81C124B9E7BC003285BC /* Base */,
 				5253753524B84EEB00CC729C /* Models */,
 				5251AFB524A2851200467E84 /* NavigationController */,
 				522E5BE424A37C2F00879741 /* Views */,
@@ -284,7 +314,7 @@
 		5251AFC024A28FA400467E84 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				5251AFC124A28FBC00467E84 /* String+Localizable.swift */,
+				52EB81D124B9F223003285BC /* String */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -311,6 +341,25 @@
 				52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */,
 			);
 			path = Registration;
+			sourceTree = "<group>";
+		};
+		52EB81C124B9E7BC003285BC /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				52EB81C224B9E7E5003285BC /* ViewModel.swift */,
+				52EB81C624B9E882003285BC /* ViewControllerProtocol.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		52EB81D124B9F223003285BC /* String */ = {
+			isa = PBXGroup;
+			children = (
+				5251AFC124A28FBC00467E84 /* String+Localizable.swift */,
+				52EB81D224B9F245003285BC /* String+withoutExtraSpaces.swift */,
+				52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */,
+			);
+			path = String;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -386,22 +435,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52EB81C524B9E820003285BC /* AuthViewModel.swift in Sources */,
 				5251AFB724A2853A00467E84 /* NavigationController.swift in Sources */,
 				52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */,
+				52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */,
 				5251AFB024A2829200467E84 /* Colors.swift in Sources */,
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
 				5253753724B84F0200CC729C /* UserProfile.swift in Sources */,
 				52483BB324A279E40003A56A /* BaseCoordinator.swift in Sources */,
+				52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */,
 				52483BB024A279AC0003A56A /* MainViewController.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
 				52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */,
 				5253753324B84D5200CC729C /* ChooseViewController.swift in Sources */,
+				52EB81C324B9E7E5003285BC /* ViewModel.swift in Sources */,
 				5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */,
 				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,
 				5251AFB424A283B000467E84 /* Constants.swift in Sources */,
 				52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */,
 				52483BB524A279FC0003A56A /* ApplicationCoordinator.swift in Sources */,
+				52EB81C724B9E882003285BC /* ViewControllerProtocol.swift in Sources */,
 				5251AFB224A2837D00467E84 /* AuthCoordinator.swift in Sources */,
 				5251AFC224A28FBC00467E84 /* String+Localizable.swift in Sources */,
 			);

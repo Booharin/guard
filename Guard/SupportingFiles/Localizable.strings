@@ -14,6 +14,8 @@
 "auth.login.placeholder" = "логин";
 "auth.password.placeholder" = "пароль";
 "auth.enter.title" = "Войти";
+"auth.alert.uncorrect_email.title" = "Некорректный email";
+"auth.alert.empty.title" = "Поле не может быть пустым";
 
 //MAIN
 "main.enter.title" = "Осмотр";

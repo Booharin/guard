@@ -18,7 +18,6 @@ final class ChooseCoordinator: BaseCoordinator {
 		let controller = ChooseViewController()
 		
 		controller.toRegistration = { [weak self] userType in
-			//			UserDefaults.standard.set(true, forKey: Constants.UserDefaultsKeys.isLogin)
 			self?.toRegistration(userType)
 		}
 		
