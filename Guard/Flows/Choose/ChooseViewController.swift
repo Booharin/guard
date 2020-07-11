@@ -9,19 +9,23 @@
 import UIKit
 /// Controller for user type choice
 final class ChooseViewController: UIViewController {
-	/// Pass to authorization
-	var toAuth: ((UserType) -> (Void))?
+	/// Pass to registration
+	var toRegistration: ((UserType) -> (Void))?
 	private var clientEnterButton = ConfirmButton(title: "choose.client.enter.button".localized)
 	private var lawyerEnterButton = ConfirmButton(title: "choose.lawyer.enter.button".localized)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationController?.isNavigationBarHidden = true
-		view.backgroundColor = Colors.authBackground
 		
+		view.backgroundColor = Colors.authBackground
 		addViews()
     }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		navigationController?.isNavigationBarHidden = true
+	}
 	
 	private func addViews() {
 		// client enter button
@@ -56,7 +60,7 @@ final class ChooseViewController: UIViewController {
 		lawyerEnterButton.isEnabled = false
 		clientEnterButton.animateBackground()
 		
-		toAuth?(.client)
+		toRegistration?(.client)
 	}
 	
 	@objc func didLawyerTap() {
@@ -64,6 +68,6 @@ final class ChooseViewController: UIViewController {
 		lawyerEnterButton.isEnabled = false
 		lawyerEnterButton.animateBackground()
 		
-		toAuth?(.lawyer)
+		toRegistration?(.lawyer)
 	}
 }

@@ -17,9 +17,9 @@ final class ChooseCoordinator: BaseCoordinator {
 	private func showChooseModule() {
 		let controller = ChooseViewController()
 		
-		controller.toAuth = { [weak self] userType in
+		controller.toRegistration = { [weak self] userType in
 			//			UserDefaults.standard.set(true, forKey: Constants.UserDefaultsKeys.isLogin)
-			self?.toAuth(userType)
+			self?.toRegistration(userType)
 		}
 		
 		let rootController = NavigationController(rootViewController: controller)
@@ -27,8 +27,8 @@ final class ChooseCoordinator: BaseCoordinator {
 		self.rootController = rootController
 	}
 	
-	private func toAuth(_ userType: UserType) {
-		let coordinator = AuthCoordinator(userType: userType)
+	private func toRegistration(_ userType: UserType) {
+		let coordinator = RegistrationCoordinator(userType: userType)
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)
 			self?.start()

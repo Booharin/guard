@@ -8,4 +8,13 @@
 
 import UIKit
 
-final class NavigationController: UINavigationController {}
+final class NavigationController: UINavigationController {
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		// translucent navbar
+		navigationBar.setBackgroundImage(UIImage(), for: .default)
+		navigationBar.shadowImage = UIImage()
+		navigationBar.isTranslucent = true
+		view.backgroundColor = .clear
+	}
+}

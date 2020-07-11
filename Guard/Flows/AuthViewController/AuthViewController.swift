@@ -25,6 +25,7 @@ final class AuthViewController: UIViewController {
 	private func addViews() {
 		// login
 		loginTextField.keyboardType = .emailAddress
+		loginTextField.delegate = self
 		loginTextField.attributedPlaceholder = NSAttributedString(string: "auth.login.placeholder".localized,
 																  attributes: [NSAttributedString.Key.foregroundColor: Colors.placeholderColor])
 		view.addSubview(loginTextField)
@@ -37,6 +38,7 @@ final class AuthViewController: UIViewController {
 		}
 		
 		// password
+		passwordTextField.delegate = self
 		passwordTextField.attributedPlaceholder = NSAttributedString(string: "auth.password.placeholder".localized,
 																	 attributes: [NSAttributedString.Key.foregroundColor: Colors.placeholderColor])
 		view.addSubview(passwordTextField)
@@ -73,5 +75,12 @@ final class AuthViewController: UIViewController {
 			else { return }
 		
 		toMain?()
+	}
+}
+
+extension AuthViewController: UITextFieldDelegate {
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		textField.resignFirstResponder()
+		return true
 	}
 }

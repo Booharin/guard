@@ -12,9 +12,9 @@ final class TextField: UITextField {
 
 	init() {
 		super.init(frame: .zero)
-		layer.cornerRadius = 5
+		layer.cornerRadius = 10
 		layer.borderColor = Colors.borderColor.cgColor
-		layer.borderWidth = 0.3
+		layer.borderWidth = 0.5
 		
 		textColor = Colors.borderColor
 		

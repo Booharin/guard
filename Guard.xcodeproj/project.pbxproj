@@ -30,6 +30,8 @@
 		5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753024B84CFC00CC729C /* ChooseCoordinator.swift */; };
 		5253753324B84D5200CC729C /* ChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753224B84D5200CC729C /* ChooseViewController.swift */; };
 		5253753724B84F0200CC729C /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753624B84F0200CC729C /* UserProfile.swift */; };
+		52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */; };
+		52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -71,6 +73,8 @@
 		5253753024B84CFC00CC729C /* ChooseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseCoordinator.swift; sourceTree = "<group>"; };
 		5253753224B84D5200CC729C /* ChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewController.swift; sourceTree = "<group>"; };
 		5253753624B84F0200CC729C /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCoordinator.swift; sourceTree = "<group>"; };
+		52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +161,7 @@
 			children = (
 				52483BAE24A279760003A56A /* Launch */,
 				5253753424B84D5700CC729C /* Choose */,
+				52EB81BE24B9DD5B003285BC /* Registration */,
 				5251AFA824A2821A00467E84 /* AuthViewController */,
 				52483BAC24A2793B0003A56A /* Main */,
 			);
@@ -191,9 +196,10 @@
 			children = (
 				52483BB224A279E40003A56A /* BaseCoordinator.swift */,
 				52483BB424A279FC0003A56A /* ApplicationCoordinator.swift */,
-				52483BB624A27A120003A56A /* MainCoordinator.swift */,
-				5251AFB124A2837D00467E84 /* AuthCoordinator.swift */,
 				5253753024B84CFC00CC729C /* ChooseCoordinator.swift */,
+				52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */,
+				5251AFB124A2837D00467E84 /* AuthCoordinator.swift */,
+				52483BB624A27A120003A56A /* MainCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -299,6 +305,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		52EB81BE24B9DD5B003285BC /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */,
+			);
+			path = Registration;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -381,8 +395,10 @@
 				52483BB024A279AC0003A56A /* MainViewController.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
+				52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */,
 				5253753324B84D5200CC729C /* ChooseViewController.swift in Sources */,
 				5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */,
+				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,
 				5251AFB424A283B000467E84 /* Constants.swift in Sources */,
 				52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */,
 				52483BB524A279FC0003A56A /* ApplicationCoordinator.swift in Sources */,
