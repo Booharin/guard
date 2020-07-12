@@ -14,6 +14,9 @@ protocol AuthViewControllerProtocol: class, ViewControllerProtocol {
     var enterButton: ConfirmButton { get }
 	var toMain: (() -> (Void))? { get }
 	var loadingView: UIActivityIndicatorView { get }
+	var faceIDButton: UIImageView { get }
+	var registrationLabel: UILabel { get }
+	var forgetPasswordLabel: UILabel { get }
 }
 
 final class AuthViewController<modelType: ViewModel>: UIViewController,
@@ -23,7 +26,10 @@ final class AuthViewController<modelType: ViewModel>: UIViewController,
 	var loginTextField = TextField()
 	var passwordTextField = TextField()
 	var enterButton = ConfirmButton(title: "auth.enter.title".localized)
-	var loadingView = UIActivityIndicatorView(style: .white)
+	var loadingView = UIActivityIndicatorView(style: .medium)
+	var faceIDButton = UIImageView(image: #imageLiteral(resourceName: "icn_face_id").withRenderingMode(.alwaysTemplate))
+	var registrationLabel = UILabel()
+	var forgetPasswordLabel = UILabel()
 	var viewModel: modelType
 	
 	init(viewModel: modelType) {
@@ -79,5 +85,26 @@ final class AuthViewController<modelType: ViewModel>: UIViewController,
         loadingView.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
+		// registration label
+		view.addSubview(registrationLabel)
+		registrationLabel.snp.makeConstraints() {
+			$0.leading.equalTo(passwordTextField.snp.leading).offset(5)
+			$0.top.equalTo(passwordTextField.snp.bottom).offset(10)
+			$0.height.equalTo(50)
+		}
+		// forget Password Label
+		view.addSubview(forgetPasswordLabel)
+		forgetPasswordLabel.snp.makeConstraints() {
+			$0.trailing.equalTo(passwordTextField.snp.trailing).offset(-5)
+			$0.top.equalTo(passwordTextField.snp.bottom).offset(10)
+			$0.height.equalTo(50)
+		}
+		// face id button
+		view.addSubview(faceIDButton)
+		faceIDButton.snp.makeConstraints() {
+			$0.trailing.equalTo(forgetPasswordLabel.snp.trailing)
+			$0.top.equalTo(passwordTextField.snp.bottom).offset(60)
+			$0.width.height.equalTo(50)
+		}
 	}
 }

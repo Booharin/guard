@@ -9,10 +9,10 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxGesture
+import LocalAuthentication
 
-protocol AuthViewModelProtocol {
-    
-}
+protocol AuthViewModelProtocol {}
 
 final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 	var view: AuthViewControllerProtocol!
@@ -45,6 +45,7 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 		}).disposed(by: disposeBag)
 
 		// password
+		view.passwordTextField.isSecureTextEntry = true
 		view.passwordTextField.attributedPlaceholder = NSAttributedString(string: "auth.password.placeholder".localized,
 																		  attributes: [NSAttributedString.Key.foregroundColor: Colors.placeholderColor])
 		view.passwordTextField
@@ -63,7 +64,68 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 						})
 					}
 				}).disposed(by: disposeBag)
-
+		
+		// face id button
+		view.faceIDButton.tintColor = Colors.placeholderColor
+		view.faceIDButton
+		.rx
+		.tapGesture()
+		.skip(1)
+		.do(onNext: { [unowned self] _ in
+			UIView.animate(withDuration: self.animationDuration, animations: {
+				self.view.faceIDButton.alpha = 0.5
+			}, completion: { _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.faceIDButton.alpha = 1
+				})
+			})
+		})
+		.subscribe(onNext: { [unowned self] _ in
+			self.authenticateTapped()
+		}).disposed(by: disposeBag)
+		
+		// registration
+		view.registrationLabel.text = "auth.registration.title".localized
+		view.registrationLabel.font = UIFont.systemFont(ofSize: 16)
+		view.registrationLabel.textColor = Colors.placeholderColor
+		view.registrationLabel
+		.rx
+		.tapGesture()
+		.skip(1)
+		.do(onNext: { [unowned self] _ in
+			UIView.animate(withDuration: self.animationDuration, animations: {
+				self.view.registrationLabel.alpha = 0.5
+			}, completion: { _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.registrationLabel.alpha = 1
+				})
+			})
+		})
+		.subscribe(onNext: { [weak self] _ in
+			// to registration
+		}).disposed(by: disposeBag)
+		
+		// forget password
+		view.forgetPasswordLabel.text = "auth.forget_password.title".localized
+		view.forgetPasswordLabel.font = UIFont.systemFont(ofSize: 16)
+		view.forgetPasswordLabel.textColor = Colors.placeholderColor
+		view.forgetPasswordLabel
+		.rx
+		.tapGesture()
+		.skip(1)
+		.do(onNext: { [unowned self] _ in
+			UIView.animate(withDuration: self.animationDuration, animations: {
+				self.view.forgetPasswordLabel.alpha = 0.5
+			}, completion: { _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.forgetPasswordLabel.alpha = 1
+				})
+			})
+		})
+		.subscribe(onNext: { [weak self] _ in
+			// to forget password
+		}).disposed(by: disposeBag)
+		
 		// enter button
 		view.enterButton
 		.rx
@@ -97,6 +159,9 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 				}
             })
             .disposed(by: disposeBag)
+		
+		//MARK: - Face id tapped
+		authenticateTapped()
 	}
 	
 	// MARK: - Login flow
@@ -138,7 +203,32 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 		}).disposed(by: disposeBag)
 	}
 	
-	func keyboardHeight() -> Observable<CGFloat> {
+	private func authenticateTapped() {
+		let context = LAContext()
+		var error: NSError?
+
+		if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+			let reason = "Authorization"
+
+			context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {
+				[weak self] success, authenticationError in
+
+				DispatchQueue.main.async {
+					if success {
+						self?.view.loginTextField.text = "admin@admin.ru"
+						self?.view.passwordTextField.text = "12345"
+						self?.view.toMain?()
+					} else {
+						// error
+					}
+				}
+			}
+		} else {
+			// no biometry
+		}
+	}
+	
+	private func keyboardHeight() -> Observable<CGFloat> {
 		return Observable
 			.from([
 				NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)

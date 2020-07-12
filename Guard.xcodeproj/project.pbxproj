@@ -30,6 +30,8 @@
 		5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753024B84CFC00CC729C /* ChooseCoordinator.swift */; };
 		5253753324B84D5200CC729C /* ChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753224B84D5200CC729C /* ChooseViewController.swift */; };
 		5253753724B84F0200CC729C /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753624B84F0200CC729C /* UserProfile.swift */; };
+		52597DC524BB8FC9005A922F /* RxGesture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; };
+		52597DC624BB8FC9005A922F /* RxGesture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */; };
 		52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */; };
 		52EB81C324B9E7E5003285BC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81C224B9E7E5003285BC /* ViewModel.swift */; };
@@ -54,6 +56,7 @@
 			files = (
 				52EB81CD24B9ECE4003285BC /* RxSwift.framework in Embed Frameworks */,
 				52EB81CA24B9ECE0003285BC /* RxCocoa.framework in Embed Frameworks */,
+				52597DC624BB8FC9005A922F /* RxGesture.framework in Embed Frameworks */,
 				5251AFA424A281F100467E84 /* Alamofire.framework in Embed Frameworks */,
 				5251AFA624A281F100467E84 /* SnapKit.framework in Embed Frameworks */,
 				52EB81D024B9ED02003285BC /* RxRelay.framework in Embed Frameworks */,
@@ -87,6 +90,7 @@
 		5253753024B84CFC00CC729C /* ChooseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseCoordinator.swift; sourceTree = "<group>"; };
 		5253753224B84D5200CC729C /* ChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewController.swift; sourceTree = "<group>"; };
 		5253753624B84F0200CC729C /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		52597DC424BB8FC9005A922F /* RxGesture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxGesture.framework; path = Carthage/Build/iOS/RxGesture.framework; sourceTree = "<group>"; };
 		52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCoordinator.swift; sourceTree = "<group>"; };
 		52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		52EB81C224B9E7E5003285BC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -106,6 +110,7 @@
 			files = (
 				52EB81CC24B9ECE4003285BC /* RxSwift.framework in Frameworks */,
 				52EB81C924B9ECE0003285BC /* RxCocoa.framework in Frameworks */,
+				52597DC524BB8FC9005A922F /* RxGesture.framework in Frameworks */,
 				5251AFA324A281F100467E84 /* Alamofire.framework in Frameworks */,
 				5251AFA524A281F100467E84 /* SnapKit.framework in Frameworks */,
 				52EB81CF24B9ED02003285BC /* RxRelay.framework in Frameworks */,
@@ -232,6 +237,7 @@
 		5251AFA024A281F100467E84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52597DC424BB8FC9005A922F /* RxGesture.framework */,
 				52EB81CE24B9ED02003285BC /* RxRelay.framework */,
 				52EB81CB24B9ECE4003285BC /* RxSwift.framework */,
 				52EB81C824B9ECDF003285BC /* RxCocoa.framework */,

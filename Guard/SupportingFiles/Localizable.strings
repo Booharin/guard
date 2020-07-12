@@ -16,6 +16,8 @@
 "auth.enter.title" = "Войти";
 "auth.alert.uncorrect_email.title" = "Некорректный email";
 "auth.alert.empty.title" = "Поле не может быть пустым";
+"auth.registration.title" = "Регистрация";
+"auth.forget_password.title" = "Забыли пароль?";
 
 //MAIN
 "main.enter.title" = "Осмотр";

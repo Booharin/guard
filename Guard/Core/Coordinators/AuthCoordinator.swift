@@ -26,8 +26,6 @@ final class AuthCoordinator: BaseCoordinator {
 		let rootController = NavigationController(rootViewController: controller)
 		setAsRoot(rootController)
 		self.rootController = rootController
-//		guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }
-//		navVC.pushViewController(controller, animated: true)
     }
     
     private func toMain() {
