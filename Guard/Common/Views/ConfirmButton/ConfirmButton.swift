@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+/// Button for confirmation
 final class ConfirmButton: UIButton {
 	
 	private var buttonTitle: String

@@ -9,33 +9,29 @@
 import UIKit
 
 final class TextField: UITextField {
+	
+	var alertLabel = UILabel()
 
 	init() {
 		super.init(frame: .zero)
-		layer.cornerRadius = 5
-		layer.borderColor = Colors.borderColor.cgColor
-		layer.borderWidth = 0.3
+		layer.cornerRadius = 10
+		layer.sublayerTransform = CATransform3DMakeTranslation(15, 0, 0)
 		
-		textColor = Colors.borderColor
+		backgroundColor = Colors.textFieldEmptyBackground
 		
-		addOffsets()
+		textColor = Colors.whiteColor
+		tintColor = Colors.borderColor
+		
+		alertLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+		alertLabel.textColor = Colors.warningColor
+		addSubview(alertLabel)
+		alertLabel.snp.makeConstraints() {
+			$0.top.equalToSuperview().offset(55)
+			$0.leading.equalToSuperview().offset(4)
+		}
 	}
 	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
-	}
-	
-	private func addOffsets() {
-		leftView = UIView(frame: CGRect(x: 0,
-										y: 0,
-										width: 15,
-										height: 50))
-		leftViewMode = .always
-
-		rightView = UIView(frame: CGRect(x: 0,
-										 y: 0,
-										 width: 15,
-										 height: 50))
-		rightViewMode = .always
 	}
 }
