@@ -15,4 +15,5 @@ protocol ViewControllerProtocol {
     func dismiss(animated flag: Bool,
 				 completion: (() -> Void)? )
     var view: UIView! { get }
+	var navController: UINavigationController? { get }
 }

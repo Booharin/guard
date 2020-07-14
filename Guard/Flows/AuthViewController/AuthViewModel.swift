@@ -138,6 +138,24 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 			self.authSubject.onNext(())
 		}).disposed(by: disposeBag)
 		
+		// back button
+		view.backButtonView
+		.rx
+		.tapGesture()
+		.skip(1)
+		.do(onNext: { [unowned self] _ in
+			UIView.animate(withDuration: self.animationDuration, animations: {
+				self.view.backButtonView.alpha = 0.5
+			}, completion: { _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.backButtonView.alpha = 1
+				})
+			})
+		})
+		.subscribe(onNext: { [weak self] _ in
+			self?.view.navController?.popViewController(animated: true)
+		}).disposed(by: disposeBag)
+		
 		// check keyboard showing
         keyboardHeight()
             .observeOn(MainScheduler.instance)
