@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */; };
 		523FF71624BD7EAB00C4F959 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */; };
 		523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523FF71824BD970A00C4F959 /* BackButtonView.swift */; };
 		52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52483B9424A2774E0003A56A /* AppDelegate.swift */; };
@@ -69,6 +70,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewModel.swift; sourceTree = "<group>"; };
 		523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		523FF71824BD970A00C4F959 /* BackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonView.swift; sourceTree = "<group>"; };
 		52483B9124A2774E0003A56A /* Guard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Guard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -342,6 +344,7 @@
 			isa = PBXGroup;
 			children = (
 				5253753224B84D5200CC729C /* ChooseViewController.swift */,
+				5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */,
 			);
 			path = Choose;
 			sourceTree = "<group>";
@@ -462,6 +465,7 @@
 				5251AFB024A2829200467E84 /* Colors.swift in Sources */,
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
 				523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */,
+				5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */,
 				5253753724B84F0200CC729C /* UserProfile.swift in Sources */,
 				52483BB324A279E40003A56A /* BaseCoordinator.swift in Sources */,
 				52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */,

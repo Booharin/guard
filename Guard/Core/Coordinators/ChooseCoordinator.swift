@@ -15,7 +15,7 @@ final class ChooseCoordinator: BaseCoordinator {
 	}
 	
 	private func showChooseModule() {
-		let controller = ChooseViewController()
+		let controller = ChooseViewController(viewModel: ChooseViewModel())
 		
 		controller.toRegistration = { [weak self] userType in
 			self?.toRegistration(userType)

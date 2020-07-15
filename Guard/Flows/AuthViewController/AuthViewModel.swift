@@ -217,6 +217,7 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
         }
 		.observeOn(MainScheduler.instance)
 		.subscribe(onNext: { [weak self] _ in
+			self?.view.loadingView.stopAnimating()
 			self?.view.toMain?()
 		}).disposed(by: disposeBag)
 	}

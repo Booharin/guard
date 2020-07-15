@@ -9,12 +9,14 @@
 protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
 	var toMain: (() -> (Void))? { get }
 	var toAuth: (() -> (Void))? { get }
+	var titleLabel: UILabel { get }
 	var scrollView: UIScrollView { get }
 	var loginTextField: TextField { get }
     var passwordTextField: TextField { get }
 	var confirmationPasswordTextField: TextField { get }
 	var enterButton: ConfirmButton { get }
 	var backButtonView: BackButtonView { get }
+	var loadingView: UIActivityIndicatorView { get }
 }
 
 import UIKit
@@ -33,12 +35,14 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		return self.navigationController
 	}
 	
+	var titleLabel = UILabel()
 	var scrollView = UIScrollView()
 	var loginTextField = TextField()
 	var passwordTextField = TextField()
 	var confirmationPasswordTextField = TextField()
-	var enterButton = ConfirmButton()
+	var enterButton = ConfirmButton(title: "registration.save.title".localized)
 	var backButtonView = BackButtonView()
+	var loadingView = UIActivityIndicatorView(style: .medium)
 	
 	init(viewModel: modelType) {
         self.viewModel = viewModel
@@ -56,36 +60,20 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		view.backgroundColor = Colors.authBackground
 		addViews()
     }
-	
-//	override func viewWillAppear(_ animated: Bool) {
-//		super.viewWillAppear(animated)
-//		
-//		//setNavigationBar()
-//	}
-//	
-//	private func setNavigationBar() {
-//		navigationController?.isNavigationBarHidden = false
-//        self.navigationItem.setHidesBackButton(true, animated:false)
-//		
-//		let backButtonView = BackButtonView()
-//        
-//        let backTap = UITapGestureRecognizer(target: self, action: #selector(back))
-//        view.addGestureRecognizer(backTap)
-//        let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
-//        self.navigationItem.leftBarButtonItem = leftBarButtonItem
-//    }
-//    
-//    @objc private func back() {
-//		self.navigationController?.popViewController(animated: true)
-//    }
 
 	private func addViews() {
-		/// scroll view
+		// scroll view
 		view.addSubview(scrollView)
 		scrollView.snp.makeConstraints() {
 			$0.edges.equalToSuperview()
 		}
-		/// login
+		// ttile
+		scrollView.addSubview(titleLabel)
+		titleLabel.snp.makeConstraints() {
+			$0.top.equalToSuperview().offset(10)
+			$0.centerX.equalToSuperview()
+		}
+		// login
 		scrollView.addSubview(loginTextField)
 		loginTextField.snp.makeConstraints() {
 			$0.height.equalTo(50)
@@ -94,40 +82,45 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 			$0.leading.equalToSuperview().offset(30)
 			$0.trailing.equalToSuperview().offset(-30)
 		}
-		/// password
+		// password
 		scrollView.addSubview(passwordTextField)
 		passwordTextField.snp.makeConstraints() {
 			$0.height.equalTo(50)
 			$0.centerX.equalToSuperview()
-			$0.top.equalTo(loginTextField.snp.bottom).offset(30)
+			$0.top.equalTo(loginTextField.snp.bottom).offset(50)
 			$0.leading.equalToSuperview().offset(30)
 			$0.trailing.equalToSuperview().offset(-30)
 		}
-		/// confirmation password
+		// confirmation password
 		scrollView.addSubview(confirmationPasswordTextField)
 		confirmationPasswordTextField.snp.makeConstraints() {
 			$0.height.equalTo(50)
 			$0.centerX.equalToSuperview()
-			$0.top.equalTo(passwordTextField.snp.bottom).offset(30)
-			$0.bottom.equalToSuperview().offset(-100)
+			$0.top.equalTo(passwordTextField.snp.bottom).offset(50)
 			$0.leading.equalToSuperview().offset(30)
 			$0.trailing.equalToSuperview().offset(-30)
 		}
 		// enter button
-		view.addSubview(enterButton)
+		scrollView.addSubview(enterButton)
 		enterButton.snp.makeConstraints() {
 			$0.height.equalTo(50)
 			$0.centerX.equalToSuperview()
-			$0.bottom.equalToSuperview().offset(-30)
+			$0.top.equalTo(confirmationPasswordTextField.snp.bottom).offset(50)
+			$0.bottom.equalToSuperview().offset(-100)
 			$0.leading.equalToSuperview().offset(30)
 			$0.trailing.equalToSuperview().offset(-30)
 		}
 		// back button
-		view.addSubview(backButtonView)
+		scrollView.addSubview(backButtonView)
 		backButtonView.snp.makeConstraints() {
 			$0.width.height.equalTo(50)
-			$0.top.equalToSuperview().offset(50)
-			$0.leading.equalToSuperview().offset(10)
+			$0.top.leading.equalToSuperview().offset(10)
 		}
+		// loading view
+		scrollView.addSubview(loadingView)
+		loadingView.hidesWhenStopped = true
+        loadingView.snp.makeConstraints {
+            $0.center.equalTo(scrollView.snp.center)
+        }
 	}
 }

@@ -26,7 +26,7 @@ final class RegistrationCoordinator: BaseCoordinator {
         let controller = RegistrationViewController(viewModel: RegistrationViewModel())
         
         controller.toMain = { [weak self] in
-			UserDefaults.standard.set(true, forKey: Constants.UserDefaultsKeys.isLogin)
+			//UserDefaults.standard.set(true, forKey: Constants.UserDefaultsKeys.isLogin)
             self?.toMain()
         }
 		
