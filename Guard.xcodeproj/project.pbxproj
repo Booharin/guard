@@ -35,6 +35,8 @@
 		5253753724B84F0200CC729C /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753624B84F0200CC729C /* UserProfile.swift */; };
 		52597DC524BB8FC9005A922F /* RxGesture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; };
 		52597DC624BB8FC9005A922F /* RxGesture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		52B278C824C09621001E7295 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C724C09621001E7295 /* Dependencies.swift */; };
+		52B278CA24C0964F001E7295 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C924C0964F001E7295 /* LocationService.swift */; };
 		52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */; };
 		52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */; };
 		52EB81C324B9E7E5003285BC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81C224B9E7E5003285BC /* ViewModel.swift */; };
@@ -97,6 +99,8 @@
 		5253753224B84D5200CC729C /* ChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewController.swift; sourceTree = "<group>"; };
 		5253753624B84F0200CC729C /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		52597DC424BB8FC9005A922F /* RxGesture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxGesture.framework; path = Carthage/Build/iOS/RxGesture.framework; sourceTree = "<group>"; };
+		52B278C724C09621001E7295 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
+		52B278C924C0964F001E7295 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCoordinator.swift; sourceTree = "<group>"; };
 		52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		52EB81C224B9E7E5003285BC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -224,6 +228,8 @@
 		52483BAD24A279470003A56A /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				52B278C724C09621001E7295 /* Dependencies.swift */,
+				52B278C924C0964F001E7295 /* LocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -472,6 +478,7 @@
 				52483BB024A279AC0003A56A /* MainViewController.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
+				52B278CA24C0964F001E7295 /* LocationService.swift in Sources */,
 				52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */,
 				523FF71624BD7EAB00C4F959 /* RegistrationViewModel.swift in Sources */,
 				5253753324B84D5200CC729C /* ChooseViewController.swift in Sources */,
@@ -479,6 +486,7 @@
 				5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */,
 				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,
 				5251AFB424A283B000467E84 /* Constants.swift in Sources */,
+				52B278C824C09621001E7295 /* Dependencies.swift in Sources */,
 				52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */,
 				52483BB524A279FC0003A56A /* ApplicationCoordinator.swift in Sources */,
 				52EB81C724B9E882003285BC /* ViewControllerProtocol.swift in Sources */,
