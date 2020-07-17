@@ -10,12 +10,16 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
-final class RegistrationViewModel: ViewModel {
+final class RegistrationViewModel: ViewModel, HasDependencies {
 	var view: RegistratioViewControllerProtocol!
 	private let animationDuration = 0.15
 	private let textFieldAnimationDuration = 0.05
 	var registrationSubject: PublishSubject<Any>?
 	private var disposeBag = DisposeBag()
+	
+	typealias Dependencies =
+        HasLocationService
+    lazy var di: Dependencies = DI.dependencies
 	
 	func viewDidSet() {
 		// title
@@ -90,6 +94,27 @@ final class RegistrationViewModel: ViewModel {
 					}
 				}).disposed(by: disposeBag)
 		
+		//city
+		view.cityTextField.titleLabel.text = "registration.city.title".localized
+		view.cityTextField.attributedPlaceholder = NSAttributedString(string: "registration.city.placeholder".localized,
+																	  attributes: [NSAttributedString.Key.foregroundColor: Colors.placeholderColor])
+		view.cityTextField
+		.rx
+		.text
+		.subscribe(onNext: { [unowned self] in
+			guard let text = $0 else { return }
+			self.view.cityTextField.alertLabel.text = ""
+			if text.isEmpty {
+				UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
+					self.view.cityTextField.backgroundColor = Colors.textFieldEmptyBackground
+				})
+			} else {
+				UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
+					self.view.cityTextField.backgroundColor = Colors.textFieldBackground
+				})
+			}
+		}).disposed(by: disposeBag)
+		
 		// enter button
 		view.enterButton
 		.rx
@@ -125,14 +150,17 @@ final class RegistrationViewModel: ViewModel {
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] keyboardHeight in
                 if keyboardHeight > 0 {
-					// scroll
-					guard self.view.scrollView.contentSize.height > self.view.scrollView.frame.height else { return }
-                    self.view.scrollView.setContentOffset(CGPoint(x: 0,
-                                                                  y: max(self.view.scrollView.contentSize.height - self.view.scrollView.bounds.size.height, 0)),
-                                                          animated: true)
+					var contentInset:UIEdgeInsets = self.view.scrollView.contentInset
+					contentInset.bottom = keyboardHeight + 100
+					self.view.scrollView.contentInset = contentInset
+				} else {
+					let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+					self.view.scrollView.contentInset = contentInset
 				}
             })
             .disposed(by: disposeBag)
+		
+		defineCity()
 	}
 	
 	// MARK: - Login flow
@@ -212,5 +240,13 @@ final class RegistrationViewModel: ViewModel {
 			])
 			.merge()
 	}
+	//MARK: - Define city
+	private func defineCity() {
+		di.locationService.geocode { [weak self] city in
+			guard let city = city else { return }
+			self?.view.cityTextField.text = city
+		}
+	}
+	
 	func removeBindings() {}
 }

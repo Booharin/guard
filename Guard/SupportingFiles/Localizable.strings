@@ -31,6 +31,10 @@
 
 "registration.confirm_password.title" = "Введите пароль еще раз";
 "registration.confirm_password.placeholder" = "пароль";
+
+"registration.city.title" = "Ваш город";
+"registration.city.placeholder" = "город";
+
 "registration.save.title" = "Сохранить";
 "registration.alert.uncorrect_email.title" = "Некорректный email";
 "registration.alert.empty.title" = "Поле не может быть пустым";

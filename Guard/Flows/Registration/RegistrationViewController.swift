@@ -14,6 +14,7 @@ protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
 	var loginTextField: TextField { get }
     var passwordTextField: TextField { get }
 	var confirmationPasswordTextField: TextField { get }
+	var cityTextField: TextField { get }
 	var enterButton: ConfirmButton { get }
 	var backButtonView: BackButtonView { get }
 	var loadingView: UIActivityIndicatorView { get }
@@ -40,6 +41,7 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 	var loginTextField = TextField()
 	var passwordTextField = TextField()
 	var confirmationPasswordTextField = TextField()
+	var cityTextField = TextField()
 	var enterButton = ConfirmButton(title: "registration.save.title".localized)
 	var backButtonView = BackButtonView()
 	var loadingView = UIActivityIndicatorView(style: .medium)
@@ -100,12 +102,21 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 			$0.leading.equalToSuperview().offset(30)
 			$0.trailing.equalToSuperview().offset(-30)
 		}
+		// city
+		scrollView.addSubview(cityTextField)
+		cityTextField.snp.makeConstraints() {
+			$0.height.equalTo(50)
+			$0.centerX.equalToSuperview()
+			$0.top.equalTo(confirmationPasswordTextField.snp.bottom).offset(50)
+			$0.leading.equalToSuperview().offset(30)
+			$0.trailing.equalToSuperview().offset(-30)
+		}
 		// enter button
 		scrollView.addSubview(enterButton)
 		enterButton.snp.makeConstraints() {
 			$0.height.equalTo(50)
 			$0.centerX.equalToSuperview()
-			$0.top.equalTo(confirmationPasswordTextField.snp.bottom).offset(50)
+			$0.top.equalTo(cityTextField.snp.bottom).offset(50)
 			$0.bottom.equalToSuperview().offset(-100)
 			$0.leading.equalToSuperview().offset(30)
 			$0.trailing.equalToSuperview().offset(-30)

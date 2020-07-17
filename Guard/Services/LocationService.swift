@@ -12,7 +12,9 @@ protocol HasLocationService {
     var locationService: LocationServiceInterface { get set }
 }
 
-protocol LocationServiceInterface {}
+protocol LocationServiceInterface {
+	func geocode(completion: @escaping (_ city: String?) -> Void)
+}
 
 final class LocationSerice: NSObject, LocationServiceInterface, CLLocationManagerDelegate {
 	
@@ -38,5 +40,30 @@ final class LocationSerice: NSObject, LocationServiceInterface, CLLocationManage
 		#if DEBUG
 		print("locations = \(locValue.latitude) \(locValue.longitude)")
 		#endif
+	}
+	
+	func geocode(completion: @escaping (_ city: String?) -> Void)  {
+		guard
+			let latitude = locationManager.location?.coordinate.latitude,
+			let longitude = locationManager.location?.coordinate.longitude else { return }
+		// change language for ru_RU placemark names
+		guard let currentLanguage = UserDefaults.standard.value(forKey: "AppleLanguages") as? [String] else { return }
+		UserDefaults.standard.set(["ru_RU"], forKey: "AppleLanguages")
+		CLGeocoder()
+			.reverseGeocodeLocation(
+				CLLocation(latitude: latitude,
+						   longitude: longitude)
+			) { [weak self] placemark, error in
+				// put current language back
+				UserDefaults.standard.set(currentLanguage, forKey: "AppleLanguages")
+				
+				guard let placemark = placemark, error == nil else {
+					completion(nil)
+					return
+				}
+				
+				self?.locationManager.stopUpdatingLocation()
+				completion(placemark.first?.locality)
+		}
 	}
 }
