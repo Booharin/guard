@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */; };
+		523A67BE24C2C6FB0008E8AF /* RxDataSources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */; };
+		523A67BF24C2C6FB0008E8AF /* RxDataSources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		523FF71624BD7EAB00C4F959 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */; };
 		523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523FF71824BD970A00C4F959 /* BackButtonView.swift */; };
 		52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52483B9424A2774E0003A56A /* AppDelegate.swift */; };
@@ -62,6 +64,7 @@
 				52EB81CD24B9ECE4003285BC /* RxSwift.framework in Embed Frameworks */,
 				52EB81CA24B9ECE0003285BC /* RxCocoa.framework in Embed Frameworks */,
 				52597DC624BB8FC9005A922F /* RxGesture.framework in Embed Frameworks */,
+				523A67BF24C2C6FB0008E8AF /* RxDataSources.framework in Embed Frameworks */,
 				5251AFA424A281F100467E84 /* Alamofire.framework in Embed Frameworks */,
 				5251AFA624A281F100467E84 /* SnapKit.framework in Embed Frameworks */,
 				52EB81D024B9ED02003285BC /* RxRelay.framework in Embed Frameworks */,
@@ -73,6 +76,7 @@
 
 /* Begin PBXFileReference section */
 		5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewModel.swift; sourceTree = "<group>"; };
+		523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxDataSources.framework; path = Carthage/Build/iOS/RxDataSources.framework; sourceTree = "<group>"; };
 		523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		523FF71824BD970A00C4F959 /* BackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonView.swift; sourceTree = "<group>"; };
 		52483B9124A2774E0003A56A /* Guard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Guard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,6 +125,7 @@
 				52EB81CC24B9ECE4003285BC /* RxSwift.framework in Frameworks */,
 				52EB81C924B9ECE0003285BC /* RxCocoa.framework in Frameworks */,
 				52597DC524BB8FC9005A922F /* RxGesture.framework in Frameworks */,
+				523A67BE24C2C6FB0008E8AF /* RxDataSources.framework in Frameworks */,
 				5251AFA324A281F100467E84 /* Alamofire.framework in Frameworks */,
 				5251AFA524A281F100467E84 /* SnapKit.framework in Frameworks */,
 				52EB81CF24B9ED02003285BC /* RxRelay.framework in Frameworks */,
@@ -258,6 +263,7 @@
 		5251AFA024A281F100467E84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */,
 				52597DC424BB8FC9005A922F /* RxGesture.framework */,
 				52EB81CE24B9ED02003285BC /* RxRelay.framework */,
 				52EB81CB24B9ECE4003285BC /* RxSwift.framework */,
