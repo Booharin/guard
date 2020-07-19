@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210399624C4D673004560FD /* SelectIssueViewController.swift */; };
+		5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210399824C4D688004560FD /* SelectIssueViewModel.swift */; };
 		5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */; };
 		523A67BE24C2C6FB0008E8AF /* RxDataSources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */; };
 		523A67BF24C2C6FB0008E8AF /* RxDataSources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -75,6 +77,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5210399624C4D673004560FD /* SelectIssueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueViewController.swift; sourceTree = "<group>"; };
+		5210399824C4D688004560FD /* SelectIssueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueViewModel.swift; sourceTree = "<group>"; };
 		5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewModel.swift; sourceTree = "<group>"; };
 		523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxDataSources.framework; path = Carthage/Build/iOS/RxDataSources.framework; sourceTree = "<group>"; };
 		523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
@@ -135,6 +139,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5210399524C4D612004560FD /* SelectIssue */ = {
+			isa = PBXGroup;
+			children = (
+				5210399624C4D673004560FD /* SelectIssueViewController.swift */,
+				5210399824C4D688004560FD /* SelectIssueViewModel.swift */,
+			);
+			path = SelectIssue;
+			sourceTree = "<group>";
+		};
 		522E5BE424A37C2F00879741 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -213,6 +226,7 @@
 		52483BAB24A279340003A56A /* Flows */ = {
 			isa = PBXGroup;
 			children = (
+				5210399524C4D612004560FD /* SelectIssue */,
 				52483BAE24A279760003A56A /* Launch */,
 				5253753424B84D5700CC729C /* Choose */,
 				52EB81BE24B9DD5B003285BC /* Registration */,
@@ -473,6 +487,7 @@
 				52EB81C524B9E820003285BC /* AuthViewModel.swift in Sources */,
 				5251AFB724A2853A00467E84 /* NavigationController.swift in Sources */,
 				52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */,
+				5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */,
 				52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */,
 				5251AFB024A2829200467E84 /* Colors.swift in Sources */,
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
@@ -495,6 +510,7 @@
 				52B278C824C09621001E7295 /* Dependencies.swift in Sources */,
 				52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */,
 				52483BB524A279FC0003A56A /* ApplicationCoordinator.swift in Sources */,
+				5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */,
 				52EB81C724B9E882003285BC /* ViewControllerProtocol.swift in Sources */,
 				5251AFB224A2837D00467E84 /* AuthCoordinator.swift in Sources */,
 				5251AFC224A28FBC00467E84 /* String+Localizable.swift in Sources */,
