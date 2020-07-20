@@ -44,5 +44,6 @@ final class ChooseViewModel: ViewModel {
 				self.view.toRegistration?(.lawyer)
 			}).disposed(by: disposeBag)
 	}
+
 	func removeBindings() {}
 }

@@ -25,9 +25,9 @@ final class RegistrationCoordinator: BaseCoordinator {
     private func showRegistrationModule() {
         let controller = RegistrationViewController(viewModel: RegistrationViewModel())
         
-        controller.toMain = { [weak self] in
+        controller.toSelectIssue = { [weak self] in
 			//UserDefaults.standard.set(true, forKey: Constants.UserDefaultsKeys.isLogin)
-            self?.toMain()
+            self?.toSelectIssue()
         }
 		
 		controller.toAuth = { [weak self] in
@@ -56,5 +56,15 @@ final class RegistrationCoordinator: BaseCoordinator {
         }
 		guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }
 		navVC.pushViewController(controller, animated: true)
+	}
+	
+	private func toSelectIssue() {
+		let coordinator = SelectIssueCoordinator()
+        coordinator.onFinishFlow = { [weak self, weak coordinator] in
+            self?.removeDependency(coordinator)
+            self?.start()
+        }
+        addDependency(coordinator)
+        coordinator.start()
 	}
 }

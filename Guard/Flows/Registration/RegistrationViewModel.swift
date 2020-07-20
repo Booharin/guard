@@ -215,7 +215,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		.observeOn(MainScheduler.instance)
 		.subscribe(onNext: { [weak self] _ in
 			self?.view.loadingView.stopAnimating()
-			self?.view.toMain?()
+			self?.view.toSelectIssue?()
 			},onError:  { [weak self] error in
 			
 			#if DEBUG

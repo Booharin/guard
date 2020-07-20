@@ -54,6 +54,7 @@
 		52EB81D024B9ED02003285BC /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52EB81CE24B9ED02003285BC /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81D224B9F245003285BC /* String+withoutExtraSpaces.swift */; };
 		52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */; };
+		52FE598724C61DCD001B80C6 /* SelectIssueCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FE598624C61DCD001B80C6 /* SelectIssueCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -119,6 +120,7 @@
 		52EB81CE24B9ED02003285BC /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxRelay.framework; path = Carthage/Build/iOS/RxRelay.framework; sourceTree = "<group>"; };
 		52EB81D224B9F245003285BC /* String+withoutExtraSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+withoutExtraSpaces.swift"; sourceTree = "<group>"; };
 		52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+isvalidEmail.swift"; sourceTree = "<group>"; };
+		52FE598624C61DCD001B80C6 /* SelectIssueCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,6 +272,7 @@
 				52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */,
 				5251AFB124A2837D00467E84 /* AuthCoordinator.swift */,
 				52483BB624A27A120003A56A /* MainCoordinator.swift */,
+				52FE598624C61DCD001B80C6 /* SelectIssueCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */,
 				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,
 				5251AFB424A283B000467E84 /* Constants.swift in Sources */,
+				52FE598724C61DCD001B80C6 /* SelectIssueCoordinator.swift in Sources */,
 				52B278C824C09621001E7295 /* Dependencies.swift in Sources */,
 				52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */,
 				52483BB524A279FC0003A56A /* ApplicationCoordinator.swift in Sources */,

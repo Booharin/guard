@@ -7,7 +7,9 @@
 //
 
 protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
-	var toMain: (() -> (Void))? { get }
+	/// Pass to select issue screen
+	var toSelectIssue: (() -> (Void))? { get }
+	/// Pass to Auth
 	var toAuth: (() -> (Void))? { get }
 	var titleLabel: UILabel { get }
 	var scrollView: UIScrollView { get }
@@ -24,12 +26,9 @@ import UIKit
 /// Controller for registration screen
 final class RegistrationViewController<modelType: ViewModel>: UIViewController,
 RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewControllerProtocol {
-	
-	/// Pass to main screen
-	var toMain: (() -> (Void))?
-	/// Pass to Auth
+
+	var toSelectIssue: (() -> (Void))?
 	var toAuth: (() -> (Void))?
-	/// View model
 	var viewModel: modelType
 	
 	var navController: UINavigationController? {
