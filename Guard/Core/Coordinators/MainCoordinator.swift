@@ -20,13 +20,6 @@ final class MainCoordinator: BaseCoordinator {
     private func showMainModule() {
         let controller = MainViewController()
         controller.coordinator = self
-		
-		//MARK: - Pass to CameraViewController
-//		controller.toCameraViewController = { [weak controller] in
-//			let descriptionController = CameraViewController()
-//			controller?.navigationController?.pushViewController(descriptionController,
-//																 animated: true)
-//		}
         
 		guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }
 		navVC.pushViewController(controller, animated: true)

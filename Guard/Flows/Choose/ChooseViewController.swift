@@ -7,16 +7,38 @@
 //
 
 import UIKit
+/// Protocol of controller for user type choice
+protocol ChooseViewControllerProtocol {
+	var toRegistration: ((UserType) -> (Void))? { get }
+	var titleLabel: UILabel { get }
+	var clientEnterButton: ConfirmButton { get }
+	var lawyerEnterButton: ConfirmButton { get }
+}
+
 /// Controller for user type choice
-final class ChooseViewController: UIViewController {
+final class ChooseViewController<modelType: ViewModel>: UIViewController,
+	ChooseViewControllerProtocol where modelType.ViewType == ChooseViewControllerProtocol {
 	/// Pass to registration
 	var toRegistration: ((UserType) -> (Void))?
-	private var clientEnterButton = ConfirmButton(title: "choose.client.enter.button".localized)
-	private var lawyerEnterButton = ConfirmButton(title: "choose.lawyer.enter.button".localized)
+	var titleLabel = UILabel()
+	var clientEnterButton = ConfirmButton(title: "choose.client.enter.button".localized)
+	var lawyerEnterButton = ConfirmButton(title: "choose.lawyer.enter.button".localized)
+	
+	var viewModel: modelType
+	
+	init(viewModel: modelType) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+		self.viewModel.assosiateView(self)
 		view.backgroundColor = Colors.authBackground
 		addViews()
     }
@@ -28,10 +50,8 @@ final class ChooseViewController: UIViewController {
 	}
 	
 	private func addViews() {
+		
 		// client enter button
-		clientEnterButton.addTarget(self,
-							  action: #selector(didClientTap),
-							  for: .touchUpInside)
 		view.addSubview(clientEnterButton)
 		clientEnterButton.snp.makeConstraints() {
 			$0.height.equalTo(50)
@@ -42,9 +62,6 @@ final class ChooseViewController: UIViewController {
 		}
 		
 		// lawyer enter button
-		lawyerEnterButton.addTarget(self,
-							  action: #selector(didLawyerTap),
-							  for: .touchUpInside)
 		view.addSubview(lawyerEnterButton)
 		lawyerEnterButton.snp.makeConstraints() {
 			$0.height.equalTo(50)
@@ -53,21 +70,12 @@ final class ChooseViewController: UIViewController {
 			$0.leading.equalToSuperview().offset(30)
 			$0.trailing.equalToSuperview().offset(-30)
 		}
-	}
-	
-	@objc func didClientTap() {
-		clientEnterButton.isEnabled = false
-		lawyerEnterButton.isEnabled = false
-		clientEnterButton.animateBackground()
 		
-		toRegistration?(.client)
-	}
-	
-	@objc func didLawyerTap() {
-		clientEnterButton.isEnabled = false
-		lawyerEnterButton.isEnabled = false
-		lawyerEnterButton.animateBackground()
-		
-		toRegistration?(.lawyer)
+		// ttile
+		view.addSubview(titleLabel)
+		titleLabel.snp.makeConstraints() {
+			$0.bottom.equalTo(lawyerEnterButton.snp.top).offset(-50)
+			$0.centerX.equalToSuperview()
+		}
 	}
 }

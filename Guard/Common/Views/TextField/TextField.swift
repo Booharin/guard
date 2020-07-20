@@ -10,6 +10,7 @@ import UIKit
 
 final class TextField: UITextField {
 	
+	var titleLabel = UILabel()
 	var alertLabel = UILabel()
 
 	init() {
@@ -21,13 +22,21 @@ final class TextField: UITextField {
 		
 		textColor = Colors.whiteColor
 		tintColor = Colors.borderColor
-		
+		// title
+		titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+		titleLabel.textColor = Colors.whiteColor
+		addSubview(titleLabel)
+		titleLabel.snp.makeConstraints() {
+			$0.top.equalToSuperview().offset(-20)
+			$0.leading.equalToSuperview().offset(2)
+		}
+		// alert
 		alertLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
 		alertLabel.textColor = Colors.warningColor
 		addSubview(alertLabel)
 		alertLabel.snp.makeConstraints() {
 			$0.top.equalToSuperview().offset(55)
-			$0.leading.equalToSuperview().offset(4)
+			$0.leading.equalToSuperview().offset(2)
 		}
 	}
 	

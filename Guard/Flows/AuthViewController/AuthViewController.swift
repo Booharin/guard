@@ -17,11 +17,12 @@ protocol AuthViewControllerProtocol: class, ViewControllerProtocol {
 	var faceIDButton: UIImageView { get }
 	var registrationLabel: UILabel { get }
 	var forgetPasswordLabel: UILabel { get }
+	var backButtonView: BackButtonView { get }
 }
-
+/// Controller for auth screen
 final class AuthViewController<modelType: ViewModel>: UIViewController,
-	AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtocol {
-	
+AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtocol {
+	// Pass to main
 	var toMain: (() -> (Void))?
 	var loginTextField = TextField()
 	var passwordTextField = TextField()
@@ -30,10 +31,17 @@ final class AuthViewController<modelType: ViewModel>: UIViewController,
 	var faceIDButton = UIImageView(image: #imageLiteral(resourceName: "icn_face_id").withRenderingMode(.alwaysTemplate))
 	var registrationLabel = UILabel()
 	var forgetPasswordLabel = UILabel()
+	var backButtonView = BackButtonView()
 	var viewModel: modelType
+	var navController: UINavigationController? {
+		return self.navigationController
+	}
+	private var isFromRegistration: Bool
 	
-	init(viewModel: modelType) {
+	init(viewModel: modelType,
+		 isFromRegistration: Bool = false) {
         self.viewModel = viewModel
+		self.isFromRegistration = isFromRegistration
         super.init(nibName: nil, bundle: nil)
     }
 	
@@ -105,6 +113,14 @@ final class AuthViewController<modelType: ViewModel>: UIViewController,
 			$0.trailing.equalTo(forgetPasswordLabel.snp.trailing)
 			$0.top.equalTo(passwordTextField.snp.bottom).offset(60)
 			$0.width.height.equalTo(50)
+		}
+		// back button
+		guard isFromRegistration == true else { return }
+		view.addSubview(backButtonView)
+		backButtonView.snp.makeConstraints() {
+			$0.width.height.equalTo(50)
+			$0.top.equalToSuperview().offset(50)
+			$0.leading.equalToSuperview().offset(10)
 		}
 	}
 }

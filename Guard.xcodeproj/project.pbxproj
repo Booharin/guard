@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210399624C4D673004560FD /* SelectIssueViewController.swift */; };
+		5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210399824C4D688004560FD /* SelectIssueViewModel.swift */; };
+		5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */; };
+		523A67BE24C2C6FB0008E8AF /* RxDataSources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */; };
+		523A67BF24C2C6FB0008E8AF /* RxDataSources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		523FF71624BD7EAB00C4F959 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */; };
+		523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523FF71824BD970A00C4F959 /* BackButtonView.swift */; };
 		52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52483B9424A2774E0003A56A /* AppDelegate.swift */; };
 		52483B9E24A2774F0003A56A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52483B9D24A2774F0003A56A /* Assets.xcassets */; };
 		52483BB024A279AC0003A56A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52483BAF24A279AC0003A56A /* MainViewController.swift */; };
@@ -32,6 +39,8 @@
 		5253753724B84F0200CC729C /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753624B84F0200CC729C /* UserProfile.swift */; };
 		52597DC524BB8FC9005A922F /* RxGesture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; };
 		52597DC624BB8FC9005A922F /* RxGesture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		52B278C824C09621001E7295 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C724C09621001E7295 /* Dependencies.swift */; };
+		52B278CA24C0964F001E7295 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C924C0964F001E7295 /* LocationService.swift */; };
 		52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */; };
 		52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */; };
 		52EB81C324B9E7E5003285BC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81C224B9E7E5003285BC /* ViewModel.swift */; };
@@ -57,6 +66,7 @@
 				52EB81CD24B9ECE4003285BC /* RxSwift.framework in Embed Frameworks */,
 				52EB81CA24B9ECE0003285BC /* RxCocoa.framework in Embed Frameworks */,
 				52597DC624BB8FC9005A922F /* RxGesture.framework in Embed Frameworks */,
+				523A67BF24C2C6FB0008E8AF /* RxDataSources.framework in Embed Frameworks */,
 				5251AFA424A281F100467E84 /* Alamofire.framework in Embed Frameworks */,
 				5251AFA624A281F100467E84 /* SnapKit.framework in Embed Frameworks */,
 				52EB81D024B9ED02003285BC /* RxRelay.framework in Embed Frameworks */,
@@ -67,6 +77,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5210399624C4D673004560FD /* SelectIssueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueViewController.swift; sourceTree = "<group>"; };
+		5210399824C4D688004560FD /* SelectIssueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueViewModel.swift; sourceTree = "<group>"; };
+		5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewModel.swift; sourceTree = "<group>"; };
+		523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxDataSources.framework; path = Carthage/Build/iOS/RxDataSources.framework; sourceTree = "<group>"; };
+		523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
+		523FF71824BD970A00C4F959 /* BackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonView.swift; sourceTree = "<group>"; };
 		52483B9124A2774E0003A56A /* Guard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Guard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52483B9424A2774E0003A56A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../../AppDelegate.swift; sourceTree = "<group>"; };
 		52483B9D24A2774F0003A56A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -91,6 +107,8 @@
 		5253753224B84D5200CC729C /* ChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewController.swift; sourceTree = "<group>"; };
 		5253753624B84F0200CC729C /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		52597DC424BB8FC9005A922F /* RxGesture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxGesture.framework; path = Carthage/Build/iOS/RxGesture.framework; sourceTree = "<group>"; };
+		52B278C724C09621001E7295 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
+		52B278C924C0964F001E7295 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCoordinator.swift; sourceTree = "<group>"; };
 		52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		52EB81C224B9E7E5003285BC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -111,6 +129,7 @@
 				52EB81CC24B9ECE4003285BC /* RxSwift.framework in Frameworks */,
 				52EB81C924B9ECE0003285BC /* RxCocoa.framework in Frameworks */,
 				52597DC524BB8FC9005A922F /* RxGesture.framework in Frameworks */,
+				523A67BE24C2C6FB0008E8AF /* RxDataSources.framework in Frameworks */,
 				5251AFA324A281F100467E84 /* Alamofire.framework in Frameworks */,
 				5251AFA524A281F100467E84 /* SnapKit.framework in Frameworks */,
 				52EB81CF24B9ED02003285BC /* RxRelay.framework in Frameworks */,
@@ -120,13 +139,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5210399524C4D612004560FD /* SelectIssue */ = {
+			isa = PBXGroup;
+			children = (
+				5210399624C4D673004560FD /* SelectIssueViewController.swift */,
+				5210399824C4D688004560FD /* SelectIssueViewModel.swift */,
+			);
+			path = SelectIssue;
+			sourceTree = "<group>";
+		};
 		522E5BE424A37C2F00879741 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				523FF71724BD96E800C4F959 /* BackButtonView */,
 				5251AFBB24A28AFC00467E84 /* ConfirmButton */,
 				5251AFB824A287AD00467E84 /* TextField */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		523FF71724BD96E800C4F959 /* BackButtonView */ = {
+			isa = PBXGroup;
+			children = (
+				523FF71824BD970A00C4F959 /* BackButtonView.swift */,
+			);
+			path = BackButtonView;
 			sourceTree = "<group>";
 		};
 		52483B8824A2774E0003A56A = {
@@ -189,6 +226,7 @@
 		52483BAB24A279340003A56A /* Flows */ = {
 			isa = PBXGroup;
 			children = (
+				5210399524C4D612004560FD /* SelectIssue */,
 				52483BAE24A279760003A56A /* Launch */,
 				5253753424B84D5700CC729C /* Choose */,
 				52EB81BE24B9DD5B003285BC /* Registration */,
@@ -209,6 +247,8 @@
 		52483BAD24A279470003A56A /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				52B278C724C09621001E7295 /* Dependencies.swift */,
+				52B278C924C0964F001E7295 /* LocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -237,6 +277,7 @@
 		5251AFA024A281F100467E84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */,
 				52597DC424BB8FC9005A922F /* RxGesture.framework */,
 				52EB81CE24B9ED02003285BC /* RxRelay.framework */,
 				52EB81CB24B9ECE4003285BC /* RxSwift.framework */,
@@ -329,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				5253753224B84D5200CC729C /* ChooseViewController.swift */,
+				5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */,
 			);
 			path = Choose;
 			sourceTree = "<group>";
@@ -345,6 +387,7 @@
 			isa = PBXGroup;
 			children = (
 				52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */,
+				523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */,
 			);
 			path = Registration;
 			sourceTree = "<group>";
@@ -444,23 +487,30 @@
 				52EB81C524B9E820003285BC /* AuthViewModel.swift in Sources */,
 				5251AFB724A2853A00467E84 /* NavigationController.swift in Sources */,
 				52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */,
+				5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */,
 				52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */,
 				5251AFB024A2829200467E84 /* Colors.swift in Sources */,
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
+				523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */,
+				5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */,
 				5253753724B84F0200CC729C /* UserProfile.swift in Sources */,
 				52483BB324A279E40003A56A /* BaseCoordinator.swift in Sources */,
 				52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */,
 				52483BB024A279AC0003A56A /* MainViewController.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
+				52B278CA24C0964F001E7295 /* LocationService.swift in Sources */,
 				52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */,
+				523FF71624BD7EAB00C4F959 /* RegistrationViewModel.swift in Sources */,
 				5253753324B84D5200CC729C /* ChooseViewController.swift in Sources */,
 				52EB81C324B9E7E5003285BC /* ViewModel.swift in Sources */,
 				5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */,
 				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,
 				5251AFB424A283B000467E84 /* Constants.swift in Sources */,
+				52B278C824C09621001E7295 /* Dependencies.swift in Sources */,
 				52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */,
 				52483BB524A279FC0003A56A /* ApplicationCoordinator.swift in Sources */,
+				5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */,
 				52EB81C724B9E882003285BC /* ViewControllerProtocol.swift in Sources */,
 				5251AFB224A2837D00467E84 /* AuthCoordinator.swift in Sources */,
 				5251AFC224A28FBC00467E84 /* String+Localizable.swift in Sources */,
