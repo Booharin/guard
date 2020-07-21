@@ -9,13 +9,17 @@
 import UIKit
 /// Protocol of controller for selecting client issue
 protocol SelectIssueViewControllerProtocol {
+	var tableView: UITableView { get }
+	func update(with issues: [String])
 }
 
 /// Controller for selecting client issue
 final class SelectIssueViewController<modelType: ViewModel>: UIViewController,
 SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewControllerProtocol {
-
+	
+	var tableView = UITableView()
     var viewModel: modelType
+	private var issues: [String]?
 	
 	init(viewModel: modelType) {
         self.viewModel = viewModel
@@ -30,9 +34,40 @@ SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewCon
         super.viewDidLoad()
 		
 		self.viewModel.assosiateView(self)
-		view.backgroundColor = Colors.authBackground
 		addViews()
+		self.navigationItem.setHidesBackButton(true, animated: false)
+		title = "select_issue.title".localized
     }
 	
-	private func addViews() {}
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		navigationController?.isNavigationBarHidden = false
+	}
+	
+	private func addViews() {
+		// table view
+		tableView.register(SelectIssueTableViewCell.self, forCellReuseIdentifier: SelectIssueTableViewCell.reuseIdentifier)
+		tableView.tableFooterView = UIView()
+		tableView.backgroundColor = Colors.authBackground
+		tableView.rowHeight = UITableView.automaticDimension
+		tableView.estimatedRowHeight = 71
+		view.addSubview(tableView)
+		tableView.snp.makeConstraints {
+			$0.edges.equalToSuperview()
+		}
+ 	}
+	
+	func update(with issues: [String]) {
+		self.issues = issues
+		DispatchQueue.main.async {
+			self.tableView.reloadData()
+		}
+		
+		if tableView.contentSize.height < tableView.frame.height {
+            tableView.isScrollEnabled = false
+		} else {
+			tableView.isScrollEnabled = true
+		}
+	}
 }

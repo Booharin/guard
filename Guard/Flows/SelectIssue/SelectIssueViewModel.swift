@@ -8,12 +8,26 @@
 
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 final class SelectIssueViewModel: ViewModel {
 	var view: SelectIssueViewControllerProtocol!
 	private var disposeBag = DisposeBag()
 	
-	func viewDidSet() {}
+	var issues = [
+		"Проблемы с нароктиками", "Развод", "Земельные вопросы", "ДТП"
+	]
+	
+	func viewDidSet() {
+		var section = TableViewSection(items: [], header: "")
+		issues.forEach() { issue in
+			section.items.append(TableViewItem(title: issue))
+		}
+		let items = BehaviorSubject<[TableViewSection]>(value: [section])
+		items
+			.bind(to: view.tableView.rx.items(dataSource: SelectIssueDataSource.dataSource()))
+			.disposed(by: disposeBag)
+	}
 	
 	func removeBindings() {}
 }

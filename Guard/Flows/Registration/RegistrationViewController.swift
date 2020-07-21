@@ -60,19 +60,31 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		self.viewModel.assosiateView(self)
 		view.backgroundColor = Colors.authBackground
 		addViews()
+		setNavigationBar()
     }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		navigationController?.isNavigationBarHidden = false
+		self.navigationItem.setHidesBackButton(true, animated:false)
+	}
+	
+	func setNavigationBar() {
+		title = "registration.title".localized
+		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
+		self.navigationItem.leftBarButtonItem = leftBarButtonItem
+	}
+
+	@objc func backToMain() {
+		self.navigationController?.popViewController(animated: true)
+	}
 
 	private func addViews() {
 		// scroll view
 		view.addSubview(scrollView)
 		scrollView.snp.makeConstraints() {
 			$0.edges.equalToSuperview()
-		}
-		// ttile
-		scrollView.addSubview(titleLabel)
-		titleLabel.snp.makeConstraints() {
-			$0.top.equalToSuperview().offset(10)
-			$0.centerX.equalToSuperview()
 		}
 		// login
 		scrollView.addSubview(loginTextField)
@@ -119,12 +131,6 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 			$0.bottom.equalToSuperview().offset(-100)
 			$0.leading.equalToSuperview().offset(30)
 			$0.trailing.equalToSuperview().offset(-30)
-		}
-		// back button
-		scrollView.addSubview(backButtonView)
-		backButtonView.snp.makeConstraints() {
-			$0.width.height.equalTo(50)
-			$0.top.leading.equalToSuperview().offset(10)
 		}
 		// loading view
 		scrollView.addSubview(loadingView)

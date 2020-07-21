@@ -22,11 +22,6 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
     lazy var di: Dependencies = DI.dependencies
 	
 	func viewDidSet() {
-		// title
-		view.titleLabel.text = "registration.title".localized
-		view.titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-		view.titleLabel.textAlignment = .center
-		view.titleLabel.textColor = Colors.whiteColor
 		
 		// login
 		view.loginTextField.keyboardType = .emailAddress
@@ -179,39 +174,39 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		registrationSubject?
 		.asObservable()
 		.withLatestFrom(credentials)
-        .filter { [unowned self] credentials in
-			switch credentials.0 {
-			case let s where s.count == 0:
-				self.view.loginTextField.alertLabel.text = "registration.alert.empty.title".localized
-			case let s where s.isValidEmail == false:
-				self.view.loginTextField.alertLabel.text = "registration.alert.uncorrect_email.title".localized
-			default: break
-			}
-			
-			switch credentials.1 {
-			case let s where s.count == 0:
-				self.view.passwordTextField.alertLabel.text = "registration.alert.empty.title".localized
-			case let s where s.count < 8:
-				self.view.passwordTextField.alertLabel.text = "registration.alert.password_too_short.title".localized
-			default: break
-			}
-			
-			switch credentials.2 {
-			case let s where s.count == 0:
-				self.view.confirmationPasswordTextField.alertLabel.text = "registration.alert.empty.title".localized
-			case let s where s != credentials.1:
-				self.view.confirmationPasswordTextField.alertLabel.text = "registration.alert.passwords_different.title".localized
-			default: break
-			}
-			
-			if self.view.loginTextField.alertLabel.text?.isEmpty ?? false &&
-				self.view.passwordTextField.alertLabel.text?.isEmpty ?? false &&
-				self.view.confirmationPasswordTextField.alertLabel.text?.isEmpty ?? false {
-				return true
-			} else {
-				return false
-			}
-        }
+//        .filter { [unowned self] credentials in
+//			switch credentials.0 {
+//			case let s where s.count == 0:
+//				self.view.loginTextField.alertLabel.text = "registration.alert.empty.title".localized
+//			case let s where s.isValidEmail == false:
+//				self.view.loginTextField.alertLabel.text = "registration.alert.uncorrect_email.title".localized
+//			default: break
+//			}
+//			
+//			switch credentials.1 {
+//			case let s where s.count == 0:
+//				self.view.passwordTextField.alertLabel.text = "registration.alert.empty.title".localized
+//			case let s where s.count < 8:
+//				self.view.passwordTextField.alertLabel.text = "registration.alert.password_too_short.title".localized
+//			default: break
+//			}
+//			
+//			switch credentials.2 {
+//			case let s where s.count == 0:
+//				self.view.confirmationPasswordTextField.alertLabel.text = "registration.alert.empty.title".localized
+//			case let s where s != credentials.1:
+//				self.view.confirmationPasswordTextField.alertLabel.text = "registration.alert.passwords_different.title".localized
+//			default: break
+//			}
+//			
+//			if self.view.loginTextField.alertLabel.text?.isEmpty ?? false &&
+//				self.view.passwordTextField.alertLabel.text?.isEmpty ?? false &&
+//				self.view.confirmationPasswordTextField.alertLabel.text?.isEmpty ?? false {
+//				return true
+//			} else {
+//				return false
+//			}
+//        }
 		.observeOn(MainScheduler.instance)
 		.subscribe(onNext: { [weak self] _ in
 			self?.view.loadingView.stopAnimating()

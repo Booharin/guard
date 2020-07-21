@@ -10,6 +10,14 @@
 		5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210399624C4D673004560FD /* SelectIssueViewController.swift */; };
 		5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210399824C4D688004560FD /* SelectIssueViewModel.swift */; };
 		5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */; };
+		5222B68624C75609000BEE13 /* UITableViewCell+Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B68524C75609000BEE13 /* UITableViewCell+Identifier.swift */; };
+		5222B68824C7594C000BEE13 /* Differentiator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5222B68724C7594C000BEE13 /* Differentiator.framework */; };
+		5222B68924C7594C000BEE13 /* Differentiator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5222B68724C7594C000BEE13 /* Differentiator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5222B68C24C75AB3000BEE13 /* SelectIssueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B68B24C75AB3000BEE13 /* SelectIssueTableViewCell.swift */; };
+		5222B68E24C75DC2000BEE13 /* SelectIssueCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B68D24C75DC2000BEE13 /* SelectIssueCellViewModel.swift */; };
+		5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69024C7616F000BEE13 /* SelectIssueDataSource.swift */; };
+		5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69324C761C3000BEE13 /* TableViewItem.swift */; };
+		5222B69624C761D6000BEE13 /* TableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69524C761D6000BEE13 /* TableViewSection.swift */; };
 		523A67BE24C2C6FB0008E8AF /* RxDataSources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */; };
 		523A67BF24C2C6FB0008E8AF /* RxDataSources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		523FF71624BD7EAB00C4F959 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */; };
@@ -66,6 +74,7 @@
 			files = (
 				52EB81CD24B9ECE4003285BC /* RxSwift.framework in Embed Frameworks */,
 				52EB81CA24B9ECE0003285BC /* RxCocoa.framework in Embed Frameworks */,
+				5222B68924C7594C000BEE13 /* Differentiator.framework in Embed Frameworks */,
 				52597DC624BB8FC9005A922F /* RxGesture.framework in Embed Frameworks */,
 				523A67BF24C2C6FB0008E8AF /* RxDataSources.framework in Embed Frameworks */,
 				5251AFA424A281F100467E84 /* Alamofire.framework in Embed Frameworks */,
@@ -81,6 +90,13 @@
 		5210399624C4D673004560FD /* SelectIssueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueViewController.swift; sourceTree = "<group>"; };
 		5210399824C4D688004560FD /* SelectIssueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueViewModel.swift; sourceTree = "<group>"; };
 		5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewModel.swift; sourceTree = "<group>"; };
+		5222B68524C75609000BEE13 /* UITableViewCell+Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Identifier.swift"; sourceTree = "<group>"; };
+		5222B68724C7594C000BEE13 /* Differentiator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Differentiator.framework; path = Carthage/Build/iOS/Differentiator.framework; sourceTree = "<group>"; };
+		5222B68B24C75AB3000BEE13 /* SelectIssueTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueTableViewCell.swift; sourceTree = "<group>"; };
+		5222B68D24C75DC2000BEE13 /* SelectIssueCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueCellViewModel.swift; sourceTree = "<group>"; };
+		5222B69024C7616F000BEE13 /* SelectIssueDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueDataSource.swift; sourceTree = "<group>"; };
+		5222B69324C761C3000BEE13 /* TableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewItem.swift; sourceTree = "<group>"; };
+		5222B69524C761D6000BEE13 /* TableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSection.swift; sourceTree = "<group>"; };
 		523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxDataSources.framework; path = Carthage/Build/iOS/RxDataSources.framework; sourceTree = "<group>"; };
 		523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		523FF71824BD970A00C4F959 /* BackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonView.swift; sourceTree = "<group>"; };
@@ -130,6 +146,7 @@
 			files = (
 				52EB81CC24B9ECE4003285BC /* RxSwift.framework in Frameworks */,
 				52EB81C924B9ECE0003285BC /* RxCocoa.framework in Frameworks */,
+				5222B68824C7594C000BEE13 /* Differentiator.framework in Frameworks */,
 				52597DC524BB8FC9005A922F /* RxGesture.framework in Frameworks */,
 				523A67BE24C2C6FB0008E8AF /* RxDataSources.framework in Frameworks */,
 				5251AFA324A281F100467E84 /* Alamofire.framework in Frameworks */,
@@ -144,10 +161,46 @@
 		5210399524C4D612004560FD /* SelectIssue */ = {
 			isa = PBXGroup;
 			children = (
+				5222B68F24C7615B000BEE13 /* DataSource */,
+				5222B68A24C75A94000BEE13 /* Cell */,
 				5210399624C4D673004560FD /* SelectIssueViewController.swift */,
 				5210399824C4D688004560FD /* SelectIssueViewModel.swift */,
 			);
 			path = SelectIssue;
+			sourceTree = "<group>";
+		};
+		5222B68424C755E6000BEE13 /* UITableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				5222B68524C75609000BEE13 /* UITableViewCell+Identifier.swift */,
+			);
+			path = UITableViewCell;
+			sourceTree = "<group>";
+		};
+		5222B68A24C75A94000BEE13 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				5222B68B24C75AB3000BEE13 /* SelectIssueTableViewCell.swift */,
+				5222B68D24C75DC2000BEE13 /* SelectIssueCellViewModel.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		5222B68F24C7615B000BEE13 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				5222B69024C7616F000BEE13 /* SelectIssueDataSource.swift */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
+		5222B69224C761AF000BEE13 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				5222B69324C761C3000BEE13 /* TableViewItem.swift */,
+				5222B69524C761D6000BEE13 /* TableViewSection.swift */,
+			);
+			path = TableView;
 			sourceTree = "<group>";
 		};
 		522E5BE424A37C2F00879741 /* Views */ = {
@@ -280,6 +333,7 @@
 		5251AFA024A281F100467E84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5222B68724C7594C000BEE13 /* Differentiator.framework */,
 				523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */,
 				52597DC424BB8FC9005A922F /* RxGesture.framework */,
 				52EB81CE24B9ED02003285BC /* RxRelay.framework */,
@@ -324,17 +378,9 @@
 		5251AFAD24A2826C00467E84 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				5251AFAE24A2827B00467E84 /* Colors */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		5251AFAE24A2827B00467E84 /* Colors */ = {
-			isa = PBXGroup;
-			children = (
 				5251AFAF24A2829200467E84 /* Colors.swift */,
 			);
-			path = Colors;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		5251AFB524A2851200467E84 /* NavigationController */ = {
@@ -364,6 +410,7 @@
 		5251AFC024A28FA400467E84 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5222B68424C755E6000BEE13 /* UITableViewCell */,
 				52EB81D124B9F223003285BC /* String */,
 			);
 			path = Extensions;
@@ -398,6 +445,7 @@
 		52EB81C124B9E7BC003285BC /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				5222B69224C761AF000BEE13 /* TableView */,
 				52EB81C224B9E7E5003285BC /* ViewModel.swift */,
 				52EB81C624B9E882003285BC /* ViewControllerProtocol.swift */,
 			);
@@ -487,18 +535,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5222B69624C761D6000BEE13 /* TableViewSection.swift in Sources */,
 				52EB81C524B9E820003285BC /* AuthViewModel.swift in Sources */,
 				5251AFB724A2853A00467E84 /* NavigationController.swift in Sources */,
 				52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */,
 				5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */,
+				5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */,
 				52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */,
 				5251AFB024A2829200467E84 /* Colors.swift in Sources */,
+				5222B68C24C75AB3000BEE13 /* SelectIssueTableViewCell.swift in Sources */,
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
+				5222B68E24C75DC2000BEE13 /* SelectIssueCellViewModel.swift in Sources */,
 				523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */,
 				5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */,
 				5253753724B84F0200CC729C /* UserProfile.swift in Sources */,
 				52483BB324A279E40003A56A /* BaseCoordinator.swift in Sources */,
 				52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */,
+				5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */,
 				52483BB024A279AC0003A56A /* MainViewController.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
@@ -507,6 +560,7 @@
 				523FF71624BD7EAB00C4F959 /* RegistrationViewModel.swift in Sources */,
 				5253753324B84D5200CC729C /* ChooseViewController.swift in Sources */,
 				52EB81C324B9E7E5003285BC /* ViewModel.swift in Sources */,
+				5222B68624C75609000BEE13 /* UITableViewCell+Identifier.swift in Sources */,
 				5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */,
 				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,
 				5251AFB424A283B000467E84 /* Constants.swift in Sources */,
