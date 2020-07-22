@@ -49,6 +49,7 @@
 		52597DC624BB8FC9005A922F /* RxGesture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52B278C824C09621001E7295 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C724C09621001E7295 /* Dependencies.swift */; };
 		52B278CA24C0964F001E7295 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C924C0964F001E7295 /* LocationService.swift */; };
+		52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */; };
 		52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */; };
 		52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */; };
 		52EB81C324B9E7E5003285BC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81C224B9E7E5003285BC /* ViewModel.swift */; };
@@ -126,6 +127,7 @@
 		52597DC424BB8FC9005A922F /* RxGesture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxGesture.framework; path = Carthage/Build/iOS/RxGesture.framework; sourceTree = "<group>"; };
 		52B278C724C09621001E7295 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		52B278C924C0964F001E7295 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCoordinator.swift; sourceTree = "<group>"; };
 		52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		52EB81C224B9E7E5003285BC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 		5251AFAB24A2825000467E84 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				52E3D4E124C8AB0E00FD67C9 /* TabBarController */,
 				52EB81C124B9E7BC003285BC /* Base */,
 				5253753524B84EEB00CC729C /* Models */,
 				5251AFB524A2851200467E84 /* NavigationController */,
@@ -431,6 +434,14 @@
 				5253753624B84F0200CC729C /* UserProfile.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		52E3D4E124C8AB0E00FD67C9 /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */,
+			);
+			path = TabBarController;
 			sourceTree = "<group>";
 		};
 		52EB81BE24B9DD5B003285BC /* Registration */ = {
@@ -564,6 +575,7 @@
 				5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */,
 				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,
 				5251AFB424A283B000467E84 /* Constants.swift in Sources */,
+				52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */,
 				52FE598724C61DCD001B80C6 /* SelectIssueCoordinator.swift in Sources */,
 				52B278C824C09621001E7295 /* Dependencies.swift in Sources */,
 				52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */,

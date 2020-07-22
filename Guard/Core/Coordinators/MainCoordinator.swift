@@ -21,7 +21,10 @@ final class MainCoordinator: BaseCoordinator {
         let controller = MainViewController()
         controller.coordinator = self
         
+		let tabBarController = TabBarController()
+		tabBarController.viewControllers = [controller]
+		
 		guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }
-		navVC.pushViewController(controller, animated: true)
+		navVC.pushViewController(tabBarController, animated: true)
     }
 }
