@@ -49,6 +49,8 @@
 		52597DC624BB8FC9005A922F /* RxGesture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52B278C824C09621001E7295 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C724C09621001E7295 /* Dependencies.swift */; };
 		52B278CA24C0964F001E7295 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C924C0964F001E7295 /* LocationService.swift */; };
+		52C5F4C424C9D90D00FB2DA8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */; };
+		52C5F4C624C9D92200FB2DA8 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C5F4C524C9D92200FB2DA8 /* ProfileViewModel.swift */; };
 		52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */; };
 		52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */; };
 		52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */; };
@@ -127,6 +129,8 @@
 		52597DC424BB8FC9005A922F /* RxGesture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxGesture.framework; path = Carthage/Build/iOS/RxGesture.framework; sourceTree = "<group>"; };
 		52B278C724C09621001E7295 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		52B278C924C0964F001E7295 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		52C5F4C524C9D92200FB2DA8 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCoordinator.swift; sourceTree = "<group>"; };
 		52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -283,6 +287,7 @@
 		52483BAB24A279340003A56A /* Flows */ = {
 			isa = PBXGroup;
 			children = (
+				52C5F4C224C9D8F200FB2DA8 /* Profile */,
 				5210399524C4D612004560FD /* SelectIssue */,
 				52483BAE24A279760003A56A /* Launch */,
 				5253753424B84D5700CC729C /* Choose */,
@@ -436,6 +441,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		52C5F4C224C9D8F200FB2DA8 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */,
+				52C5F4C524C9D92200FB2DA8 /* ProfileViewModel.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		52E3D4E124C8AB0E00FD67C9 /* TabBarController */ = {
 			isa = PBXGroup;
 			children = (
@@ -560,6 +574,7 @@
 				523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */,
 				5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */,
 				5253753724B84F0200CC729C /* UserProfile.swift in Sources */,
+				52C5F4C624C9D92200FB2DA8 /* ProfileViewModel.swift in Sources */,
 				52483BB324A279E40003A56A /* BaseCoordinator.swift in Sources */,
 				52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */,
 				5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */,
@@ -582,6 +597,7 @@
 				52483BB524A279FC0003A56A /* ApplicationCoordinator.swift in Sources */,
 				5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */,
 				52EB81C724B9E882003285BC /* ViewControllerProtocol.swift in Sources */,
+				52C5F4C424C9D90D00FB2DA8 /* ProfileViewController.swift in Sources */,
 				5251AFB224A2837D00467E84 /* AuthCoordinator.swift in Sources */,
 				5251AFC224A28FBC00467E84 /* String+Localizable.swift in Sources */,
 			);
