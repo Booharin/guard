@@ -30,7 +30,12 @@ final class ChooseViewModel: ViewModel {
 				self.view.clientEnterButton.animateBackground()
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.view.toRegistration?(.client)
+				let email = "booharin@bk.ru"
+				guard let emailURL = URL(string: "mailto:\(email)?subject=huynua") else { return }
+				if self.canOpenURL(url: emailURL) {
+					self.openURL(url: emailURL)
+				}
+				//self.view.toRegistration?(.client)
 			}).disposed(by: disposeBag)
 		
 		// lawyer button
@@ -46,4 +51,12 @@ final class ChooseViewModel: ViewModel {
 	}
 
 	func removeBindings() {}
+	
+	private func canOpenURL(url: URL) -> Bool {
+		return UIApplication.shared.canOpenURL(url)
+	}
+
+	private func openURL(url: URL) {
+		UIApplication.shared.open(url)
+	}
 }
