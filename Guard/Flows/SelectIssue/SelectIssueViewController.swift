@@ -49,7 +49,7 @@ SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewCon
 		// table view
 		tableView.register(SelectIssueTableViewCell.self, forCellReuseIdentifier: SelectIssueTableViewCell.reuseIdentifier)
 		tableView.tableFooterView = UIView()
-		tableView.backgroundColor = Colors.authBackground
+		tableView.backgroundColor = Colors.whiteColor
 		tableView.rowHeight = UITableView.automaticDimension
 		tableView.estimatedRowHeight = 71
 		view.addSubview(tableView)

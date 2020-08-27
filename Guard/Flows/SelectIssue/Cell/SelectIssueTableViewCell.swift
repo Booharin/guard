@@ -49,7 +49,7 @@ class SelectIssueTableViewCell: UITableViewCell {
         issueTitle.text = viewModel.title
 		issueTitle.textColor = Colors.white
 		issueTitle.numberOfLines = 0
-		backgroundColor = Colors.authCellsBackground
+		backgroundColor = Colors.whiteColor
 		separatorView.backgroundColor = Colors.separator
 		selectionStyle = .none
     }

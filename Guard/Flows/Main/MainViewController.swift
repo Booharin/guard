@@ -20,7 +20,7 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
 
 		navigationController?.isNavigationBarHidden = true
-		view.backgroundColor = Colors.mainBackground
+		view.backgroundColor = Colors.whiteColor
 		
 		addViews()
     }

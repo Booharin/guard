@@ -58,7 +58,7 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
         super.viewDidLoad()
 
 		self.viewModel.assosiateView(self)
-		view.backgroundColor = Colors.authBackground
+		view.backgroundColor = Colors.whiteColor
 		addViews()
 		setNavigationBar()
     }

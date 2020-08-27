@@ -6,11 +6,8 @@
   Copyright © 2020 ds. All rights reserved.
 */
 
-//LAUNCH
-"launch.subtitle" = "Юридическая помощь";
-
 //CHOOSE
-"choose.title" = "Кто вы";
+"choose.title" = "Кто вы?";
 "choose.client.enter.button" = "Клиент";
 "choose.lawyer.enter.button" = "Юрист";
 

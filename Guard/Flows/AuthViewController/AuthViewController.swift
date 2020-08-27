@@ -53,7 +53,7 @@ AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtoco
         super.viewDidLoad()
 
 		self.viewModel.assosiateView(self)
-		view.backgroundColor = Colors.authBackground
+		view.backgroundColor = Colors.whiteColor
 		addViews()
     }
 	

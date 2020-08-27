@@ -11,8 +11,8 @@ import UIKit
 protocol ChooseViewControllerProtocol {
 	var toRegistration: ((UserType) -> (Void))? { get }
 	var titleLabel: UILabel { get }
-	var clientEnterButton: ConfirmButton { get }
-	var lawyerEnterButton: ConfirmButton { get }
+	var lawyerEnterView: UIView { get }
+	var clientEnterView: UIView { get }
 }
 
 /// Controller for user type choice
@@ -21,8 +21,8 @@ final class ChooseViewController<modelType: ViewModel>: UIViewController,
 	/// Pass to registration
 	var toRegistration: ((UserType) -> (Void))?
 	var titleLabel = UILabel()
-	var clientEnterButton = ConfirmButton(title: "choose.client.enter.button".localized)
-	var lawyerEnterButton = ConfirmButton(title: "choose.lawyer.enter.button".localized)
+	var lawyerEnterView = UIView()
+	var clientEnterView = UIView()
 	
 	var viewModel: modelType
 	
@@ -39,7 +39,7 @@ final class ChooseViewController<modelType: ViewModel>: UIViewController,
         super.viewDidLoad()
 		
 		self.viewModel.assosiateView(self)
-		view.backgroundColor = Colors.authBackground
+		view.backgroundColor = Colors.whiteColor
 		addViews()
     }
 	
@@ -50,32 +50,59 @@ final class ChooseViewController<modelType: ViewModel>: UIViewController,
 	}
 	
 	private func addViews() {
-		
-		// client enter button
-		view.addSubview(clientEnterButton)
-		clientEnterButton.snp.makeConstraints() {
-			$0.height.equalTo(50)
-			$0.centerX.equalToSuperview()
-			$0.centerY.equalToSuperview().offset(50)
-			$0.leading.equalToSuperview().offset(30)
-			$0.trailing.equalToSuperview().offset(-30)
-		}
-		
-		// lawyer enter button
-		view.addSubview(lawyerEnterButton)
-		lawyerEnterButton.snp.makeConstraints() {
-			$0.height.equalTo(50)
-			$0.centerX.equalToSuperview()
-			$0.centerY.equalToSuperview().offset(-50)
-			$0.leading.equalToSuperview().offset(30)
-			$0.trailing.equalToSuperview().offset(-30)
-		}
-		
 		// ttile
 		view.addSubview(titleLabel)
 		titleLabel.snp.makeConstraints() {
-			$0.bottom.equalTo(lawyerEnterButton.snp.top).offset(-50)
+			$0.top.equalToSuperview().offset(52)
 			$0.centerX.equalToSuperview()
+		}
+		
+		// lawyer enter button
+		view.addSubview(lawyerEnterView)
+		lawyerEnterView.snp.makeConstraints() {
+			$0.height.equalTo(86)
+			$0.centerY.equalToSuperview().offset(-68)
+			$0.leading.equalToSuperview()
+			$0.trailing.equalToSuperview()
+		}
+		let lawyerBorderView = UIView()
+		lawyerBorderView.backgroundColor = Colors.mainColor
+		lawyerEnterView.addSubview(lawyerBorderView)
+		lawyerBorderView.snp.makeConstraints() {
+			$0.leading.top.bottom.equalToSuperview()
+			$0.width.equalTo(6)
+		}
+		let lawyerImageView = UIImageView(image: #imageLiteral(resourceName: "lawyer_mini_icn"))
+		lawyerEnterView.addSubview(lawyerImageView)
+		lawyerImageView.snp.makeConstraints() {
+			$0.width.equalTo(18.94)
+			$0.height.equalTo(17.42)
+			$0.leading.equalToSuperview().offset(43.53)
+			$0.top.equalToSuperview().offset(7.83)
+		}
+
+		// client enter button
+		view.addSubview(clientEnterView)
+		clientEnterView.snp.makeConstraints() {
+			$0.height.equalTo(86)
+			$0.centerY.equalToSuperview().offset(68)
+			$0.leading.equalToSuperview()
+			$0.trailing.equalToSuperview()
+		}
+		let clientBorderView = UIView()
+		clientBorderView.backgroundColor = Colors.greenColor
+		clientEnterView.addSubview(clientBorderView)
+		clientBorderView.snp.makeConstraints() {
+			$0.leading.top.bottom.equalToSuperview()
+			$0.width.equalTo(6)
+		}
+		let clientImageView = UIImageView(image: #imageLiteral(resourceName: "client_mini_icn"))
+		clientEnterView.addSubview(clientImageView)
+		clientImageView.snp.makeConstraints() {
+			$0.width.equalTo(16)
+			$0.height.equalTo(16.43)
+			$0.leading.equalToSuperview().offset(42)
+			$0.top.equalToSuperview().offset(9.57)
 		}
 	}
 }

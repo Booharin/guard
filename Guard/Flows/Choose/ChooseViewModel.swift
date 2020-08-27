@@ -18,45 +18,46 @@ final class ChooseViewModel: ViewModel {
 	func viewDidSet() {
 		// title
 		view.titleLabel.text = "choose.title".localized
-		view.titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+		view.titleLabel.font = Saira.light.of(size: 25)
 		view.titleLabel.textAlignment = .center
-		view.titleLabel.textColor = Colors.whiteColor
-		
-		// client button
-		view.clientEnterButton
-			.rx
-			.tap
-			.do(onNext: { [unowned self] _ in
-				self.view.clientEnterButton.animateBackground()
-			})
-			.subscribe(onNext: { [unowned self] _ in
-				let email = "booharin@bk.ru"
-				guard let emailURL = URL(string: "mailto:\(email)?subject=huynua") else { return }
-				if self.canOpenURL(url: emailURL) {
-					self.openURL(url: emailURL)
-				}
-				//self.view.toRegistration?(.client)
-			}).disposed(by: disposeBag)
+		view.titleLabel.textColor = Colors.maintextColor
 		
 		// lawyer button
-		view.lawyerEnterButton
+		view.lawyerEnterView
 			.rx
-			.tap
+			.tapGesture()
+			.skip(1)
 			.do(onNext: { [unowned self] _ in
-				self.view.lawyerEnterButton.animateBackground()
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.lawyerEnterView.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.lawyerEnterView.alpha = 1
+					})
+				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.toRegistration?(.lawyer)
 			}).disposed(by: disposeBag)
+		
+		// client button
+		view.clientEnterView
+			.rx
+			.tapGesture()
+			.skip(1)
+			.do(onNext: { [unowned self] _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.clientEnterView.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.clientEnterView.alpha = 1
+					})
+				})
+			})
+			.subscribe(onNext: { [unowned self] _ in
+				self.view.toRegistration?(.client)
+			}).disposed(by: disposeBag)
 	}
 
 	func removeBindings() {}
-	
-	private func canOpenURL(url: URL) -> Bool {
-		return UIApplication.shared.canOpenURL(url)
-	}
-
-	private func openURL(url: URL) {
-		UIApplication.shared.open(url)
-	}
 }
