@@ -8,6 +8,7 @@
 import UIKit
 
 struct Colors {
+	static let maintextColor = #colorLiteral(red: 0.2235294118, green: 0.2549019608, blue: 0.3960784314, alpha: 1)
 	static let whiteColor = UIColor.white
 	static let mainBackground = #colorLiteral(red: 0.2904033363, green: 0.1257255673, blue: 0.4202400446, alpha: 1)
 	static let authBackground = #colorLiteral(red: 0.2029984295, green: 0.03191994131, blue: 0.5746976733, alpha: 1)
