@@ -11,13 +11,15 @@
 		5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210399824C4D688004560FD /* SelectIssueViewModel.swift */; };
 		5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */; };
 		521E649924F8433D00FF96ED /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 521E649B24F8433D00FF96ED /* Localizable.strings */; };
-		521E649D24F8445200FF96ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521E649F24F8445200FF96ED /* LaunchScreen.storyboard */; };
 		521E64AA24F8480600FF96ED /* SF_UI_Display-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 521E64A924F8480600FF96ED /* SF_UI_Display-regular.ttf */; };
 		521E64B024F849CC00FF96ED /* Saira-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 521E64AC24F849CC00FF96ED /* Saira-Medium.ttf */; };
 		521E64B124F849CC00FF96ED /* Saira-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 521E64AD24F849CC00FF96ED /* Saira-Light.ttf */; };
 		521E64B224F849CC00FF96ED /* Saira-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 521E64AE24F849CC00FF96ED /* Saira-Regular.ttf */; };
 		521E64B324F849CC00FF96ED /* Saira-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 521E64AF24F849CC00FF96ED /* Saira-Bold.ttf */; };
 		521E64B624F84B0200FF96ED /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521E64B524F84B0200FF96ED /* FontHelper.swift */; };
+		521E64C024F8F7A600FF96ED /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 521E64BD24F8F77900FF96ED /* Info.plist */; };
+		521E64C224F8F7EA00FF96ED /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521E64C124F8F7EA00FF96ED /* Default-568h@2x.png */; };
+		521E64C524F8FB6A00FF96ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521E64C324F8FB6A00FF96ED /* LaunchScreen.storyboard */; };
 		5222B68624C75609000BEE13 /* UITableViewCell+Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B68524C75609000BEE13 /* UITableViewCell+Identifier.swift */; };
 		5222B68824C7594C000BEE13 /* Differentiator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5222B68724C7594C000BEE13 /* Differentiator.framework */; };
 		5222B68924C7594C000BEE13 /* Differentiator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5222B68724C7594C000BEE13 /* Differentiator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -101,15 +103,17 @@
 		5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewModel.swift; sourceTree = "<group>"; };
 		521E649A24F8433D00FF96ED /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		521E649C24F8434100FF96ED /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		521E649E24F8445200FF96ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		521E64A124F8445A00FF96ED /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		521E64A324F8445B00FF96ED /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		521E64A924F8480600FF96ED /* SF_UI_Display-regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF_UI_Display-regular.ttf"; sourceTree = "<group>"; };
 		521E64AC24F849CC00FF96ED /* Saira-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Medium.ttf"; sourceTree = "<group>"; };
 		521E64AD24F849CC00FF96ED /* Saira-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Light.ttf"; sourceTree = "<group>"; };
 		521E64AE24F849CC00FF96ED /* Saira-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Regular.ttf"; sourceTree = "<group>"; };
 		521E64AF24F849CC00FF96ED /* Saira-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Bold.ttf"; sourceTree = "<group>"; };
 		521E64B524F84B0200FF96ED /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
+		521E64BC24F8F77900FF96ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
+		521E64BE24F8F77E00FF96ED /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = en.lproj/Info.plist; sourceTree = "<group>"; };
+		521E64BF24F8F77F00FF96ED /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = ru; path = ru.lproj/Info.plist; sourceTree = "<group>"; };
+		521E64C124F8F7EA00FF96ED /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		521E64C624F8FB7700FF96ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5222B68524C75609000BEE13 /* UITableViewCell+Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Identifier.swift"; sourceTree = "<group>"; };
 		5222B68724C7594C000BEE13 /* Differentiator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Differentiator.framework; path = Carthage/Build/iOS/Differentiator.framework; sourceTree = "<group>"; };
 		5222B68B24C75AB3000BEE13 /* SelectIssueTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueTableViewCell.swift; sourceTree = "<group>"; };
@@ -123,7 +127,6 @@
 		52483B9124A2774E0003A56A /* Guard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Guard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52483B9424A2774E0003A56A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../../AppDelegate.swift; sourceTree = "<group>"; };
 		52483B9D24A2774F0003A56A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		52483BA224A2774F0003A56A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		52483BAF24A279AC0003A56A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		52483BB224A279E40003A56A /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		52483BB424A279FC0003A56A /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
@@ -291,6 +294,7 @@
 		52483B8824A2774E0003A56A = {
 			isa = PBXGroup;
 			children = (
+				521E64C124F8F7EA00FF96ED /* Default-568h@2x.png */,
 				52483B9324A2774E0003A56A /* Guard */,
 				52483B9224A2774E0003A56A /* Products */,
 				5251AFA024A281F100467E84 /* Frameworks */,
@@ -339,7 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				521E64A524F846A800FF96ED /* Fonts */,
-				52483BA224A2774F0003A56A /* Info.plist */,
+				521E64BD24F8F77900FF96ED /* Info.plist */,
 				52483B9D24A2774F0003A56A /* Assets.xcassets */,
 			);
 			path = SupportingFiles;
@@ -379,7 +383,7 @@
 		52483BAE24A279760003A56A /* Launch */ = {
 			isa = PBXGroup;
 			children = (
-				521E649F24F8445200FF96ED /* LaunchScreen.storyboard */,
+				521E64C324F8FB6A00FF96ED /* LaunchScreen.storyboard */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -609,13 +613,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				521E64B324F849CC00FF96ED /* Saira-Bold.ttf in Resources */,
+				521E64C224F8F7EA00FF96ED /* Default-568h@2x.png in Resources */,
 				52483B9E24A2774F0003A56A /* Assets.xcassets in Resources */,
+				521E64C524F8FB6A00FF96ED /* LaunchScreen.storyboard in Resources */,
 				521E64B224F849CC00FF96ED /* Saira-Regular.ttf in Resources */,
 				521E64AA24F8480600FF96ED /* SF_UI_Display-regular.ttf in Resources */,
 				521E64B024F849CC00FF96ED /* Saira-Medium.ttf in Resources */,
 				521E649924F8433D00FF96ED /* Localizable.strings in Resources */,
 				521E64B124F849CC00FF96ED /* Saira-Light.ttf in Resources */,
-				521E649D24F8445200FF96ED /* LaunchScreen.storyboard in Resources */,
+				521E64C024F8F7A600FF96ED /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,12 +688,21 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		521E649F24F8445200FF96ED /* LaunchScreen.storyboard */ = {
+		521E64BD24F8F77900FF96ED /* Info.plist */ = {
 			isa = PBXVariantGroup;
 			children = (
-				521E649E24F8445200FF96ED /* Base */,
-				521E64A124F8445A00FF96ED /* en */,
-				521E64A324F8445B00FF96ED /* ru */,
+				521E64BC24F8F77900FF96ED /* Base */,
+				521E64BE24F8F77E00FF96ED /* en */,
+				521E64BF24F8F77F00FF96ED /* ru */,
+			);
+			name = Info.plist;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		521E64C324F8FB6A00FF96ED /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				521E64C624F8FB7700FF96ED /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -826,7 +841,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Guard/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Guard/Base.lproj/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -849,7 +864,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Guard/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Guard/Base.lproj/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

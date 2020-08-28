@@ -11,8 +11,9 @@ protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
 	var toSelectIssue: (() -> (Void))? { get }
 	/// Pass to Auth
 	var toAuth: (() -> (Void))? { get }
-	var titleLabel: UILabel { get }
 	var scrollView: UIScrollView { get }
+	var logoTitleLabel: UILabel { get }
+	var logoSubtitleLabel: UILabel { get }
 	var loginTextField: TextField { get }
     var passwordTextField: TextField { get }
 	var confirmationPasswordTextField: TextField { get }
@@ -35,8 +36,10 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		return self.navigationController
 	}
 	
-	var titleLabel = UILabel()
 	var scrollView = UIScrollView()
+	private var logoImageView = UIImageView(image: #imageLiteral(resourceName: "logo_middle_icn"))
+	var logoTitleLabel = UILabel()
+	var logoSubtitleLabel = UILabel()
 	var loginTextField = TextField()
 	var passwordTextField = TextField()
 	var confirmationPasswordTextField = TextField()
@@ -69,9 +72,8 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
 	}
-	
+
 	func setNavigationBar() {
-		title = "registration.title".localized
 		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
 		self.navigationItem.leftBarButtonItem = leftBarButtonItem
 	}
@@ -86,12 +88,33 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		scrollView.snp.makeConstraints() {
 			$0.edges.equalToSuperview()
 		}
+		// logo imageView
+		scrollView.addSubview(logoImageView)
+		logoImageView.snp.makeConstraints() {
+			$0.width.height.equalTo(84)
+			$0.top.equalToSuperview()
+			$0.centerX.equalToSuperview()
+		}
+		// logo title
+		scrollView.addSubview(logoTitleLabel)
+		logoTitleLabel.snp.makeConstraints() {
+			$0.height.equalTo(47)
+			$0.top.equalTo(logoImageView.snp.bottom).offset(8)
+			$0.centerX.equalToSuperview()
+		}
+		//logo subtitle
+		scrollView.addSubview(logoSubtitleLabel)
+		logoSubtitleLabel.snp.makeConstraints() {
+			$0.top.equalTo(logoTitleLabel.snp.bottom).offset(-4)
+			$0.height.equalTo(17)
+			$0.centerX.equalToSuperview()
+		}
 		// login
 		scrollView.addSubview(loginTextField)
 		loginTextField.snp.makeConstraints() {
 			$0.height.equalTo(50)
 			$0.centerX.equalToSuperview()
-			$0.top.equalToSuperview().offset(100)
+			$0.top.equalTo(logoSubtitleLabel.snp.bottom).offset(45)
 			$0.leading.equalToSuperview().offset(30)
 			$0.trailing.equalToSuperview().offset(-30)
 		}

@@ -23,7 +23,8 @@
 "auth.forget_password.title" = "Забыли пароль?";
 
 //REGISTRATION
-"registration.title" = "Регистрация";
+"registration.logo.title" = "guard";
+"registration.logo.subtitle" = "Юридическая помощь";
 
 "registration.login.title" = "Введите почту";
 "registration.login.placeholder" = "email";

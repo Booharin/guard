@@ -22,7 +22,14 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
     lazy var di: Dependencies = DI.dependencies
 	
 	func viewDidSet() {
+		// logo
+		view.logoTitleLabel.font = Saira.bold.of(size: 30)
+		view.logoTitleLabel.textColor = Colors.maintextColor
+		view.logoTitleLabel.text = "registration.logo.title".localized.uppercased()
 		
+		view.logoSubtitleLabel.font = SFUIDisplay.regular.of(size: 14)
+		view.logoSubtitleLabel.textColor = Colors.maintextColor
+		view.logoSubtitleLabel.text = "registration.logo.subtitle".localized
 		// login
 		view.loginTextField.keyboardType = .emailAddress
 		view.loginTextField.attributedPlaceholder = NSAttributedString(string: "registration.login.placeholder".localized,
