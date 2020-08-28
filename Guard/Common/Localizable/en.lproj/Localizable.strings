@@ -8,8 +8,10 @@
 
 //CHOOSE
 "choose.title" = "Who you are?";
-"choose.client.enter.button" = "Client";
 "choose.lawyer.enter.button" = "Lawyer";
+"choose.lawyer.enter.button.subtitle" = "Have a lawyer degree. Know the law. Can give an advice";
+"choose.client.enter.button" = "Client";
+"choose.client.enter.button.subtitle" = "Have a problem with law. Have a question. Need help";
 
 //AUTH
 "auth.login.placeholder" = "логин";

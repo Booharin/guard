@@ -11,8 +11,14 @@ import UIKit
 protocol ChooseViewControllerProtocol {
 	var toRegistration: ((UserType) -> (Void))? { get }
 	var titleLabel: UILabel { get }
+	
 	var lawyerEnterView: UIView { get }
+	var lawyerTitleLabel: UILabel { get }
+	var lawyerSubtitleLabel: UILabel { get }
+	
 	var clientEnterView: UIView { get }
+	var clientTitleLabel: UILabel { get }
+	var clientSubtitleLabel: UILabel { get }
 }
 
 /// Controller for user type choice
@@ -21,8 +27,14 @@ final class ChooseViewController<modelType: ViewModel>: UIViewController,
 	/// Pass to registration
 	var toRegistration: ((UserType) -> (Void))?
 	var titleLabel = UILabel()
+
 	var lawyerEnterView = UIView()
+	var lawyerTitleLabel = UILabel()
+	var lawyerSubtitleLabel = UILabel()
+
 	var clientEnterView = UIView()
+	var clientTitleLabel = UILabel()
+	var clientSubtitleLabel = UILabel()
 	
 	var viewModel: modelType
 	
@@ -65,6 +77,7 @@ final class ChooseViewController<modelType: ViewModel>: UIViewController,
 			$0.leading.equalToSuperview()
 			$0.trailing.equalToSuperview()
 		}
+
 		let lawyerBorderView = UIView()
 		lawyerBorderView.backgroundColor = Colors.mainColor
 		lawyerEnterView.addSubview(lawyerBorderView)
@@ -72,6 +85,7 @@ final class ChooseViewController<modelType: ViewModel>: UIViewController,
 			$0.leading.top.bottom.equalToSuperview()
 			$0.width.equalTo(6)
 		}
+
 		let lawyerImageView = UIImageView(image: #imageLiteral(resourceName: "lawyer_mini_icn"))
 		lawyerEnterView.addSubview(lawyerImageView)
 		lawyerImageView.snp.makeConstraints() {
@@ -79,6 +93,19 @@ final class ChooseViewController<modelType: ViewModel>: UIViewController,
 			$0.height.equalTo(17.42)
 			$0.leading.equalToSuperview().offset(43.53)
 			$0.top.equalToSuperview().offset(7.83)
+		}
+		
+		lawyerEnterView.addSubview(lawyerTitleLabel)
+		lawyerTitleLabel.snp.makeConstraints() {
+			$0.centerY.equalTo(lawyerImageView.snp.centerY)
+			$0.leading.equalToSuperview().offset(73)
+		}
+		
+		lawyerEnterView.addSubview(lawyerSubtitleLabel)
+		lawyerSubtitleLabel.snp.makeConstraints() {
+			$0.top.equalToSuperview().offset(38)
+			$0.leading.equalToSuperview().offset(42)
+			$0.trailing.equalToSuperview().offset(-42)
 		}
 
 		// client enter button
@@ -89,6 +116,7 @@ final class ChooseViewController<modelType: ViewModel>: UIViewController,
 			$0.leading.equalToSuperview()
 			$0.trailing.equalToSuperview()
 		}
+
 		let clientBorderView = UIView()
 		clientBorderView.backgroundColor = Colors.greenColor
 		clientEnterView.addSubview(clientBorderView)
@@ -96,6 +124,7 @@ final class ChooseViewController<modelType: ViewModel>: UIViewController,
 			$0.leading.top.bottom.equalToSuperview()
 			$0.width.equalTo(6)
 		}
+
 		let clientImageView = UIImageView(image: #imageLiteral(resourceName: "client_mini_icn"))
 		clientEnterView.addSubview(clientImageView)
 		clientImageView.snp.makeConstraints() {
@@ -103,6 +132,19 @@ final class ChooseViewController<modelType: ViewModel>: UIViewController,
 			$0.height.equalTo(16.43)
 			$0.leading.equalToSuperview().offset(42)
 			$0.top.equalToSuperview().offset(9.57)
+		}
+
+		clientEnterView.addSubview(clientTitleLabel)
+		clientTitleLabel.snp.makeConstraints() {
+			$0.centerY.equalTo(clientImageView.snp.centerY)
+			$0.leading.equalToSuperview().offset(73)
+		}
+
+		clientEnterView.addSubview(clientSubtitleLabel)
+		clientSubtitleLabel.snp.makeConstraints() {
+			$0.top.equalToSuperview().offset(38)
+			$0.leading.equalToSuperview().offset(42)
+			$0.trailing.equalToSuperview().offset(-42)
 		}
 	}
 }

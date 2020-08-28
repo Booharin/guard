@@ -40,6 +40,17 @@ final class ChooseViewModel: ViewModel {
 				self.view.toRegistration?(.lawyer)
 			}).disposed(by: disposeBag)
 		
+		// lawyer title
+		view.lawyerTitleLabel.font = Saira.regular.of(size: 22)
+		view.lawyerTitleLabel.textColor = Colors.maintextColor
+		view.lawyerTitleLabel.text = "choose.lawyer.enter.button".localized
+		
+		// lawyer subtitle
+		view.lawyerSubtitleLabel.font = Saira.light.of(size: 15)
+		view.lawyerSubtitleLabel.textColor = Colors.maintextColor
+		view.lawyerSubtitleLabel.text = "choose.lawyer.enter.button.subtitle".localized
+		view.lawyerSubtitleLabel.numberOfLines = 2
+
 		// client button
 		view.clientEnterView
 			.rx
@@ -57,6 +68,18 @@ final class ChooseViewModel: ViewModel {
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.toRegistration?(.client)
 			}).disposed(by: disposeBag)
+		
+		// lawyer title
+		view.clientTitleLabel.font = Saira.regular.of(size: 22)
+		view.clientTitleLabel.textColor = Colors.greenColor
+		view.clientTitleLabel.text = "choose.client.enter.button".localized
+		
+		// lawyer subtitle
+		view.clientSubtitleLabel.font = Saira.light.of(size: 15)
+		view.clientSubtitleLabel.textColor = Colors.greenColor
+		view.clientSubtitleLabel.text = "choose.client.enter.button.subtitle".localized
+		view.clientSubtitleLabel.numberOfLines = 2
+
 	}
 
 	func removeBindings() {}
