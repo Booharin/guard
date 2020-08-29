@@ -32,16 +32,6 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 		.text
 		.subscribe(onNext: { [unowned self] in
 			guard let text = $0 else { return }
-			self.view.loginTextField.alertLabel.text = ""
-			if text.isEmpty {
-				UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
-					self.view.loginTextField.backgroundColor = Colors.textFieldEmptyBackground
-				})
-			} else {
-				UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
-					self.view.loginTextField.backgroundColor = Colors.textFieldBackground
-				})
-			}
 		}).disposed(by: disposeBag)
 
 		// password
@@ -53,16 +43,6 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 				.text
 				.subscribe(onNext: { [unowned self] in
 					guard let text = $0 else { return }
-					self.view.passwordTextField.alertLabel.text = ""
-					if text.isEmpty {
-						UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
-							self.view.passwordTextField.backgroundColor = Colors.textFieldEmptyBackground
-						})
-					} else {
-						UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
-							self.view.passwordTextField.backgroundColor = Colors.textFieldBackground
-						})
-					}
 				}).disposed(by: disposeBag)
 		
 		// face id button
@@ -195,26 +175,26 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 		authSubject
 		.asObservable()
 		.withLatestFrom(credentials)
-        .filter { [unowned self] credentials in
-            if credentials.0.count > 0 && credentials.1.count > 0 {
-                if credentials.0.isValidEmail {
-                    self.view.loadingView.startAnimating()
-                    return true
-                } else {
-					self.view.loginTextField.alertLabel.text = "auth.alert.uncorrect_email.title".localized
-                    return false
-                }
-            } else if credentials.0.count < 1 {
-				self.view.loginTextField.alertLabel.text = "auth.alert.empty.title".localized
-				if credentials.1.count < 1 {
-					self.view.passwordTextField.alertLabel.text = "auth.alert.empty.title".localized
-				}
-                return false
-			} else {
-				self.view.passwordTextField.alertLabel.text = "auth.alert.empty.title".localized
-				return false
-			}
-        }
+//        .filter { [unowned self] credentials in
+//            if credentials.0.count > 0 && credentials.1.count > 0 {
+//                if credentials.0.isValidEmail {
+//                    self.view.loadingView.startAnimating()
+//                    return true
+//                } else {
+//					self.view.loginTextField.alertLabel.text = "auth.alert.uncorrect_email.title".localized
+//                    return false
+//                }
+//            } else if credentials.0.count < 1 {
+//				self.view.loginTextField.alertLabel.text = "auth.alert.empty.title".localized
+//				if credentials.1.count < 1 {
+//					self.view.passwordTextField.alertLabel.text = "auth.alert.empty.title".localized
+//				}
+//                return false
+//			} else {
+//				self.view.passwordTextField.alertLabel.text = "auth.alert.empty.title".localized
+//				return false
+//			}
+//        }
 		.observeOn(MainScheduler.instance)
 		.subscribe(onNext: { [weak self] _ in
 			self?.view.loadingView.stopAnimating()

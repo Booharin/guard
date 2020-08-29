@@ -9,17 +9,17 @@
 import UIKit
 /// Button for confirmation
 final class ConfirmButton: UIButton {
-	
-	private var buttonTitle: String
+
 	private let animationDuration = 0.1
 	
-	init(title: String = "") {
-		buttonTitle = title
+	init(title: String = "",
+		 backgroundColor: UIColor = Colors.buttonDisabledColor,
+		 cornerRadius: CGFloat = 25) {
 		super.init(frame: .zero)
-		setTitle(buttonTitle, for: .normal)
-		setTitleColor(Colors.borderColor, for: .normal)
-		layer.cornerRadius = 10
-		backgroundColor = Colors.confirmButton
+		setTitle(title, for: .normal)
+		setTitleColor(Colors.white, for: .normal)
+		layer.cornerRadius = cornerRadius
+		self.backgroundColor = backgroundColor
 	}
 	
 	required init?(coder: NSCoder) {
@@ -29,10 +29,10 @@ final class ConfirmButton: UIButton {
 	func animateBackground() {
 		isEnabled = false
 		UIView.animate(withDuration: animationDuration, animations: {
-			self.backgroundColor = Colors.confirmButtonLight
+			self.alpha = 0.5
 		}, completion: { _ in
 			UIView.animate(withDuration: self.animationDuration, animations: {
-				self.backgroundColor = Colors.confirmButton
+				self.alpha = 1
 			}, completion: { _ in
 				self.isEnabled = true
 			})

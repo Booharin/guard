@@ -44,7 +44,7 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 	var passwordTextField = TextField()
 	var confirmationPasswordTextField = TextField()
 	var cityTextField = TextField()
-	var enterButton = ConfirmButton(title: "registration.save.title".localized)
+	var enterButton = ConfirmButton(title: "registration.sign_up.title".localized)
 	var backButtonView = BackButtonView()
 	var loadingView = UIActivityIndicatorView(style: .medium)
 	
@@ -112,48 +112,43 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		// login
 		scrollView.addSubview(loginTextField)
 		loginTextField.snp.makeConstraints() {
-			$0.height.equalTo(50)
+			$0.height.equalTo(48)
+			$0.width.equalTo(130)
 			$0.centerX.equalToSuperview()
 			$0.top.equalTo(logoSubtitleLabel.snp.bottom).offset(45)
-			$0.leading.equalToSuperview().offset(30)
-			$0.trailing.equalToSuperview().offset(-30)
 		}
 		// password
 		scrollView.addSubview(passwordTextField)
 		passwordTextField.snp.makeConstraints() {
-			$0.height.equalTo(50)
+			$0.height.equalTo(48)
+			$0.width.equalTo(130)
 			$0.centerX.equalToSuperview()
-			$0.top.equalTo(loginTextField.snp.bottom).offset(50)
-			$0.leading.equalToSuperview().offset(30)
-			$0.trailing.equalToSuperview().offset(-30)
+			$0.top.equalTo(loginTextField.snp.bottom)
 		}
 		// confirmation password
 		scrollView.addSubview(confirmationPasswordTextField)
 		confirmationPasswordTextField.snp.makeConstraints() {
-			$0.height.equalTo(50)
+			$0.height.equalTo(48)
+			$0.width.equalTo(130)
 			$0.centerX.equalToSuperview()
-			$0.top.equalTo(passwordTextField.snp.bottom).offset(50)
-			$0.leading.equalToSuperview().offset(30)
-			$0.trailing.equalToSuperview().offset(-30)
+			$0.top.equalTo(passwordTextField.snp.bottom)
 		}
 		// city
 		scrollView.addSubview(cityTextField)
 		cityTextField.snp.makeConstraints() {
-			$0.height.equalTo(50)
+			$0.height.equalTo(48)
+			$0.width.equalTo(130)
 			$0.centerX.equalToSuperview()
-			$0.top.equalTo(confirmationPasswordTextField.snp.bottom).offset(50)
-			$0.leading.equalToSuperview().offset(30)
-			$0.trailing.equalToSuperview().offset(-30)
+			$0.top.equalTo(confirmationPasswordTextField.snp.bottom)
 		}
 		// enter button
 		scrollView.addSubview(enterButton)
 		enterButton.snp.makeConstraints() {
 			$0.height.equalTo(50)
+			$0.width.equalTo(116)
 			$0.centerX.equalToSuperview()
-			$0.top.equalTo(cityTextField.snp.bottom).offset(50)
+			$0.top.equalTo(cityTextField.snp.bottom).offset(70)
 			$0.bottom.equalToSuperview().offset(-100)
-			$0.leading.equalToSuperview().offset(30)
-			$0.trailing.equalToSuperview().offset(-30)
 		}
 		// loading view
 		scrollView.addSubview(loadingView)

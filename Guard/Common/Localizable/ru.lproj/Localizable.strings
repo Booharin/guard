@@ -26,19 +26,13 @@
 "registration.logo.title" = "guard";
 "registration.logo.subtitle" = "Юридическая помощь";
 
-"registration.login.title" = "Введите почту";
-"registration.login.placeholder" = "email";
+"registration.login.placeholder" = "Логин";
+"registration.password.placeholder" = "Пароль";
+"registration.confirm_password.placeholder" = "Повторите пароль";
+"registration.city.placeholder" = "Город";
 
-"registration.password.title" = "Придумайте пароль";
-"registration.password.placeholder" = "пароль";
+"registration.sign_up.title" = "Sign up";
 
-"registration.confirm_password.title" = "Введите пароль еще раз";
-"registration.confirm_password.placeholder" = "пароль";
-
-"registration.city.title" = "Ваш город";
-"registration.city.placeholder" = "город";
-
-"registration.save.title" = "Сохранить";
 "registration.alert.uncorrect_email.title" = "Некорректный email";
 "registration.alert.empty.title" = "Поле не может быть пустым";
 "registration.alert.password_too_short.title" = "Пароль должен быть не менее 8 символов";

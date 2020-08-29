@@ -32,89 +32,41 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		view.logoSubtitleLabel.text = "registration.logo.subtitle".localized
 		// login
 		view.loginTextField.keyboardType = .emailAddress
-		view.loginTextField.attributedPlaceholder = NSAttributedString(string: "registration.login.placeholder".localized,
-																	   attributes: [NSAttributedString.Key.foregroundColor: Colors.placeholderColor])
-		view.loginTextField.titleLabel.text = "registration.login.title".localized
+		view.loginTextField.configure(placeholderText: "registration.login.placeholder".localized)
 		view.loginTextField
 		.rx
 		.text
 		.subscribe(onNext: { [unowned self] in
 			guard let text = $0 else { return }
-			self.view.loginTextField.alertLabel.text = ""
-			if text.isEmpty {
-				UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
-					self.view.loginTextField.backgroundColor = Colors.textFieldEmptyBackground
-				})
-			} else {
-				UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
-					self.view.loginTextField.backgroundColor = Colors.textFieldBackground
-				})
-			}
 		}).disposed(by: disposeBag)
 
 		// password
 		view.passwordTextField.isSecureTextEntry = true
-		view.passwordTextField.attributedPlaceholder = NSAttributedString(string: "registration.password.placeholder".localized,
-																		  attributes: [NSAttributedString.Key.foregroundColor: Colors.placeholderColor])
-		view.passwordTextField.titleLabel.text = "registration.password.title".localized
+		view.passwordTextField.configure(placeholderText: "registration.password.placeholder".localized)
 		view.passwordTextField
 				.rx
 				.text
 				.subscribe(onNext: { [unowned self] in
 					guard let text = $0 else { return }
-					self.view.passwordTextField.alertLabel.text = ""
-					if text.isEmpty {
-						UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
-							self.view.passwordTextField.backgroundColor = Colors.textFieldEmptyBackground
-						})
-					} else {
-						UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
-							self.view.passwordTextField.backgroundColor = Colors.textFieldBackground
-						})
-					}
 				}).disposed(by: disposeBag)
 		
 		// confirmation password
-		view.confirmationPasswordTextField.titleLabel.text = "registration.confirm_password.title".localized
+		view.confirmationPasswordTextField.configure(placeholderText: "registration.confirm_password.placeholder".localized)
 		view.confirmationPasswordTextField.isSecureTextEntry = true
-		view.confirmationPasswordTextField.attributedPlaceholder = NSAttributedString(string: "registration.confirm_password.placeholder".localized,
-																		  attributes: [NSAttributedString.Key.foregroundColor: Colors.placeholderColor])
 		view.confirmationPasswordTextField
 				.rx
 				.text
 				.subscribe(onNext: { [unowned self] in
 					guard let text = $0 else { return }
-					self.view.confirmationPasswordTextField.alertLabel.text = ""
-					if text.isEmpty {
-						UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
-							self.view.confirmationPasswordTextField.backgroundColor = Colors.textFieldEmptyBackground
-						})
-					} else {
-						UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
-							self.view.confirmationPasswordTextField.backgroundColor = Colors.textFieldBackground
-						})
-					}
 				}).disposed(by: disposeBag)
 		
 		//city
-		view.cityTextField.titleLabel.text = "registration.city.title".localized
-		view.cityTextField.attributedPlaceholder = NSAttributedString(string: "registration.city.placeholder".localized,
-																	  attributes: [NSAttributedString.Key.foregroundColor: Colors.placeholderColor])
+		view.cityTextField.configure(placeholderText: "registration.city.placeholder".localized)
 		view.cityTextField
 		.rx
 		.text
 		.subscribe(onNext: { [unowned self] in
 			guard let text = $0 else { return }
-			self.view.cityTextField.alertLabel.text = ""
-			if text.isEmpty {
-				UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
-					self.view.cityTextField.backgroundColor = Colors.textFieldEmptyBackground
-				})
-			} else {
-				UIView.animate(withDuration: self.textFieldAnimationDuration, animations: {
-					self.view.cityTextField.backgroundColor = Colors.textFieldBackground
-				})
-			}
 		}).disposed(by: disposeBag)
 		
 		// enter button
