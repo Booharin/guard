@@ -70,6 +70,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		}).disposed(by: disposeBag)
 		
 		// enter button
+		view.enterButton.isEnabled = false
 		view.enterButton
 		.rx
 		.tap

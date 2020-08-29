@@ -44,7 +44,7 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 	var passwordTextField = TextField()
 	var confirmationPasswordTextField = TextField()
 	var cityTextField = TextField()
-	var enterButton = ConfirmButton(title: "registration.sign_up.title".localized)
+	var enterButton = ConfirmButton(title: "registration.sign_up.title".localized.uppercased())
 	var backButtonView = BackButtonView()
 	var loadingView = UIActivityIndicatorView(style: .medium)
 	
@@ -145,7 +145,7 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		scrollView.addSubview(enterButton)
 		enterButton.snp.makeConstraints() {
 			$0.height.equalTo(50)
-			$0.width.equalTo(116)
+			$0.width.greaterThanOrEqualTo(116)
 			$0.centerX.equalToSuperview()
 			$0.top.equalTo(cityTextField.snp.bottom).offset(70)
 			$0.bottom.equalToSuperview().offset(-100)
