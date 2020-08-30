@@ -16,10 +16,12 @@ final class ConfirmButton: UIButton {
 		 backgroundColor: UIColor = Colors.buttonDisabledColor,
 		 cornerRadius: CGFloat = 25) {
 		super.init(frame: .zero)
+		
 		setTitle(title, for: .normal)
 		setTitleColor(Colors.white, for: .normal)
 		layer.cornerRadius = cornerRadius
 		self.backgroundColor = backgroundColor
+
 		titleEdgeInsets = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: -25)
 		contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 48)
 	}

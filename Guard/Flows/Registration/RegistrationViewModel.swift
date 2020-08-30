@@ -13,7 +13,6 @@ import RxGesture
 final class RegistrationViewModel: ViewModel, HasDependencies {
 	var view: RegistratioViewControllerProtocol!
 	private let animationDuration = 0.15
-	private let textFieldAnimationDuration = 0.05
 	var registrationSubject: PublishSubject<Any>?
 	private var disposeBag = DisposeBag()
 	
@@ -38,6 +37,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		.text
 		.subscribe(onNext: { [unowned self] in
 			guard let text = $0 else { return }
+			self.checkAreTextFieldsEmpty()
 		}).disposed(by: disposeBag)
 
 		// password
@@ -48,8 +48,9 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				.text
 				.subscribe(onNext: { [unowned self] in
 					guard let text = $0 else { return }
+					self.checkAreTextFieldsEmpty()
 				}).disposed(by: disposeBag)
-		
+
 		// confirmation password
 		view.confirmationPasswordTextField.configure(placeholderText: "registration.confirm_password.placeholder".localized)
 		view.confirmationPasswordTextField.isSecureTextEntry = true
@@ -58,6 +59,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				.text
 				.subscribe(onNext: { [unowned self] in
 					guard let text = $0 else { return }
+					self.checkAreTextFieldsEmpty()
 				}).disposed(by: disposeBag)
 		
 		//city
@@ -67,6 +69,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		.text
 		.subscribe(onNext: { [unowned self] in
 			guard let text = $0 else { return }
+			self.checkAreTextFieldsEmpty()
 		}).disposed(by: disposeBag)
 		
 		// enter button
@@ -105,12 +108,33 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] keyboardHeight in
                 if keyboardHeight > 0 {
-					var contentInset:UIEdgeInsets = self.view.scrollView.contentInset
+					// scroll to bottom
+					var contentInset: UIEdgeInsets = self.view.scrollView.contentInset
 					contentInset.bottom = keyboardHeight + 100
 					self.view.scrollView.contentInset = contentInset
+					let bottomOffset = CGPoint(x: 0,
+											   y: self.view.scrollView.contentSize.height -
+												self.view.scrollView.bounds.size.height +
+												self.view.scrollView.contentInset.bottom)
+					self.view.scrollView.setContentOffset(bottomOffset, animated: true)
+					// push up enter button
+					let buttonOffset = keyboardHeight + 20
+					print(buttonOffset)
+					self.view.enterButton.snp.updateConstraints {
+						$0.bottom.equalToSuperview().offset(-buttonOffset)
+					}
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.view.layoutIfNeeded()
+					})
 				} else {
-					let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+					let contentInset: UIEdgeInsets = UIEdgeInsets.zero
 					self.view.scrollView.contentInset = contentInset
+					self.view.enterButton.snp.updateConstraints {
+						$0.bottom.equalToSuperview().offset(-61)
+					}
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.view.layoutIfNeeded()
+					})
 				}
             })
             .disposed(by: disposeBag)
@@ -200,6 +224,27 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		di.locationService.geocode { [weak self] city in
 			guard let city = city else { return }
 			self?.view.cityTextField.text = city
+		}
+	}
+	
+	private func checkAreTextFieldsEmpty() {
+
+		guard
+			let loginText = view.loginTextField.text,
+			let passwordText = view.passwordTextField.text,
+			let repeatedPasswordText = view.confirmationPasswordTextField.text,
+			let cityText = view.cityTextField.text else { return }
+
+		if !loginText.isEmpty,
+			!passwordText.isEmpty,
+			!repeatedPasswordText.isEmpty,
+			!cityText.isEmpty {
+
+			view.enterButton.isEnabled = true
+			view.enterButton.backgroundColor = Colors.mainColor
+		} else {
+			view.enterButton.isEnabled = false
+			view.enterButton.backgroundColor = Colors.buttonDisabledColor
 		}
 	}
 	

@@ -140,15 +140,15 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 			$0.width.equalTo(130)
 			$0.centerX.equalToSuperview()
 			$0.top.equalTo(confirmationPasswordTextField.snp.bottom)
+			$0.bottom.equalToSuperview()
 		}
 		// enter button
-		scrollView.addSubview(enterButton)
+		view.addSubview(enterButton)
 		enterButton.snp.makeConstraints() {
 			$0.height.equalTo(50)
 			$0.width.greaterThanOrEqualTo(116)
 			$0.centerX.equalToSuperview()
-			$0.top.equalTo(cityTextField.snp.bottom).offset(70)
-			$0.bottom.equalToSuperview().offset(-100)
+			$0.bottom.equalToSuperview().offset(-61)
 		}
 		// loading view
 		scrollView.addSubview(loadingView)
