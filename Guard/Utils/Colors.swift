@@ -18,7 +18,7 @@ struct Colors {
 	
 	static let confirmButton = #colorLiteral(red: 0.1016018167, green: 0.3134024739, blue: 0.8312727809, alpha: 1)
 	static let confirmButtonLight = #colorLiteral(red: 0.1106649563, green: 0.3841866553, blue: 1, alpha: 1)
-	static let warningColor = #colorLiteral(red: 0.9207581878, green: 0.3318606019, blue: 0.1008322909, alpha: 1)
+	static let warningColor = #colorLiteral(red: 1, green: 0.4509803922, blue: 0.4509803922, alpha: 1)
 	
 	static let textFieldBackground = #colorLiteral(red: 0.09019608051, green: 0, blue: 0.3019607961, alpha: 1)
 	static let textFieldEmptyBackground = UIColor.black

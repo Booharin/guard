@@ -26,7 +26,9 @@ final class TextField: UITextField {
 		separatorView.backgroundColor = Colors.separatorColor
 		addSubview(separatorView)
 		separatorView.snp.makeConstraints() {
-			$0.leading.trailing.bottom.equalToSuperview()
+			$0.width.equalTo(130)
+			$0.centerX.equalToSuperview()
+			$0.bottom.equalToSuperview()
 			$0.height.equalTo(1)
 		}
 	}

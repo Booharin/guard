@@ -20,6 +20,7 @@
 		521E64C024F8F7A600FF96ED /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 521E64BD24F8F77900FF96ED /* Info.plist */; };
 		521E64C224F8F7EA00FF96ED /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521E64C124F8F7EA00FF96ED /* Default-568h@2x.png */; };
 		521E64C524F8FB6A00FF96ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521E64C324F8FB6A00FF96ED /* LaunchScreen.storyboard */; };
+		521E64CF24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521E64CE24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift */; };
 		5222B68624C75609000BEE13 /* UITableViewCell+Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B68524C75609000BEE13 /* UITableViewCell+Identifier.swift */; };
 		5222B68824C7594C000BEE13 /* Differentiator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5222B68724C7594C000BEE13 /* Differentiator.framework */; };
 		5222B68924C7594C000BEE13 /* Differentiator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5222B68724C7594C000BEE13 /* Differentiator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -114,6 +115,7 @@
 		521E64BF24F8F77F00FF96ED /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = ru; path = ru.lproj/Info.plist; sourceTree = "<group>"; };
 		521E64C124F8F7EA00FF96ED /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		521E64C624F8FB7700FF96ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		521E64CE24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+iPhoneType.swift"; sourceTree = "<group>"; };
 		5222B68524C75609000BEE13 /* UITableViewCell+Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Identifier.swift"; sourceTree = "<group>"; };
 		5222B68724C7594C000BEE13 /* Differentiator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Differentiator.framework; path = Carthage/Build/iOS/Differentiator.framework; sourceTree = "<group>"; };
 		5222B68B24C75AB3000BEE13 /* SelectIssueTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueTableViewCell.swift; sourceTree = "<group>"; };
@@ -235,6 +237,14 @@
 				521E64B524F84B0200FF96ED /* FontHelper.swift */,
 			);
 			path = FontHelper;
+			sourceTree = "<group>";
+		};
+		521E64CD24FBCEEF00FF96ED /* UIScreen */ = {
+			isa = PBXGroup;
+			children = (
+				521E64CE24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift */,
+			);
+			path = UIScreen;
 			sourceTree = "<group>";
 		};
 		5222B68424C755E6000BEE13 /* UITableViewCell */ = {
@@ -483,6 +493,7 @@
 		5251AFC024A28FA400467E84 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				521E64CD24FBCEEF00FF96ED /* UIScreen */,
 				5222B68424C755E6000BEE13 /* UITableViewCell */,
 				52EB81D124B9F223003285BC /* String */,
 			);
@@ -654,6 +665,7 @@
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
 				52B278CA24C0964F001E7295 /* LocationService.swift in Sources */,
+				521E64CF24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift in Sources */,
 				521E64B624F84B0200FF96ED /* FontHelper.swift in Sources */,
 				52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */,
 				523FF71624BD7EAB00C4F959 /* RegistrationViewModel.swift in Sources */,

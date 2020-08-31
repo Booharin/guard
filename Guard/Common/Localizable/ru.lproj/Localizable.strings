@@ -33,8 +33,6 @@
 
 "registration.sign_up.title" = "Зарегистрироваться";
 
-"registration.alert.uncorrect_email.title" = "Некорректный email";
-"registration.alert.empty.title" = "Поле не может быть пустым";
 "registration.alert.password_too_short.title" = "Пароль должен быть не менее 8 символов";
 "registration.alert.passwords_different.title" = "Пароли не совпадают";
 

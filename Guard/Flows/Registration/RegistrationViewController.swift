@@ -12,12 +12,17 @@ protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
 	/// Pass to Auth
 	var toAuth: (() -> (Void))? { get }
 	var scrollView: UIScrollView { get }
+
+	var logoImageView: UIImageView { get }
 	var logoTitleLabel: UILabel { get }
 	var logoSubtitleLabel: UILabel { get }
+
 	var loginTextField: TextField { get }
     var passwordTextField: TextField { get }
 	var confirmationPasswordTextField: TextField { get }
 	var cityTextField: TextField { get }
+	var alertLabel: UILabel { get }
+
 	var enterButton: ConfirmButton { get }
 	var backButtonView: BackButtonView { get }
 	var loadingView: UIActivityIndicatorView { get }
@@ -37,22 +42,26 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 	}
 	
 	var scrollView = UIScrollView()
-	private var logoImageView = UIImageView(image: #imageLiteral(resourceName: "logo_middle_icn"))
+
+	var logoImageView = UIImageView(image: #imageLiteral(resourceName: "logo_middle_icn"))
 	var logoTitleLabel = UILabel()
 	var logoSubtitleLabel = UILabel()
+
 	var loginTextField = TextField()
 	var passwordTextField = TextField()
 	var confirmationPasswordTextField = TextField()
 	var cityTextField = TextField()
+	var alertLabel = UILabel()
+
 	var enterButton = ConfirmButton(title: "registration.sign_up.title".localized.uppercased())
 	var backButtonView = BackButtonView()
 	var loadingView = UIActivityIndicatorView(style: .medium)
-	
+
 	init(viewModel: modelType) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-	
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
@@ -65,7 +74,7 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		addViews()
 		setNavigationBar()
     }
-	
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
@@ -85,61 +94,72 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 	private func addViews() {
 		// scroll view
 		view.addSubview(scrollView)
-		scrollView.snp.makeConstraints() {
+		scrollView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
 		}
 		// logo imageView
 		scrollView.addSubview(logoImageView)
-		logoImageView.snp.makeConstraints() {
+		logoImageView.snp.makeConstraints {
 			$0.width.height.equalTo(84)
 			$0.top.equalToSuperview()
 			$0.centerX.equalToSuperview()
 		}
 		// logo title
 		scrollView.addSubview(logoTitleLabel)
-		logoTitleLabel.snp.makeConstraints() {
+		logoTitleLabel.snp.makeConstraints {
 			$0.height.equalTo(47)
 			$0.top.equalTo(logoImageView.snp.bottom).offset(8)
 			$0.centerX.equalToSuperview()
 		}
 		//logo subtitle
 		scrollView.addSubview(logoSubtitleLabel)
-		logoSubtitleLabel.snp.makeConstraints() {
+		logoSubtitleLabel.snp.makeConstraints {
 			$0.top.equalTo(logoTitleLabel.snp.bottom).offset(-4)
 			$0.height.equalTo(17)
 			$0.centerX.equalToSuperview()
 		}
 		// login
 		scrollView.addSubview(loginTextField)
-		loginTextField.snp.makeConstraints() {
+		loginTextField.snp.makeConstraints {
 			$0.height.equalTo(48)
-			$0.width.equalTo(130)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
 			$0.centerX.equalToSuperview()
 			$0.top.equalTo(logoSubtitleLabel.snp.bottom).offset(45)
 		}
 		// password
 		scrollView.addSubview(passwordTextField)
-		passwordTextField.snp.makeConstraints() {
+		passwordTextField.snp.makeConstraints {
 			$0.height.equalTo(48)
-			$0.width.equalTo(130)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
 			$0.centerX.equalToSuperview()
 			$0.top.equalTo(loginTextField.snp.bottom)
 		}
 		// confirmation password
 		scrollView.addSubview(confirmationPasswordTextField)
-		confirmationPasswordTextField.snp.makeConstraints() {
+		confirmationPasswordTextField.snp.makeConstraints {
 			$0.height.equalTo(48)
-			$0.width.equalTo(130)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
 			$0.centerX.equalToSuperview()
 			$0.top.equalTo(passwordTextField.snp.bottom)
 		}
 		// city
 		scrollView.addSubview(cityTextField)
-		cityTextField.snp.makeConstraints() {
+		cityTextField.snp.makeConstraints {
 			$0.height.equalTo(48)
-			$0.width.equalTo(130)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
 			$0.centerX.equalToSuperview()
 			$0.top.equalTo(confirmationPasswordTextField.snp.bottom)
+		}
+		// alert label
+		scrollView.addSubview(alertLabel)
+		alertLabel.snp.makeConstraints {
+			$0.top.equalTo(cityTextField.snp.bottom).offset(20)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
 			$0.bottom.equalToSuperview()
 		}
 		// enter button
