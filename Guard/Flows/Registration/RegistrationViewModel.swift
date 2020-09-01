@@ -147,7 +147,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				if keyboardHeight > 0 {
 					self.turnWarnings()
 					// push up enter button
-					self.pushupButton(with: keyboardHeight)
+					self.pushupButtonUp(with: keyboardHeight)
 					// push up logo
 					self.view.logoImageView.snp.updateConstraints {
 						$0.top.equalToSuperview().offset(self.logoTopOffset)
@@ -166,24 +166,29 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				} else {
 					self.currentKeyboardHeight = 0
 					// push up enter button
-					self.view.enterButton.snp.updateConstraints {
-						$0.bottom.equalToSuperview().offset(-61)
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+						// check that keyboard not showing again
+						guard self.currentKeyboardHeight == 0 else { return }
+
+						self.view.enterButton.snp.updateConstraints {
+							$0.bottom.equalToSuperview().offset(-61)
+						}
+						// push up logo
+						self.view.logoImageView.snp.updateConstraints {
+							$0.top.equalToSuperview()
+						}
+						// push up login textField
+						self.view.loginTextField.snp.updateConstraints {
+							$0.top.equalTo(self.view.logoSubtitleLabel.snp.bottom).offset(45)
+						}
+						// push up logo title
+						self.view.logoTitleLabel.snp.updateConstraints {
+							$0.top.equalTo(self.view.logoImageView.snp.bottom).offset(8)
+						}
+						UIView.animate(withDuration: self.animationDuration, animations: {
+							self.view.view.layoutIfNeeded()
+						})
 					}
-					// push up logo
-					self.view.logoImageView.snp.updateConstraints {
-						$0.top.equalToSuperview()
-					}
-					// push up login textField
-					self.view.loginTextField.snp.updateConstraints {
-						$0.top.equalTo(self.view.logoSubtitleLabel.snp.bottom).offset(45)
-					}
-					// push up logo title
-					self.view.logoTitleLabel.snp.updateConstraints {
-						$0.top.equalTo(self.view.logoImageView.snp.bottom).offset(8)
-					}
-					UIView.animate(withDuration: self.animationDuration, animations: {
-						self.view.view.layoutIfNeeded()
-					})
 				}
 			})
 			.disposed(by: disposeBag)
@@ -191,7 +196,8 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		defineCity()
 	}
 	
-	private func pushupButton(with keyboardHeight: CGFloat) {
+	// MARK: - Move enter button up
+	private func pushupButtonUp(with keyboardHeight: CGFloat) {
 		print(keyboardHeight)
 		if currentKeyboardHeight == keyboardHeight {
 			return
