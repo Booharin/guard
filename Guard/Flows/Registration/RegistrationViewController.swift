@@ -7,10 +7,6 @@
 //
 
 protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
-	/// Pass to select issue screen
-	var toSelectIssue: (() -> (Void))? { get }
-	/// Pass to Auth
-	var toAuth: (() -> (Void))? { get }
 	var scrollView: UIScrollView { get }
 
 	var logoImageView: UIImageView { get }
@@ -25,6 +21,9 @@ protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
 
 	var enterButton: ConfirmButton { get }
 	var backButtonView: BackButtonView { get }
+	var skipButtonView: SkipButtonView { get }
+	var alreadyRegisteredLabel: UILabel { get }
+
 	var loadingView: UIActivityIndicatorView { get }
 }
 
@@ -32,9 +31,6 @@ import UIKit
 /// Controller for registration screen
 final class RegistrationViewController<modelType: ViewModel>: UIViewController,
 RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewControllerProtocol {
-
-	var toSelectIssue: (() -> (Void))?
-	var toAuth: (() -> (Void))?
 	var viewModel: modelType
 	
 	var navController: UINavigationController? {
@@ -55,6 +51,9 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 
 	var enterButton = ConfirmButton(title: "registration.sign_up.title".localized.uppercased())
 	var backButtonView = BackButtonView()
+	var skipButtonView = SkipButtonView()
+	var alreadyRegisteredLabel = UILabel()
+
 	var loadingView = UIActivityIndicatorView(style: .medium)
 
 	init(viewModel: modelType) {
@@ -84,7 +83,9 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 
 	func setNavigationBar() {
 		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
+		let rightBarButtonItem = UIBarButtonItem(customView: skipButtonView)
 		self.navigationItem.leftBarButtonItem = leftBarButtonItem
+		self.navigationItem.rightBarButtonItem = rightBarButtonItem
 	}
 
 	@objc func backToMain() {
@@ -168,7 +169,14 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 			$0.height.equalTo(50)
 			$0.width.greaterThanOrEqualTo(116)
 			$0.centerX.equalToSuperview()
-			$0.bottom.equalToSuperview().offset(-61)
+			$0.bottom.equalToSuperview().offset(-71)
+		}
+		// already registered button
+		view.addSubview(alreadyRegisteredLabel)
+		alreadyRegisteredLabel.snp.makeConstraints() {
+			$0.height.equalTo(30)
+			$0.centerX.equalToSuperview()
+			$0.bottom.equalToSuperview().offset(-25)
 		}
 		// loading view
 		scrollView.addSubview(loadingView)

@@ -51,6 +51,7 @@
 		5251AFBA24A287CB00467E84 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5251AFB924A287CB00467E84 /* TextField.swift */; };
 		5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5251AFBC24A28B2100467E84 /* ConfirmButton.swift */; };
 		5251AFC224A28FBC00467E84 /* String+Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5251AFC124A28FBC00467E84 /* String+Localizable.swift */; };
+		52524E6124FED0E30078AA62 /* SkipButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52524E6024FED0E30078AA62 /* SkipButtonView.swift */; };
 		5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753024B84CFC00CC729C /* ChooseCoordinator.swift */; };
 		5253753324B84D5200CC729C /* ChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753224B84D5200CC729C /* ChooseViewController.swift */; };
 		5253753724B84F0200CC729C /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753624B84F0200CC729C /* UserProfile.swift */; };
@@ -143,6 +144,7 @@
 		5251AFB924A287CB00467E84 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		5251AFBC24A28B2100467E84 /* ConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
 		5251AFC124A28FBC00467E84 /* String+Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localizable.swift"; sourceTree = "<group>"; };
+		52524E6024FED0E30078AA62 /* SkipButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkipButtonView.swift; sourceTree = "<group>"; };
 		5253753024B84CFC00CC729C /* ChooseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseCoordinator.swift; sourceTree = "<group>"; };
 		5253753224B84D5200CC729C /* ChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewController.swift; sourceTree = "<group>"; };
 		5253753624B84F0200CC729C /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
@@ -284,9 +286,9 @@
 		522E5BE424A37C2F00879741 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				52524E5F24FECF5E0078AA62 /* Buttons */,
 				5251AFB524A2851200467E84 /* NavigationController */,
 				52E3D4E124C8AB0E00FD67C9 /* TabBarController */,
-				523FF71724BD96E800C4F959 /* BackButtonView */,
 				5251AFBB24A28AFC00467E84 /* ConfirmButton */,
 				5251AFB824A287AD00467E84 /* TextField */,
 			);
@@ -500,6 +502,23 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		52524E5E24FECF3A0078AA62 /* SkipButtonView */ = {
+			isa = PBXGroup;
+			children = (
+				52524E6024FED0E30078AA62 /* SkipButtonView.swift */,
+			);
+			path = SkipButtonView;
+			sourceTree = "<group>";
+		};
+		52524E5F24FECF5E0078AA62 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				523FF71724BD96E800C4F959 /* BackButtonView */,
+				52524E5E24FECF3A0078AA62 /* SkipButtonView */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
 		5253753424B84D5700CC729C /* Choose */ = {
 			isa = PBXGroup;
 			children = (
@@ -645,6 +664,7 @@
 			files = (
 				5222B69624C761D6000BEE13 /* TableViewSection.swift in Sources */,
 				52EB81C524B9E820003285BC /* AuthViewModel.swift in Sources */,
+				52524E6124FED0E30078AA62 /* SkipButtonView.swift in Sources */,
 				5251AFB724A2853A00467E84 /* NavigationController.swift in Sources */,
 				52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */,
 				5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */,

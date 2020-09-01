@@ -20,30 +20,40 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 	private let animationDuration = 0.15
 	private let textFieldAnimationDuration = 0.05
 	let authSubject = PublishSubject<Any>()
+	let toMainSubject: PublishSubject<Any>?
+    
+    init(toMainSubject: PublishSubject<Any>? = nil) {
+        self.toMainSubject = toMainSubject
+    }
 	
 	func viewDidSet() {
+		// logo
+		view.logoTitleLabel.font = Saira.bold.of(size: 30)
+		view.logoTitleLabel.textColor = Colors.maintextColor
+		view.logoTitleLabel.text = "registration.logo.title".localized.uppercased()
+		
+		view.logoSubtitleLabel.font = SFUIDisplay.regular.of(size: 14)
+		view.logoSubtitleLabel.textColor = Colors.maintextColor
+		view.logoSubtitleLabel.text = "registration.logo.subtitle".localized
 		
 		// login
-		view.loginTextField.keyboardType = .emailAddress
-		view.loginTextField.attributedPlaceholder = NSAttributedString(string: "auth.login.placeholder".localized,
-																  attributes: [NSAttributedString.Key.foregroundColor: Colors.placeholderColor])
+		view.loginTextField.configure(placeholderText: "registration.login.placeholder".localized)
 		view.loginTextField
-		.rx
-		.text
-		.subscribe(onNext: { [unowned self] in
-			guard let text = $0 else { return }
-		}).disposed(by: disposeBag)
-
+			.rx
+			.text
+			.subscribe(onNext: { [unowned self] _ in
+				
+			}).disposed(by: disposeBag)
+		
 		// password
+		view.passwordTextField.configure(placeholderText: "registration.password.placeholder".localized)
 		view.passwordTextField.isSecureTextEntry = true
-		view.passwordTextField.attributedPlaceholder = NSAttributedString(string: "auth.password.placeholder".localized,
-																		  attributes: [NSAttributedString.Key.foregroundColor: Colors.placeholderColor])
 		view.passwordTextField
-				.rx
-				.text
-				.subscribe(onNext: { [unowned self] in
-					guard let text = $0 else { return }
-				}).disposed(by: disposeBag)
+			.rx
+			.text
+			.subscribe(onNext: { [unowned self] _ in
+				
+			}).disposed(by: disposeBag)
 		
 		// face id button
 		view.faceIDButton.tintColor = Colors.placeholderColor
@@ -118,24 +128,6 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 			self.authSubject.onNext(())
 		}).disposed(by: disposeBag)
 		
-		// back button
-		view.backButtonView
-		.rx
-		.tapGesture()
-		.skip(1)
-		.do(onNext: { [unowned self] _ in
-			UIView.animate(withDuration: self.animationDuration, animations: {
-				self.view.backButtonView.alpha = 0.5
-			}, completion: { _ in
-				UIView.animate(withDuration: self.animationDuration, animations: {
-					self.view.backButtonView.alpha = 1
-				})
-			})
-		})
-		.subscribe(onNext: { [weak self] _ in
-			self?.view.navController?.popViewController(animated: true)
-		}).disposed(by: disposeBag)
-		
 		// check keyboard showing
         keyboardHeight()
             .observeOn(MainScheduler.instance)
@@ -198,7 +190,7 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 		.observeOn(MainScheduler.instance)
 		.subscribe(onNext: { [weak self] _ in
 			self?.view.loadingView.stopAnimating()
-			self?.view.toMain?()
+			self?.toMainSubject?.onNext(())
 		}).disposed(by: disposeBag)
 	}
 	
@@ -216,7 +208,7 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 					if success {
 						self?.view.loginTextField.text = "admin@admin.ru"
 						self?.view.passwordTextField.text = "12345"
-						self?.view.toMain?()
+						self?.toMainSubject?.onNext(())
 					} else {
 						// error
 					}

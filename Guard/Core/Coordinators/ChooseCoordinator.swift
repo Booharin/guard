@@ -6,6 +6,8 @@
 //  Copyright © 2020 ds. All rights reserved.
 //
 
+import UIKit
+
 final class ChooseCoordinator: BaseCoordinator {
 	var rootController: NavigationController?
 	var onFinishFlow: (() -> Void)?
@@ -21,9 +23,13 @@ final class ChooseCoordinator: BaseCoordinator {
 			self?.toRegistration(userType)
 		}
 		
-		let rootController = NavigationController(rootViewController: controller)
-		setAsRoot(rootController)
-		self.rootController = rootController
+		if let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController {
+			navVC.pushViewController(controller, animated: true)
+		} else {
+			let rootController = NavigationController(rootViewController: controller)
+			setAsRoot(rootController)
+			self.rootController = rootController
+		}
 	}
 	
 	private func toRegistration(_ userType: UserType) {

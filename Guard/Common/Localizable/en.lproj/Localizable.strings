@@ -32,6 +32,8 @@
 "registration.city.placeholder" = "City";
 
 "registration.sign_up.title" = "Sign up";
+"registration.skip.title" = "Skip";
+"registration.already_registered.title" = "Already registered";
 
 "registration.alert.password_too_short.title" = "Password must be at least 8 characters";
 "registration.alert.passwords_different.title" = "Password mismatch";

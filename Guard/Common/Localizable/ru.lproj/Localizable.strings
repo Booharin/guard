@@ -32,6 +32,8 @@
 "registration.city.placeholder" = "Город";
 
 "registration.sign_up.title" = "Зарегистрироваться";
+"registration.skip.title" = "Пропустить";
+"registration.already_registered.title" = "Уже зарегистрирован(а)";
 
 "registration.alert.password_too_short.title" = "Пароль должен быть не менее 8 символов";
 "registration.alert.passwords_different.title" = "Пароли не совпадают";

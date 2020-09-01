@@ -9,21 +9,27 @@
 import UIKit
 
 protocol AuthViewControllerProtocol: class, ViewControllerProtocol {
+
+	var logoImageView: UIImageView { get }
+	var logoTitleLabel: UILabel { get }
+	var logoSubtitleLabel: UILabel { get }
+
     var loginTextField: TextField { get }
     var passwordTextField: TextField { get }
     var enterButton: ConfirmButton { get }
-	var toMain: (() -> (Void))? { get }
 	var loadingView: UIActivityIndicatorView { get }
 	var faceIDButton: UIImageView { get }
 	var registrationLabel: UILabel { get }
 	var forgetPasswordLabel: UILabel { get }
-	var backButtonView: BackButtonView { get }
 }
 /// Controller for auth screen
 final class AuthViewController<modelType: ViewModel>: UIViewController,
 AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtocol {
-	// Pass to main
-	var toMain: (() -> (Void))?
+
+	var logoImageView = UIImageView(image: #imageLiteral(resourceName: "logo_middle_icn"))
+	var logoTitleLabel = UILabel()
+	var logoSubtitleLabel = UILabel()
+	
 	var loginTextField = TextField()
 	var passwordTextField = TextField()
 	var enterButton = ConfirmButton(title: "auth.enter.title".localized)
@@ -31,7 +37,6 @@ AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtoco
 	var faceIDButton = UIImageView(image: #imageLiteral(resourceName: "icn_face_id").withRenderingMode(.alwaysTemplate))
 	var registrationLabel = UILabel()
 	var forgetPasswordLabel = UILabel()
-	var backButtonView = BackButtonView()
 	var viewModel: modelType
 	var navController: UINavigationController? {
 		return self.navigationController
@@ -57,26 +62,53 @@ AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtoco
 		addViews()
     }
 	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		navigationController?.isNavigationBarHidden = true
+		self.navigationItem.setHidesBackButton(true, animated:false)
+	}
+
+	
 	private func addViews() {
+		// logo imageView
+		view.addSubview(logoImageView)
+		logoImageView.snp.makeConstraints {
+			$0.width.height.equalTo(84)
+			$0.top.equalToSuperview().offset(81)
+			$0.centerX.equalToSuperview()
+		}
+		// logo title
+		view.addSubview(logoTitleLabel)
+		logoTitleLabel.snp.makeConstraints {
+			$0.height.equalTo(47)
+			$0.top.equalTo(logoImageView.snp.bottom).offset(8)
+			$0.centerX.equalToSuperview()
+		}
+		//logo subtitle
+		view.addSubview(logoSubtitleLabel)
+		logoSubtitleLabel.snp.makeConstraints {
+			$0.top.equalTo(logoTitleLabel.snp.bottom).offset(-4)
+			$0.height.equalTo(17)
+			$0.centerX.equalToSuperview()
+		}
 		// login
 		view.addSubview(loginTextField)
-		loginTextField.snp.makeConstraints() {
-			$0.height.equalTo(50)
+		loginTextField.snp.makeConstraints {
+			$0.height.equalTo(48)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
 			$0.centerX.equalToSuperview()
-			$0.centerY.equalToSuperview().offset(-200)
-			$0.leading.equalToSuperview().offset(30)
-			$0.trailing.equalToSuperview().offset(-30)
+			$0.top.equalTo(logoSubtitleLabel.snp.bottom).offset(33)
 		}
 		// password
-		passwordTextField.attributedPlaceholder = NSAttributedString(string: "auth.password.placeholder".localized,
-																	 attributes: [NSAttributedString.Key.foregroundColor: Colors.placeholderColor])
 		view.addSubview(passwordTextField)
 		passwordTextField.snp.makeConstraints() {
-			$0.height.equalTo(50)
+			$0.height.equalTo(48)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
 			$0.centerX.equalToSuperview()
-			$0.top.equalTo(loginTextField.snp.bottom).offset(30)
-			$0.leading.equalToSuperview().offset(30)
-			$0.trailing.equalToSuperview().offset(-30)
+			$0.top.equalTo(loginTextField.snp.bottom)
 		}
 		// enter button
 		view.addSubview(enterButton)
@@ -113,14 +145,6 @@ AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtoco
 			$0.trailing.equalTo(forgetPasswordLabel.snp.trailing)
 			$0.top.equalTo(passwordTextField.snp.bottom).offset(60)
 			$0.width.height.equalTo(50)
-		}
-		// back button
-		guard isFromRegistration == true else { return }
-		view.addSubview(backButtonView)
-		backButtonView.snp.makeConstraints() {
-			$0.width.height.equalTo(50)
-			$0.top.equalToSuperview().offset(50)
-			$0.leading.equalToSuperview().offset(10)
 		}
 	}
 }

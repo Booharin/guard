@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import RxSwift
 
 final class RegistrationCoordinator: BaseCoordinator {
     
     var rootController: NavigationController?
     var onFinishFlow: (() -> Void)?
 	private let userType: UserType
+	private var disposeBag = DisposeBag()
 	
 	init(userType: UserType) {
 		self.userType = userType
@@ -23,16 +25,26 @@ final class RegistrationCoordinator: BaseCoordinator {
     }
     
     private func showRegistrationModule() {
-        let controller = RegistrationViewController(viewModel: RegistrationViewModel())
-        
-        controller.toSelectIssue = { [weak self] in
-			//UserDefaults.standard.set(true, forKey: Constants.UserDefaultsKeys.isLogin)
-            self?.toSelectIssue()
-        }
-		
-		controller.toAuth = { [weak self] in
-            self?.toAuth()
-        }
+		// to select issue
+		let toSelectIssueSubject = PublishSubject<Any>()
+		toSelectIssueSubject
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] _ in
+				self?.toSelectIssue()
+			})
+			.disposed(by: disposeBag)
+		// to auth
+		let toAuthSubject = PublishSubject<Any>()
+		toAuthSubject
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] _ in
+				self?.toAuth()
+			})
+			.disposed(by: disposeBag)
+
+		let registrationViewModel = RegistrationViewModel(toSelectIssueSubject: toSelectIssueSubject,
+														  toAuthSubject: toAuthSubject)
+        let controller = RegistrationViewController(viewModel: registrationViewModel)
 		
 		guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }
 		navVC.pushViewController(controller, animated: true)
@@ -49,11 +61,17 @@ final class RegistrationCoordinator: BaseCoordinator {
     }
 	
 	private func toAuth() {
-		let controller = AuthViewController(viewModel: AuthViewModel(),
-											isFromRegistration: true)
-        controller.toMain = { [weak self] in
-            self?.toMain()
-        }
+		let toMainSubject = PublishSubject<Any>()
+		toMainSubject
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] _ in
+				self?.toMain()
+			})
+			.disposed(by: disposeBag)
+
+		let viewModel = AuthViewModel(toMainSubject: toMainSubject)
+        let controller = AuthViewController(viewModel: viewModel)
+
 		guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }
 		navVC.pushViewController(controller, animated: true)
 	}

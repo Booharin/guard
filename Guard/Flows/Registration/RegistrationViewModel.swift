@@ -53,6 +53,15 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	
 	private var currentKeyboardHeight: CGFloat = 0
 	
+	let toSelectIssueSubject: PublishSubject<Any>?
+	let toAuthSubject: PublishSubject<Any>?
+    
+    init(toSelectIssueSubject: PublishSubject<Any>? = nil,
+		 toAuthSubject: PublishSubject<Any>? = nil) {
+        self.toSelectIssueSubject = toSelectIssueSubject
+		self.toAuthSubject = toAuthSubject
+    }
+	
 	func viewDidSet() {
 		// logo
 		view.logoTitleLabel.font = Saira.bold.of(size: 30)
@@ -140,7 +149,47 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				self?.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
 		
-		// check keyboard showing
+		// skip button
+		view.skipButtonView
+			.rx
+			.tapGesture()
+			.skip(1)
+			.do(onNext: { [unowned self] _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.skipButtonView.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.skipButtonView.alpha = 1
+					})
+				})
+			})
+			.subscribe(onNext: { [weak self] _ in
+				self?.toSelectIssueSubject?.onNext(())
+			}).disposed(by: disposeBag)
+		
+		// already registered button
+		view.alreadyRegisteredLabel.text = "registration.already_registered.title".localized
+		view.alreadyRegisteredLabel.font = Saira.light.of(size: 12)
+		view.alreadyRegisteredLabel.textAlignment = .center
+		view.alreadyRegisteredLabel.textColor = Colors.maintextColor
+		view.alreadyRegisteredLabel
+			.rx
+			.tapGesture()
+			.skip(1)
+			.do(onNext: { [unowned self] _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.alreadyRegisteredLabel.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.alreadyRegisteredLabel.alpha = 1
+					})
+				})
+			})
+			.subscribe(onNext: { [weak self] _ in
+				self?.toAuthSubject?.onNext(())
+			}).disposed(by: disposeBag)
+		
+		// MARK: - Check keyboard showing
 		keyboardHeight()
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [unowned self] keyboardHeight in
@@ -171,7 +220,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 						guard self.currentKeyboardHeight == 0 else { return }
 
 						self.view.enterButton.snp.updateConstraints {
-							$0.bottom.equalToSuperview().offset(-61)
+							$0.bottom.equalToSuperview().offset(-71)
 						}
 						// push up logo
 						self.view.logoImageView.snp.updateConstraints {
@@ -192,6 +241,15 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				}
 			})
 			.disposed(by: disposeBag)
+		
+		// swipe to go back
+		view.view
+		.rx
+		.swipeGesture(.right)
+		.skip(1)
+		.subscribe(onNext: { [unowned self] _ in
+			self.view.navController?.popViewController(animated: true)
+		}).disposed(by: disposeBag)
 		
 		defineCity()
 	}
@@ -238,13 +296,6 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		.asObservable()
 		.withLatestFrom(credentials)
         .filter { [unowned self] credentials in
-//			switch credentials.0 {
-//			case let s where s.count == 0:
-//				self.view.loginTextField.alertLabel.text = "registration.alert.empty.title".localized
-//			case let s where s.isValidEmail == false:
-//				self.view.loginTextField.alertLabel.text = "registration.alert.uncorrect_email.title".localized
-//			default: break
-//			}
 			
 			switch credentials.1 {
 			case let s where s.count < 8:
@@ -268,7 +319,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		.observeOn(MainScheduler.instance)
 		.subscribe(onNext: { [weak self] _ in
 			self?.view.loadingView.stopAnimating()
-			self?.view.toSelectIssue?()
+			self?.toSelectIssueSubject?.onNext(())
 			},onError:  { [weak self] error in
 			
 			#if DEBUG
