@@ -1,10 +1,10 @@
 /* 
-  Localizable.strings
-  Wheels
-
-  Created by Alexandr Bukharin on 23.06.2020.
-  Copyright © 2020 ds. All rights reserved.
-*/
+ Localizable.strings
+ Wheels
+ 
+ Created by Alexandr Bukharin on 23.06.2020.
+ Copyright © 2020 ds. All rights reserved.
+ */
 
 //CHOOSE
 "choose.title" = "Кто вы?";
@@ -14,13 +14,19 @@
 "choose.client.enter.button.subtitle" = "У вас проблемы с законом. Есть вопрос. Нужна помощь";
 
 //AUTH
-"auth.login.placeholder" = "логин";
-"auth.password.placeholder" = "пароль";
+"auth.login.placeholder" = "Логин";
+"auth.password.placeholder" = "Пароль";
 "auth.enter.title" = "Войти";
 "auth.alert.uncorrect_email.title" = "Некорректный email";
 "auth.alert.empty.title" = "Поле не может быть пустым";
 "auth.registration.title" = "Регистрация";
 "auth.forget_password.title" = "Забыли пароль?";
+
+//FORGOT PASSWORD
+"forgot.password.hint.title" = "Введите email указанный при регистрации";
+"forgot.password.email.title" = "Email";
+"forgot.password.alert.title" = "Некорректный email";
+"forgot.password.send.title" = "Отправить";
 
 //REGISTRATION
 "registration.logo.title" = "guard";

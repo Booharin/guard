@@ -21,10 +21,39 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 	private let textFieldAnimationDuration = 0.05
 	let authSubject = PublishSubject<Any>()
 	let toMainSubject: PublishSubject<Any>?
-    
-    init(toMainSubject: PublishSubject<Any>? = nil) {
-        self.toMainSubject = toMainSubject
-    }
+	let toChooseSubject: PublishSubject<Any>?
+	let toForgotPasswordSubject: PublishSubject<Any>?
+	
+	var logoTopOffset: CGFloat {
+		switch UIScreen.displayClass {
+		case .iPhone8:
+			return 10
+		case .iPhoneX:
+			return 41
+		case .iPhone8Plus:
+			return 41
+		case .iPhone11ProMax:
+			return 81
+		}
+	}
+	
+	var loginTextFieldOffset: CGFloat {
+		switch UIScreen.displayClass {
+		case .iPhone11ProMax:
+			return 33
+		case .iPhone8:
+			return 5
+		default: return 13
+		}
+	}
+	
+	init(toMainSubject: PublishSubject<Any>? = nil,
+		 toChooseSubject: PublishSubject<Any>? = nil,
+		 toForgotPasswordSubject: PublishSubject<Any>? = nil) {
+		self.toMainSubject = toMainSubject
+		self.toChooseSubject = toChooseSubject
+		self.toForgotPasswordSubject = toForgotPasswordSubject
+	}
 	
 	func viewDidSet() {
 		// logo
@@ -41,169 +70,172 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 		view.loginTextField
 			.rx
 			.text
-			.subscribe(onNext: { [unowned self] _ in
+			.subscribe(onNext: { _ in
 				
 			}).disposed(by: disposeBag)
 		
 		// password
-		view.passwordTextField.configure(placeholderText: "registration.password.placeholder".localized)
+		view.passwordTextField.configure(placeholderText: "registration.password.placeholder".localized,
+										 isSeparatorHidden: true)
 		view.passwordTextField.isSecureTextEntry = true
 		view.passwordTextField
 			.rx
 			.text
-			.subscribe(onNext: { [unowned self] _ in
+			.subscribe(onNext: { _ in
 				
 			}).disposed(by: disposeBag)
 		
-		// face id button
-		view.faceIDButton.tintColor = Colors.placeholderColor
-		view.faceIDButton
-		.rx
-		.tapGesture()
-		.skip(1)
-		.do(onNext: { [unowned self] _ in
-			UIView.animate(withDuration: self.animationDuration, animations: {
-				self.view.faceIDButton.alpha = 0.5
-			}, completion: { _ in
+		// registration button
+		view.registrationButton.titleLabel?.adjustsFontSizeToFitWidth = true
+		view.registrationButton
+			.rx
+			.tap
+			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
-					self.view.faceIDButton.alpha = 1
+					self.view.registrationButton.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.registrationButton.alpha = 1
+					})
 				})
 			})
-		})
-		.subscribe(onNext: { [unowned self] _ in
-			self.authenticateTapped()
-		}).disposed(by: disposeBag)
+			.subscribe(onNext: { [weak self] _ in
+				self?.toChooseSubject?.onNext(())
+			}).disposed(by: disposeBag)
 		
-		// registration
-		view.registrationLabel.text = "auth.registration.title".localized
-		view.registrationLabel.font = UIFont.systemFont(ofSize: 16)
-		view.registrationLabel.textColor = Colors.placeholderColor
-		view.registrationLabel
-		.rx
-		.tapGesture()
-		.skip(1)
-		.do(onNext: { [unowned self] _ in
-			UIView.animate(withDuration: self.animationDuration, animations: {
-				self.view.registrationLabel.alpha = 0.5
-			}, completion: { _ in
+		// face id button
+		view.faceIDButton
+			.rx
+			.tapGesture()
+			.skip(1)
+			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
-					self.view.registrationLabel.alpha = 1
+					self.view.faceIDButton.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.faceIDButton.alpha = 1
+					})
 				})
 			})
-		})
-		.subscribe(onNext: { [weak self] _ in
-			// to registration
-		}).disposed(by: disposeBag)
+			.subscribe(onNext: { [unowned self] _ in
+				self.authenticateTapped()
+			}).disposed(by: disposeBag)
 		
 		// forget password
 		view.forgetPasswordLabel.text = "auth.forget_password.title".localized
-		view.forgetPasswordLabel.font = UIFont.systemFont(ofSize: 16)
-		view.forgetPasswordLabel.textColor = Colors.placeholderColor
+		view.forgetPasswordLabel.font = Saira.light.of(size: 12)
+		view.forgetPasswordLabel.textColor = Colors.maintextColor
 		view.forgetPasswordLabel
-		.rx
-		.tapGesture()
-		.skip(1)
-		.do(onNext: { [unowned self] _ in
-			UIView.animate(withDuration: self.animationDuration, animations: {
-				self.view.forgetPasswordLabel.alpha = 0.5
-			}, completion: { _ in
+			.rx
+			.tapGesture()
+			.skip(1)
+			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
-					self.view.forgetPasswordLabel.alpha = 1
+					self.view.forgetPasswordLabel.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.forgetPasswordLabel.alpha = 1
+					})
 				})
 			})
-		})
-		.subscribe(onNext: { [weak self] _ in
-			// to forget password
-		}).disposed(by: disposeBag)
+			.subscribe(onNext: { [weak self] _ in
+				self?.toForgotPasswordSubject?.onNext(())
+			}).disposed(by: disposeBag)
 		
 		// enter button
 		view.enterButton
-		.rx
-		.tap
-		.do(onNext: { [unowned self] _ in
-			self.view.enterButton.animateBackground()
-		})
-		.subscribe(onNext: { [unowned self] _ in
-			self.loginUser()
-			self.authSubject.onNext(())
-		}).disposed(by: disposeBag)
+			.rx
+			.tap
+			.do(onNext: { [unowned self] _ in
+				self.view.enterButton.animateBackground()
+			})
+			.subscribe(onNext: { [unowned self] _ in
+				self.loginUser()
+				self.authSubject.onNext(())
+			}).disposed(by: disposeBag)
 		
-		// check keyboard showing
-        keyboardHeight()
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [unowned self] keyboardHeight in
-                if keyboardHeight > 0 {
-					self.view.enterButton.snp.updateConstraints() {
-						$0.bottom.equalToSuperview().offset(-(keyboardHeight + 30))
+		// MARK: - Check keyboard showing
+		keyboardHeight()
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [unowned self] keyboardHeight in
+				if keyboardHeight > 0 {
+					self.view.logoImageView.snp.updateConstraints {
+						$0.top.equalToSuperview().offset(self.logoTopOffset)
+					}
+					self.view.loginTextField.snp.makeConstraints {
+						$0.top.equalTo(self.view.logoSubtitleLabel.snp.bottom).offset(self.loginTextFieldOffset)
 					}
 					UIView.animate(withDuration: self.animationDuration, animations: {
 						self.view.view.layoutIfNeeded()
 					})
 				} else {
-					self.view.enterButton.snp.updateConstraints() {
-						$0.bottom.equalToSuperview().offset(-30)
+					self.view.logoImageView.snp.updateConstraints {
+						$0.top.equalToSuperview().offset(81)
+					}
+					self.view.loginTextField.snp.makeConstraints {
+						$0.top.equalTo(self.view.logoSubtitleLabel.snp.bottom).offset(33)
 					}
 					UIView.animate(withDuration: self.animationDuration, animations: {
 						self.view.view.layoutIfNeeded()
 					})
 				}
-            })
-            .disposed(by: disposeBag)
+			})
+			.disposed(by: disposeBag)
 		
-		//MARK: - Face id tapped
 		authenticateTapped()
 	}
 	
 	// MARK: - Login flow
-    private func loginUser() {
+	private func loginUser() {
 		let credentials = Observable.combineLatest(
-            view.loginTextField.rx.text,
-            view.passwordTextField.rx.text
-        ).filter { (login, password) -> Bool in
-            return true
-        }
-        .map { ($0?.withoutExtraSpaces ?? "", $1?.withoutExtraSpaces ?? "") }
+			view.loginTextField.rx.text,
+			view.passwordTextField.rx.text
+		).filter { (login, password) -> Bool in
+			return true
+		}
+		.map { ($0?.withoutExtraSpaces ?? "", $1?.withoutExtraSpaces ?? "") }
 		
 		authSubject
-		.asObservable()
-		.withLatestFrom(credentials)
-//        .filter { [unowned self] credentials in
-//            if credentials.0.count > 0 && credentials.1.count > 0 {
-//                if credentials.0.isValidEmail {
-//                    self.view.loadingView.startAnimating()
-//                    return true
-//                } else {
-//					self.view.loginTextField.alertLabel.text = "auth.alert.uncorrect_email.title".localized
-//                    return false
-//                }
-//            } else if credentials.0.count < 1 {
-//				self.view.loginTextField.alertLabel.text = "auth.alert.empty.title".localized
-//				if credentials.1.count < 1 {
-//					self.view.passwordTextField.alertLabel.text = "auth.alert.empty.title".localized
-//				}
-//                return false
-//			} else {
-//				self.view.passwordTextField.alertLabel.text = "auth.alert.empty.title".localized
-//				return false
-//			}
-//        }
-		.observeOn(MainScheduler.instance)
-		.subscribe(onNext: { [weak self] _ in
-			self?.view.loadingView.stopAnimating()
-			self?.toMainSubject?.onNext(())
-		}).disposed(by: disposeBag)
+			.asObservable()
+			.withLatestFrom(credentials)
+			//        .filter { [unowned self] credentials in
+			//            if credentials.0.count > 0 && credentials.1.count > 0 {
+			//                if credentials.0.isValidEmail {
+			//                    self.view.loadingView.startAnimating()
+			//                    return true
+			//                } else {
+			//					self.view.loginTextField.alertLabel.text = "auth.alert.uncorrect_email.title".localized
+			//                    return false
+			//                }
+			//            } else if credentials.0.count < 1 {
+			//				self.view.loginTextField.alertLabel.text = "auth.alert.empty.title".localized
+			//				if credentials.1.count < 1 {
+			//					self.view.passwordTextField.alertLabel.text = "auth.alert.empty.title".localized
+			//				}
+			//                return false
+			//			} else {
+			//				self.view.passwordTextField.alertLabel.text = "auth.alert.empty.title".localized
+			//				return false
+			//			}
+			//        }
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] _ in
+				self?.view.loadingView.stopAnimating()
+				self?.toMainSubject?.onNext(())
+			}).disposed(by: disposeBag)
 	}
 	
+	//MARK: - Face id tapped
 	private func authenticateTapped() {
 		let context = LAContext()
 		var error: NSError?
-
+		
 		if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
 			let reason = "Authorization"
-
+			
 			context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {
 				[weak self] success, authenticationError in
-
+				
 				DispatchQueue.main.async {
 					if success {
 						self?.view.loginTextField.text = "admin@admin.ru"

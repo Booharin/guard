@@ -17,8 +17,8 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	private var disposeBag = DisposeBag()
 	
 	typealias Dependencies =
-        HasLocationService
-    lazy var di: Dependencies = DI.dependencies
+	HasLocationService
+	lazy var di: Dependencies = DI.dependencies
 	
 	var logoTopOffset: CGFloat {
 		switch UIScreen.displayClass {
@@ -55,12 +55,12 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	
 	let toSelectIssueSubject: PublishSubject<Any>?
 	let toAuthSubject: PublishSubject<Any>?
-    
-    init(toSelectIssueSubject: PublishSubject<Any>? = nil,
+	
+	init(toSelectIssueSubject: PublishSubject<Any>? = nil,
 		 toAuthSubject: PublishSubject<Any>? = nil) {
-        self.toSelectIssueSubject = toSelectIssueSubject
+		self.toSelectIssueSubject = toSelectIssueSubject
 		self.toAuthSubject = toAuthSubject
-    }
+	}
 	
 	func viewDidSet() {
 		// logo
@@ -71,7 +71,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		view.logoSubtitleLabel.font = SFUIDisplay.regular.of(size: 14)
 		view.logoSubtitleLabel.textColor = Colors.maintextColor
 		view.logoSubtitleLabel.text = "registration.logo.subtitle".localized
-
+		
 		// login
 		view.loginTextField.configure(placeholderText: "registration.login.placeholder".localized)
 		view.loginTextField
@@ -80,7 +80,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [unowned self] _ in
 				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
-
+		
 		// password
 		view.passwordTextField.isSecureTextEntry = true
 		view.passwordTextField.configure(placeholderText: "registration.password.placeholder".localized)
@@ -90,7 +90,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [unowned self] _ in
 				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
-
+		
 		// confirmation password
 		view.confirmationPasswordTextField.configure(placeholderText: "registration.confirm_password.placeholder".localized)
 		view.confirmationPasswordTextField.isSecureTextEntry = true
@@ -102,7 +102,8 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 		
 		//city
-		view.cityTextField.configure(placeholderText: "registration.city.placeholder".localized)
+		view.cityTextField.configure(placeholderText: "registration.city.placeholder".localized,
+									 isSeparatorHidden: true)
 		view.cityTextField
 			.rx
 			.text
@@ -117,7 +118,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		view.alertLabel.font = SFUIDisplay.regular.of(size: 15)
 		
 		// MARK: - Buttons
-
+		
 		// enter button
 		view.enterButton.isEnabled = false
 		view.enterButton
@@ -218,7 +219,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 					DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
 						// check that keyboard not showing again
 						guard self.currentKeyboardHeight == 0 else { return }
-
+						
 						self.view.enterButton.snp.updateConstraints {
 							$0.bottom.equalToSuperview().offset(-71)
 						}
@@ -244,12 +245,12 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		
 		// swipe to go back
 		view.view
-		.rx
-		.swipeGesture(.right)
-		.skip(1)
-		.subscribe(onNext: { [unowned self] _ in
-			self.view.navController?.popViewController(animated: true)
-		}).disposed(by: disposeBag)
+			.rx
+			.swipeGesture(.right)
+			.skip(1)
+			.subscribe(onNext: { [unowned self] _ in
+				self.view.navController?.popViewController(animated: true)
+			}).disposed(by: disposeBag)
 		
 		defineCity()
 	}
@@ -261,12 +262,12 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			return
 		}
 		currentKeyboardHeight = keyboardHeight
-
+		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
 			self.view.enterButton.snp.updateConstraints {
 				$0.bottom.equalToSuperview().offset(-(self.currentKeyboardHeight + 10))
 			}
-
+			
 			UIView.animate(withDuration: self.animationDuration, animations: {
 				self.view.view.layoutIfNeeded()
 			})
@@ -274,15 +275,15 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	}
 	
 	// MARK: - Login flow
-    private func registerUser() {
+	private func registerUser() {
 		let credentials = Observable.combineLatest(
-            view.loginTextField.rx.text,
-            view.passwordTextField.rx.text,
+			view.loginTextField.rx.text,
+			view.passwordTextField.rx.text,
 			view.confirmationPasswordTextField.rx.text,
 			view.cityTextField.rx.text
-        ).filter { (login, password, confirmedPassword, city) -> Bool in
-            return true
-        }
+		).filter { (login, password, confirmedPassword, city) -> Bool in
+			return true
+		}
 		.map {(
 			$0?.withoutExtraSpaces ?? "",
 			$1?.withoutExtraSpaces ?? "",
@@ -293,40 +294,40 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		registrationSubject = PublishSubject<Any>()
 		
 		registrationSubject?
-		.asObservable()
-		.withLatestFrom(credentials)
-        .filter { [unowned self] credentials in
-			
-			switch credentials.1 {
-			case let s where s.count < 8:
-				self.turnWarnings(with: "registration.alert.password_too_short.title".localized)
-				return false
-			default: break
-			}
-			
-			switch credentials.2 {
-			case let s where s != credentials.1:
-				self.turnWarnings(with: "registration.alert.passwords_different.title".localized)
-			default: break
-			}
-			
-			if self.view.alertLabel.text?.isEmpty ?? false {
-				return true
-			} else {
-				return false
-			}
-        }
+			.asObservable()
+			.withLatestFrom(credentials)
+			.filter { [unowned self] credentials in
+				
+				switch credentials.1 {
+				case let s where s.count < 8:
+					self.turnWarnings(with: "registration.alert.password_too_short.title".localized)
+					return false
+				default: break
+				}
+				
+				switch credentials.2 {
+				case let s where s != credentials.1:
+					self.turnWarnings(with: "registration.alert.passwords_different.title".localized)
+				default: break
+				}
+				
+				if self.view.alertLabel.text?.isEmpty ?? false {
+					return true
+				} else {
+					return false
+				}
+		}
 		.observeOn(MainScheduler.instance)
 		.subscribe(onNext: { [weak self] _ in
 			self?.view.loadingView.stopAnimating()
 			self?.toSelectIssueSubject?.onNext(())
 			},onError:  { [weak self] error in
-			
-			#if DEBUG
-			print(error.localizedDescription)
-			#endif
-			
-			self?.view.loadingView.stopAnimating()
+				
+				#if DEBUG
+				print(error.localizedDescription)
+				#endif
+				
+				self?.view.loadingView.stopAnimating()
 		}).disposed(by: disposeBag)
 	}
 	
@@ -353,18 +354,18 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	}
 	
 	private func checkAreTextFieldsEmpty() {
-
+		
 		guard
 			let loginText = view.loginTextField.text,
 			let passwordText = view.passwordTextField.text,
 			let repeatedPasswordText = view.confirmationPasswordTextField.text,
 			let cityText = view.cityTextField.text else { return }
-
+		
 		if !loginText.isEmpty,
 			!passwordText.isEmpty,
 			!repeatedPasswordText.isEmpty,
 			!cityText.isEmpty {
-
+			
 			view.enterButton.isEnabled = true
 			view.enterButton.backgroundColor = Colors.mainColor
 		} else {
@@ -379,7 +380,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				let text = view.alertLabel.text,
 				!text.isEmpty else { return }
 			view.alertLabel.text = ""
-
+			
 			view.loginTextField.textColor = Colors.maintextColor
 			view.passwordTextField.textColor = Colors.maintextColor
 			view.confirmationPasswordTextField.textColor = Colors.maintextColor
@@ -387,7 +388,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		} else {
 			view.view.endEditing(true)
 			view.alertLabel.text = text
-
+			
 			view.loginTextField.textColor = Colors.warningColor
 			view.passwordTextField.textColor = Colors.warningColor
 			view.confirmationPasswordTextField.textColor = Colors.warningColor

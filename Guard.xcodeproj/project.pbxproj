@@ -11,16 +11,17 @@
 		5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210399824C4D688004560FD /* SelectIssueViewModel.swift */; };
 		5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */; };
 		521E649924F8433D00FF96ED /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 521E649B24F8433D00FF96ED /* Localizable.strings */; };
-		521E64AA24F8480600FF96ED /* SF_UI_Display-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 521E64A924F8480600FF96ED /* SF_UI_Display-regular.ttf */; };
+		521E64AA24F8480600FF96ED /* sf-ui-display-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 521E64A924F8480600FF96ED /* sf-ui-display-regular.ttf */; };
 		521E64B024F849CC00FF96ED /* Saira-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 521E64AC24F849CC00FF96ED /* Saira-Medium.ttf */; };
 		521E64B124F849CC00FF96ED /* Saira-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 521E64AD24F849CC00FF96ED /* Saira-Light.ttf */; };
 		521E64B224F849CC00FF96ED /* Saira-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 521E64AE24F849CC00FF96ED /* Saira-Regular.ttf */; };
 		521E64B324F849CC00FF96ED /* Saira-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 521E64AF24F849CC00FF96ED /* Saira-Bold.ttf */; };
 		521E64B624F84B0200FF96ED /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521E64B524F84B0200FF96ED /* FontHelper.swift */; };
-		521E64C024F8F7A600FF96ED /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 521E64BD24F8F77900FF96ED /* Info.plist */; };
 		521E64C224F8F7EA00FF96ED /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521E64C124F8F7EA00FF96ED /* Default-568h@2x.png */; };
 		521E64C524F8FB6A00FF96ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521E64C324F8FB6A00FF96ED /* LaunchScreen.storyboard */; };
 		521E64CF24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521E64CE24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift */; };
+		52212F8324FFDD24003FA67E /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52212F8224FFDD24003FA67E /* ForgotPasswordViewController.swift */; };
+		52212F8524FFDD41003FA67E /* ForgotPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52212F8424FFDD41003FA67E /* ForgotPasswordViewModel.swift */; };
 		5222B68624C75609000BEE13 /* UITableViewCell+Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B68524C75609000BEE13 /* UITableViewCell+Identifier.swift */; };
 		5222B68824C7594C000BEE13 /* Differentiator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5222B68724C7594C000BEE13 /* Differentiator.framework */; };
 		5222B68924C7594C000BEE13 /* Differentiator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5222B68724C7594C000BEE13 /* Differentiator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -105,7 +106,7 @@
 		5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewModel.swift; sourceTree = "<group>"; };
 		521E649A24F8433D00FF96ED /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		521E649C24F8434100FF96ED /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		521E64A924F8480600FF96ED /* SF_UI_Display-regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF_UI_Display-regular.ttf"; sourceTree = "<group>"; };
+		521E64A924F8480600FF96ED /* sf-ui-display-regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sf-ui-display-regular.ttf"; sourceTree = "<group>"; };
 		521E64AC24F849CC00FF96ED /* Saira-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Medium.ttf"; sourceTree = "<group>"; };
 		521E64AD24F849CC00FF96ED /* Saira-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Light.ttf"; sourceTree = "<group>"; };
 		521E64AE24F849CC00FF96ED /* Saira-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Regular.ttf"; sourceTree = "<group>"; };
@@ -117,6 +118,8 @@
 		521E64C124F8F7EA00FF96ED /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		521E64C624F8FB7700FF96ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		521E64CE24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+iPhoneType.swift"; sourceTree = "<group>"; };
+		52212F8224FFDD24003FA67E /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		52212F8424FFDD41003FA67E /* ForgotPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewModel.swift; sourceTree = "<group>"; };
 		5222B68524C75609000BEE13 /* UITableViewCell+Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Identifier.swift"; sourceTree = "<group>"; };
 		5222B68724C7594C000BEE13 /* Differentiator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Differentiator.framework; path = Carthage/Build/iOS/Differentiator.framework; sourceTree = "<group>"; };
 		5222B68B24C75AB3000BEE13 /* SelectIssueTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueTableViewCell.swift; sourceTree = "<group>"; };
@@ -149,6 +152,7 @@
 		5253753224B84D5200CC729C /* ChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewController.swift; sourceTree = "<group>"; };
 		5253753624B84F0200CC729C /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		52597DC424BB8FC9005A922F /* RxGesture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxGesture.framework; path = Carthage/Build/iOS/RxGesture.framework; sourceTree = "<group>"; };
+		527D11A624FFAA6A0040F990 /* sf-ui-display-medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sf-ui-display-medium.otf"; sourceTree = "<group>"; };
 		52B278C724C09621001E7295 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		52B278C924C0964F001E7295 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -217,7 +221,8 @@
 		521E64A624F8470D00FF96ED /* SF */ = {
 			isa = PBXGroup;
 			children = (
-				521E64A924F8480600FF96ED /* SF_UI_Display-regular.ttf */,
+				521E64A924F8480600FF96ED /* sf-ui-display-regular.ttf */,
+				527D11A624FFAA6A0040F990 /* sf-ui-display-medium.otf */,
 			);
 			path = SF;
 			sourceTree = "<group>";
@@ -247,6 +252,15 @@
 				521E64CE24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift */,
 			);
 			path = UIScreen;
+			sourceTree = "<group>";
+		};
+		52212F8124FFDCE0003FA67E /* ForgotPassword */ = {
+			isa = PBXGroup;
+			children = (
+				52212F8224FFDD24003FA67E /* ForgotPasswordViewController.swift */,
+				52212F8424FFDD41003FA67E /* ForgotPasswordViewModel.swift */,
+			);
+			path = ForgotPassword;
 			sourceTree = "<group>";
 		};
 		5222B68424C755E6000BEE13 /* UITableViewCell */ = {
@@ -371,6 +385,7 @@
 				52EB81BE24B9DD5B003285BC /* Registration */,
 				5251AFA824A2821A00467E84 /* AuthViewController */,
 				52483BAC24A2793B0003A56A /* Main */,
+				52212F8124FFDCE0003FA67E /* ForgotPassword */,
 			);
 			path = Flows;
 			sourceTree = "<group>";
@@ -610,7 +625,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = ds;
 				TargetAttributes = {
 					52483B9024A2774E0003A56A = {
@@ -647,11 +662,10 @@
 				52483B9E24A2774F0003A56A /* Assets.xcassets in Resources */,
 				521E64C524F8FB6A00FF96ED /* LaunchScreen.storyboard in Resources */,
 				521E64B224F849CC00FF96ED /* Saira-Regular.ttf in Resources */,
-				521E64AA24F8480600FF96ED /* SF_UI_Display-regular.ttf in Resources */,
+				521E64AA24F8480600FF96ED /* sf-ui-display-regular.ttf in Resources */,
 				521E64B024F849CC00FF96ED /* Saira-Medium.ttf in Resources */,
 				521E649924F8433D00FF96ED /* Localizable.strings in Resources */,
 				521E64B124F849CC00FF96ED /* Saira-Light.ttf in Resources */,
-				521E64C024F8F7A600FF96ED /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -668,6 +682,7 @@
 				5251AFB724A2853A00467E84 /* NavigationController.swift in Sources */,
 				52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */,
 				5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */,
+				52212F8524FFDD41003FA67E /* ForgotPasswordViewModel.swift in Sources */,
 				5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */,
 				52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */,
 				5251AFB024A2829200467E84 /* Colors.swift in Sources */,
@@ -686,6 +701,7 @@
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
 				52B278CA24C0964F001E7295 /* LocationService.swift in Sources */,
 				521E64CF24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift in Sources */,
+				52212F8324FFDD24003FA67E /* ForgotPasswordViewController.swift in Sources */,
 				521E64B624F84B0200FF96ED /* FontHelper.swift in Sources */,
 				52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */,
 				523FF71624BD7EAB00C4F959 /* RegistrationViewModel.swift in Sources */,

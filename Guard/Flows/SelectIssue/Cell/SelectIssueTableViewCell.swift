@@ -14,11 +14,11 @@ class SelectIssueTableViewCell: UITableViewCell {
 	private let separatorView = UIView()
 	
 	var viewModel: SelectIssueCellViewModel! {
-        didSet {
-            self.configure()
-        }
-    }
-
+		didSet {
+			self.configure()
+		}
+	}
+	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		addViews()
@@ -46,11 +46,11 @@ class SelectIssueTableViewCell: UITableViewCell {
 	}
 	
 	private func configure() {
-        issueTitle.text = viewModel.title
-		issueTitle.textColor = Colors.white
+		issueTitle.text = viewModel.title
+		issueTitle.textColor = Colors.whiteColor
 		issueTitle.numberOfLines = 0
 		backgroundColor = Colors.whiteColor
 		separatorView.backgroundColor = Colors.separator
 		selectionStyle = .none
-    }
+	}
 }

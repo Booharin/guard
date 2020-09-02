@@ -22,6 +22,5 @@ struct Colors {
 	
 	static let textFieldBackground = #colorLiteral(red: 0.09019608051, green: 0, blue: 0.3019607961, alpha: 1)
 	static let textFieldEmptyBackground = UIColor.black
-	static let white = UIColor.white
 	static let separator = #colorLiteral(red: 0.3607531488, green: 0.3608189225, blue: 0.3607444763, alpha: 1)
 }

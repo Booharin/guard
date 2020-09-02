@@ -8,22 +8,22 @@
 
 protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
 	var scrollView: UIScrollView { get }
-
+	
 	var logoImageView: UIImageView { get }
 	var logoTitleLabel: UILabel { get }
 	var logoSubtitleLabel: UILabel { get }
-
+	
 	var loginTextField: TextField { get }
-    var passwordTextField: TextField { get }
+	var passwordTextField: TextField { get }
 	var confirmationPasswordTextField: TextField { get }
 	var cityTextField: TextField { get }
 	var alertLabel: UILabel { get }
-
+	
 	var enterButton: ConfirmButton { get }
 	var backButtonView: BackButtonView { get }
 	var skipButtonView: SkipButtonView { get }
 	var alreadyRegisteredLabel: UILabel { get }
-
+	
 	var loadingView: UIActivityIndicatorView { get }
 }
 
@@ -38,60 +38,56 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 	}
 	
 	var scrollView = UIScrollView()
-
+	
 	var logoImageView = UIImageView(image: #imageLiteral(resourceName: "logo_middle_icn"))
 	var logoTitleLabel = UILabel()
 	var logoSubtitleLabel = UILabel()
-
+	
 	var loginTextField = TextField()
 	var passwordTextField = TextField()
 	var confirmationPasswordTextField = TextField()
 	var cityTextField = TextField()
 	var alertLabel = UILabel()
-
+	
 	var enterButton = ConfirmButton(title: "registration.sign_up.title".localized.uppercased())
 	var backButtonView = BackButtonView()
 	var skipButtonView = SkipButtonView()
 	var alreadyRegisteredLabel = UILabel()
-
+	
 	var loadingView = UIActivityIndicatorView(style: .medium)
-
+	
 	init(viewModel: modelType) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-
+		self.viewModel = viewModel
+		super.init(nibName: nil, bundle: nil)
+	}
+	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
 		self.viewModel.assosiateView(self)
 		view.backgroundColor = Colors.whiteColor
 		addViews()
 		setNavigationBar()
-    }
-
+	}
+	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
 	}
-
+	
 	func setNavigationBar() {
 		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
 		let rightBarButtonItem = UIBarButtonItem(customView: skipButtonView)
 		self.navigationItem.leftBarButtonItem = leftBarButtonItem
 		self.navigationItem.rightBarButtonItem = rightBarButtonItem
 	}
-
-	@objc func backToMain() {
-		self.navigationController?.popViewController(animated: true)
-	}
-
+	
 	private func addViews() {
 		// scroll view
 		view.addSubview(scrollView)
@@ -181,8 +177,8 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		// loading view
 		scrollView.addSubview(loadingView)
 		loadingView.hidesWhenStopped = true
-        loadingView.snp.makeConstraints {
-            $0.center.equalTo(scrollView.snp.center)
-        }
+		loadingView.snp.makeConstraints {
+			$0.center.equalTo(scrollView.snp.center)
+		}
 	}
 }

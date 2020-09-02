@@ -9,21 +9,33 @@
 import UIKit
 /// Button for confirmation
 final class ConfirmButton: UIButton {
-
+	
 	private let animationDuration = 0.1
 	
 	init(title: String = "",
 		 backgroundColor: UIColor = Colors.buttonDisabledColor,
-		 cornerRadius: CGFloat = 25) {
+		 cornerRadius: CGFloat = 25,
+		 image: UIImage? = nil) {
 		super.init(frame: .zero)
-		
-		setTitle(title, for: .normal)
-		setTitleColor(Colors.white, for: .normal)
 		layer.cornerRadius = cornerRadius
 		self.backgroundColor = backgroundColor
-
-		titleEdgeInsets = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: -25)
-		contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 48)
+		
+		// image
+		if let image = image {
+			tintColor = Colors.mainColor
+			setImage(image, for: .normal)
+			layer.borderColor = Colors.mainColor.cgColor
+			layer.borderWidth = 1
+			imageView?.contentMode = .scaleAspectFit
+			contentEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+		} else {
+			// title
+			setTitle(title, for: .normal)
+			titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)//SFUIDisplay.medium.of(size: 15)
+			setTitleColor(Colors.whiteColor, for: .normal)
+			titleEdgeInsets = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: -25)
+			contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 48)
+		}
 	}
 	
 	required init?(coder: NSCoder) {

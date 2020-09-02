@@ -10,7 +10,8 @@ import UIKit
 
 enum SFUIDisplay: String {
 	case regular = "SFUIDisplay-Regular"
-
+	case medium = "SFUIDisplay-Medium"
+	
 	func of(size: CGFloat) -> UIFont {
 		return UIFont(name: rawValue, size: size) ?? UIFont.systemFont(ofSize: size)
 	}
@@ -21,7 +22,7 @@ enum Saira: String {
 	case bold = "Saira-Bold"
 	case light = "Saira-Light"
 	case medium = "Saira-Medium"
-
+	
 	func of(size: CGFloat) -> UIFont {
 		return UIFont(name: rawValue, size: size) ?? UIFont.systemFont(ofSize: size)
 	}
