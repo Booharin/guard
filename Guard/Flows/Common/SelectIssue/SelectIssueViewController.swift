@@ -36,7 +36,6 @@ SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewCon
 		self.viewModel.assosiateView(self)
 		addViews()
 		self.navigationItem.setHidesBackButton(true, animated: false)
-		title = "select_issue.title".localized
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -47,11 +46,13 @@ SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewCon
 	
 	private func addViews() {
 		// table view
-		tableView.register(SelectIssueTableViewCell.self, forCellReuseIdentifier: SelectIssueTableViewCell.reuseIdentifier)
+		tableView.register(SelectIssueTableViewCell.self,
+						   forCellReuseIdentifier: SelectIssueTableViewCell.reuseIdentifier)
 		tableView.tableFooterView = UIView()
 		tableView.backgroundColor = Colors.whiteColor
 		tableView.rowHeight = UITableView.automaticDimension
-		tableView.estimatedRowHeight = 71
+		tableView.estimatedRowHeight = 82
+		tableView.separatorStyle = .none
 		view.addSubview(tableView)
 		tableView.snp.makeConstraints {
 			$0.edges.equalToSuperview()

@@ -22,7 +22,6 @@ final class ApplicationCoordinator: BaseCoordinator {
 		let coordinator = ChooseCoordinator()
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)
-			self?.start()
 		}
 		addDependency(coordinator)
 		coordinator.start()
@@ -32,7 +31,6 @@ final class ApplicationCoordinator: BaseCoordinator {
 		let coordinator = AuthCoordinator()
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)
-			self?.start()
 		}
 		addDependency(coordinator)
 		coordinator.start()

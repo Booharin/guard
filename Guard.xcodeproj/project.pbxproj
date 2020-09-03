@@ -36,7 +36,6 @@
 		523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523FF71824BD970A00C4F959 /* BackButtonView.swift */; };
 		52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52483B9424A2774E0003A56A /* AppDelegate.swift */; };
 		52483B9E24A2774F0003A56A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52483B9D24A2774F0003A56A /* Assets.xcassets */; };
-		52483BB024A279AC0003A56A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52483BAF24A279AC0003A56A /* MainViewController.swift */; };
 		52483BB324A279E40003A56A /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52483BB224A279E40003A56A /* BaseCoordinator.swift */; };
 		52483BB524A279FC0003A56A /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52483BB424A279FC0003A56A /* ApplicationCoordinator.swift */; };
 		52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52483BB624A27A120003A56A /* MainCoordinator.swift */; };
@@ -58,6 +57,9 @@
 		5253753724B84F0200CC729C /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753624B84F0200CC729C /* UserProfile.swift */; };
 		52597DC524BB8FC9005A922F /* RxGesture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; };
 		52597DC624BB8FC9005A922F /* RxGesture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		52760C4A2501731C00080152 /* LawyerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52760C492501731C00080152 /* LawyerListViewController.swift */; };
+		52760C4C2501736600080152 /* LawyersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52760C4B2501736600080152 /* LawyersListViewModel.swift */; };
+		52901BE82501002400271CAC /* ClientIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52901BE72501002400271CAC /* ClientIssue.swift */; };
 		52B278C824C09621001E7295 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C724C09621001E7295 /* Dependencies.swift */; };
 		52B278CA24C0964F001E7295 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C924C0964F001E7295 /* LocationService.swift */; };
 		52C5F4C424C9D90D00FB2DA8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */; };
@@ -76,7 +78,6 @@
 		52EB81D024B9ED02003285BC /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52EB81CE24B9ED02003285BC /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81D224B9F245003285BC /* String+withoutExtraSpaces.swift */; };
 		52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */; };
-		52FE598724C61DCD001B80C6 /* SelectIssueCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FE598624C61DCD001B80C6 /* SelectIssueCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -133,7 +134,6 @@
 		52483B9124A2774E0003A56A /* Guard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Guard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52483B9424A2774E0003A56A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../../AppDelegate.swift; sourceTree = "<group>"; };
 		52483B9D24A2774F0003A56A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		52483BAF24A279AC0003A56A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		52483BB224A279E40003A56A /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		52483BB424A279FC0003A56A /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
 		52483BB624A27A120003A56A /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -152,7 +152,10 @@
 		5253753224B84D5200CC729C /* ChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewController.swift; sourceTree = "<group>"; };
 		5253753624B84F0200CC729C /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		52597DC424BB8FC9005A922F /* RxGesture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxGesture.framework; path = Carthage/Build/iOS/RxGesture.framework; sourceTree = "<group>"; };
+		52760C492501731C00080152 /* LawyerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerListViewController.swift; sourceTree = "<group>"; };
+		52760C4B2501736600080152 /* LawyersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListViewModel.swift; sourceTree = "<group>"; };
 		527D11A624FFAA6A0040F990 /* sf-ui-display-medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sf-ui-display-medium.otf"; sourceTree = "<group>"; };
+		52901BE72501002400271CAC /* ClientIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIssue.swift; sourceTree = "<group>"; };
 		52B278C724C09621001E7295 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		52B278C924C0964F001E7295 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -168,7 +171,6 @@
 		52EB81CE24B9ED02003285BC /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxRelay.framework; path = Carthage/Build/iOS/RxRelay.framework; sourceTree = "<group>"; };
 		52EB81D224B9F245003285BC /* String+withoutExtraSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+withoutExtraSpaces.swift"; sourceTree = "<group>"; };
 		52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+isvalidEmail.swift"; sourceTree = "<group>"; };
-		52FE598624C61DCD001B80C6 /* SelectIssueCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -378,24 +380,12 @@
 		52483BAB24A279340003A56A /* Flows */ = {
 			isa = PBXGroup;
 			children = (
+				52760C4425016BCD00080152 /* Common */,
 				52C5F4C224C9D8F200FB2DA8 /* Profile */,
-				5210399524C4D612004560FD /* SelectIssue */,
-				52483BAE24A279760003A56A /* Launch */,
-				5253753424B84D5700CC729C /* Choose */,
-				52EB81BE24B9DD5B003285BC /* Registration */,
-				5251AFA824A2821A00467E84 /* AuthViewController */,
-				52483BAC24A2793B0003A56A /* Main */,
-				52212F8124FFDCE0003FA67E /* ForgotPassword */,
+				52760C45250172A000080152 /* Lawyer */,
+				52760C46250172CE00080152 /* Client */,
 			);
 			path = Flows;
-			sourceTree = "<group>";
-		};
-		52483BAC24A2793B0003A56A /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				52483BAF24A279AC0003A56A /* MainViewController.swift */,
-			);
-			path = Main;
 			sourceTree = "<group>";
 		};
 		52483BAD24A279470003A56A /* Services */ = {
@@ -424,7 +414,6 @@
 				52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */,
 				5251AFB124A2837D00467E84 /* AuthCoordinator.swift */,
 				52483BB624A27A120003A56A /* MainCoordinator.swift */,
-				52FE598624C61DCD001B80C6 /* SelectIssueCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -547,8 +536,46 @@
 			isa = PBXGroup;
 			children = (
 				5253753624B84F0200CC729C /* UserProfile.swift */,
+				52901BE72501002400271CAC /* ClientIssue.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		52760C4425016BCD00080152 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				5210399524C4D612004560FD /* SelectIssue */,
+				52483BAE24A279760003A56A /* Launch */,
+				52EB81BE24B9DD5B003285BC /* Registration */,
+				5251AFA824A2821A00467E84 /* AuthViewController */,
+				5253753424B84D5700CC729C /* Choose */,
+				52212F8124FFDCE0003FA67E /* ForgotPassword */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		52760C45250172A000080152 /* Lawyer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Lawyer;
+			sourceTree = "<group>";
+		};
+		52760C46250172CE00080152 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				52760C48250172F200080152 /* LawyersList */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
+		52760C48250172F200080152 /* LawyersList */ = {
+			isa = PBXGroup;
+			children = (
+				52760C492501731C00080152 /* LawyerListViewController.swift */,
+				52760C4B2501736600080152 /* LawyersListViewModel.swift */,
+			);
+			path = LawyersList;
 			sourceTree = "<group>";
 		};
 		52C5F4C224C9D8F200FB2DA8 /* Profile */ = {
@@ -696,7 +723,6 @@
 				52483BB324A279E40003A56A /* BaseCoordinator.swift in Sources */,
 				52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */,
 				5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */,
-				52483BB024A279AC0003A56A /* MainViewController.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
 				52B278CA24C0964F001E7295 /* LocationService.swift in Sources */,
@@ -711,8 +737,9 @@
 				5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */,
 				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,
 				5251AFB424A283B000467E84 /* Constants.swift in Sources */,
+				52760C4A2501731C00080152 /* LawyerListViewController.swift in Sources */,
 				52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */,
-				52FE598724C61DCD001B80C6 /* SelectIssueCoordinator.swift in Sources */,
+				52760C4C2501736600080152 /* LawyersListViewModel.swift in Sources */,
 				52B278C824C09621001E7295 /* Dependencies.swift in Sources */,
 				52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */,
 				52483BB524A279FC0003A56A /* ApplicationCoordinator.swift in Sources */,
@@ -721,6 +748,7 @@
 				52C5F4C424C9D90D00FB2DA8 /* ProfileViewController.swift in Sources */,
 				5251AFB224A2837D00467E84 /* AuthCoordinator.swift in Sources */,
 				5251AFC224A28FBC00467E84 /* String+Localizable.swift in Sources */,
+				52901BE82501002400271CAC /* ClientIssue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

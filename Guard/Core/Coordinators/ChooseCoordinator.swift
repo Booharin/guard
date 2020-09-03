@@ -19,8 +19,8 @@ final class ChooseCoordinator: BaseCoordinator {
 	private func showChooseModule() {
 		let controller = ChooseViewController(viewModel: ChooseViewModel())
 		
-		controller.toRegistration = { [weak self] userType in
-			self?.toRegistration(userType)
+		controller.toRegistration = { userType in
+			self.toRegistration(userType)
 		}
 		
 		if let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController {
@@ -36,7 +36,7 @@ final class ChooseCoordinator: BaseCoordinator {
 		let coordinator = RegistrationCoordinator(userType: userType)
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)
-			self?.start()
+			self?.onFinishFlow?()
 		}
 		addDependency(coordinator)
 		coordinator.start()

@@ -20,7 +20,7 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 	private let animationDuration = 0.15
 	private let textFieldAnimationDuration = 0.05
 	let authSubject = PublishSubject<Any>()
-	let toMainSubject: PublishSubject<Any>?
+	let toMainSubject: PublishSubject<UserType>?
 	let toChooseSubject: PublishSubject<Any>?
 	let toForgotPasswordSubject: PublishSubject<Any>?
 	
@@ -47,7 +47,7 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 		}
 	}
 	
-	init(toMainSubject: PublishSubject<Any>? = nil,
+	init(toMainSubject: PublishSubject<UserType>? = nil,
 		 toChooseSubject: PublishSubject<Any>? = nil,
 		 toForgotPasswordSubject: PublishSubject<Any>? = nil) {
 		self.toMainSubject = toMainSubject
@@ -221,7 +221,7 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] _ in
 				self?.view.loadingView.stopAnimating()
-				self?.toMainSubject?.onNext(())
+				self?.toMainSubject?.onNext(.client)
 			}).disposed(by: disposeBag)
 	}
 	
@@ -240,7 +240,7 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 					if success {
 						self?.view.loginTextField.text = "admin@admin.ru"
 						self?.view.passwordTextField.text = "12345"
-						self?.toMainSubject?.onNext(())
+						self?.toMainSubject?.onNext(.client)
 					} else {
 						// error
 					}

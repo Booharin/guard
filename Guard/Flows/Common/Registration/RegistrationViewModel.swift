@@ -311,7 +311,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				default: break
 				}
 				
-				if self.view.alertLabel.text?.isEmpty ?? false {
+				if self.view.alertLabel.text?.isEmpty ?? true {
 					return true
 				} else {
 					return false

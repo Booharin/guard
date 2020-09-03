@@ -20,28 +20,31 @@ final class AuthCoordinator: BaseCoordinator {
 	
 	private func showLoginModule() {
 		// to main
-		let toMainSubject = PublishSubject<Any>()
+		let toMainSubject = PublishSubject<UserType>()
 		toMainSubject
 			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] _ in
-				self?.toMain()
+			.subscribe(onNext: { [unowned self] in
+				self.toMain($0)
+				self.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)
 		// to registration
 		let toChooseSubject = PublishSubject<Any>()
 		toChooseSubject
 			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] _ in
-				self?.toChoose()
+			.subscribe(onNext: { [unowned self] _ in
+				self.toChoose()
+				self.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)
 		// forgot password
 		let toForgotPasswordSubject = PublishSubject<Any>()
 		toForgotPasswordSubject
 			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] _ in
+			.subscribe(onNext: { _ in
 				let forgotController = ForgotPasswordViewController(viewModel: ForgotPasswordViewModel())
-				self?.rootController?.pushViewController(forgotController, animated: true)
+				guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }
+				navVC.pushViewController(forgotController, animated: true)
 			})
 			.disposed(by: disposeBag)
 		
@@ -50,13 +53,17 @@ final class AuthCoordinator: BaseCoordinator {
 									  toForgotPasswordSubject: toForgotPasswordSubject)
 		let controller = AuthViewController(viewModel: viewModel)
 		
-		let rootController = NavigationController(rootViewController: controller)
-		setAsRoot(rootController)
-		self.rootController = rootController
+		if let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController {
+			navVC.pushViewController(controller, animated: true)
+		} else {
+			let rootController = NavigationController(rootViewController: controller)
+			setAsRoot(rootController)
+			self.rootController = rootController
+		}
 	}
 	
-	private func toMain() {
-		let coordinator = MainCoordinator()
+	private func toMain(_ userType: UserType) {
+		let coordinator = MainCoordinator(userType: userType)
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)
 			self?.start()
@@ -69,7 +76,6 @@ final class AuthCoordinator: BaseCoordinator {
 		let coordinator = ChooseCoordinator()
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)
-			self?.start()
 		}
 		addDependency(coordinator)
 		coordinator.start()

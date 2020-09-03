@@ -14,7 +14,7 @@ protocol ViewModel {
     func viewDidSet()
     func removeBindings()
     
-    var view: ViewType! {get set}
+    var view: ViewType! { get set }
 }
 
 extension ViewModel {

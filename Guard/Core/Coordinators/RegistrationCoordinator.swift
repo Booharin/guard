@@ -31,6 +31,7 @@ final class RegistrationCoordinator: BaseCoordinator {
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] _ in
 				self?.toSelectIssue()
+				self?.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)
 		// to auth
@@ -39,6 +40,7 @@ final class RegistrationCoordinator: BaseCoordinator {
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] _ in
 				self?.toAuth()
+				self?.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)
 
@@ -50,8 +52,8 @@ final class RegistrationCoordinator: BaseCoordinator {
 		navVC.pushViewController(controller, animated: true)
     }
     
-    private func toMain() {
-        let coordinator = MainCoordinator()
+	private func toMain(clientIssue: ClientIssue) {
+		let coordinator = MainCoordinator(userType: userType, clientIssue: clientIssue)
         coordinator.onFinishFlow = { [weak self, weak coordinator] in
             self?.removeDependency(coordinator)
             self?.start()
@@ -61,28 +63,32 @@ final class RegistrationCoordinator: BaseCoordinator {
     }
 	
 	private func toAuth() {
-		let toMainSubject = PublishSubject<Any>()
+		let coordinator = AuthCoordinator()
+		coordinator.onFinishFlow = { [weak self, weak coordinator] in
+			self?.removeDependency(coordinator)
+		}
+		addDependency(coordinator)
+		coordinator.start()
+	}
+	
+	private func toSelectIssue() {
+		// to main
+		let toMainSubject = PublishSubject<ClientIssue>()
 		toMainSubject
 			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] _ in
-				self?.toMain()
+			.subscribe(onNext: { clientIssue in
+				self.toMain(clientIssue: clientIssue)
+				self.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)
-
-		let viewModel = AuthViewModel(toMainSubject: toMainSubject)
-        let controller = AuthViewController(viewModel: viewModel)
-
+		
+		let controller = SelectIssueViewController(viewModel: SelectIssueViewModel(toMainSubject: toMainSubject))
+        
 		guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }
 		navVC.pushViewController(controller, animated: true)
 	}
 	
-	private func toSelectIssue() {
-		let coordinator = SelectIssueCoordinator()
-        coordinator.onFinishFlow = { [weak self, weak coordinator] in
-            self?.removeDependency(coordinator)
-            self?.start()
-        }
-        addDependency(coordinator)
-        coordinator.start()
+	deinit {
+		print("\(String(describing: self)) deinited")
 	}
 }

@@ -49,3 +49,10 @@
 
 //MAIN
 "main.enter.title" = "Осмотр";
+
+//ISSUE
+"client.issue.drugs" = "Наркотики";
+"client.issue.divorce" = "Развод";
+"client.issue.real_estate" = "Недвижимость";
+"client.issue.car_accident" = "ДТП";
+"client.issue.other" = "Другое";
