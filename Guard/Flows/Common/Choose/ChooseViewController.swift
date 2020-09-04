@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SnapKit
+
 /// Protocol of controller for user type choice
 protocol ChooseViewControllerProtocol {
 	var toRegistration: ((UserType) -> (Void))? { get }
