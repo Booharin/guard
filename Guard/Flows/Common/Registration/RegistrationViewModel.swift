@@ -15,6 +15,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	private let animationDuration = 0.15
 	var registrationSubject: PublishSubject<Any>?
 	private var disposeBag = DisposeBag()
+	private let userType: UserType
 	
 	typealias Dependencies =
 	HasLocationService &
@@ -58,9 +59,11 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	let toAuthSubject: PublishSubject<Any>?
 	
 	init(toSelectIssueSubject: PublishSubject<Any>? = nil,
-		 toAuthSubject: PublishSubject<Any>? = nil) {
+		 toAuthSubject: PublishSubject<Any>? = nil,
+		 userType: UserType) {
 		self.toSelectIssueSubject = toSelectIssueSubject
 		self.toAuthSubject = toAuthSubject
+		self.userType = userType
 	}
 	
 	func viewDidSet() {
@@ -74,6 +77,8 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		view.logoSubtitleLabel.text = "registration.logo.subtitle".localized
 		
 		// login
+		view.loginTextField.keyboardType = .emailAddress
+		view.loginTextField.autocapitalizationType = .none
 		view.loginTextField.configure(placeholderText: "registration.login.placeholder".localized)
 		view.loginTextField
 			.rx
@@ -258,7 +263,6 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	
 	// MARK: - Move enter button up
 	private func pushupButtonUp(with keyboardHeight: CGFloat) {
-		print(keyboardHeight)
 		if currentKeyboardHeight == keyboardHeight {
 			return
 		}
@@ -298,20 +302,24 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			.asObservable()
 			.withLatestFrom(credentials)
 			.filter { [unowned self] credentials in
-				
+
+				if !credentials.0.isValidEmail {
+					self.turnWarnings(with: "auth.alert.uncorrect_email.title".localized)
+				}
+
 				switch credentials.1 {
 				case let s where s.count < 8:
 					self.turnWarnings(with: "registration.alert.password_too_short.title".localized)
 					return false
 				default: break
 				}
-				
+
 				switch credentials.2 {
 				case let s where s != credentials.1:
 					self.turnWarnings(with: "registration.alert.passwords_different.title".localized)
 				default: break
 				}
-				
+
 				if self.view.alertLabel.text?.isEmpty ?? true {
 					return true
 				} else {
@@ -321,6 +329,18 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		.observeOn(MainScheduler.instance)
 		.subscribe(onNext: { [weak self] _ in
 			self?.view.loadingView.stopAnimating()
+			
+			// mock getting profile from server
+			let userProfileDict: [String : Any] = [
+				"userType": self?.userType.rawValue,
+				"email": self?.view.loginTextField.text ?? "",
+				"firstName": "",
+				"lastName": "",
+				"city": self?.view.cityTextField.text ?? ""
+				]
+
+			self?.saveProfileToStorage(dict: userProfileDict)
+			
 			self?.toSelectIssueSubject?.onNext(())
 			},onError:  { [weak self] error in
 				
@@ -394,6 +414,21 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			view.passwordTextField.textColor = Colors.warningColor
 			view.confirmationPasswordTextField.textColor = Colors.warningColor
 			view.cityTextField.textColor = Colors.warningColor
+		}
+	}
+	
+	private func saveProfileToStorage(dict: [String: Any]) {
+		do {
+			let jsonData = try JSONSerialization.data(withJSONObject: dict,
+													  options: .prettyPrinted)
+			let profileResponse = try JSONDecoder().decode(UserProfile.self, from: jsonData)
+			di.localStorageService.saveProfile(profileResponse)
+			UserDefaults.standard.set(true,
+									  forKey: Constants.UserDefaultsKeys.isLogin)
+		} catch {
+			#if DEBUG
+			print(error)
+			#endif
 		}
 	}
 	

@@ -45,7 +45,8 @@ final class RegistrationCoordinator: BaseCoordinator {
 			.disposed(by: disposeBag)
 
 		let registrationViewModel = RegistrationViewModel(toSelectIssueSubject: toSelectIssueSubject,
-														  toAuthSubject: toAuthSubject)
+														  toAuthSubject: toAuthSubject,
+														  userType: self.userType)
         let controller = RegistrationViewController(viewModel: registrationViewModel)
 		
 		guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }

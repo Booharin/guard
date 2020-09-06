@@ -11,11 +11,11 @@ import Foundation
 final class ApplicationCoordinator: BaseCoordinator {
 	
 	override func start() {
-		//if UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.isLogin) {
-		self.toAuth()
-		//		} else {
-		//			self.toChoose()
-		//		}
+		if UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.isLogin) {
+			self.toAuth()
+		} else {
+			self.toChoose()
+		}
 	}
 	
 	private func toChoose() {

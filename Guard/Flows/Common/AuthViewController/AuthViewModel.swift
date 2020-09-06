@@ -14,7 +14,13 @@ import LocalAuthentication
 
 protocol AuthViewModelProtocol {}
 
-final class AuthViewModel: ViewModel, AuthViewModelProtocol {
+final class AuthViewModel: ViewModel,
+	AuthViewModelProtocol,
+	HasDependencies {
+
+	typealias Dependencies = HasLocalStorageService
+	lazy var di: Dependencies = DI.dependencies
+
 	var view: AuthViewControllerProtocol!
 	private var disposeBag = DisposeBag()
 	private let animationDuration = 0.15
@@ -66,6 +72,7 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 		view.logoSubtitleLabel.text = "registration.logo.subtitle".localized
 		
 		// login
+		view.loginTextField.keyboardType = .emailAddress
 		view.loginTextField.configure(placeholderText: "registration.login.placeholder".localized)
 		view.loginTextField
 			.rx
@@ -73,6 +80,10 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 			.subscribe(onNext: { _ in
 				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
+		
+		if let profile = di.localStorageService.getProfile() {
+			view.loginTextField.text = profile.email
+		}
 		
 		// password
 		view.passwordTextField.configure(placeholderText: "registration.password.placeholder".localized,
@@ -238,8 +249,8 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 				
 				DispatchQueue.main.async {
 					if success {
-						self?.view.loginTextField.text = "admin@admin.ru"
-						self?.view.passwordTextField.text = "12345"
+//						self?.view.loginTextField.text = "admin@admin.ru"
+//						self?.view.passwordTextField.text = "12345"
 						self?.toMainSubject?.onNext(.client)
 					} else {
 						// error

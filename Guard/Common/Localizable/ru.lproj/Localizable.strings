@@ -14,7 +14,7 @@
 "choose.client.enter.button.subtitle" = "У вас проблемы с законом. Есть вопрос. Нужна помощь";
 
 //AUTH
-"auth.login.placeholder" = "Логин";
+"auth.login.placeholder" = "Email";
 "auth.password.placeholder" = "Пароль";
 "auth.enter.title" = "Войти";
 "auth.alert.uncorrect_email.title" = "Некорректный email";

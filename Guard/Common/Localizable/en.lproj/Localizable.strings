@@ -14,7 +14,7 @@
 "choose.client.enter.button.subtitle" = "Have a problem with law. Have a question. Need help";
 
 //AUTH
-"auth.login.placeholder" = "Login";
+"auth.login.placeholder" = "Email";
 "auth.password.placeholder" = "Password";
 "auth.enter.title" = "Sign in";
 "auth.alert.uncorrect_email.title" = "Incorrect email";
