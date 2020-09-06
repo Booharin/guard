@@ -71,7 +71,7 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 			.rx
 			.text
 			.subscribe(onNext: { _ in
-				
+				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
 		
 		// password
@@ -82,7 +82,7 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 			.rx
 			.text
 			.subscribe(onNext: { _ in
-				
+				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
 		
 		// registration button
@@ -143,6 +143,7 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 			}).disposed(by: disposeBag)
 		
 		// enter button
+		view.enterButton.isEnabled = false
 		view.enterButton
 			.rx
 			.tap
@@ -154,11 +155,20 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 				self.authSubject.onNext(())
 			}).disposed(by: disposeBag)
 		
+		// alert label
+		view.alertLabel.numberOfLines = 2
+		view.alertLabel.textColor = Colors.warningColor
+		view.alertLabel.textAlignment = .center
+		view.alertLabel.font = SFUIDisplay.regular.of(size: 15)
+		
 		// MARK: - Check keyboard showing
 		keyboardHeight()
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [unowned self] keyboardHeight in
 				if keyboardHeight > 0 {
+
+					self.turnWarnings()
+
 					self.view.logoImageView.snp.updateConstraints {
 						$0.top.equalToSuperview().offset(self.logoTopOffset)
 					}
@@ -198,31 +208,21 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 		authSubject
 			.asObservable()
 			.withLatestFrom(credentials)
-			//        .filter { [unowned self] credentials in
-			//            if credentials.0.count > 0 && credentials.1.count > 0 {
-			//                if credentials.0.isValidEmail {
-			//                    self.view.loadingView.startAnimating()
-			//                    return true
-			//                } else {
-			//					self.view.loginTextField.alertLabel.text = "auth.alert.uncorrect_email.title".localized
-			//                    return false
-			//                }
-			//            } else if credentials.0.count < 1 {
-			//				self.view.loginTextField.alertLabel.text = "auth.alert.empty.title".localized
-			//				if credentials.1.count < 1 {
-			//					self.view.passwordTextField.alertLabel.text = "auth.alert.empty.title".localized
-			//				}
-			//                return false
-			//			} else {
-			//				self.view.passwordTextField.alertLabel.text = "auth.alert.empty.title".localized
-			//				return false
-			//			}
-			//        }
-			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] _ in
-				self?.view.loadingView.stopAnimating()
-				self?.toMainSubject?.onNext(.client)
-			}).disposed(by: disposeBag)
+			.filter { [unowned self] credentials in
+				
+				if credentials.0.isValidEmail {
+					self.view.loadingView.startAnimating()
+					return true
+				} else {
+					self.turnWarnings(with: "auth.alert.uncorrect_email.title".localized)
+					return false
+				}
+		}
+		.observeOn(MainScheduler.instance)
+		.subscribe(onNext: { [weak self] _ in
+			self?.view.loadingView.stopAnimating()
+			self?.toMainSubject?.onNext(.client)
+		}).disposed(by: disposeBag)
 	}
 	
 	//MARK: - Face id tapped
@@ -265,5 +265,41 @@ final class AuthViewModel: ViewModel, AuthViewModelProtocol {
 			])
 			.merge()
 	}
+	
+	private func checkAreTextFieldsEmpty() {
+		
+		guard
+			let loginText = view.loginTextField.text,
+			let passwordText = view.passwordTextField.text else { return }
+		
+		if !loginText.isEmpty,
+			!passwordText.isEmpty {
+			
+			view.enterButton.isEnabled = true
+			view.enterButton.backgroundColor = Colors.greenColor
+		} else {
+			view.enterButton.isEnabled = false
+			view.enterButton.backgroundColor = Colors.buttonDisabledColor
+		}
+	}
+	
+	private func turnWarnings(with text: String? = nil) {
+		if text == nil {
+			guard
+				let text = view.alertLabel.text,
+				!text.isEmpty else { return }
+			view.alertLabel.text = ""
+			
+			view.loginTextField.textColor = Colors.maintextColor
+			view.passwordTextField.textColor = Colors.maintextColor
+		} else {
+			view.view.endEditing(true)
+			view.alertLabel.text = text
+			
+			view.loginTextField.textColor = Colors.warningColor
+			view.passwordTextField.textColor = Colors.warningColor
+		}
+	}
+	
 	func removeBindings() {}
 }

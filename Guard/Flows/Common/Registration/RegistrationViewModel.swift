@@ -17,7 +17,8 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	private var disposeBag = DisposeBag()
 	
 	typealias Dependencies =
-	HasLocationService
+	HasLocationService &
+	HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
 	
 	var logoTopOffset: CGFloat {

@@ -20,6 +20,7 @@ protocol AuthViewControllerProtocol: class, ViewControllerProtocol {
 	var registrationButton: ConfirmButton { get }
 	var faceIDButton: ConfirmButton { get }
 	var forgetPasswordLabel: UILabel { get }
+	var alertLabel: UILabel { get }
 	var loadingView: UIActivityIndicatorView { get }
 }
 /// Controller for auth screen
@@ -33,7 +34,7 @@ AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtoco
 	var loginTextField = TextField()
 	var passwordTextField = TextField()
 	var enterButton = ConfirmButton(title: "auth.enter.title".localized.uppercased(),
-									backgroundColor: Colors.greenColor)
+									backgroundColor: Colors.buttonDisabledColor)
 	var registrationButton = ConfirmButton(title: "auth.registration.title".localized.uppercased(),
 										   backgroundColor: Colors.mainColor,
 										   cornerRadius: 20)
@@ -42,6 +43,8 @@ AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtoco
 									 image: #imageLiteral(resourceName: "icn_face_id").withRenderingMode(.alwaysTemplate))
 	var forgetPasswordLabel = UILabel()
 	var loadingView = UIActivityIndicatorView(style: .medium)
+	var alertLabel = UILabel()
+	
 	var viewModel: modelType
 	var navController: UINavigationController? {
 		return self.navigationController
@@ -150,6 +153,13 @@ AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtoco
 			$0.centerX.equalToSuperview()
 			$0.top.equalTo(enterButton.snp.bottom).offset(70)
 			$0.height.equalTo(30)
+		}
+		// alert label
+		view.addSubview(alertLabel)
+		alertLabel.snp.makeConstraints {
+			$0.top.equalTo(forgetPasswordLabel.snp.bottom).offset(15)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
 		}
 	}
 }

@@ -11,6 +11,7 @@ struct Colors {
 	static let maintextColor = #colorLiteral(red: 0.2235294118, green: 0.2549019608, blue: 0.3960784314, alpha: 1)
 	static let mainColor = #colorLiteral(red: 0.2235294118, green: 0.2549019608, blue: 0.3960784314, alpha: 1)
 	static let whiteColor = UIColor.white
+	static let blackColor = UIColor.black
 	static let greenColor = #colorLiteral(red: 0.3803921569, green: 0.6509803922, blue: 0.2823529412, alpha: 1)
 	static let placeholderColor = #colorLiteral(red: 0.5725490196, green: 0.662745098, blue: 0.7960784314, alpha: 1)
 	static let separatorColor = #colorLiteral(red: 0.3294117647, green: 0.3333333333, blue: 0.5607843137, alpha: 0.1156089469)

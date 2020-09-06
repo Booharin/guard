@@ -9,12 +9,13 @@
 import UIKit
 
 protocol LawyerListViewControllerProtocol {
-	
+	var filterButtonView: FiltetButtonView { get }
 }
 
 class LawyerListViewController<modelType: ViewModel>: UIViewController,
 LawyerListViewControllerProtocol where modelType.ViewType == LawyerListViewControllerProtocol {
 
+	var filterButtonView = FiltetButtonView()
     var viewModel: modelType
 
     init(viewModel: modelType) {
@@ -42,11 +43,12 @@ LawyerListViewControllerProtocol where modelType.ViewType == LawyerListViewContr
 		self.navigationItem.setHidesBackButton(true, animated:false)
 	}
 	
-	private func addViews() {
-		
+	func setNavigationBar() {
+		let rightBarButtonItem = UIBarButtonItem(customView: filterButtonView)
+		self.navigationItem.rightBarButtonItem = rightBarButtonItem
 	}
 	
-	private func setNavigationBar() {
+	private func addViews() {
 		
 	}
 }

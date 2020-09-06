@@ -16,7 +16,12 @@ final class MainCoordinator: BaseCoordinator {
 	private let tabBarController = TabBarController()
 	
 	private var tabBarImages: [UIImage] {
-        return [#imageLiteral(resourceName: "tab_list_icn"), #imageLiteral(resourceName: "tab_appeals_icn"), #imageLiteral(resourceName: "tab_chat_icn"), #imageLiteral(resourceName: "tab_profile_icn")]
+		switch userType {
+		case .client:
+			return [#imageLiteral(resourceName: "tab_list_icn"), #imageLiteral(resourceName: "tab_appeals_icn"), #imageLiteral(resourceName: "tab_chat_icn"), #imageLiteral(resourceName: "tab_profile_icn")]
+		case .lawyer:
+			return [#imageLiteral(resourceName: "tab_list_icn"), #imageLiteral(resourceName: "tab_chat_icn"), #imageLiteral(resourceName: "tab_profile_icn")]
+		}
     }
 	
 	init(userType: UserType, clientIssue: ClientIssue? = nil) {
@@ -36,30 +41,31 @@ final class MainCoordinator: BaseCoordinator {
 			setLawyerControllers()
 		}
 		
+		tabBarController.tabBar.items?.enumerated().forEach {
+            $0.element.tag = $0.offset
+			$0.element.image = tabBarImages[$0.offset]
+			$0.element.selectedImage = tabBarImages[$0.offset]
+        }
+		tabBarController.tabBar.tintColor = Colors.blackColor
+		
 		guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }
 		navVC.pushViewController(tabBarController, animated: true)
     }
 	
 	private func setClientControllers() {
 		tabBarController.viewControllers = [
-			LawyerListViewController(viewModel: LawyersListViewModel()),
-			LawyerListViewController(viewModel: LawyersListViewModel()),
-			LawyerListViewController(viewModel: LawyersListViewModel()),
-			LawyerListViewController(viewModel: LawyersListViewModel())
+			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel())),
+			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel())),
+			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel())),
+			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel()))
 		]
-		tabBarController.tabBar.items?.enumerated().forEach {
-            $0.element.tag = $0.offset
-			$0.element.image = tabBarImages[$0.offset]
-				.withRenderingMode(.alwaysTemplate)
-				.withTintColor(Colors.tabBarItemColor)
-			$0.element.selectedImage = tabBarImages[$0.offset]
-				.withRenderingMode(.alwaysTemplate)
-				.withTintColor(Colors.mainColor)
-            //$0.element.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: -12, right: 0)
-        }
 	}
 	
-	private func setLawyerControllers(){
-		
+	private func setLawyerControllers() {
+		tabBarController.viewControllers = [
+			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel())),
+			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel())),
+			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel()))
+		]
 	}
 }

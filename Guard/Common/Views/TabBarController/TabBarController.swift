@@ -13,6 +13,14 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+		UITabBar.appearance().shadowImage = UIImage()
+		UITabBar.appearance().backgroundImage = UIImage()
     }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		navigationController?.isNavigationBarHidden = true
+		self.navigationItem.setHidesBackButton(true, animated:false)
+	}
 }

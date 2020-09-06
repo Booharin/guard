@@ -15,9 +15,11 @@ protocol HasDependencies: class {
 }
 
 struct Dependencies:
-    HasLocationService {
+    HasLocationService,
+	HasLocalStorageService {
 	
     var locationService: LocationServiceInterface
+	var localStorageService: LocalStorageServiceInterface
 }
 
 enum DI {
@@ -28,7 +30,8 @@ class AppDIContainer {
     
     func createAppDependencies(launchOptions: [AnyHashable: Any]) -> Dependencies {
         
-        let d = Dependencies(locationService: LocationSerice())
+		let d = Dependencies(locationService: LocationSerice(),
+							 localStorageService: LocalStorageService())
         return d
     }
 }
