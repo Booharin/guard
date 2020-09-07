@@ -20,6 +20,10 @@ struct UserProfile: Decodable {
 	var lastName: String
 	var city: String
 	
+	var fullName: String {
+		return "\(firstName) \(lastName)"
+	}
+	
 	init(userProfileObject: UserProfileObject) {
 		self.userType = userProfileObject.userType ?? ""
 		self.email = userProfileObject.email ?? ""

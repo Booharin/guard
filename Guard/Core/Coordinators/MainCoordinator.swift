@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 final class MainCoordinator: BaseCoordinator {
     
@@ -14,6 +15,7 @@ final class MainCoordinator: BaseCoordinator {
     var onFinishFlow: (() -> Void)?
 	private let userType: UserType
 	private let tabBarController = TabBarController()
+	private var disposeBag = DisposeBag()
 	
 	private var tabBarImages: [UIImage] {
 		switch userType {
@@ -53,19 +55,65 @@ final class MainCoordinator: BaseCoordinator {
     }
 	
 	private func setClientControllers() {
+		// to lawyer issue
+		let toLawyerSubject = PublishSubject<UserProfile>()
+		toLawyerSubject
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { _ in
+				//
+			})
+			.disposed(by: disposeBag)
+		
 		tabBarController.viewControllers = [
-			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel())),
-			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel())),
-			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel())),
-			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel()))
+			NavigationController(rootViewController:
+				LawyersListViewController(viewModel:
+					LawyersListViewModel(toLawyerSubject: toLawyerSubject)
+				)
+			),
+			NavigationController(rootViewController:
+				LawyersListViewController(viewModel:
+					LawyersListViewModel(toLawyerSubject: toLawyerSubject)
+				)
+			),
+			NavigationController(rootViewController:
+				LawyersListViewController(viewModel:
+					LawyersListViewModel(toLawyerSubject: toLawyerSubject)
+				)
+			),
+			NavigationController(rootViewController:
+				LawyersListViewController(viewModel:
+					LawyersListViewModel(toLawyerSubject: toLawyerSubject)
+				)
+			)
 		]
 	}
 	
 	private func setLawyerControllers() {
+		// to lawyer issue
+		let toClientSubject = PublishSubject<UserProfile>()
+		toClientSubject
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { _ in
+				//
+			})
+			.disposed(by: disposeBag)
+
 		tabBarController.viewControllers = [
-			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel())),
-			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel())),
-			NavigationController(rootViewController: LawyerListViewController(viewModel: LawyersListViewModel()))
+			NavigationController(rootViewController:
+				LawyersListViewController(viewModel:
+					LawyersListViewModel(toLawyerSubject: toClientSubject)
+				)
+			),
+			NavigationController(rootViewController:
+				LawyersListViewController(viewModel:
+					LawyersListViewModel(toLawyerSubject: toClientSubject)
+				)
+			),
+			NavigationController(rootViewController:
+				LawyersListViewController(viewModel:
+					LawyersListViewModel(toLawyerSubject: toClientSubject)
+				)
+			)
 		]
 	}
 }

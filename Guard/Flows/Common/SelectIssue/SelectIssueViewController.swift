@@ -10,7 +10,6 @@ import UIKit
 /// Protocol of controller for selecting client issue
 protocol SelectIssueViewControllerProtocol {
 	var tableView: UITableView { get }
-	func update(with issues: [String])
 }
 
 /// Controller for selecting client issue
@@ -58,17 +57,4 @@ SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewCon
 			$0.edges.equalToSuperview()
 		}
  	}
-	
-	func update(with issues: [String]) {
-		self.issues = issues
-		DispatchQueue.main.async {
-			self.tableView.reloadData()
-		}
-		
-		if tableView.contentSize.height < tableView.frame.height {
-            tableView.isScrollEnabled = false
-		} else {
-			tableView.isScrollEnabled = true
-		}
-	}
 }

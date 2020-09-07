@@ -1,5 +1,5 @@
 //
-//  LawyerListViewController.swift
+//  LawyersListViewController.swift
 //  Guard
 //
 //  Created by Alexandr Bukharin on 03.09.2020.
@@ -8,13 +8,14 @@
 
 import UIKit
 
-protocol LawyerListViewControllerProtocol {
+protocol LawyersListViewControllerProtocol {
 	var filterButtonView: FilterButtonView { get }
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
+	var tableView: UITableView { get }
 }
 
-class LawyerListViewController<modelType: ViewModel>: UIViewController,
+class LawyersListViewController<modelType: ViewModel>: UIViewController,
 LawyerListViewControllerProtocol where modelType.ViewType == LawyerListViewControllerProtocol {
 
 	var filterButtonView = FilterButtonView()
@@ -22,6 +23,9 @@ LawyerListViewControllerProtocol where modelType.ViewType == LawyerListViewContr
 
 	var titleView = UIView()
 	var titleLabel = UILabel()
+	var tableView = UITableView()
+
+	private var lawyers: [UserProfile]?
 
     init(viewModel: modelType) {
         self.viewModel = viewModel
@@ -52,12 +56,11 @@ LawyerListViewControllerProtocol where modelType.ViewType == LawyerListViewContr
 		let rightBarButtonItem = UIBarButtonItem(customView: filterButtonView)
 		self.navigationItem.rightBarButtonItem = rightBarButtonItem
 		self.navigationItem.titleView = titleView
-		//self.navigationItem.titleView?.backgroundColor = .red
 	}
 	
 	private func addViews() {
+		// title view
 		titleView.addSubview(titleLabel)
-		//titleLabel.backgroundColor = .green
 		titleLabel.snp.makeConstraints {
 			$0.center.equalToSuperview()
 			$0.width.lessThanOrEqualTo(200)
@@ -84,6 +87,19 @@ LawyerListViewControllerProtocol where modelType.ViewType == LawyerListViewContr
 			$0.width.height.equalTo(6)
 			$0.centerY.equalToSuperview()
 			$0.leading.equalTo(titleLabel.snp.trailing).offset(3)
+		}
+		
+		// table view
+		tableView.register(SelectIssueTableViewCell.self,
+						   forCellReuseIdentifier: SelectIssueTableViewCell.reuseIdentifier)
+		tableView.tableFooterView = UIView()
+		tableView.backgroundColor = Colors.whiteColor
+		tableView.rowHeight = UITableView.automaticDimension
+		tableView.estimatedRowHeight = 72
+		tableView.separatorStyle = .none
+		view.addSubview(tableView)
+		tableView.snp.makeConstraints {
+			$0.edges.equalToSuperview()
 		}
 	}
 }

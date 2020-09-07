@@ -63,9 +63,12 @@
 		5253753724B84F0200CC729C /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753624B84F0200CC729C /* UserProfile.swift */; };
 		52597DC524BB8FC9005A922F /* RxGesture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; };
 		52597DC624BB8FC9005A922F /* RxGesture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		52760C4A2501731C00080152 /* LawyerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52760C492501731C00080152 /* LawyerListViewController.swift */; };
+		52760C4A2501731C00080152 /* LawyersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52760C492501731C00080152 /* LawyersListViewController.swift */; };
 		52760C4C2501736600080152 /* LawyersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52760C4B2501736600080152 /* LawyersListViewModel.swift */; };
 		52901BE82501002400271CAC /* ClientIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52901BE72501002400271CAC /* ClientIssue.swift */; };
+		52AF28E62506145D00287A8F /* LawyerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28E52506145D00287A8F /* LawyerCell.swift */; };
+		52AF28E82506168B00287A8F /* LawyerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28E72506168B00287A8F /* LawyerCellViewModel.swift */; };
+		52AF28EB2506195800287A8F /* LawyersListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28EA2506195800287A8F /* LawyersListDataSource.swift */; };
 		52B278C824C09621001E7295 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C724C09621001E7295 /* Dependencies.swift */; };
 		52B278CA24C0964F001E7295 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C924C0964F001E7295 /* LocationService.swift */; };
 		52C5F4C424C9D90D00FB2DA8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */; };
@@ -164,10 +167,13 @@
 		5253753224B84D5200CC729C /* ChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewController.swift; sourceTree = "<group>"; };
 		5253753624B84F0200CC729C /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		52597DC424BB8FC9005A922F /* RxGesture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxGesture.framework; path = Carthage/Build/iOS/RxGesture.framework; sourceTree = "<group>"; };
-		52760C492501731C00080152 /* LawyerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerListViewController.swift; sourceTree = "<group>"; };
+		52760C492501731C00080152 /* LawyersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListViewController.swift; sourceTree = "<group>"; };
 		52760C4B2501736600080152 /* LawyersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListViewModel.swift; sourceTree = "<group>"; };
 		527D11A624FFAA6A0040F990 /* sf-ui-display-medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sf-ui-display-medium.otf"; sourceTree = "<group>"; };
 		52901BE72501002400271CAC /* ClientIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIssue.swift; sourceTree = "<group>"; };
+		52AF28E52506145D00287A8F /* LawyerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerCell.swift; sourceTree = "<group>"; };
+		52AF28E72506168B00287A8F /* LawyerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerCellViewModel.swift; sourceTree = "<group>"; };
+		52AF28EA2506195800287A8F /* LawyersListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListDataSource.swift; sourceTree = "<group>"; };
 		52B278C724C09621001E7295 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		52B278C924C0964F001E7295 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -638,10 +644,29 @@
 		52760C48250172F200080152 /* LawyersList */ = {
 			isa = PBXGroup;
 			children = (
-				52760C492501731C00080152 /* LawyerListViewController.swift */,
+				52AF28E92506191D00287A8F /* DataSource */,
+				52AF28E42506143200287A8F /* Cell */,
+				52760C492501731C00080152 /* LawyersListViewController.swift */,
 				52760C4B2501736600080152 /* LawyersListViewModel.swift */,
 			);
 			path = LawyersList;
+			sourceTree = "<group>";
+		};
+		52AF28E42506143200287A8F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				52AF28E52506145D00287A8F /* LawyerCell.swift */,
+				52AF28E72506168B00287A8F /* LawyerCellViewModel.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		52AF28E92506191D00287A8F /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				52AF28EA2506195800287A8F /* LawyersListDataSource.swift */,
+			);
+			path = DataSource;
 			sourceTree = "<group>";
 		};
 		52C5F4C224C9D8F200FB2DA8 /* Profile */ = {
@@ -777,6 +802,7 @@
 				5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */,
 				52212F8524FFDD41003FA67E /* ForgotPasswordViewModel.swift in Sources */,
 				5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */,
+				52AF28EB2506195800287A8F /* LawyersListDataSource.swift in Sources */,
 				522272C42504BF6C0029A4E2 /* FilterButtonView.swift in Sources */,
 				52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */,
 				5251AFB024A2829200467E84 /* Colors.swift in Sources */,
@@ -805,11 +831,12 @@
 				52EB81C324B9E7E5003285BC /* ViewModel.swift in Sources */,
 				5222B68624C75609000BEE13 /* UITableViewCell+Identifier.swift in Sources */,
 				522272F42504F76C0029A4E2 /* UserProfileObject+CoreDataProperties.swift in Sources */,
+				52AF28E62506145D00287A8F /* LawyerCell.swift in Sources */,
 				5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */,
 				522272E42504C9470029A4E2 /* GuardDataModel.xcdatamodeld in Sources */,
 				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,
 				5251AFB424A283B000467E84 /* Constants.swift in Sources */,
-				52760C4A2501731C00080152 /* LawyerListViewController.swift in Sources */,
+				52760C4A2501731C00080152 /* LawyersListViewController.swift in Sources */,
 				52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */,
 				52760C4C2501736600080152 /* LawyersListViewModel.swift in Sources */,
 				52B278C824C09621001E7295 /* Dependencies.swift in Sources */,
@@ -820,6 +847,7 @@
 				52C5F4C424C9D90D00FB2DA8 /* ProfileViewController.swift in Sources */,
 				5251AFB224A2837D00467E84 /* AuthCoordinator.swift in Sources */,
 				5251AFC224A28FBC00467E84 /* String+Localizable.swift in Sources */,
+				52AF28E82506168B00287A8F /* LawyerCellViewModel.swift in Sources */,
 				52901BE82501002400271CAC /* ClientIssue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

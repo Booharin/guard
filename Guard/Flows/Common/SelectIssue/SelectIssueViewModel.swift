@@ -37,5 +37,18 @@ final class SelectIssueViewModel: ViewModel {
 			.disposed(by: disposeBag)
 	}
 	
+	func update(with issues: [ClientIssue]) {
+		self.issues = issues
+		DispatchQueue.main.async {
+			self.view.tableView.reloadData()
+		}
+		
+		if self.view.tableView.contentSize.height < self.view.tableView.frame.height {
+            self.view.tableView.isScrollEnabled = false
+		} else {
+			self.view.tableView.isScrollEnabled = true
+		}
+	}
+	
 	func removeBindings() {}
 }
