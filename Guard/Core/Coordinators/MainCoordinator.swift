@@ -47,6 +47,7 @@ final class MainCoordinator: BaseCoordinator {
             $0.element.tag = $0.offset
 			$0.element.image = tabBarImages[$0.offset]
 			$0.element.selectedImage = tabBarImages[$0.offset]
+            $0.element.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
         }
 		tabBarController.tabBar.tintColor = Colors.blackColor
 		

@@ -31,7 +31,7 @@ final class ConfirmButton: UIButton {
 		} else {
 			// title
 			setTitle(title, for: .normal)
-			titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)//SFUIDisplay.medium.of(size: 15)
+			titleLabel?.font = SFUIDisplay.medium.of(size: 15)
 			setTitleColor(Colors.whiteColor, for: .normal)
 			titleEdgeInsets = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: -25)
 			contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 48)

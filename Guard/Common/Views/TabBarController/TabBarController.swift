@@ -13,8 +13,10 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		UITabBar.appearance().shadowImage = UIImage()
-		UITabBar.appearance().backgroundImage = UIImage()
+        tabBar.barTintColor = Colors.whiteColor
+        tabBar.layer.borderWidth = 0.50
+        tabBar.layer.borderColor = UIColor.clear.cgColor
+        tabBar.clipsToBounds = true
     }
 	
 	override func viewWillAppear(_ animated: Bool) {

@@ -19,6 +19,7 @@ struct UserProfile: Decodable {
 	var firstName: String
 	var lastName: String
 	var city: String
+    var rate: Double
 	
 	var fullName: String {
 		return "\(firstName) \(lastName)"
@@ -30,5 +31,6 @@ struct UserProfile: Decodable {
 		self.firstName = userProfileObject.firstName ?? ""
 		self.lastName = userProfileObject.lastName ?? ""
 		self.city = userProfileObject.city ?? ""
+        self.rate = userProfileObject.rate ?? 0
 	}
 }

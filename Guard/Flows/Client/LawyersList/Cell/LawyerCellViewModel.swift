@@ -8,6 +8,7 @@
 
 import RxSwift
 import RxCocoa
+import UIKit
 
 struct LawyerCellViewModel: ViewModel {
 	var view: LawyerCellProtocol!
@@ -29,10 +30,16 @@ struct LawyerCellViewModel: ViewModel {
 			.subscribe(onNext: { _ in
 				self.toLawyerSubject.onNext(self.lawyer)
 			}).disposed(by: disposeBag)
+        
+        view.avatarImageView.image = #imageLiteral(resourceName: "lawyer_mock_icn")
 		
 		view.nameTitle.text = lawyer.fullName
 		view.nameTitle.font = SFUIDisplay.regular.of(size: 16)
 		view.nameTitle.textColor = Colors.maintextColor
+        
+        view.rateLabel.font = SFUIDisplay.bold.of(size: 15)
+        view.rateLabel.textColor = Colors.maintextColor
+        view.rateLabel.text = "\(String(format: "%.1f", lawyer.rate))"
 	}
 	
 	func removeBindings() {}

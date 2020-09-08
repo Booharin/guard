@@ -15,8 +15,8 @@ protocol LawyersListViewControllerProtocol {
 	var tableView: UITableView { get }
 }
 
-class LawyersListViewController<modelType: ViewModel>: UIViewController,
-LawyerListViewControllerProtocol where modelType.ViewType == LawyerListViewControllerProtocol {
+class LawyersListViewController<modelType: ViewModel>: UIViewController, UITableViewDelegate,
+LawyersListViewControllerProtocol where modelType.ViewType == LawyersListViewControllerProtocol {
 
 	var filterButtonView = FilterButtonView()
     var viewModel: modelType
@@ -97,9 +97,26 @@ LawyerListViewControllerProtocol where modelType.ViewType == LawyerListViewContr
 		tableView.rowHeight = UITableView.automaticDimension
 		tableView.estimatedRowHeight = 72
 		tableView.separatorStyle = .none
+        tableView.delegate = self
 		view.addSubview(tableView)
 		tableView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
 		}
 	}
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView,
+                                   withVelocity velocity: CGPoint,
+                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        if(velocity.y>0) {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.navigationController?.setNavigationBarHidden(true, animated: true)
+            })
+            
+        } else {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+            })
+        }
+    }
 }

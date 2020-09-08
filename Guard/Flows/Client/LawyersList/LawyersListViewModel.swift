@@ -15,7 +15,17 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	var view: LawyersListViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
-	var lawyers = [UserProfile]()
+    
+    let userProfileDict: [String : Any] = [
+        "userType": "lawyer",
+        "email": "some@bk.ru",
+        "firstName": "Alex",
+        "lastName": "Vardanyan",
+        "city": "Moscow",
+        "rate": 4.4
+    ]
+    
+    var lawyers = [UserProfile]()
 
 	typealias Dependencies =
 	HasLocationService &
@@ -29,7 +39,9 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	}
 
 	func viewDidSet() {
-		
+
+        getLawyersFromProfiles()
+
 		// table view data source
 		let section = SectionModel<String, UserProfile>(model: "",
 														items: lawyers)
@@ -95,6 +107,37 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 			self.view.tableView.isScrollEnabled = true
 		}
 	}
+    
+    private func getLawyersFromProfiles() {
+        let userProfilesArray = [
+            userProfileDict,
+            userProfileDict,
+            userProfileDict,
+            userProfileDict,
+            userProfileDict,
+            userProfileDict,
+            userProfileDict,
+            userProfileDict,
+            userProfileDict,
+            userProfileDict,
+            userProfileDict,
+            userProfileDict,
+            userProfileDict,
+            userProfileDict,
+            userProfileDict
+        ]
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: userProfilesArray,
+                                                      options: .prettyPrinted)
+            let profilesResponse = try JSONDecoder().decode([UserProfile].self, from: jsonData)
+            self.lawyers = profilesResponse
+            self.view.tableView.reloadData()
+        } catch {
+            #if DEBUG
+            print(error)
+            #endif
+        }
+    }
 	
 	func removeBindings() {}
 }

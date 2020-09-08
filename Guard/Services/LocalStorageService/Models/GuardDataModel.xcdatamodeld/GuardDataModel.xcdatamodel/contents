@@ -5,9 +5,10 @@
         <attribute name="email" attributeType="String"/>
         <attribute name="firstName" attributeType="String"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
+        <attribute name="rate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="userType" attributeType="String"/>
     </entity>
     <elements>
-        <element name="UserProfileObject" positionX="-63" positionY="-18" width="128" height="118"/>
+        <element name="UserProfileObject" positionX="-63" positionY="-18" width="128" height="133"/>
     </elements>
 </model>

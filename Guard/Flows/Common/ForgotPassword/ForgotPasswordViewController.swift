@@ -64,6 +64,7 @@ ForgotPasswordViewControllerProtocol where modelType.ViewType == ForgotPasswordV
 		super.viewWillAppear(animated)
 		
 		navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
 		self.navigationItem.setHidesBackButton(true, animated:false)
 	}
 	
@@ -77,7 +78,7 @@ ForgotPasswordViewControllerProtocol where modelType.ViewType == ForgotPasswordV
 		view.addSubview(logoImageView)
 		logoImageView.snp.makeConstraints {
 			$0.width.height.equalTo(84)
-			$0.top.equalToSuperview().offset(71)
+			$0.top.equalToSuperview().offset(81)
 			$0.centerX.equalToSuperview()
 		}
 		// logo title

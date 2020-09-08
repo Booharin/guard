@@ -11,6 +11,7 @@ import UIKit
 enum SFUIDisplay: String {
 	case regular = "SFUIDisplay-Regular"
 	case medium = "SFUIDisplay-Medium"
+    case bold = "SFUIDisplay-Bold"
 	
 	func of(size: CGFloat) -> UIFont {
 		return UIFont(name: rawValue, size: size) ?? UIFont.systemFont(ofSize: size)
