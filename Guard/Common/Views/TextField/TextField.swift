@@ -10,37 +10,36 @@ import UIKit
 
 final class TextField: UITextField {
 	
-	var titleLabel = UILabel()
-	var alertLabel = UILabel()
+	private let placeholderAttributes = [
+		NSAttributedString.Key.foregroundColor: Colors.placeholderColor,
+		NSAttributedString.Key.font : Saira.light.of(size: 15)
+	]
+	
+	private var separatorView = UIView()
 
 	init() {
 		super.init(frame: .zero)
-		layer.cornerRadius = 10
-		layer.sublayerTransform = CATransform3DMakeTranslation(15, 0, 0)
+		textAlignment = .center
+		font = Saira.bold.of(size: 15)
+		textColor = Colors.maintextColor
 		
-		backgroundColor = Colors.textFieldEmptyBackground
-		
-		textColor = Colors.whiteColor
-		tintColor = Colors.borderColor
-		// title
-		titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-		titleLabel.textColor = Colors.whiteColor
-		addSubview(titleLabel)
-		titleLabel.snp.makeConstraints() {
-			$0.top.equalToSuperview().offset(-20)
-			$0.leading.equalToSuperview().offset(2)
-		}
-		// alert
-		alertLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-		alertLabel.textColor = Colors.warningColor
-		addSubview(alertLabel)
-		alertLabel.snp.makeConstraints() {
-			$0.top.equalToSuperview().offset(55)
-			$0.leading.equalToSuperview().offset(2)
+		separatorView.backgroundColor = Colors.separatorColor
+		addSubview(separatorView)
+		separatorView.snp.makeConstraints() {
+			$0.width.equalTo(130)
+			$0.centerX.equalToSuperview()
+			$0.bottom.equalToSuperview()
+			$0.height.equalTo(1)
 		}
 	}
 	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
+	}
+	
+	func configure(placeholderText: String, isSeparatorHidden: Bool = false) {
+		attributedPlaceholder = NSAttributedString(string: placeholderText,
+												   attributes: placeholderAttributes)
+		separatorView.isHidden = isSeparatorHidden
 	}
 }

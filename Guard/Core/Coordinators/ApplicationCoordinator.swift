@@ -9,30 +9,28 @@
 import Foundation
 
 final class ApplicationCoordinator: BaseCoordinator {
-    
-    override func start() {
+	
+	override func start() {
 		if UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.isLogin) {
 			self.toAuth()
 		} else {
 			self.toChoose()
 		}
-    }
+	}
 	
 	private func toChoose() {
 		let coordinator = ChooseCoordinator()
-        coordinator.onFinishFlow = { [weak self, weak coordinator] in
-            self?.removeDependency(coordinator)
-            self?.start()
-        }
-        addDependency(coordinator)
-        coordinator.start()
-    }
+		coordinator.onFinishFlow = { [weak self, weak coordinator] in
+			self?.removeDependency(coordinator)
+		}
+		addDependency(coordinator)
+		coordinator.start()
+	}
 	
 	private func toAuth() {
 		let coordinator = AuthCoordinator()
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)
-			self?.start()
 		}
 		addDependency(coordinator)
 		coordinator.start()

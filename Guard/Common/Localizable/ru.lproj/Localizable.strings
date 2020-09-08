@@ -1,0 +1,58 @@
+/* 
+ Localizable.strings
+ Wheels
+ 
+ Created by Alexandr Bukharin on 23.06.2020.
+ Copyright © 2020 ds. All rights reserved.
+ */
+
+//CHOOSE
+"choose.title" = "Кто вы?";
+"choose.lawyer.enter.button" = "Юрист";
+"choose.lawyer.enter.button.subtitle" = "У вас высшее юридическое образование. Знаете законы. Можете дать совет";
+"choose.client.enter.button" = "Клиент";
+"choose.client.enter.button.subtitle" = "У вас проблемы с законом. Есть вопрос. Нужна помощь";
+
+//AUTH
+"auth.login.placeholder" = "Email";
+"auth.password.placeholder" = "Пароль";
+"auth.enter.title" = "Войти";
+"auth.alert.uncorrect_email.title" = "Некорректный email";
+"auth.alert.empty.title" = "Поле не может быть пустым";
+"auth.registration.title" = "Регистрация";
+"auth.forget_password.title" = "Забыли пароль?";
+
+//FORGOT PASSWORD
+"forgot.password.hint.title" = "Введите email указанный при регистрации";
+"forgot.password.email.title" = "Email";
+"forgot.password.alert.title" = "Некорректный email";
+"forgot.password.send.title" = "Отправить";
+
+//REGISTRATION
+"registration.logo.title" = "guard";
+"registration.logo.subtitle" = "Юридическая помощь";
+
+"registration.login.placeholder" = "Email";
+"registration.password.placeholder" = "Пароль";
+"registration.confirm_password.placeholder" = "Повторите пароль";
+"registration.city.placeholder" = "Город";
+
+"registration.sign_up.title" = "Зарегистрироваться";
+"registration.skip.title" = "Пропустить";
+"registration.already_registered.title" = "Уже зарегистрирован(а)";
+
+"registration.alert.password_too_short.title" = "Пароль должен быть не менее 8 символов";
+"registration.alert.passwords_different.title" = "Пароли не совпадают";
+
+//SELECT_ISSUE
+"select_issue.title" = "Что случилось?";
+
+//MAIN
+"main.enter.title" = "Осмотр";
+
+//ISSUE
+"client.issue.drugs" = "Наркотики";
+"client.issue.divorce" = "Развод";
+"client.issue.real_estate" = "Недвижимость";
+"client.issue.car_accident" = "ДТП";
+"client.issue.other" = "Другое";

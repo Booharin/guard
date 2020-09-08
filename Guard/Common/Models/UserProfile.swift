@@ -7,16 +7,30 @@
 //
 
 /// User type
-enum UserType {
-	case client
-	case lawyer
+enum UserType: String {
+	case client = "client"
+	case lawyer = "lawyer"
 }
 
 /// User model
-struct UserProfile {
-	var userType: UserType
+struct UserProfile: Decodable {
+	var userType: String
+	var email: String
+	var firstName: String
+	var lastName: String
+	var city: String
+    var rate: Double
 	
-	init(userType: UserType) {
-		self.userType = userType
+	var fullName: String {
+		return "\(firstName) \(lastName)"
+	}
+	
+	init(userProfileObject: UserProfileObject) {
+		self.userType = userProfileObject.userType ?? ""
+		self.email = userProfileObject.email ?? ""
+		self.firstName = userProfileObject.firstName ?? ""
+		self.lastName = userProfileObject.lastName ?? ""
+		self.city = userProfileObject.city ?? ""
+        self.rate = userProfileObject.rate ?? 0
 	}
 }
