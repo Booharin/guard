@@ -14,6 +14,7 @@ struct LawyerCellViewModel: ViewModel {
 	var view: LawyerCellProtocol!
 	private var disposeBag = DisposeBag()
 	let toLawyerSubject: PublishSubject<UserProfile>
+    let animateDuration = 0.15
 	let lawyer: UserProfile
 
 	init(toLawyerSubject: PublishSubject<UserProfile>,
@@ -28,6 +29,13 @@ struct LawyerCellViewModel: ViewModel {
 			.tapGesture()
 			.skip(1)
 			.subscribe(onNext: { _ in
+                UIView.animate(withDuration: self.animateDuration, animations: {
+                    self.view.containerView.backgroundColor = Colors.cellSelectedColor
+                }, completion: { _ in
+                    UIView.animate(withDuration: self.animateDuration, animations: {
+                        self.view.containerView.backgroundColor = .clear
+                    })
+                })
 				self.toLawyerSubject.onNext(self.lawyer)
 			}).disposed(by: disposeBag)
         

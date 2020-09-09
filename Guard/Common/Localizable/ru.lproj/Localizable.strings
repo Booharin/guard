@@ -56,3 +56,9 @@
 "client.issue.real_estate" = "Недвижимость";
 "client.issue.car_accident" = "ДТП";
 "client.issue.other" = "Другое";
+
+//CITIES
+"cities.moscow" = "Москва";
+
+//ALERT
+"alert.cancel" = "Отмена";

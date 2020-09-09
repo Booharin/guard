@@ -56,3 +56,9 @@
 "client.issue.real_estate" = "Real Estate";
 "client.issue.car_accident" = "Car accident";
 "client.issue.other" = "Other";
+
+//CITIES
+"cities.moscow" = "Moscow";
+
+//ALERT
+"alert.cancel" = "Cancel";

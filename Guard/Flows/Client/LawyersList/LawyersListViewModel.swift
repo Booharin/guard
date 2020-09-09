@@ -16,13 +16,17 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
     
-    let userProfileDict: [String : Any] = [
+    private let userProfileDict: [String : Any] = [
         "userType": "lawyer",
         "email": "some@bk.ru",
         "firstName": "Alex",
         "lastName": "Vardanyan",
         "city": "Moscow",
         "rate": 4.4
+    ]
+    
+    private let cities = [
+        "cities.moscow".localized
     ]
     
     var lawyers = [UserProfile]()
@@ -83,6 +87,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 						self.view.titleView.alpha = 1
 					})
 				})
+                self.view.showActionSheet(with: self.cities)
 			})
 			.subscribe(onNext: { _ in
 				//
