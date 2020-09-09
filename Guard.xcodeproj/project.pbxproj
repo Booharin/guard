@@ -60,6 +60,7 @@
 		5253753724B84F0200CC729C /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753624B84F0200CC729C /* UserProfile.swift */; };
 		52597DC524BB8FC9005A922F /* RxGesture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; };
 		52597DC624BB8FC9005A922F /* RxGesture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52597DC424BB8FC9005A922F /* RxGesture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		525BFA6925097405005393B1 /* sf-ui-display-light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 525BFA6825097402005393B1 /* sf-ui-display-light.ttf */; };
 		52760C4A2501731C00080152 /* LawyersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52760C492501731C00080152 /* LawyersListViewController.swift */; };
 		52760C4C2501736600080152 /* LawyersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52760C4B2501736600080152 /* LawyersListViewModel.swift */; };
 		527880CE25080FB800EB2B9B /* UserProfileObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527880CC25080FB800EB2B9B /* UserProfileObject+CoreDataClass.swift */; };
@@ -173,6 +174,7 @@
 		5253753224B84D5200CC729C /* ChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewController.swift; sourceTree = "<group>"; };
 		5253753624B84F0200CC729C /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		52597DC424BB8FC9005A922F /* RxGesture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxGesture.framework; path = Carthage/Build/iOS/RxGesture.framework; sourceTree = "<group>"; };
+		525BFA6825097402005393B1 /* sf-ui-display-light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sf-ui-display-light.ttf"; sourceTree = "<group>"; };
 		52760C492501731C00080152 /* LawyersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListViewController.swift; sourceTree = "<group>"; };
 		52760C4B2501736600080152 /* LawyersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListViewModel.swift; sourceTree = "<group>"; };
 		527880CC25080FB800EB2B9B /* UserProfileObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				521E64A924F8480600FF96ED /* sf-ui-display-regular.ttf */,
 				527880D0250812B200EB2B9B /* sf-ui-display-medium.ttf */,
 				527880D12508130700EB2B9B /* sf-ui-display-bold.ttf */,
+				525BFA6825097402005393B1 /* sf-ui-display-light.ttf */,
 			);
 			path = SF;
 			sourceTree = "<group>";
@@ -833,6 +836,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				521E64B324F849CC00FF96ED /* Saira-Bold.ttf in Resources */,
+				525BFA6925097405005393B1 /* sf-ui-display-light.ttf in Resources */,
 				521E64C224F8F7EA00FF96ED /* Default-568h@2x.png in Resources */,
 				52A271B22508E4970050FB60 /* Saira-SemiBold.ttf in Resources */,
 				52483B9E24A2774F0003A56A /* Assets.xcassets in Resources */,

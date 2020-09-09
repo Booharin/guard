@@ -21,6 +21,7 @@ ClientAppealsListViewControllerProtocol where modelType.ViewType == ClientAppeal
     var titleView = UIView()
     var titleLabel = UILabel()
     var tableView = UITableView()
+    private var gradientView: UIView?
 
     var viewModel: modelType
 
@@ -46,7 +47,7 @@ ClientAppealsListViewControllerProtocol where modelType.ViewType == ClientAppeal
         super.viewWillAppear(animated)
         
         navigationController?.isNavigationBarHidden = false
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        //navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationItem.setHidesBackButton(true, animated:false)
     }
     
@@ -62,7 +63,7 @@ ClientAppealsListViewControllerProtocol where modelType.ViewType == ClientAppeal
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = Colors.whiteColor
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 72
+        tableView.estimatedRowHeight = 80
         tableView.separatorStyle = .none
         tableView.delegate = self
         view.addSubview(tableView)
@@ -70,4 +71,48 @@ ClientAppealsListViewControllerProtocol where modelType.ViewType == ClientAppeal
             $0.edges.equalToSuperview()
         }
     }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView,
+                                   withVelocity velocity: CGPoint,
+                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        if(velocity.y > 0) {
+            // add gradient view
+            gradientView = createGradentView()
+            guard let gradientView = gradientView else { return }
+            view.addSubview(gradientView)
+            gradientView.snp.makeConstraints {
+                $0.top.leading.trailing.equalToSuperview()
+                $0.height.equalTo(50)
+            }
+            // hide nav bar
+            UIView.animate(withDuration: 0.3, animations: {
+                self.navigationController?.setNavigationBarHidden(true, animated: true)
+            })
+        } else {
+            // remove gradient view
+            gradientView?.removeFromSuperview()
+            gradientView = nil
+            // remove nav bar
+            UIView.animate(withDuration: 0.3, animations: {
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+            })
+        }
+    }
+    
+    private func createGradentView() -> UIView {
+        let gradientLAyer = CAGradientLayer()
+        gradientLAyer.colors = [
+            Colors.whiteColor.cgColor,
+            Colors.whiteColor.withAlphaComponent(0).cgColor
+        ]
+        gradientLAyer.locations = [0.0, 1.0]
+        gradientLAyer.frame = CGRect(x: 0,
+                                     y: 0,
+                                     width: UIScreen.main.bounds.width, height: 50)
+        let view = UIView()
+        view.layer.insertSublayer(gradientLAyer, at: 0)
+        return view
+    }
+
 }

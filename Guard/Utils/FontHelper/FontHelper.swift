@@ -9,6 +9,7 @@
 import UIKit
 
 enum SFUIDisplay: String {
+    case light = "SFUIDisplay-Light"
 	case regular = "SFUIDisplay-Regular"
 	case medium = "SFUIDisplay-Medium"
     case bold = "SFUIDisplay-Bold"
