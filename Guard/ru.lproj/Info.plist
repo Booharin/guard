@@ -31,9 +31,10 @@
 		<string>sf-ui-display-regular.ttf</string>
 		<string>sf-ui-display-medium.ttf</string>
 		<string>sf-ui-display-bold.ttf</string>
+		<string>Saira-Light.ttf</string>
 		<string>Saira-Regular.ttf</string>
 		<string>Saira-Medium.ttf</string>
-		<string>Saira-Light.ttf</string>
+		<string>Saira-SemiBold.ttf</string>
 		<string>Saira-Bold.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>

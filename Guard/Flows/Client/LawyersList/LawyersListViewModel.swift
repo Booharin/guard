@@ -93,7 +93,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 				//
 			}).disposed(by: disposeBag)
 		
-		view.titleLabel.font = Saira.medium.of(size: 16)
+		view.titleLabel.font = Saira.semiBold.of(size: 16)
 		view.titleLabel.textColor = Colors.maintextColor
 		if let profile = di.localStorageService.getProfile() {
 			view.titleLabel.text = "\(profile.city)"
