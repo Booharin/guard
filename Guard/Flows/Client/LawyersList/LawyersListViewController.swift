@@ -154,7 +154,7 @@ LawyersListViewControllerProtocol where modelType.ViewType == LawyersListViewCon
         let alertController = UIAlertController(title: nil,
                                                 message: nil,
                                                 preferredStyle: .actionSheet)
-        alertController.view.tintColor = Colors.maintextColor
+        alertController.view.tintColor = Colors.mainTextColor
         cities.forEach { city in
             let cityAction = UIAlertAction(title: city, style: .default, handler: { _ in
                 self.titleLabel.text = city

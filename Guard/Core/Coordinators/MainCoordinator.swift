@@ -65,26 +65,16 @@ final class MainCoordinator: BaseCoordinator {
 			})
 			.disposed(by: disposeBag)
 
-        // to create appeal
-        let toAppealCreateSubject = PublishSubject<Any>()
-        toAppealCreateSubject
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { _ in
-                //
-            })
-            .disposed(by: disposeBag)
-
 		tabBarController.viewControllers = [
+            // lawyers list
 			NavigationController(rootViewController:
 				LawyersListViewController(viewModel:
 					LawyersListViewModel(toLawyerSubject: toLawyerSubject)
 				)
 			),
-			NavigationController(rootViewController:
-				ClientAppealsListViewController(viewModel:
-                    ClientAppealsListViewModel(toAppealCreateSubject: toAppealCreateSubject)
-				)
-			),
+            // client appeals list
+            ClientAppealsListModuleFactory.createModule(),
+
 			NavigationController(rootViewController:
 				LawyersListViewController(viewModel:
 					LawyersListViewModel(toLawyerSubject: toLawyerSubject)

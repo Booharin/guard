@@ -51,6 +51,9 @@
 "main.enter.title" = "Осмотр";
 
 //ISSUE
+"client.issue.header.title" = "Hi, there!";
+"client.issue.header.subtitle" = "What’s happend?";
+
 "client.issue.drugs" = "Drugs";
 "client.issue.divorce" = "Divorce";
 "client.issue.real_estate" = "Real Estate";
@@ -62,3 +65,13 @@
 
 //ALERT
 "alert.cancel" = "Cancel";
+
+//APPEALS
+"appeals.greeting.title" = "Hi";
+"appeals.greeting.description" = "All your appeals is here";
+
+//NEW_APPEL
+"new_appeal.title" = "New appeal creation";
+"new_appeal.header.title" = "Step 1 / 2";
+"new_appeal.header.subtitle" = "What’s happend?";
+

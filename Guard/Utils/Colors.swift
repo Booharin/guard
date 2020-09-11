@@ -8,7 +8,7 @@
 import UIKit
 
 struct Colors {
-	static let maintextColor = #colorLiteral(red: 0.2235294118, green: 0.2549019608, blue: 0.3960784314, alpha: 1)
+	static let mainTextColor = #colorLiteral(red: 0.2235294118, green: 0.2549019608, blue: 0.3960784314, alpha: 1)
 	static let mainColor = #colorLiteral(red: 0.2235294118, green: 0.2549019608, blue: 0.3960784314, alpha: 1)
 	static let whiteColor = UIColor.white
 	static let blackColor = UIColor.black

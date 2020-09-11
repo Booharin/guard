@@ -21,16 +21,16 @@ final class ForgotPasswordViewModel: ViewModel, ForgotPasswordViewModelProtocol 
 	func viewDidSet() {
 		// logo
 		view.logoTitleLabel.font = Saira.bold.of(size: 30)
-		view.logoTitleLabel.textColor = Colors.maintextColor
+		view.logoTitleLabel.textColor = Colors.mainTextColor
 		view.logoTitleLabel.text = "registration.logo.title".localized.uppercased()
 		
 		view.logoSubtitleLabel.font = SFUIDisplay.regular.of(size: 14)
-		view.logoSubtitleLabel.textColor = Colors.maintextColor
+		view.logoSubtitleLabel.textColor = Colors.mainTextColor
 		view.logoSubtitleLabel.text = "registration.logo.subtitle".localized
 		
 		// alert label
 		view.hintLabel.numberOfLines = 2
-		view.hintLabel.textColor = Colors.maintextColor
+		view.hintLabel.textColor = Colors.mainTextColor
 		view.hintLabel.textAlignment = .center
 		view.hintLabel.font = SFUIDisplay.regular.of(size: 15)
 		view.hintLabel.text = "forgot.password.hint.title".localized
@@ -136,7 +136,7 @@ final class ForgotPasswordViewModel: ViewModel, ForgotPasswordViewModelProtocol 
 				!text.isEmpty else { return }
 			view.alertLabel.text = ""
 			
-			view.loginTextField.textColor = Colors.maintextColor
+			view.loginTextField.textColor = Colors.mainTextColor
 		} else {
 			view.view.endEditing(true)
 			view.alertLabel.text = text

@@ -94,7 +94,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 		
 		view.titleLabel.font = Saira.semiBold.of(size: 16)
-		view.titleLabel.textColor = Colors.maintextColor
+		view.titleLabel.textColor = Colors.mainTextColor
 		if let profile = di.localStorageService.getProfile() {
 			view.titleLabel.text = "\(profile.city)"
 		}
@@ -135,8 +135,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
             let jsonData = try JSONSerialization.data(withJSONObject: userProfilesArray,
                                                       options: .prettyPrinted)
             let profilesResponse = try JSONDecoder().decode([UserProfile].self, from: jsonData)
-            self.lawyers = profilesResponse
-            self.view.tableView.reloadData()
+            self.update(with: profilesResponse)
         } catch {
             #if DEBUG
             print(error)

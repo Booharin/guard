@@ -13,13 +13,13 @@ import RxCocoa
 struct ClientAppealCellViewModel: ViewModel {
     var view: ClientAppealCellProtocol!
     private var disposeBag = DisposeBag()
-    let toAppealCreateSubject: PublishSubject<Any>
+    let toAppealDescriptionSubject: PublishSubject<ClientAppeal>
     let animateDuration = 0.15
     let clientAppeal: ClientAppeal
 
-    init(clientAppeal: ClientAppeal, toAppealCreateSubject: PublishSubject<Any>) {
+    init(clientAppeal: ClientAppeal, toAppealDescriptionSubject: PublishSubject<ClientAppeal>) {
         self.clientAppeal = clientAppeal
-        self.toAppealCreateSubject = toAppealCreateSubject
+        self.toAppealDescriptionSubject = toAppealDescriptionSubject
     }
 
     func viewDidSet() {
@@ -35,20 +35,26 @@ struct ClientAppealCellViewModel: ViewModel {
                     self.view.containerView.backgroundColor = .clear
                 })
             })
-            self.toAppealCreateSubject.onNext(())
+            self.toAppealDescriptionSubject.onNext(self.clientAppeal)
         }).disposed(by: disposeBag)
         
         view.appealImageView.image = #imageLiteral(resourceName: "car_accident_icn")
 
         view.titleLabel.text = clientAppeal.title
         view.titleLabel.font = SFUIDisplay.regular.of(size: 16)
-        view.titleLabel.textColor = Colors.maintextColor
+        view.titleLabel.textColor = Colors.mainTextColor
         
         view.descriptionLabel.font = SFUIDisplay.light.of(size: 12)
         view.descriptionLabel.textColor = Colors.subtitleColor
-        view.descriptionLabel.text = clientAppeal.description
-        view.dateLabel.text = ""
-        view.timeLabel.text = ""
+        view.descriptionLabel.text = clientAppeal.appealDescription
+
+        view.dateLabel.font = SFUIDisplay.light.of(size: 10)
+        view.dateLabel.textColor = Colors.mainTextColor
+        view.dateLabel.text = Date.getString(with: clientAppeal.dateCreate, format: "dd.MM.yyyy")
+
+        view.timeLabel.font = SFUIDisplay.light.of(size: 10)
+        view.timeLabel.textColor = Colors.mainTextColor
+        view.timeLabel.text = Date.getString(with: clientAppeal.dateCreate, format: "HH:mm")
     }
 
     func removeBindings() {}

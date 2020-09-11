@@ -43,10 +43,10 @@ struct LawyerCellViewModel: ViewModel {
 		
 		view.nameTitle.text = lawyer.fullName
 		view.nameTitle.font = SFUIDisplay.regular.of(size: 16)
-		view.nameTitle.textColor = Colors.maintextColor
+		view.nameTitle.textColor = Colors.mainTextColor
         
         view.rateLabel.font = SFUIDisplay.bold.of(size: 15)
-        view.rateLabel.textColor = Colors.maintextColor
+        view.rateLabel.textColor = Colors.mainTextColor
         view.rateLabel.text = "\(String(format: "%.1f", lawyer.rate))"
 	}
 	

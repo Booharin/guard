@@ -13,6 +13,9 @@ protocol ClientAppealsListViewControllerProtocol {
     var titleView: UIView { get }
     var titleLabel: UILabel { get }
     var tableView: UITableView { get }
+    var greetingLabel: UILabel { get }
+    var greetingDescriptionLabel: UILabel { get }
+	func updateTableView()
 }
 
 final class ClientAppealsListViewController<modelType: ViewModel>: UIViewController, UITableViewDelegate,
@@ -20,7 +23,9 @@ ClientAppealsListViewControllerProtocol where modelType.ViewType == ClientAppeal
     var addButtonView = AddButtonView()
     var titleView = UIView()
     var titleLabel = UILabel()
-    var tableView = UITableView()
+    var tableView = UITableView(frame: .zero, style: .grouped)
+    var greetingLabel = UILabel()
+    var greetingDescriptionLabel = UILabel()
     private var gradientView: UIView?
 
     var viewModel: modelType
@@ -47,7 +52,8 @@ ClientAppealsListViewControllerProtocol where modelType.ViewType == ClientAppeal
         super.viewWillAppear(animated)
         
         navigationController?.isNavigationBarHidden = false
-        //navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+		navigationController?.navigationBar.isTranslucent = true
         self.navigationItem.setHidesBackButton(true, animated:false)
     }
     
@@ -70,6 +76,14 @@ ClientAppealsListViewControllerProtocol where modelType.ViewType == ClientAppeal
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return createHeaderView()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 65
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView,
@@ -114,5 +128,37 @@ ClientAppealsListViewControllerProtocol where modelType.ViewType == ClientAppeal
         view.layer.insertSublayer(gradientLAyer, at: 0)
         return view
     }
+    
+    private func createHeaderView() -> UIView {
+        let headerView = UIView()
+        headerView.snp.makeConstraints {
+            $0.height.equalTo(65)
+            $0.width.equalTo(UIScreen.main.bounds.width)
+        }
+        headerView.addSubview(greetingLabel)
+        greetingLabel.snp.makeConstraints {
+            $0.height.equalTo(39)
+            $0.width.equalTo(UIScreen.main.bounds.width)
+            $0.top.equalToSuperview()
+        }
+        headerView.addSubview(greetingDescriptionLabel)
+        greetingDescriptionLabel.snp.makeConstraints {
+            $0.height.equalTo(28)
+            $0.width.equalTo(UIScreen.main.bounds.width)
+            $0.top.equalTo(greetingLabel.snp.bottom).offset(-2)
+        }
+        return headerView
+    }
+	
+	func updateTableView() {
+		DispatchQueue.main.async {
+			self.tableView.reloadData()
+		}
 
+		if tableView.contentSize.height <= tableView.frame.height {
+            tableView.isScrollEnabled = false
+		} else {
+			tableView.isScrollEnabled = true
+		}
+	}
 }
