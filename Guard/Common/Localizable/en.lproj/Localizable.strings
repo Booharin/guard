@@ -74,4 +74,8 @@
 "new_appeal.title" = "New appeal creation";
 "new_appeal.header.title" = "Step 1 / 2";
 "new_appeal.header.subtitle" = "What’s happend?";
+"new_appeal.subtitle.title" = "Step 2 / 2";
+"new_appeal.button.title" = "Create appeal";
+"new_appeal.title.textfield.placeholder" = "Title";
+"new_appeal.textview.placeholder" = "Enter the full description of your problem";
 

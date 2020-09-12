@@ -33,6 +33,8 @@
 		5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69024C7616F000BEE13 /* SelectIssueDataSource.swift */; };
 		5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69324C761C3000BEE13 /* TableViewItem.swift */; };
 		5222B69624C761D6000BEE13 /* TableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69524C761D6000BEE13 /* TableViewSection.swift */; };
+		5235F287250CB6EA00639FC4 /* AppealCreatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235F286250CB6EA00639FC4 /* AppealCreatingViewController.swift */; };
+		5235F289250CB7A400639FC4 /* AppealCreatingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235F288250CB7A400639FC4 /* AppealCreatingViewModel.swift */; };
 		523A67BE24C2C6FB0008E8AF /* RxDataSources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */; };
 		523A67BF24C2C6FB0008E8AF /* RxDataSources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		523FF71624BD7EAB00C4F959 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */; };
@@ -156,6 +158,8 @@
 		5222B69024C7616F000BEE13 /* SelectIssueDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueDataSource.swift; sourceTree = "<group>"; };
 		5222B69324C761C3000BEE13 /* TableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewItem.swift; sourceTree = "<group>"; };
 		5222B69524C761D6000BEE13 /* TableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSection.swift; sourceTree = "<group>"; };
+		5235F286250CB6EA00639FC4 /* AppealCreatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealCreatingViewController.swift; sourceTree = "<group>"; };
+		5235F288250CB7A400639FC4 /* AppealCreatingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealCreatingViewModel.swift; sourceTree = "<group>"; };
 		523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxDataSources.framework; path = Carthage/Build/iOS/RxDataSources.framework; sourceTree = "<group>"; };
 		523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		523FF71824BD970A00C4F959 /* BackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonView.swift; sourceTree = "<group>"; };
@@ -412,6 +416,15 @@
 				5251AFB824A287AD00467E84 /* TextField */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		5235F285250CB6C600639FC4 /* AppealCreating */ = {
+			isa = PBXGroup;
+			children = (
+				5235F286250CB6EA00639FC4 /* AppealCreatingViewController.swift */,
+				5235F288250CB7A400639FC4 /* AppealCreatingViewModel.swift */,
+			);
+			path = AppealCreating;
 			sourceTree = "<group>";
 		};
 		523FF71724BD96E800C4F959 /* BackButtonView */ = {
@@ -709,6 +722,7 @@
 		52760C48250172F200080152 /* LawyersList */ = {
 			isa = PBXGroup;
 			children = (
+				5235F285250CB6C600639FC4 /* AppealCreating */,
 				52AF28E92506191D00287A8F /* DataSource */,
 				52AF28E42506143200287A8F /* Cell */,
 				52760C492501731C00080152 /* LawyersListViewController.swift */,
@@ -934,6 +948,7 @@
 				5251AFB024A2829200467E84 /* Colors.swift in Sources */,
 				527880CF25080FB800EB2B9B /* UserProfileObject+CoreDataProperties.swift in Sources */,
 				52FFF4A5250B85D100957356 /* ClientAppealsListRouter.swift in Sources */,
+				5235F289250CB7A400639FC4 /* AppealCreatingViewModel.swift in Sources */,
 				5222B68C24C75AB3000BEE13 /* SelectIssueTableViewCell.swift in Sources */,
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
 				5222B68E24C75DC2000BEE13 /* SelectIssueCellViewModel.swift in Sources */,
@@ -956,6 +971,7 @@
 				525BFA78250A080D005393B1 /* ClientAppealObject+CoreDataProperties.swift in Sources */,
 				52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */,
 				52A271B52508ED230050FB60 /* ClientAppealsListViewController.swift in Sources */,
+				5235F287250CB6EA00639FC4 /* AppealCreatingViewController.swift in Sources */,
 				523FF71624BD7EAB00C4F959 /* RegistrationViewModel.swift in Sources */,
 				5253753324B84D5200CC729C /* ChooseViewController.swift in Sources */,
 				522272D82504C54D0029A4E2 /* CoreDataManager.swift in Sources */,

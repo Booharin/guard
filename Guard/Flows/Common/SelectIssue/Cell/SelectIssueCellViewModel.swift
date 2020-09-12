@@ -38,6 +38,8 @@ struct SelectIssueCellViewModel: ViewModel {
 		view.issueTitle.text = clientIssue.titleFromIssuetype
 		view.issueTitle.font = SFUIDisplay.regular.of(size: 16)
 		view.issueTitle.textColor = Colors.mainTextColor
+		
+		view.issueImageView.image = #imageLiteral(resourceName: "divorce_icn")
 	}
 	
 	func removeBindings() {}

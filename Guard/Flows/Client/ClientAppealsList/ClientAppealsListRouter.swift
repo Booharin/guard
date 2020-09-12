@@ -29,7 +29,7 @@ final class ClientAppealsListRouter: ClientAppealsListRouterProtocol {
         toAppealDescriptionSubject
         .observeOn(MainScheduler.instance)
         .subscribe(onNext: { _ in
-            //
+			//
         })
         .disposed(by: disposeBag)
         
@@ -47,7 +47,7 @@ final class ClientAppealsListRouter: ClientAppealsListRouterProtocol {
         toCreateAppealSubject
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { clientIssue in
-                //
+                self.toAppealCreating(clientIssue)
             })
             .disposed(by: disposeBag)
 
@@ -57,4 +57,11 @@ final class ClientAppealsListRouter: ClientAppealsListRouterProtocol {
 
 		self.navigationController?.pushViewController(selectIssueController, animated: true)
     }
+	
+	private func toAppealCreating(_ clientIssue: ClientIssue) {
+		let toAppealCreatingController = AppealCreatingViewController(viewModel:
+			AppealCreatingViewModel(clientIssue: clientIssue)
+		)
+		self.navigationController?.pushViewController(toAppealCreatingController, animated: true)
+	}
 }
