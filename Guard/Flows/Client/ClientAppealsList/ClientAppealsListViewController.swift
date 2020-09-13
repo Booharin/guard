@@ -55,6 +55,10 @@ ClientAppealsListViewControllerProtocol where modelType.ViewType == ClientAppeal
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
 		navigationController?.navigationBar.isTranslucent = true
         self.navigationItem.setHidesBackButton(true, animated:false)
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+			self.updateTableView()
+		})
     }
     
     func setNavigationBar() {

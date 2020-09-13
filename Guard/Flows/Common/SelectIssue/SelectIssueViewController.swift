@@ -62,12 +62,12 @@ SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewCon
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
+		navigationController?.isNavigationBarHidden = false
+		self.navigationItem.setHidesBackButton(true, animated: false)
+		
 		if isToMain {
-			navigationController?.isNavigationBarHidden = true
+			
 		} else {
-			navigationController?.isNavigationBarHidden = false
-			self.navigationItem.setHidesBackButton(true, animated: false)
-
 			let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
 			self.navigationItem.leftBarButtonItem = leftBarButtonItem
 
@@ -141,7 +141,6 @@ SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewCon
             }
 
             // hide nav bar
-			guard isToMain == false else { return }
             UIView.animate(withDuration: 0.3, animations: {
                 self.navigationController?.setNavigationBarHidden(true, animated: true)
             })
@@ -151,7 +150,6 @@ SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewCon
             gradientView = nil
 
             // remove nav bar
-			guard isToMain == false else { return }
             UIView.animate(withDuration: 0.3, animations: {
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
             })
