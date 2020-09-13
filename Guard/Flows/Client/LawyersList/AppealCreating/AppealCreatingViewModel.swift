@@ -83,6 +83,25 @@ final class AppealCreatingViewModel: ViewModel {
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.navController?.popToRootViewController(animated: true)
 			}).disposed(by: disposeBag)
+		
+		// MARK: - Check keyboard showing
+		keyboardHeight()
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [unowned self] keyboardHeight in
+				if keyboardHeight > 0 {
+					guard self.view.descriptionTextView.textColor == Colors.mainTextColor else { return }
+					self.view.descriptionTextView.contentInset = UIEdgeInsets(top: 0,
+																					left: 0,
+																					bottom: keyboardHeight,
+																					right: 0)
+				} else {
+					self.view.descriptionTextView.contentInset = UIEdgeInsets(top: 0,
+																					left: 0,
+																					bottom: 0,
+																					right: 0)
+				}
+			})
+			.disposed(by: disposeBag)
 	}
 	
 	private func checkAreTextFieldsEmpty() {
@@ -101,20 +120,20 @@ final class AppealCreatingViewModel: ViewModel {
 		}
 	}
 	
-//	private func checkIsPlaceHolderNeeded(_ text: String?) {
-//		guard let text = text else { return }
-//		if text.isEmpty {
-//			view.descriptionTextView.textColor = Colors.placeholderColor
-//			view.descriptionTextView.font = Saira.light.of(size: 15)
-//			view.descriptionTextView.text = "new_appeal.textview.placeholder".localized
-//			view.descriptionTextView.textAlignment = .center
-//		} else {
-//			view.descriptionTextView.textColor = Colors.mainTextColor
-//			view.descriptionTextView.font = SFUIDisplay.regular.of(size: 16)
-//			view.descriptionTextView.text = nil
-//			view.descriptionTextView.textAlignment = .natural
-//		}
-//	}
+	private func keyboardHeight() -> Observable<CGFloat> {
+		return Observable
+			.from([
+				NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
+					.map { notification -> CGFloat in
+						(notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0
+				},
+				NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+					.map { _ -> CGFloat in
+						0
+				}
+			])
+			.merge()
+	}
 
 	func removeBindings() {}
 }

@@ -96,8 +96,6 @@ AppealCreatingViewControllerProtocol where modelType.ViewType == AppealCreatingV
 			$0.top.equalTo(subtitleLabel.snp.bottom).offset(28)
 		}
 		// description text view
-		//добавить тап по свободному экрану
-		let tapGesture =
 		descriptionTextView.delegate = self
 		view.addSubview(descriptionTextView)
 		descriptionTextView.snp.makeConstraints {
@@ -146,4 +144,12 @@ AppealCreatingViewControllerProtocol where modelType.ViewType == AppealCreatingV
 			textView.textAlignment = .center
 		}
 	}
+	
+	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
 }
