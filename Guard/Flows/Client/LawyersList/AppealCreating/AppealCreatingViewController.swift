@@ -13,6 +13,7 @@ protocol AppealCreatingViewControllerProtocol: class, ViewControllerProtocol {
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
 	var subtitleLabel: UILabel { get }
+	var issueTitleLabel: UILabel { get }
 	var titleTextField: TextField { get }
 	var descriptionTextView: UITextView { get }
 	var createAppealButton: ConfirmButton { get }
@@ -25,6 +26,7 @@ AppealCreatingViewControllerProtocol where modelType.ViewType == AppealCreatingV
 	var titleView = UIView()
 	var titleLabel = UILabel()
 	var subtitleLabel = UILabel()
+	var issueTitleLabel = UILabel()
 	var titleTextField = TextField()
 	var descriptionTextView = UITextView()
 	var createAppealButton = ConfirmButton(title: "new_appeal.button.title".localized.uppercased())
@@ -87,13 +89,19 @@ AppealCreatingViewControllerProtocol where modelType.ViewType == AppealCreatingV
 			$0.top.equalToSuperview().offset(97)
 			$0.centerX.equalToSuperview()
 		}
+		view.addSubview(issueTitleLabel)
+		issueTitleLabel.snp.makeConstraints {
+			$0.top.equalTo(subtitleLabel.snp.bottom).offset(15)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
+		}
 		// title text field
 		view.addSubview(titleTextField)
 		titleTextField.snp.makeConstraints {
 			$0.height.equalTo(48)
 			$0.leading.equalToSuperview().offset(20)
 			$0.trailing.equalToSuperview().offset(-20)
-			$0.top.equalTo(subtitleLabel.snp.bottom).offset(28)
+			$0.top.equalTo(issueTitleLabel.snp.bottom).offset(10)
 		}
 		// description text view
 		descriptionTextView.delegate = self

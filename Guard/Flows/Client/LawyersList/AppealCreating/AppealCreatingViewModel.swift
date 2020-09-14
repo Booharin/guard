@@ -49,6 +49,13 @@ final class AppealCreatingViewModel: ViewModel {
 		view.subtitleLabel.textColor = Colors.mainTextColor
 		view.subtitleLabel.text = "new_appeal.subtitle.title".localized
 		view.subtitleLabel.textAlignment = .center
+		
+		// client issue title
+		view.issueTitleLabel.font = SFUIDisplay.medium.of(size: 15)
+		view.issueTitleLabel.textColor = Colors.warningColor
+		view.issueTitleLabel.numberOfLines = 2
+		view.issueTitleLabel.textAlignment = .center
+		view.issueTitleLabel.text = clientIssue.issueType
 
 		// login
 		view.titleTextField.configure(placeholderText: "new_appeal.title.textfield.placeholder".localized)
