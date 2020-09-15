@@ -73,10 +73,6 @@ SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewCon
 
 			self.navigationItem.titleView = titleView
 		}
-
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-			self.updateTableView()
-		})
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {

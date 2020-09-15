@@ -14,13 +14,13 @@ protocol ClientAppealsListRouterProtocol {
     var toSelectIssueSubject: PublishSubject<Any> { get }
 }
 
-final class ClientAppealsListRouter: ClientAppealsListRouterProtocol {
-    var navigationController: NavigationController?
+final class ClientAppealsListRouter: BaseRouter, ClientAppealsListRouterProtocol {
     private var disposeBag = DisposeBag()
     var toAppealDescriptionSubject = PublishSubject<ClientAppeal>()
     var toSelectIssueSubject = PublishSubject<Any>()
     
-    init() {
+	override init() {
+		super.init()
         createTransitions()
     }
     
@@ -46,7 +46,7 @@ final class ClientAppealsListRouter: ClientAppealsListRouterProtocol {
         let toCreateAppealSubject = PublishSubject<ClientIssue>()
         toCreateAppealSubject
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { clientIssue in
+            .subscribe(onNext: { [unowned self] clientIssue in
                 self.toAppealCreating(clientIssue)
             })
             .disposed(by: disposeBag)

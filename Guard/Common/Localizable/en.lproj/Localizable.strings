@@ -79,3 +79,7 @@
 "new_appeal.title.textfield.placeholder" = "Title";
 "new_appeal.textview.placeholder" = "Enter the full description of your problem";
 
+//CHAT
+"chat.greeting.title" = "Hi";
+"chat.greeting.description" = "All your conversations is here";
+

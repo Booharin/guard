@@ -74,12 +74,9 @@ final class MainCoordinator: BaseCoordinator {
 			),
             // client appeals list
             ClientAppealsListModuleFactory.createModule(),
+			// conversations list
+			ConversationsListModuleFactory.createModule(),
 
-			NavigationController(rootViewController:
-				LawyersListViewController(viewModel:
-					LawyersListViewModel(toLawyerSubject: toLawyerSubject)
-				)
-			),
 			NavigationController(rootViewController:
 				LawyersListViewController(viewModel:
 					LawyersListViewModel(toLawyerSubject: toLawyerSubject)

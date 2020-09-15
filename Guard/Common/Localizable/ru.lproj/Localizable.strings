@@ -78,3 +78,7 @@
 "new_appeal.button.title" = "Создать";
 "new_appeal.title.textfield.placeholder" = "Заголовок";
 "new_appeal.textview.placeholder" = "Опишите, что у вас случилось";
+
+//CHAT
+"chat.greeting.title" = "Привет";
+"chat.greeting.description" = "Все твои переговоры здесь";
