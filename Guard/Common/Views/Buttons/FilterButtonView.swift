@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FilterButtonView: UIView {
+final class FilterButtonView: UIView {
 	init() {
 		super.init(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
 		let imageView = UIImageView(frame: CGRect(x: 13, y: 10, width: 24, height: 24))

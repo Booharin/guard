@@ -21,7 +21,35 @@ struct ChatCellViewModel: ViewModel {
 	}
 	
 	func viewDidSet() {
-
+		// bubble
+		view.bubbleView.clipsToBounds = true
+		view.bubbleView.layer.cornerRadius = 13
+		
+		// message
+		view.messageLabel.font = SFUIDisplay.regular.of(size: 15)
+		view.messageLabel.textColor = Colors.mainTextColor
+		view.messageLabel.text = chatMessage.text
+		view.messageLabel.numberOfLines = 0
+		
+		// date
+		view.dateLabel.font = SFUIDisplay.light.of(size: 10)
+		view.dateLabel.textColor = Colors.mainTextColor
+		view.dateLabel.text = Date.getString(with: chatMessage.dateCreated, format: "dd.MM.yyyy HH:mm")
+		
+		switch chatMessage.messageType {
+		case .incoming:
+			// bubble
+			view.bubbleView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+			view.bubbleView.backgroundColor = Colors.incomingMessageBackground
+			// message
+			view.messageLabel.textAlignment = .left
+		case .outgoing:
+			// bubble
+			view.bubbleView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+			view.bubbleView.backgroundColor = Colors.outgoingMessageBackground
+			// message
+			view.messageLabel.textAlignment = .right
+		}
 	}
 	
 	func removeBindings() {}

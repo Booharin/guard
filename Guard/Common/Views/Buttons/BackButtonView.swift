@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BackButtonView: UIView {
+final class BackButtonView: UIView {
 	init() {
 		super.init(frame: CGRect(x: 0, y: 0, width: 60, height: 50))
 		let imageView = UIImageView(frame: CGRect(x: 20, y: 15, width: 10, height: 18))

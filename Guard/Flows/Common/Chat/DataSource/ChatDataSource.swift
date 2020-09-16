@@ -12,7 +12,7 @@ import RxSwift
 struct ChatDataSource {
     typealias DataSource = RxTableViewSectionedReloadDataSource
     
-	static func dataSource(toLawyerSubject: PublishSubject<UserProfile>) -> DataSource<SectionModel<String, ChatMessage>> {
+	static func dataSource() -> DataSource<SectionModel<String, ChatMessage>> {
         return .init(configureCell: { dataSource, tableView, indexPath, chatMessage -> UITableViewCell in
             
             let cell = ChatCell()
