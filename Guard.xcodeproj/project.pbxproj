@@ -45,6 +45,7 @@
 		52483BB324A279E40003A56A /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52483BB224A279E40003A56A /* BaseCoordinator.swift */; };
 		52483BB524A279FC0003A56A /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52483BB424A279FC0003A56A /* ApplicationCoordinator.swift */; };
 		52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52483BB624A27A120003A56A /* MainCoordinator.swift */; };
+		52516D5C2513E03300521AA4 /* ChatBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52516D5B2513E03300521AA4 /* ChatBarView.swift */; };
 		5251AFA324A281F100467E84 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5251AFA124A281F100467E84 /* Alamofire.framework */; };
 		5251AFA424A281F100467E84 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5251AFA124A281F100467E84 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5251AFA524A281F100467E84 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5251AFA224A281F100467E84 /* SnapKit.framework */; };
@@ -186,6 +187,7 @@
 		52483BB224A279E40003A56A /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		52483BB424A279FC0003A56A /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
 		52483BB624A27A120003A56A /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		52516D5B2513E03300521AA4 /* ChatBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBarView.swift; sourceTree = "<group>"; };
 		5251AFA124A281F100467E84 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		5251AFA224A281F100467E84 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		5251AFA924A2823200467E84 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
@@ -552,6 +554,22 @@
 			path = Coordinators;
 			sourceTree = "<group>";
 		};
+		52516D592513DFF900521AA4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				52516D5A2513E00900521AA4 /* ChatBarView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		52516D5A2513E00900521AA4 /* ChatBarView */ = {
+			isa = PBXGroup;
+			children = (
+				52516D5B2513E03300521AA4 /* ChatBarView.swift */,
+			);
+			path = ChatBarView;
+			sourceTree = "<group>";
+		};
 		5251AFA024A281F100467E84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -703,6 +721,7 @@
 		52740F73250F409F001D86FF /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				52516D592513DFF900521AA4 /* Views */,
 				52B2685625110DD600111864 /* DataSource */,
 				52B2685525110DCA00111864 /* Cell */,
 				52740F74250F40B3001D86FF /* ChatViewController.swift */,
@@ -1028,6 +1047,7 @@
 				52212F8324FFDD24003FA67E /* ForgotPasswordViewController.swift in Sources */,
 				521E64B624F84B0200FF96ED /* FontHelper.swift in Sources */,
 				52740F75250F40B3001D86FF /* ChatViewController.swift in Sources */,
+				52516D5C2513E03300521AA4 /* ChatBarView.swift in Sources */,
 				525BFA78250A080D005393B1 /* ClientAppealObject+CoreDataProperties.swift in Sources */,
 				52B2686E251114E200111864 /* BaseRouter.swift in Sources */,
 				52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */,
