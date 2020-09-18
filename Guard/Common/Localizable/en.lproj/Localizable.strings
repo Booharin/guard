@@ -82,4 +82,5 @@
 //CHAT
 "chat.greeting.title" = "Hi";
 "chat.greeting.description" = "All your conversations is here";
+"chat.placeholder" = "Message";
 

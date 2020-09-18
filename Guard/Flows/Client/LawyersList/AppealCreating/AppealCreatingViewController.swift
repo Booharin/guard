@@ -131,10 +131,6 @@ AppealCreatingViewControllerProtocol where modelType.ViewType == AppealCreatingV
 		}
 	}
 	
-	@objc func donePressed() {
-		view.endEditing(true)
-	}
-	
 	func textViewDidBeginEditing(_ textView: UITextView) {
 		if textView.textColor == Colors.placeholderColor {
 			textView.text = nil

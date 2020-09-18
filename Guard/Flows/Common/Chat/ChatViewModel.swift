@@ -84,6 +84,52 @@ final class ChatViewModel: ViewModel {
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
+		
+		// MARK: - Check keyboard showing
+		keyboardHeight()
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [unowned self] keyboardHeight in
+				if keyboardHeight > 0 {
+					let offset = keyboardHeight - 20
+					self.view.chatBarView.snp.updateConstraints {
+						$0.bottom.equalToSuperview().offset(-offset)
+					}
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.view.layoutIfNeeded()
+						self.scrollToBottom()
+					})
+				} else {
+					self.view.chatBarView.snp.updateConstraints {
+						$0.bottom.equalToSuperview()
+					}
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.view.layoutIfNeeded()
+					})
+				}
+			})
+			.disposed(by: disposeBag)
+	}
+
+	// MARK: - Scroll table view to bottom
+	func scrollToBottom() {
+        let indexPath = IndexPath(row: messages.count-1, section: 0)
+        guard indexPath.row >= 0 else { return }
+		self.view.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+    }
+
+	private func keyboardHeight() -> Observable<CGFloat> {
+		return Observable
+			.from([
+				NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
+					.map { notification -> CGFloat in
+						(notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0
+				},
+				NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+					.map { _ -> CGFloat in
+						0
+				}
+			])
+			.merge()
 	}
 	
 	private func getMessagesFromServer() {

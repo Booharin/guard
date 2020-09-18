@@ -14,6 +14,7 @@ protocol ChatViewControllerProtocol: ViewControllerProtocol {
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
+	var chatBarView: ChatBarViewProtocol { get }
 	func updateTableView()
 }
 
@@ -24,6 +25,7 @@ ChatViewControllerProtocol where modelType.ViewType == ChatViewControllerProtoco
 	var appealButtonView = AppealButtonView()
 	var titleView = UIView()
 	var titleLabel = UILabel()
+	var chatBarView: ChatBarViewProtocol = ChatBarView()
 	var tableView = UITableView()
 	private var gradientView: UIView?
 	var navController: UINavigationController? {
@@ -78,11 +80,19 @@ ChatViewControllerProtocol where modelType.ViewType == ChatViewControllerProtoco
 			$0.centerY.equalToSuperview().offset(2)
 			$0.width.lessThanOrEqualTo(250)
 		}
-
 		titleView.snp.makeConstraints {
 			$0.width.equalTo(titleLabel.snp.width).offset(46)
 			$0.height.equalTo(40)
 		}
+		
+		// chat bar
+		view.addSubview(chatBarView)
+		chatBarView.snp.makeConstraints {
+			$0.leading.trailing.equalToSuperview()
+			$0.bottom.equalToSuperview()
+			$0.height.equalTo(106)
+		}
+		
 		// table view
 		tableView.register(SelectIssueTableViewCell.self,
 						   forCellReuseIdentifier: SelectIssueTableViewCell.reuseIdentifier)
@@ -94,7 +104,8 @@ ChatViewControllerProtocol where modelType.ViewType == ChatViewControllerProtoco
 		tableView.delegate = self
 		view.addSubview(tableView)
 		tableView.snp.makeConstraints {
-			$0.edges.equalToSuperview()
+			$0.leading.trailing.top.equalToSuperview()
+			$0.bottom.equalTo(chatBarView.snp.top)
 		}
 	}
 	

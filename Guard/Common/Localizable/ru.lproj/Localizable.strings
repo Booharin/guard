@@ -82,3 +82,4 @@
 //CHAT
 "chat.greeting.title" = "Привет";
 "chat.greeting.description" = "Все твои переговоры здесь";
+"chat.placeholder" = "Сообщение";
