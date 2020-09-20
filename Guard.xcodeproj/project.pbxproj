@@ -77,6 +77,10 @@
 		527880CF25080FB800EB2B9B /* UserProfileObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527880CD25080FB800EB2B9B /* UserProfileObject+CoreDataProperties.swift */; };
 		527880D22508141800EB2B9B /* sf-ui-display-medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 527880D0250812B200EB2B9B /* sf-ui-display-medium.ttf */; };
 		527880D32508141B00EB2B9B /* sf-ui-display-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 527880D12508130700EB2B9B /* sf-ui-display-bold.ttf */; };
+		5283CB6F2517CA5D005DEDA8 /* ClientProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5283CB6E2517CA5D005DEDA8 /* ClientProfileViewController.swift */; };
+		5283CB712517CA71005DEDA8 /* ClientProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5283CB702517CA71005DEDA8 /* ClientProfileViewModel.swift */; };
+		5283CB732517CBED005DEDA8 /* ClientProfileModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5283CB722517CBED005DEDA8 /* ClientProfileModuleFactory.swift */; };
+		5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5283CB742517CC43005DEDA8 /* ClientProfileRouter.swift */; };
 		52901BE82501002400271CAC /* ClientIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52901BE72501002400271CAC /* ClientIssue.swift */; };
 		52A271B02508E45A0050FB60 /* Saira-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */; };
 		52A271B22508E4970050FB60 /* Saira-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */; };
@@ -216,6 +220,10 @@
 		527880CD25080FB800EB2B9B /* UserProfileObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		527880D0250812B200EB2B9B /* sf-ui-display-medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sf-ui-display-medium.ttf"; sourceTree = "<group>"; };
 		527880D12508130700EB2B9B /* sf-ui-display-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sf-ui-display-bold.ttf"; sourceTree = "<group>"; };
+		5283CB6E2517CA5D005DEDA8 /* ClientProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileViewController.swift; sourceTree = "<group>"; };
+		5283CB702517CA71005DEDA8 /* ClientProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileViewModel.swift; sourceTree = "<group>"; };
+		5283CB722517CBED005DEDA8 /* ClientProfileModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileModuleFactory.swift; sourceTree = "<group>"; };
+		5283CB742517CC43005DEDA8 /* ClientProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileRouter.swift; sourceTree = "<group>"; };
 		52901BE72501002400271CAC /* ClientIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIssue.swift; sourceTree = "<group>"; };
 		52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Medium.ttf"; sourceTree = "<group>"; };
 		52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -755,6 +763,7 @@
 		52760C46250172CE00080152 /* Client */ = {
 			isa = PBXGroup;
 			children = (
+				5283CB6D2517CA1B005DEDA8 /* ClientProfile */,
 				52760C48250172F200080152 /* LawyersList */,
 				52A271B32508E6C40050FB60 /* ClientAppealsList */,
 			);
@@ -771,6 +780,17 @@
 				52760C4B2501736600080152 /* LawyersListViewModel.swift */,
 			);
 			path = LawyersList;
+			sourceTree = "<group>";
+		};
+		5283CB6D2517CA1B005DEDA8 /* ClientProfile */ = {
+			isa = PBXGroup;
+			children = (
+				5283CB6E2517CA5D005DEDA8 /* ClientProfileViewController.swift */,
+				5283CB702517CA71005DEDA8 /* ClientProfileViewModel.swift */,
+				5283CB722517CBED005DEDA8 /* ClientProfileModuleFactory.swift */,
+				5283CB742517CC43005DEDA8 /* ClientProfileRouter.swift */,
+			);
+			path = ClientProfile;
 			sourceTree = "<group>";
 		};
 		52A271B32508E6C40050FB60 /* ClientAppealsList */ = {
@@ -942,7 +962,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = ds;
 				TargetAttributes = {
 					52483B9024A2774E0003A56A = {
@@ -1024,9 +1044,11 @@
 				52B2685C25110E3300111864 /* ChatDataSource.swift in Sources */,
 				5222B68C24C75AB3000BEE13 /* SelectIssueTableViewCell.swift in Sources */,
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
+				5283CB712517CA71005DEDA8 /* ClientProfileViewModel.swift in Sources */,
 				523EEEAB251284230007ED2F /* AppealButtonView.swift in Sources */,
 				52B268732511181200111864 /* ConversationsListDataSource.swift in Sources */,
 				5222B68E24C75DC2000BEE13 /* SelectIssueCellViewModel.swift in Sources */,
+				5283CB732517CBED005DEDA8 /* ClientProfileModuleFactory.swift in Sources */,
 				523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */,
 				5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */,
 				52A271C22508FA4E0050FB60 /* ClientAppeal.swift in Sources */,
@@ -1040,10 +1062,12 @@
 				52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */,
 				52A271C02508F9AC0050FB60 /* ClientAppealCellViewModel.swift in Sources */,
 				5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */,
+				5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
 				52B278CA24C0964F001E7295 /* LocationService.swift in Sources */,
 				521E64CF24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift in Sources */,
+				5283CB6F2517CA5D005DEDA8 /* ClientProfileViewController.swift in Sources */,
 				52212F8324FFDD24003FA67E /* ForgotPasswordViewController.swift in Sources */,
 				521E64B624F84B0200FF96ED /* FontHelper.swift in Sources */,
 				52740F75250F40B3001D86FF /* ChatViewController.swift in Sources */,
@@ -1148,6 +1172,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1211,6 +1236,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

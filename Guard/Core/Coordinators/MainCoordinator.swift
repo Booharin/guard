@@ -80,12 +80,8 @@ final class MainCoordinator: BaseCoordinator {
             ClientAppealsListModuleFactory.createModule(),
 			// conversations list
 			ConversationsListModuleFactory.createModule(),
-
-			NavigationController(rootViewController:
-				LawyersListViewController(viewModel:
-					LawyersListViewModel(toLawyerSubject: toLawyerSubject)
-				)
-			)
+			// client profile
+			ClientProfileModuleFactory.createModule()
 		]
 	}
 	
