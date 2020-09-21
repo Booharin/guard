@@ -118,7 +118,7 @@ final class AuthViewModel: ViewModel,
 		view.faceIDButton
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.faceIDButton.alpha = 0.5
@@ -139,7 +139,7 @@ final class AuthViewModel: ViewModel,
 		view.forgetPasswordLabel
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.forgetPasswordLabel.alpha = 0.5

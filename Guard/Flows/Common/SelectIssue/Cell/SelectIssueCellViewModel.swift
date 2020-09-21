@@ -26,7 +26,7 @@ struct SelectIssueCellViewModel: ViewModel {
 		view.containerView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.subscribe(onNext: { _ in
                 if let toMain = self.toMainSubject {
                     toMain.onNext(self.clientIssue)

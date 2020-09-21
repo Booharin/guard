@@ -26,7 +26,7 @@ final class ChooseViewModel: ViewModel {
 		view.lawyerEnterView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.lawyerEnterView.alpha = 0.5
@@ -55,7 +55,7 @@ final class ChooseViewModel: ViewModel {
 		view.clientEnterView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.clientEnterView.alpha = 0.5

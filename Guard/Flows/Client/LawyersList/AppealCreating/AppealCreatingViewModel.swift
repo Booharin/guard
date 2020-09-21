@@ -24,7 +24,7 @@ final class AppealCreatingViewModel: ViewModel {
 		view.backButtonView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.backButtonView.alpha = 0.5

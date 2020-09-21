@@ -60,7 +60,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		view.filterButtonView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.filterButtonView.alpha = 0.5
@@ -78,7 +78,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		view.titleView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.titleView.alpha = 0.5

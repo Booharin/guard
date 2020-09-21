@@ -26,7 +26,7 @@ struct ClientAppealCellViewModel: ViewModel {
         view.containerView
         .rx
         .tapGesture()
-        .skip(1)
+		.when(.recognized)
         .subscribe(onNext: { _ in
             UIView.animate(withDuration: self.animateDuration, animations: {
                 self.view.containerView.backgroundColor = Colors.cellSelectedColor

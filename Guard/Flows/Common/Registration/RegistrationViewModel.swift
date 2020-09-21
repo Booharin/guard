@@ -142,7 +142,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		view.backButtonView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.backButtonView.alpha = 0.5
@@ -160,7 +160,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		view.skipButtonView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.skipButtonView.alpha = 0.5
@@ -182,7 +182,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		view.alreadyRegisteredLabel
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.alreadyRegisteredLabel.alpha = 0.5
@@ -253,7 +253,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		view.view
 			.rx
 			.swipeGesture(.right)
-			.skip(1)
+			.when(.recognized)
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
