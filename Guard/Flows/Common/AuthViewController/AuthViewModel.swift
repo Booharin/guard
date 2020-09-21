@@ -64,11 +64,11 @@ final class AuthViewModel: ViewModel,
 	func viewDidSet() {
 		// logo
 		view.logoTitleLabel.font = Saira.bold.of(size: 30)
-		view.logoTitleLabel.textColor = Colors.maintextColor
+		view.logoTitleLabel.textColor = Colors.mainTextColor
 		view.logoTitleLabel.text = "registration.logo.title".localized.uppercased()
 		
 		view.logoSubtitleLabel.font = SFUIDisplay.regular.of(size: 14)
-		view.logoSubtitleLabel.textColor = Colors.maintextColor
+		view.logoSubtitleLabel.textColor = Colors.mainTextColor
 		view.logoSubtitleLabel.text = "registration.logo.subtitle".localized
 		
 		// login
@@ -118,7 +118,7 @@ final class AuthViewModel: ViewModel,
 		view.faceIDButton
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.faceIDButton.alpha = 0.5
@@ -135,11 +135,11 @@ final class AuthViewModel: ViewModel,
 		// forget password
 		view.forgetPasswordLabel.text = "auth.forget_password.title".localized
 		view.forgetPasswordLabel.font = Saira.light.of(size: 12)
-		view.forgetPasswordLabel.textColor = Colors.maintextColor
+		view.forgetPasswordLabel.textColor = Colors.mainTextColor
 		view.forgetPasswordLabel
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.forgetPasswordLabel.alpha = 0.5
@@ -301,8 +301,8 @@ final class AuthViewModel: ViewModel,
 				!text.isEmpty else { return }
 			view.alertLabel.text = ""
 			
-			view.loginTextField.textColor = Colors.maintextColor
-			view.passwordTextField.textColor = Colors.maintextColor
+			view.loginTextField.textColor = Colors.mainTextColor
+			view.passwordTextField.textColor = Colors.mainTextColor
 		} else {
 			view.view.endEditing(true)
 			view.alertLabel.text = text

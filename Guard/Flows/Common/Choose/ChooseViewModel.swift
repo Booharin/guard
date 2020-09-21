@@ -20,13 +20,13 @@ final class ChooseViewModel: ViewModel {
 		view.titleLabel.text = "choose.title".localized
 		view.titleLabel.font = Saira.light.of(size: 25)
 		view.titleLabel.textAlignment = .center
-		view.titleLabel.textColor = Colors.maintextColor
+		view.titleLabel.textColor = Colors.mainTextColor
 		
 		// lawyer button
 		view.lawyerEnterView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.lawyerEnterView.alpha = 0.5
@@ -42,12 +42,12 @@ final class ChooseViewModel: ViewModel {
 		
 		// lawyer title
 		view.lawyerTitleLabel.font = Saira.regular.of(size: 22)
-		view.lawyerTitleLabel.textColor = Colors.maintextColor
+		view.lawyerTitleLabel.textColor = Colors.mainTextColor
 		view.lawyerTitleLabel.text = "choose.lawyer.enter.button".localized
 		
 		// lawyer subtitle
 		view.lawyerSubtitleLabel.font = Saira.light.of(size: 15)
-		view.lawyerSubtitleLabel.textColor = Colors.maintextColor
+		view.lawyerSubtitleLabel.textColor = Colors.mainTextColor
 		view.lawyerSubtitleLabel.text = "choose.lawyer.enter.button.subtitle".localized
 		view.lawyerSubtitleLabel.numberOfLines = 2
 
@@ -55,7 +55,7 @@ final class ChooseViewModel: ViewModel {
 		view.clientEnterView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.clientEnterView.alpha = 0.5

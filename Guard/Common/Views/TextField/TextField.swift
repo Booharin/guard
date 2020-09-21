@@ -21,7 +21,7 @@ final class TextField: UITextField {
 		super.init(frame: .zero)
 		textAlignment = .center
 		font = Saira.bold.of(size: 15)
-		textColor = Colors.maintextColor
+		textColor = Colors.mainTextColor
 		
 		separatorView.backgroundColor = Colors.separatorColor
 		addSubview(separatorView)

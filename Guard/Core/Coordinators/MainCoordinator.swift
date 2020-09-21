@@ -47,7 +47,11 @@ final class MainCoordinator: BaseCoordinator {
             $0.element.tag = $0.offset
 			$0.element.image = tabBarImages[$0.offset]
 			$0.element.selectedImage = tabBarImages[$0.offset]
-            $0.element.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
+			if tabBarImages[$0.offset] == #imageLiteral(resourceName: "tab_chat_icn") {
+				$0.element.imageInsets = UIEdgeInsets(top: 12, left: 0, bottom: -12, right: 0)
+			} else {
+				$0.element.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
+			}
         }
 		tabBarController.tabBar.tintColor = Colors.blackColor
 		
@@ -64,28 +68,20 @@ final class MainCoordinator: BaseCoordinator {
 				//
 			})
 			.disposed(by: disposeBag)
-		
+
 		tabBarController.viewControllers = [
+            // lawyers list
 			NavigationController(rootViewController:
 				LawyersListViewController(viewModel:
 					LawyersListViewModel(toLawyerSubject: toLawyerSubject)
 				)
 			),
-			NavigationController(rootViewController:
-				LawyersListViewController(viewModel:
-					LawyersListViewModel(toLawyerSubject: toLawyerSubject)
-				)
-			),
-			NavigationController(rootViewController:
-				LawyersListViewController(viewModel:
-					LawyersListViewModel(toLawyerSubject: toLawyerSubject)
-				)
-			),
-			NavigationController(rootViewController:
-				LawyersListViewController(viewModel:
-					LawyersListViewModel(toLawyerSubject: toLawyerSubject)
-				)
-			)
+            // client appeals list
+            ClientAppealsListModuleFactory.createModule(),
+			// conversations list
+			ConversationsListModuleFactory.createModule(),
+			// client profile
+			ClientProfileModuleFactory.createModule()
 		]
 	}
 	

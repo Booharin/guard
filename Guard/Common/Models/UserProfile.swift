@@ -31,6 +31,6 @@ struct UserProfile: Decodable {
 		self.firstName = userProfileObject.firstName ?? ""
 		self.lastName = userProfileObject.lastName ?? ""
 		self.city = userProfileObject.city ?? ""
-        self.rate = userProfileObject.rate ?? 0
+        self.rate = userProfileObject.rate
 	}
 }

@@ -14,6 +14,7 @@ struct LawyerCellViewModel: ViewModel {
 	var view: LawyerCellProtocol!
 	private var disposeBag = DisposeBag()
 	let toLawyerSubject: PublishSubject<UserProfile>
+    let animateDuration = 0.15
 	let lawyer: UserProfile
 
 	init(toLawyerSubject: PublishSubject<UserProfile>,
@@ -26,8 +27,15 @@ struct LawyerCellViewModel: ViewModel {
 		view.containerView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.subscribe(onNext: { _ in
+                UIView.animate(withDuration: self.animateDuration, animations: {
+                    self.view.containerView.backgroundColor = Colors.cellSelectedColor
+                }, completion: { _ in
+                    UIView.animate(withDuration: self.animateDuration, animations: {
+                        self.view.containerView.backgroundColor = .clear
+                    })
+                })
 				self.toLawyerSubject.onNext(self.lawyer)
 			}).disposed(by: disposeBag)
         
@@ -35,10 +43,10 @@ struct LawyerCellViewModel: ViewModel {
 		
 		view.nameTitle.text = lawyer.fullName
 		view.nameTitle.font = SFUIDisplay.regular.of(size: 16)
-		view.nameTitle.textColor = Colors.maintextColor
+		view.nameTitle.textColor = Colors.mainTextColor
         
         view.rateLabel.font = SFUIDisplay.bold.of(size: 15)
-        view.rateLabel.textColor = Colors.maintextColor
+        view.rateLabel.textColor = Colors.mainTextColor
         view.rateLabel.text = "\(String(format: "%.1f", lawyer.rate))"
 	}
 	

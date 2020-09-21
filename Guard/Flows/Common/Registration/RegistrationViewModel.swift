@@ -69,11 +69,11 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	func viewDidSet() {
 		// logo
 		view.logoTitleLabel.font = Saira.bold.of(size: 30)
-		view.logoTitleLabel.textColor = Colors.maintextColor
+		view.logoTitleLabel.textColor = Colors.mainTextColor
 		view.logoTitleLabel.text = "registration.logo.title".localized.uppercased()
 		
 		view.logoSubtitleLabel.font = SFUIDisplay.regular.of(size: 14)
-		view.logoSubtitleLabel.textColor = Colors.maintextColor
+		view.logoSubtitleLabel.textColor = Colors.mainTextColor
 		view.logoSubtitleLabel.text = "registration.logo.subtitle".localized
 		
 		// login
@@ -142,7 +142,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		view.backButtonView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.backButtonView.alpha = 0.5
@@ -160,7 +160,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		view.skipButtonView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.skipButtonView.alpha = 0.5
@@ -178,11 +178,11 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		view.alreadyRegisteredLabel.text = "registration.already_registered.title".localized
 		view.alreadyRegisteredLabel.font = Saira.light.of(size: 12)
 		view.alreadyRegisteredLabel.textAlignment = .center
-		view.alreadyRegisteredLabel.textColor = Colors.maintextColor
+		view.alreadyRegisteredLabel.textColor = Colors.mainTextColor
 		view.alreadyRegisteredLabel
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.alreadyRegisteredLabel.alpha = 0.5
@@ -253,7 +253,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		view.view
 			.rx
 			.swipeGesture(.right)
-			.skip(1)
+			.when(.recognized)
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
@@ -403,10 +403,10 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				!text.isEmpty else { return }
 			view.alertLabel.text = ""
 			
-			view.loginTextField.textColor = Colors.maintextColor
-			view.passwordTextField.textColor = Colors.maintextColor
-			view.confirmationPasswordTextField.textColor = Colors.maintextColor
-			view.cityTextField.textColor = Colors.maintextColor
+			view.loginTextField.textColor = Colors.mainTextColor
+			view.passwordTextField.textColor = Colors.mainTextColor
+			view.confirmationPasswordTextField.textColor = Colors.mainTextColor
+			view.cityTextField.textColor = Colors.mainTextColor
 		} else {
 			view.view.endEditing(true)
 			view.alertLabel.text = text

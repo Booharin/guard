@@ -13,9 +13,10 @@ protocol LawyersListViewControllerProtocol {
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
+    func showActionSheet(with cities: [String])
 }
 
-class LawyersListViewController<modelType: ViewModel>: UIViewController, UITableViewDelegate,
+final class LawyersListViewController<modelType: ViewModel>: UIViewController, UITableViewDelegate,
 LawyersListViewControllerProtocol where modelType.ViewType == LawyersListViewControllerProtocol {
 
 	var filterButtonView = FilterButtonView()
@@ -24,6 +25,7 @@ LawyersListViewControllerProtocol where modelType.ViewType == LawyersListViewCon
 	var titleView = UIView()
 	var titleLabel = UILabel()
 	var tableView = UITableView()
+    private var gradientView: UIView?
 
 	private var lawyers: [UserProfile]?
 
@@ -108,15 +110,62 @@ LawyersListViewControllerProtocol where modelType.ViewType == LawyersListViewCon
                                    withVelocity velocity: CGPoint,
                                    targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         
-        if(velocity.y>0) {
+        if(velocity.y > 0) {
+            // add gradient view
+            gradientView = createGradentView()
+            guard let gradientView = gradientView else { return }
+            view.addSubview(gradientView)
+            gradientView.snp.makeConstraints {
+                $0.top.leading.trailing.equalToSuperview()
+                $0.height.equalTo(50)
+            }
+            // hide nav bar
             UIView.animate(withDuration: 0.3, animations: {
                 self.navigationController?.setNavigationBarHidden(true, animated: true)
             })
-            
         } else {
+            // remove gradient view
+            gradientView?.removeFromSuperview()
+            gradientView = nil
+            // remove nav bar
             UIView.animate(withDuration: 0.3, animations: {
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
             })
         }
+    }
+    
+    private func createGradentView() -> UIView {
+        let gradientLAyer = CAGradientLayer()
+        gradientLAyer.colors = [
+            Colors.whiteColor.cgColor,
+            Colors.whiteColor.withAlphaComponent(0).cgColor
+        ]
+        gradientLAyer.locations = [0.0, 1.0]
+        gradientLAyer.frame = CGRect(x: 0,
+                                     y: 0,
+                                     width: UIScreen.main.bounds.width, height: 50)
+        let view = UIView()
+        view.layer.insertSublayer(gradientLAyer, at: 0)
+        return view
+    }
+
+    // MARK: - Show cities action sheet
+    func showActionSheet(with cities: [String]) {
+        let alertController = UIAlertController(title: nil,
+                                                message: nil,
+                                                preferredStyle: .actionSheet)
+        alertController.view.tintColor = Colors.mainTextColor
+        cities.forEach { city in
+            let cityAction = UIAlertAction(title: city, style: .default, handler: { _ in
+                self.titleLabel.text = city
+                alertController.dismiss(animated: true)
+            })
+            alertController.addAction(cityAction)
+        }
+        let cancelAction = UIAlertAction(title: "alert.cancel".localized, style: .cancel, handler: { _ in
+            alertController.dismiss(animated: true)
+        })
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true)
     }
 }

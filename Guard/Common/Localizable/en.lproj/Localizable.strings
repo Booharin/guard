@@ -51,8 +51,36 @@
 "main.enter.title" = "Осмотр";
 
 //ISSUE
+"client.issue.header.title" = "Hi, there!";
+"client.issue.header.subtitle" = "What’s happend?";
+
 "client.issue.drugs" = "Drugs";
 "client.issue.divorce" = "Divorce";
 "client.issue.real_estate" = "Real Estate";
 "client.issue.car_accident" = "Car accident";
 "client.issue.other" = "Other";
+
+//CITIES
+"cities.moscow" = "Moscow";
+
+//ALERT
+"alert.cancel" = "Cancel";
+
+//APPEALS
+"appeals.greeting.title" = "Hi";
+"appeals.greeting.description" = "All your appeals is here";
+
+//NEW_APPEL
+"new_appeal.title" = "New appeal creation";
+"new_appeal.header.title" = "Step 1 / 2";
+"new_appeal.header.subtitle" = "What’s happend?";
+"new_appeal.subtitle.title" = "Step 2 / 2";
+"new_appeal.button.title" = "Create appeal";
+"new_appeal.title.textfield.placeholder" = "Title";
+"new_appeal.textview.placeholder" = "Enter the full description of your problem";
+
+//CHAT
+"chat.greeting.title" = "Hi";
+"chat.greeting.description" = "All your conversations is here";
+"chat.placeholder" = "Message";
+

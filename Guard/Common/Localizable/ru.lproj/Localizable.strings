@@ -51,8 +51,35 @@
 "main.enter.title" = "Осмотр";
 
 //ISSUE
+"client.issue.header.title" = "Привет!";
+"client.issue.header.subtitle" = "Что случилось?";
+
 "client.issue.drugs" = "Наркотики";
 "client.issue.divorce" = "Развод";
 "client.issue.real_estate" = "Недвижимость";
 "client.issue.car_accident" = "ДТП";
 "client.issue.other" = "Другое";
+
+//CITIES
+"cities.moscow" = "Москва";
+
+//ALERT
+"alert.cancel" = "Отмена";
+
+//APPEALS
+"appeals.greeting.title" = "Привет";
+"appeals.greeting.description" = "Все ваши обращения здесь";
+
+//NEW_APPEL
+"new_appeal.title" = "Создание обращения";
+"new_appeal.header.title" = "Шаг 1 / 2";
+"new_appeal.header.subtitle" = "Что случилось?";
+"new_appeal.subtitle.title" = "Шаг 2 / 2";
+"new_appeal.button.title" = "Создать";
+"new_appeal.title.textfield.placeholder" = "Заголовок";
+"new_appeal.textview.placeholder" = "Опишите, что у вас случилось";
+
+//CHAT
+"chat.greeting.title" = "Привет";
+"chat.greeting.description" = "Все твои переговоры здесь";
+"chat.placeholder" = "Сообщение";

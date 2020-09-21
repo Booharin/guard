@@ -11,18 +11,21 @@ import UIKit
 protocol SelectIssueTableViewCellProtocol {
 	var containerView: UIView { get }
 	var issueTitle: UILabel { get }
+	var issueImageView: UIImageView { get }
 }
 
 class SelectIssueTableViewCell: UITableViewCell, SelectIssueTableViewCellProtocol {
 	
 	var containerView = UIView()
 	var issueTitle = UILabel()
+	var issueImageView = UIImageView()
 	
 	var viewModel: SelectIssueCellViewModel!
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		backgroundColor = .clear
+		selectionStyle = .none
 		addViews()
 	}
 	
@@ -42,6 +45,12 @@ class SelectIssueTableViewCell: UITableViewCell, SelectIssueTableViewCellProtoco
 			$0.height.equalTo(20)
 			$0.top.equalToSuperview().offset(31)
 			$0.bottom.equalToSuperview().offset(-31)
+		}
+		containerView.addSubview(issueImageView)
+		issueImageView.snp.makeConstraints() {
+			$0.leading.equalToSuperview().offset(35)
+			$0.width.height.equalTo(52)
+			$0.centerY.equalToSuperview()
 		}
 	}
 }

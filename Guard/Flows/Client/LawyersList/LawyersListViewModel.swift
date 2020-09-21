@@ -16,13 +16,17 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
     
-    let userProfileDict: [String : Any] = [
+    private let userProfileDict: [String : Any] = [
         "userType": "lawyer",
         "email": "some@bk.ru",
         "firstName": "Alex",
         "lastName": "Vardanyan",
         "city": "Moscow",
         "rate": 4.4
+    ]
+    
+    private let cities = [
+        "cities.moscow".localized
     ]
     
     var lawyers = [UserProfile]()
@@ -56,7 +60,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		view.filterButtonView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.filterButtonView.alpha = 0.5
@@ -74,7 +78,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		view.titleView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.titleView.alpha = 0.5
@@ -83,13 +87,14 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 						self.view.titleView.alpha = 1
 					})
 				})
+                self.view.showActionSheet(with: self.cities)
 			})
 			.subscribe(onNext: { _ in
 				//
 			}).disposed(by: disposeBag)
 		
-		view.titleLabel.font = Saira.medium.of(size: 16)
-		view.titleLabel.textColor = Colors.maintextColor
+		view.titleLabel.font = Saira.semiBold.of(size: 16)
+		view.titleLabel.textColor = Colors.mainTextColor
 		if let profile = di.localStorageService.getProfile() {
 			view.titleLabel.text = "\(profile.city)"
 		}
@@ -130,8 +135,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
             let jsonData = try JSONSerialization.data(withJSONObject: userProfilesArray,
                                                       options: .prettyPrinted)
             let profilesResponse = try JSONDecoder().decode([UserProfile].self, from: jsonData)
-            self.lawyers = profilesResponse
-            self.view.tableView.reloadData()
+            self.update(with: profilesResponse)
         } catch {
             #if DEBUG
             print(error)

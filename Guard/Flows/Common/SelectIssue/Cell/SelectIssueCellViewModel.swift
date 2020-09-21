@@ -10,27 +10,36 @@ import RxSwift
 struct SelectIssueCellViewModel: ViewModel {
 	var clientIssue: ClientIssue
 	let toMainSubject: PublishSubject<(ClientIssue)>?
+    let toCreateAppealSubject: PublishSubject<(ClientIssue)>?
 	var view: SelectIssueTableViewCellProtocol!
 	private let disposeBag = DisposeBag()
 	
 	init(clientIssue: ClientIssue,
-		 toMainSubject: PublishSubject<(ClientIssue)>?) {
+		 toMainSubject: PublishSubject<(ClientIssue)>?,
+         toCreateAppealSubject: PublishSubject<ClientIssue>?) {
 		self.clientIssue = clientIssue
 		self.toMainSubject = toMainSubject
+        self.toCreateAppealSubject = toCreateAppealSubject
 	}
 	
 	func viewDidSet() {
 		view.containerView
 			.rx
 			.tapGesture()
-			.skip(1)
+			.when(.recognized)
 			.subscribe(onNext: { _ in
-				self.toMainSubject?.onNext(self.clientIssue)
+                if let toMain = self.toMainSubject {
+                    toMain.onNext(self.clientIssue)
+                } else {
+                    self.toCreateAppealSubject?.onNext(self.clientIssue)
+                }
 			}).disposed(by: disposeBag)
 		
 		view.issueTitle.text = clientIssue.titleFromIssuetype
 		view.issueTitle.font = SFUIDisplay.regular.of(size: 16)
-		view.issueTitle.textColor = Colors.maintextColor
+		view.issueTitle.textColor = Colors.mainTextColor
+		
+		view.issueImageView.image = #imageLiteral(resourceName: "divorce_icn")
 	}
 	
 	func removeBindings() {}
