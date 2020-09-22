@@ -14,9 +14,10 @@ struct LawyerCellViewModel: ViewModel {
 	var view: LawyerCellProtocol!
 	private var disposeBag = DisposeBag()
 	let toLawyerSubject: PublishSubject<UserProfile>
-    let animateDuration = 0.15
+	let tapSubject = PublishSubject<Any>()
+	let animateDuration = 0.15
 	let lawyer: UserProfile
-
+	
 	init(toLawyerSubject: PublishSubject<UserProfile>,
 		 lawyer: UserProfile) {
 		self.toLawyerSubject = toLawyerSubject
@@ -24,30 +25,27 @@ struct LawyerCellViewModel: ViewModel {
 	}
 	
 	func viewDidSet() {
-		view.containerView
-			.rx
-			.tapGesture()
-			.when(.recognized)
+		tapSubject
 			.subscribe(onNext: { _ in
-                UIView.animate(withDuration: self.animateDuration, animations: {
-                    self.view.containerView.backgroundColor = Colors.cellSelectedColor
-                }, completion: { _ in
-                    UIView.animate(withDuration: self.animateDuration, animations: {
-                        self.view.containerView.backgroundColor = .clear
-                    })
-                })
+				UIView.animate(withDuration: self.animateDuration, animations: {
+					self.view.containerView.backgroundColor = Colors.cellSelectedColor
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animateDuration, animations: {
+						self.view.containerView.backgroundColor = .clear
+					})
+				})
 				self.toLawyerSubject.onNext(self.lawyer)
 			}).disposed(by: disposeBag)
-        
-        view.avatarImageView.image = #imageLiteral(resourceName: "lawyer_mock_icn")
+		
+		view.avatarImageView.image = #imageLiteral(resourceName: "lawyer_mock_icn")
 		
 		view.nameTitle.text = lawyer.fullName
 		view.nameTitle.font = SFUIDisplay.regular.of(size: 16)
 		view.nameTitle.textColor = Colors.mainTextColor
-        
-        view.rateLabel.font = SFUIDisplay.bold.of(size: 15)
-        view.rateLabel.textColor = Colors.mainTextColor
-        view.rateLabel.text = "\(String(format: "%.1f", lawyer.rate))"
+		
+		view.rateLabel.font = SFUIDisplay.bold.of(size: 15)
+		view.rateLabel.textColor = Colors.mainTextColor
+		view.rateLabel.text = "\(String(format: "%.1f", lawyer.rate))"
 	}
 	
 	func removeBindings() {}

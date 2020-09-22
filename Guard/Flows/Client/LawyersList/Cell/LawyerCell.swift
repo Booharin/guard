@@ -10,7 +10,7 @@ import UIKit
 
 protocol LawyerCellProtocol {
 	var containerView: UIView { get }
-    var avatarImageView: UIImageView { get }
+	var avatarImageView: UIImageView { get }
 	var nameTitle: UILabel { get }
 	var rateLabel: UILabel { get }
 	var isFreeView: UIView { get }
@@ -37,6 +37,9 @@ class LawyerCell: UITableViewCell, LawyerCellProtocol {
 	}
 	
 	private func addViews() {
+		let tapGesture = UITapGestureRecognizer(target: self,
+												action: #selector(didTapped))
+		addGestureRecognizer(tapGesture)
 		addSubview(containerView)
 		containerView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
@@ -56,20 +59,24 @@ class LawyerCell: UITableViewCell, LawyerCellProtocol {
 			$0.trailing.equalToSuperview().offset(-100)
 			$0.centerY.equalToSuperview()
 		}
-        // star image view
-        let starImageView = UIImageView(image: #imageLiteral(resourceName: "star_icn"))
-        containerView.addSubview(starImageView)
-        starImageView.snp.makeConstraints {
-            $0.width.height.equalTo(13)
-            $0.trailing.equalToSuperview().offset(-65)
-            $0.centerY.equalToSuperview()
-        }
-        // rate label
-        containerView.addSubview(rateLabel)
-        rateLabel.snp.makeConstraints {
-            $0.leading.equalTo(starImageView.snp.trailing).offset(7)
-            $0.height.equalTo(20)
-            $0.centerY.equalToSuperview()
-        }
+		// star image view
+		let starImageView = UIImageView(image: #imageLiteral(resourceName: "star_icn"))
+		containerView.addSubview(starImageView)
+		starImageView.snp.makeConstraints {
+			$0.width.height.equalTo(13)
+			$0.trailing.equalToSuperview().offset(-65)
+			$0.centerY.equalToSuperview()
+		}
+		// rate label
+		containerView.addSubview(rateLabel)
+		rateLabel.snp.makeConstraints {
+			$0.leading.equalTo(starImageView.snp.trailing).offset(7)
+			$0.height.equalTo(20)
+			$0.centerY.equalToSuperview()
+		}
+	}
+
+	@objc func didTapped() {
+		viewModel.tapSubject.onNext(())
 	}
 }

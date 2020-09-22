@@ -10,29 +10,27 @@ import RxSwift
 struct SelectIssueCellViewModel: ViewModel {
 	var clientIssue: ClientIssue
 	let toMainSubject: PublishSubject<(ClientIssue)>?
-    let toCreateAppealSubject: PublishSubject<(ClientIssue)>?
+	let toCreateAppealSubject: PublishSubject<(ClientIssue)>?
+	let tapSubject = PublishSubject<Any>()
 	var view: SelectIssueTableViewCellProtocol!
 	private let disposeBag = DisposeBag()
 	
 	init(clientIssue: ClientIssue,
 		 toMainSubject: PublishSubject<(ClientIssue)>?,
-         toCreateAppealSubject: PublishSubject<ClientIssue>?) {
+		 toCreateAppealSubject: PublishSubject<ClientIssue>?) {
 		self.clientIssue = clientIssue
 		self.toMainSubject = toMainSubject
-        self.toCreateAppealSubject = toCreateAppealSubject
+		self.toCreateAppealSubject = toCreateAppealSubject
 	}
 	
 	func viewDidSet() {
-		view.containerView
-			.rx
-			.tapGesture()
-			.when(.recognized)
+		tapSubject
 			.subscribe(onNext: { _ in
-                if let toMain = self.toMainSubject {
-                    toMain.onNext(self.clientIssue)
-                } else {
-                    self.toCreateAppealSubject?.onNext(self.clientIssue)
-                }
+				if let toMain = self.toMainSubject {
+					toMain.onNext(self.clientIssue)
+				} else {
+					self.toCreateAppealSubject?.onNext(self.clientIssue)
+				}
 			}).disposed(by: disposeBag)
 		
 		view.issueTitle.text = clientIssue.titleFromIssuetype

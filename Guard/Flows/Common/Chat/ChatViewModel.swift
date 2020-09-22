@@ -19,22 +19,22 @@ final class ChatViewModel: ViewModel {
 	private var messages = [ChatMessage]()
 	
 	init(chatConversation: ChatConversation) {
-        self.chatConversation = chatConversation
-    }
+		self.chatConversation = chatConversation
+	}
 	
 	func viewDidSet() {
 		getMessagesFromServer()
-
+		
 		// table view data source
 		let section = SectionModel<String, ChatMessage>(model: "",
 														items: messages)
-        let items = BehaviorSubject<[SectionModel]>(value: [section])
-        items
-            .bind(to: view.tableView
-                .rx
-                .items(dataSource: ChatDataSource.dataSource()))
-            .disposed(by: disposeBag)
-
+		let items = BehaviorSubject<[SectionModel]>(value: [section])
+		items
+			.bind(to: view.tableView
+					.rx
+					.items(dataSource: ChatDataSource.dataSource()))
+			.disposed(by: disposeBag)
+		
 		// back button
 		view.backButtonView
 			.rx
@@ -108,74 +108,84 @@ final class ChatViewModel: ViewModel {
 				}
 			})
 			.disposed(by: disposeBag)
+		view.chatBarView
+			.textViewChangeHeight
+			.subscribe(onNext: { [unowned self] height in
+				guard height < 200 else { return }
+				self.view.chatBarView.snp.updateConstraints {
+					$0.height.equalTo(height)
+				}
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.view.layoutIfNeeded()
+				})
+			}).disposed(by: disposeBag)
 	}
-
+	
 	// MARK: - Scroll table view to bottom
 	func scrollToBottom() {
-        let indexPath = IndexPath(row: messages.count-1, section: 0)
-        guard indexPath.row >= 0 else { return }
+		let indexPath = IndexPath(row: messages.count-1, section: 0)
+		guard indexPath.row >= 0 else { return }
 		self.view.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
-    }
-
+	}
+	
 	private func keyboardHeight() -> Observable<CGFloat> {
 		return Observable
 			.from([
 				NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
 					.map { notification -> CGFloat in
 						(notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0
-				},
+					},
 				NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
 					.map { _ -> CGFloat in
 						0
-				}
+					}
 			])
 			.merge()
 	}
 	
 	private func getMessagesFromServer() {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: messagesArray,
-                                                      options: .prettyPrinted)
-            let messagesResponse = try JSONDecoder().decode([ChatMessage].self, from: jsonData)
-            self.messages = messagesResponse
-			self.view.updateTableView()
-        } catch {
-            #if DEBUG
-            print(error)
-            #endif
-        }
-    }
-
+		do {
+			let jsonData = try JSONSerialization.data(withJSONObject: messagesArray,
+													  options: .prettyPrinted)
+			let messagesResponse = try JSONDecoder().decode([ChatMessage].self, from: jsonData)
+			self.messages = messagesResponse
+		} catch {
+			#if DEBUG
+			print(error)
+			#endif
+		}
+	}
+	
 	func removeBindings() {}
 	
 	private let messagesArray = [
-        ["dateCreated": 1599719845.0,
-        "text": "Да мне тоже похуй, если честно!",
-        "conversationId": 1,
-		"eventOwner": "incoming"],
+		["dateCreated": 1599719845.0,
+		 "text": "Да мне тоже похуй, если честно!",
+		 "conversationId": 1,
+		 "eventOwner": "incoming"],
 		["dateCreated": 1600279290.0,
-        "text": "Да и нахуй мне нужны такие ваши услуги!",
-        "conversationId": 1,
-		"eventOwner": "outgoing"],
+		 "text": "Да и нахуй мне нужны такие ваши услуги!",
+		 "conversationId": 1,
+		 "eventOwner": "outgoing"],
 		["dateCreated": 1600279290.0,
-        "text": "Надоело всё, не можете у моей жены штаны вернуть, а они мне дороги!",
-        "conversationId": 1,
-		"eventOwner": "outgoing"],
+		 "text": "Надоело всё, не можете у моей жены штаны вернуть, а они мне дороги!",
+		 "conversationId": 1,
+		 "eventOwner": "outgoing"],
 		["dateCreated": 1600279289.0,
-        "text": "Делаю, всё что могу, она их не отдает, говорит, что еще собака ваша на них рожала",
-        "conversationId": 1,
-		"eventOwner": "incoming"],
+		 "text": "Делаю, всё что могу, она их не отдает, говорит, что еще собака ваша на них рожала",
+		 "conversationId": 1,
+		 "eventOwner": "incoming"],
 		["dateCreated": 1600279288.0,
-        "text": "Думаете легко с ней общаться постоянно?",
-        "conversationId": 1,
-		"eventOwner": "incoming"],
+		 "text": "Думаете легко с ней общаться постоянно?",
+		 "conversationId": 1,
+		 "eventOwner": "incoming"],
 		["dateCreated": 1600279287.0,
-        "text": "Ну как продвигается?",
-        "conversationId": 1,
-		"eventOwner": "outgoing"],
+		 "text": "Ну как продвигается?",
+		 "conversationId": 1,
+		 "eventOwner": "outgoing"],
 		["dateCreated": 1600279287.0,
-        "text": "Добрый день",
-        "conversationId": 1,
-		"eventOwner": "outgoing"]
-    ]
+		 "text": "Добрый день",
+		 "conversationId": 1,
+		 "eventOwner": "outgoing"]
+	]
 }

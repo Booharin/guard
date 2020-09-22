@@ -37,6 +37,7 @@
 		5235F289250CB7A400639FC4 /* AppealCreatingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235F288250CB7A400639FC4 /* AppealCreatingViewModel.swift */; };
 		523A67BE24C2C6FB0008E8AF /* RxDataSources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */; };
 		523A67BF24C2C6FB0008E8AF /* RxDataSources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		523E62DC2519E00500757FE3 /* String+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523E62DB2519E00500757FE3 /* String+Size.swift */; };
 		523EEEAB251284230007ED2F /* AppealButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523EEEAA251284230007ED2F /* AppealButtonView.swift */; };
 		523FF71624BD7EAB00C4F959 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */; };
 		523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523FF71824BD970A00C4F959 /* BackButtonView.swift */; };
@@ -182,6 +183,7 @@
 		5235F286250CB6EA00639FC4 /* AppealCreatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealCreatingViewController.swift; sourceTree = "<group>"; };
 		5235F288250CB7A400639FC4 /* AppealCreatingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealCreatingViewModel.swift; sourceTree = "<group>"; };
 		523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxDataSources.framework; path = Carthage/Build/iOS/RxDataSources.framework; sourceTree = "<group>"; };
+		523E62DB2519E00500757FE3 /* String+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Size.swift"; sourceTree = "<group>"; };
 		523EEEAA251284230007ED2F /* AppealButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealButtonView.swift; sourceTree = "<group>"; };
 		523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		523FF71824BD970A00C4F959 /* BackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonView.swift; sourceTree = "<group>"; };
@@ -930,6 +932,7 @@
 				5251AFC124A28FBC00467E84 /* String+Localizable.swift */,
 				52EB81D224B9F245003285BC /* String+withoutExtraSpaces.swift */,
 				52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */,
+				523E62DB2519E00500757FE3 /* String+Size.swift */,
 			);
 			path = String;
 			sourceTree = "<group>";
@@ -1031,6 +1034,7 @@
 				5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */,
 				52212F8524FFDD41003FA67E /* ForgotPasswordViewModel.swift in Sources */,
 				5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */,
+				523E62DC2519E00500757FE3 /* String+Size.swift in Sources */,
 				52AF28EB2506195800287A8F /* LawyersListDataSource.swift in Sources */,
 				525BFA74250A0723005393B1 /* Date+TimeStamp.swift in Sources */,
 				52740F77250F40D1001D86FF /* ChatViewModel.swift in Sources */,

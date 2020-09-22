@@ -13,6 +13,7 @@ import RxCocoa
 protocol ChatBarViewProtocol: UIView {
 	var sendSubject: PublishSubject<String> { get }
 	var attachSubject: PublishSubject<Any> { get }
+	var textViewChangeHeight: PublishSubject<CGFloat> { get }
 }
 
 final class ChatBarView: UIView, ChatBarViewProtocol {
@@ -24,6 +25,8 @@ final class ChatBarView: UIView, ChatBarViewProtocol {
 	private let sendButton = UIButton()
 	var sendSubject = PublishSubject<String>()
 	var attachSubject = PublishSubject<Any>()
+	var textViewChangeHeight = PublishSubject<CGFloat>()
+	private var currentMessageViewHeight: CGFloat = 0
 
 	init() {
 		super.init(frame: .zero)
@@ -74,6 +77,22 @@ final class ChatBarView: UIView, ChatBarViewProtocol {
 													left: 10,
 													bottom: 2,
 													right: 10)
+		messageTextView.rx
+			.text
+			.subscribe(onNext: { [weak self] _ in
+				guard
+					let text = self?.messageTextView.text,
+					!text.isEmpty else { return }
+				let height = text.height(withConstrainedWidth: UIScreen.main.bounds.width - 180,
+										 font: SFUIDisplay.regular.of(size: 16))
+				guard height != self?.currentMessageViewHeight else { return }
+				// claculate needed bar height
+				if height > 36 {
+					self?.textViewChangeHeight.onNext(106 + (height - 26))
+				} else {
+					self?.textViewChangeHeight.onNext(106)
+				}
+			}).disposed(by: disposeBag)
 	}
 
 	private func layoutViews() {

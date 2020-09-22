@@ -26,8 +26,9 @@ final class ClientProfileViewModel: ViewModel {
 				print("show controller")
 			}).disposed(by: disposeBag)
 		// avatar
-		view.avatarImageView.backgroundColor = .blue
+		view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn")
 		view.avatarImageView.layer.cornerRadius = 79
+		view.avatarImageView.clipsToBounds = true
 		// title label
 		view.titleNameLabel.textAlignment = .center
 		view.titleNameLabel.textColor = Colors.mainTextColor

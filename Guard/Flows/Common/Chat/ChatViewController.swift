@@ -15,12 +15,11 @@ protocol ChatViewControllerProtocol: ViewControllerProtocol {
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
 	var chatBarView: ChatBarViewProtocol { get }
-	func updateTableView()
 }
 
 final class ChatViewController<modelType: ChatViewModel>: UIViewController, UITableViewDelegate,
-ChatViewControllerProtocol where modelType.ViewType == ChatViewControllerProtocol {
-
+	ChatViewControllerProtocol {
+	
 	var backButtonView = BackButtonView()
 	var appealButtonView = AppealButtonView()
 	var titleView = UIView()
@@ -32,24 +31,24 @@ ChatViewControllerProtocol where modelType.ViewType == ChatViewControllerProtoco
 		self.navigationController
 	}
 	var viewModel: modelType
-
+	
 	init(viewModel: modelType) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-
+		self.viewModel = viewModel
+		super.init(nibName: nil, bundle: nil)
+	}
+	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
 		self.viewModel.assosiateView(self)
 		view.backgroundColor = Colors.whiteColor
 		addViews()
 		setNavigationBar()
-    }
+	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
@@ -60,7 +59,7 @@ ChatViewControllerProtocol where modelType.ViewType == ChatViewControllerProtoco
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-
+		
 		navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
 	}
 	
@@ -110,71 +109,59 @@ ChatViewControllerProtocol where modelType.ViewType == ChatViewControllerProtoco
 	}
 	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.snp.makeConstraints {
-            $0.height.equalTo(40)
-            $0.width.equalTo(UIScreen.main.bounds.width)
-        }
+		let headerView = UIView()
+		headerView.snp.makeConstraints {
+			$0.height.equalTo(40)
+			$0.width.equalTo(UIScreen.main.bounds.width)
+		}
 		return headerView
-    }
+	}
 	
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
-    }
+		return 40
+	}
 	
 	func scrollViewWillEndDragging(_ scrollView: UIScrollView,
-                                   withVelocity velocity: CGPoint,
-                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if(velocity.y > 0) {
-            // add gradient view
-            gradientView = createGradentView()
-            guard let gradientView = gradientView else { return }
-            view.addSubview(gradientView)
-            gradientView.snp.makeConstraints {
-                $0.top.leading.trailing.equalToSuperview()
-                $0.height.equalTo(50)
-            }
-
-            // hide nav bar
-            UIView.animate(withDuration: 0.3, animations: {
-                self.navigationController?.setNavigationBarHidden(true, animated: true)
-            })
-        } else {
-            // remove gradient view
-            gradientView?.removeFromSuperview()
-            gradientView = nil
-
-            // remove nav bar
-            UIView.animate(withDuration: 0.3, animations: {
-                self.navigationController?.setNavigationBarHidden(false, animated: true)
-            })
-        }
-    }
-    
-    private func createGradentView() -> UIView {
-        let gradientLAyer = CAGradientLayer()
-        gradientLAyer.colors = [
-            Colors.whiteColor.cgColor,
-            Colors.whiteColor.withAlphaComponent(0).cgColor
-        ]
-        gradientLAyer.locations = [0.0, 1.0]
-        gradientLAyer.frame = CGRect(x: 0,
-                                     y: 0,
-                                     width: UIScreen.main.bounds.width, height: 50)
-        let view = UIView()
-        view.layer.insertSublayer(gradientLAyer, at: 0)
-        return view
-    }
-	
-	func updateTableView() {
-		DispatchQueue.main.async {
-			self.tableView.reloadData()
-		}
-
-		if tableView.contentSize.height <= tableView.frame.height {
-            tableView.isScrollEnabled = false
+								   withVelocity velocity: CGPoint,
+								   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+		if(velocity.y > 0) {
+			// add gradient view
+			gradientView = createGradentView()
+			guard let gradientView = gradientView else { return }
+			view.addSubview(gradientView)
+			gradientView.snp.makeConstraints {
+				$0.top.leading.trailing.equalToSuperview()
+				$0.height.equalTo(50)
+			}
+			
+			// hide nav bar
+			UIView.animate(withDuration: 0.3, animations: {
+				self.navigationController?.setNavigationBarHidden(true, animated: true)
+			})
 		} else {
-			tableView.isScrollEnabled = true
+			// remove gradient view
+			gradientView?.removeFromSuperview()
+			gradientView = nil
+			
+			// remove nav bar
+			UIView.animate(withDuration: 0.3, animations: {
+				self.navigationController?.setNavigationBarHidden(false, animated: true)
+			})
 		}
+	}
+	
+	private func createGradentView() -> UIView {
+		let gradientLAyer = CAGradientLayer()
+		gradientLAyer.colors = [
+			Colors.whiteColor.cgColor,
+			Colors.whiteColor.withAlphaComponent(0).cgColor
+		]
+		gradientLAyer.locations = [0.0, 1.0]
+		gradientLAyer.frame = CGRect(x: 0,
+									 y: 0,
+									 width: UIScreen.main.bounds.width, height: 50)
+		let view = UIView()
+		view.layer.insertSublayer(gradientLAyer, at: 0)
+		return view
 	}
 }

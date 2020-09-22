@@ -16,6 +16,7 @@ struct ConversationCellViewModel: ViewModel {
 	let animateDuration = 0.15
 	let chatConversation: ChatConversation
 	let toChat: PublishSubject<ChatConversation>
+	let tapSubject = PublishSubject<Any>()
 	
 	init(chatConversation: ChatConversation, toChat: PublishSubject<ChatConversation>) {
 		self.chatConversation = chatConversation
@@ -23,10 +24,7 @@ struct ConversationCellViewModel: ViewModel {
 	}
 	
 	func viewDidSet() {
-		view.containerView
-			.rx
-			.tapGesture()
-			.when(.recognized)
+		tapSubject
 			.subscribe(onNext: { _ in
 				UIView.animate(withDuration: self.animateDuration, animations: {
 					self.view.containerView.backgroundColor = Colors.cellSelectedColor

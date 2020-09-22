@@ -38,6 +38,9 @@ final class ConversationCell: UITableViewCell, ConversationCellProtocol {
 	}
 	
 	private func addViews() {
+		let tapGesture = UITapGestureRecognizer(target: self,
+												action: #selector(didTapped))
+		addGestureRecognizer(tapGesture)
 		addSubview(containerView)
 		containerView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
@@ -78,5 +81,9 @@ final class ConversationCell: UITableViewCell, ConversationCellProtocol {
 			$0.top.equalTo(dateLabel.snp.bottom).offset(8)
 			$0.trailing.equalToSuperview().offset(-35)
 		}
+	}
+
+	@objc func didTapped() {
+		viewModel.tapSubject.onNext(())
 	}
 }
