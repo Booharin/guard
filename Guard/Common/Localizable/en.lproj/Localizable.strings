@@ -84,3 +84,10 @@
 "chat.greeting.description" = "All your conversations is here";
 "chat.placeholder" = "Message";
 
+//PROFILE
+"profile.action_sheet.settings" = "Settings";
+"profile.action_sheet.edit" = "Edit";
+"profile.action_sheet.cancel" = "Cancel";
+
+//SETTINGS
+"settings.title" = "Settings";

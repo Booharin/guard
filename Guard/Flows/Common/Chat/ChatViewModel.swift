@@ -108,6 +108,7 @@ final class ChatViewModel: ViewModel {
 				}
 			})
 			.disposed(by: disposeBag)
+
 		view.chatBarView
 			.textViewChangeHeight
 			.subscribe(onNext: { [unowned self] height in

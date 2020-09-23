@@ -83,3 +83,11 @@
 "chat.greeting.title" = "Привет";
 "chat.greeting.description" = "Все твои переговоры здесь";
 "chat.placeholder" = "Сообщение";
+
+//PROFILE
+"profile.action_sheet.settings" = "Настройки";
+"profile.action_sheet.edit" = "Редаквтировать";
+"profile.action_sheet.cancel" = "Отмена";
+
+//SETTINGS
+"settings.title" = "Settings";

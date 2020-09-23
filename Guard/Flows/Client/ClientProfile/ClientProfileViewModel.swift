@@ -22,8 +22,8 @@ final class ClientProfileViewModel: ViewModel {
 		view.threedotsButton.setImage(#imageLiteral(resourceName: "Image"), for: .normal)
 		view.threedotsButton.rx
 			.tap
-			.subscribe(onNext: { _ in
-				print("show controller")
+			.subscribe(onNext: { [unowned self] _ in
+				self.view.showActionSheet(toSettingsSubject: self.router.toSettingsSubject)
 			}).disposed(by: disposeBag)
 		// avatar
 		view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn")

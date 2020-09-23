@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol ClientProfileViewControllerProtocol {
 	var scrollView: UIScrollView { get }
 	var threedotsButton: UIButton { get }
 	var avatarImageView: UIImageView { get }
 	var titleNameLabel: UILabel { get }
+	func showActionSheet(toSettingsSubject: PublishSubject<Any>)
 }
 
 final class ClientProfileViewController<modelType: ViewModel>: UIViewController,
@@ -45,6 +47,8 @@ ClientProfileViewControllerProtocol where modelType.ViewType == ClientProfileVie
 		super.viewWillAppear(animated)
 		
 		navigationController?.isNavigationBarHidden = true
+		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+		navigationController?.navigationBar.isTranslucent = true
 		self.navigationItem.setHidesBackButton(true, animated:false)
 	}
 
@@ -77,5 +81,35 @@ ClientProfileViewControllerProtocol where modelType.ViewType == ClientProfileVie
 			$0.leading.equalToSuperview().offset(20)
 			$0.trailing.equalToSuperview().offset(-20)
 		}
+	}
+	
+	// MARK: - Show action sheet
+	func showActionSheet(toSettingsSubject: PublishSubject<Any>) {
+		let alertController = UIAlertController(title: nil,
+												message: nil,
+												preferredStyle: .actionSheet)
+		alertController.view.tintColor = Colors.mainTextColor
+		// settings
+		let settingsAction = UIAlertAction(title: "profile.action_sheet.settings".localized,
+										   style: .default,
+										   handler: { _ in
+											alertController.dismiss(animated: true)
+											toSettingsSubject.onNext(())
+										   })
+		alertController.addAction(settingsAction)
+		// edit
+		let editAction = UIAlertAction(title: "profile.action_sheet.edit".localized,
+									   style: .default,
+									   handler: { _ in
+										alertController.dismiss(animated: true)
+									   })
+		alertController.addAction(editAction)
+		let cancelAction = UIAlertAction(title: "alert.cancel".localized,
+										 style: .cancel,
+										 handler: { _ in
+											alertController.dismiss(animated: true)
+										 })
+		alertController.addAction(cancelAction)
+		self.present(alertController, animated: true)
 	}
 }

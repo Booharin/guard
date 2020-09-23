@@ -109,6 +109,8 @@
 		52B268732511181200111864 /* ConversationsListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B268722511181200111864 /* ConversationsListDataSource.swift */; };
 		52B278C824C09621001E7295 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C724C09621001E7295 /* Dependencies.swift */; };
 		52B278CA24C0964F001E7295 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C924C0964F001E7295 /* LocationService.swift */; };
+		52B654B4251B303F003D2465 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B654B3251B303F003D2465 /* SettingsViewController.swift */; };
+		52B654B6251B3063003D2465 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B654B5251B3063003D2465 /* SettingsViewModel.swift */; };
 		52C5F4C424C9D90D00FB2DA8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */; };
 		52C5F4C624C9D92200FB2DA8 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C5F4C524C9D92200FB2DA8 /* ProfileViewModel.swift */; };
 		52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */; };
@@ -253,6 +255,8 @@
 		52B268722511181200111864 /* ConversationsListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListDataSource.swift; sourceTree = "<group>"; };
 		52B278C724C09621001E7295 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		52B278C924C0964F001E7295 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		52B654B3251B303F003D2465 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		52B654B5251B3063003D2465 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		52C5F4C524C9D92200FB2DA8 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -743,6 +747,7 @@
 		52760C4425016BCD00080152 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				52B654B2251B3022003D2465 /* Settings */,
 				52B2685F2511118500111864 /* ConversationsList */,
 				52740F73250F409F001D86FF /* Chat */,
 				5210399524C4D612004560FD /* SelectIssue */,
@@ -887,6 +892,15 @@
 				52B268722511181200111864 /* ConversationsListDataSource.swift */,
 			);
 			path = DataSource;
+			sourceTree = "<group>";
+		};
+		52B654B2251B3022003D2465 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				52B654B3251B303F003D2465 /* SettingsViewController.swift */,
+				52B654B5251B3063003D2465 /* SettingsViewModel.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		52C5F4C224C9D8F200FB2DA8 /* Profile */ = {
@@ -1035,6 +1049,7 @@
 				52212F8524FFDD41003FA67E /* ForgotPasswordViewModel.swift in Sources */,
 				5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */,
 				523E62DC2519E00500757FE3 /* String+Size.swift in Sources */,
+				52B654B4251B303F003D2465 /* SettingsViewController.swift in Sources */,
 				52AF28EB2506195800287A8F /* LawyersListDataSource.swift in Sources */,
 				525BFA74250A0723005393B1 /* Date+TimeStamp.swift in Sources */,
 				52740F77250F40D1001D86FF /* ChatViewModel.swift in Sources */,
@@ -1099,6 +1114,7 @@
 				52760C4A2501731C00080152 /* LawyersListViewController.swift in Sources */,
 				52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */,
 				52A271B92508F27A0050FB60 /* AddButtonView.swift in Sources */,
+				52B654B6251B3063003D2465 /* SettingsViewModel.swift in Sources */,
 				52760C4C2501736600080152 /* LawyersListViewModel.swift in Sources */,
 				52B278C824C09621001E7295 /* Dependencies.swift in Sources */,
 				52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */,
