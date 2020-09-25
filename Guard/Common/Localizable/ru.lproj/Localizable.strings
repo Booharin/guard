@@ -90,4 +90,5 @@
 "profile.action_sheet.cancel" = "Отмена";
 
 //SETTINGS
-"settings.title" = "Settings";
+"settings.title" = "Настройки";
+"logout.title" = "Выйти из профиля";

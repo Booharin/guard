@@ -79,5 +79,18 @@ class SettingsViewController<modelType: SettingsViewModel>: UIViewController,
 			$0.width.equalTo(titleLabel.snp.width).offset(46)
 			$0.height.equalTo(40)
 		}
+		// table view
+		tableView.register(SelectIssueTableViewCell.self,
+						   forCellReuseIdentifier: SelectIssueTableViewCell.reuseIdentifier)
+		tableView.tableFooterView = UIView()
+		tableView.backgroundColor = Colors.whiteColor
+		tableView.rowHeight = UITableView.automaticDimension
+		tableView.estimatedRowHeight = 62
+		tableView.separatorStyle = .none
+		tableView.delegate = self
+		view.addSubview(tableView)
+		tableView.snp.makeConstraints {
+			$0.edges.equalToSuperview()
+		}
 	}
 }

@@ -42,7 +42,7 @@ ClientProfileViewControllerProtocol where modelType.ViewType == ClientProfileVie
 		view.backgroundColor = Colors.whiteColor
 		addViews()
 	}
-	
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
@@ -82,7 +82,7 @@ ClientProfileViewControllerProtocol where modelType.ViewType == ClientProfileVie
 			$0.trailing.equalToSuperview().offset(-20)
 		}
 	}
-	
+
 	// MARK: - Show action sheet
 	func showActionSheet(toSettingsSubject: PublishSubject<Any>) {
 		let alertController = UIAlertController(title: nil,

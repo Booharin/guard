@@ -10,18 +10,18 @@ import RxDataSources
 import RxSwift
 
 struct LawyersListDataSource {
-    typealias DataSource = RxTableViewSectionedReloadDataSource
-    
+	typealias DataSource = RxTableViewSectionedReloadDataSource
+	
 	static func dataSource(toLawyerSubject: PublishSubject<UserProfile>) -> DataSource<SectionModel<String, UserProfile>> {
-        return .init(configureCell: { dataSource, tableView, indexPath, lawyer -> UITableViewCell in
-            
-            let cell = LawyerCell()
+		return .init(configureCell: { dataSource, tableView, indexPath, lawyer -> UITableViewCell in
+			
+			let cell = LawyerCell()
 			cell.viewModel = LawyerCellViewModel(toLawyerSubject: toLawyerSubject,
 												 lawyer: lawyer)
 			cell.viewModel.assosiateView(cell)
-            return cell
-        }, titleForHeaderInSection: { dataSource, index in
+			return cell
+		}, titleForHeaderInSection: { dataSource, index in
 			return dataSource.sectionModels[index].model
-        })
-    }
+		})
+	}
 }
