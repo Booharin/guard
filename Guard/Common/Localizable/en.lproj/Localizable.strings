@@ -91,4 +91,6 @@
 
 //SETTINGS
 "settings.title" = "Settings";
-"logout.title" = "Logout";
+"logout.title" = "Log out";
+"settings.visibility.title" = "Visibility";
+"settings.logout.title" = "Logout";

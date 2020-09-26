@@ -15,7 +15,7 @@ enum SettingsCellType {
 }
 
 enum SettingsTableViewSection {
-	case NotificationSection(items: [SettingsCellType])
+	case VisibilitySection(items: [SettingsCellType])
 	case LogoutSection(items: [SettingsCellType])
 }
 
@@ -24,10 +24,10 @@ extension SettingsTableViewSection {
 
 	var header: String {
 		switch self {
-		case .GridSection:
-			return "Grid Section"
-		case .CustomSection:
-			return "Custom Section"
+		case .VisibilitySection:
+			return "settings.visibility.title".localized
+		case .LogoutSection:
+			return "settings.logout.title".localized
 		}
 	}
 }

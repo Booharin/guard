@@ -91,4 +91,6 @@
 
 //SETTINGS
 "settings.title" = "Настройки";
-"logout.title" = "Выйти из профиля";
+"logout.title" = "Выйти";
+"settings.visibility.title" = "Видимость";
+"settings.logout.title" = "Выход из приложения";
