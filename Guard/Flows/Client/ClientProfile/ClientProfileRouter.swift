@@ -14,9 +14,11 @@ protocol ClientProfileRouterProtocol {
 
 final class ClientProfileRouter: BaseRouter, ClientProfileRouterProtocol {
 	var toSettingsSubject = PublishSubject<Any>()
+	let toAuthSubject: PublishSubject<Any>
 	private var disposeBag = DisposeBag()
 
-	override init() {
+	init(toAuthSubject: PublishSubject<Any>) {
+		self.toAuthSubject = toAuthSubject
 		super.init()
 		createTransitions()
 	}
@@ -32,7 +34,8 @@ final class ClientProfileRouter: BaseRouter, ClientProfileRouterProtocol {
 	}
 	
 	private func passageToSettings() {
-		let settingsController = SettingsViewController(viewModel: SettingsViewModel(userType: .client))
+		let settingsController = SettingsViewController(viewModel: SettingsViewModel(userType: .client,
+																					 logoutSubject: toAuthSubject))
 		settingsController.hidesBottomBarWhenPushed = true
 		self.navigationController?.pushViewController(settingsController, animated: true)
 	}

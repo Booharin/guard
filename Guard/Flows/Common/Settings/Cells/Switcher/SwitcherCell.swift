@@ -12,12 +12,14 @@ protocol SwitcherCellProtocol {
 	var containerView: UIView { get }
 	var titleLabel: UILabel { get }
 	var switcher: UISwitch { get }
+	var separatorView: UIView { get }
 }
 
 class SwitcherCell: UITableViewCell, SwitcherCellProtocol {
 	var containerView = UIView()
 	var titleLabel = UILabel()
 	var switcher = UISwitch()
+	var separatorView = UIView()
 	var viewModel: SwitcherCellViewModel!
 
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -51,6 +53,12 @@ class SwitcherCell: UITableViewCell, SwitcherCellProtocol {
 			$0.width.equalTo(50)
 			$0.height.equalTo(29)
 			$0.trailing.equalToSuperview().offset(-35)
+		}
+		// separator
+		containerView.addSubview(separatorView)
+		separatorView.snp.makeConstraints {
+			$0.height.equalTo(1)
+			$0.leading.bottom.trailing.equalToSuperview()
 		}
 	}
 }

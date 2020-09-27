@@ -9,18 +9,36 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 final class SettingsViewModel: ViewModel {
 	var view: SettingsViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var userType: UserType
 	private var disposeBag = DisposeBag()
+	private let logoutSubject: PublishSubject<Any>
 	
-	init(userType: UserType) {
+	//let items =
+	
+	init(userType: UserType,
+		 logoutSubject: PublishSubject<Any>) {
 		self.userType = userType
+		self.logoutSubject = logoutSubject
 	}
 
 	func viewDidSet() {
+		BehaviorSubject<[SettingsTableViewSection]>(value: [
+			.VisibilitySection(items: [
+				.notificationItem(title: "", isOn: true, isSeparatorHidden: false),
+				.notificationItem(title: "", isOn: true, isSeparatorHidden: false),
+				.notificationItem(title: "", isOn: true, isSeparatorHidden: true)
+			]),
+			.LogoutSection(items: [
+				.logoutItem(logoutSubject: logoutSubject)
+			])
+		])
+		.bind(to: view.tableView.rx.items(dataSource: SettingsDataSource.dataSource()))
+		.disposed(by: disposeBag)
 		// title
 		view.titleLabel.font = SFUIDisplay.bold.of(size: 15)
 		view.titleLabel.textColor = Colors.mainTextColor
