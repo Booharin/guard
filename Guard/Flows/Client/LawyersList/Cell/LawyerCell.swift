@@ -37,10 +37,7 @@ class LawyerCell: UITableViewCell, LawyerCellProtocol {
 	}
 	
 	private func addViews() {
-		let tapGesture = UITapGestureRecognizer(target: self,
-												action: #selector(didTapped))
-		addGestureRecognizer(tapGesture)
-		addSubview(containerView)
+		contentView.addSubview(containerView)
 		containerView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
 		}
@@ -74,9 +71,5 @@ class LawyerCell: UITableViewCell, LawyerCellProtocol {
 			$0.height.equalTo(20)
 			$0.centerY.equalToSuperview()
 		}
-	}
-
-	@objc func didTapped() {
-		viewModel.tapSubject.onNext(())
 	}
 }

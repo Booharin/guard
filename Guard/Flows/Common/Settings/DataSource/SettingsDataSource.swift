@@ -10,47 +10,22 @@ import RxDataSources
 import RxSwift
 
 enum SettingsCellType {
+	case headerItem(title: String)
 	case notificationItem(title: String, isOn: Bool, isSeparatorHidden: Bool)
 	case logoutItem(logoutSubject: PublishSubject<Any>)
-}
-
-enum SettingsTableViewSection {
-	case VisibilitySection(items: [SettingsCellType])
-	case LogoutSection(items: [SettingsCellType])
-}
-
-extension SettingsTableViewSection: SectionModelType {
-	typealias Item = SettingsCellType
-
-	var header: String {
-		switch self {
-		case .VisibilitySection:
-			return "settings.visibility.title".localized
-		case .LogoutSection:
-			return "settings.logout.title".localized
-		}
-	}
-
-	var items: [SettingsCellType] {
-		switch self {
-		case .VisibilitySection(items: let items):
-			return items
-		case .LogoutSection(items: let items):
-			return items
-		}
-	}
-
-	init(original: Self, items: [Self.Item]) {
-		self = original
-	}
 }
 
 struct SettingsDataSource {
 	typealias DataSource = RxTableViewSectionedReloadDataSource
 	
-	static func dataSource() -> DataSource<SettingsTableViewSection> {
+	static func dataSource() -> DataSource<SectionModel<String, SettingsCellType>> {
 		return .init(configureCell: { dataSource, tableView, indexPath, cellType -> UITableViewCell in
 			switch cellType {
+			case let .headerItem(title):
+				let cell = SettingsHeaderCell()
+				cell.viewModel = SettingsHeaderCellViewModel(title: title)
+				cell.viewModel.assosiateView(cell)
+				return cell
 			case let .notificationItem(title, isOn, isSeparatorHidden):
 				let cell = SwitcherCell()
 				cell.viewModel = SwitcherCellViewModel(title: title,
@@ -64,8 +39,6 @@ struct SettingsDataSource {
 				cell.viewModel.assosiateView(cell)
 				return cell
 			}
-		}, titleForHeaderInSection: { dataSource, index in
-			return dataSource.sectionModels[index].header
 		})
 	}
 }

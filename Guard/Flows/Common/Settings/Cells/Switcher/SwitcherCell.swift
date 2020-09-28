@@ -34,7 +34,7 @@ class SwitcherCell: UITableViewCell, SwitcherCellProtocol {
 	}
 
 	private func addViews() {
-		addSubview(containerView)
+		contentView.addSubview(containerView)
 		containerView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
 		}
@@ -58,7 +58,9 @@ class SwitcherCell: UITableViewCell, SwitcherCellProtocol {
 		containerView.addSubview(separatorView)
 		separatorView.snp.makeConstraints {
 			$0.height.equalTo(1)
-			$0.leading.bottom.trailing.equalToSuperview()
+			$0.leading.equalToSuperview().offset(36)
+			$0.trailing.equalToSuperview().offset(-36)
+			$0.bottom.equalToSuperview()
 		}
 	}
 }

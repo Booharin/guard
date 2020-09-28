@@ -86,11 +86,18 @@
 
 //PROFILE
 "profile.action_sheet.settings" = "Настройки";
-"profile.action_sheet.edit" = "Редаквтировать";
+"profile.action_sheet.edit" = "Редактировать";
 "profile.action_sheet.cancel" = "Отмена";
 
 //SETTINGS
 "settings.title" = "Настройки";
-"logout.title" = "Выйти";
 "settings.visibility.title" = "Видимость";
-"settings.logout.title" = "Выход из приложения";
+"settings.visibility.phone" = "Показать телефон";
+"settings.visibility.mail" = "Показать email";
+"settings.visibility.notifications" = "Включить уведомления";
+
+"settings.other.title" = "Другое";
+"logout.title" = "Выйти из профиля";
+"logout.alert.ok" = "Да";
+"logout.alert.title" = "Осторожно";
+"logout.alert.message" = "Вы действительно хотите выйти из профиля?";

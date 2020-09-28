@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol SettingsViewControllerProtocol: ViewControllerProtocol {
 	var backButtonView: BackButtonView { get }
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
+	func showActionSheet(toAuthSubject: PublishSubject<Any>)
 }
 
 class SettingsViewController<modelType: SettingsViewModel>: UIViewController,
@@ -92,5 +94,29 @@ class SettingsViewController<modelType: SettingsViewModel>: UIViewController,
 		tableView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
 		}
+	}
+
+	// MARK: - Show action sheet
+	func showActionSheet(toAuthSubject: PublishSubject<Any>) {
+		let alertController = UIAlertController(title: "logout.alert.title".localized,
+												message: "logout.alert.message".localized,
+												preferredStyle: .actionSheet)
+		alertController.view.tintColor = Colors.mainTextColor
+		// exit
+		let exitAction = UIAlertAction(title: "logout.alert.ok".localized,
+										   style: .destructive,
+										   handler: { _ in
+											alertController.dismiss(animated: true)
+											toAuthSubject.onNext(())
+										   })
+		alertController.addAction(exitAction)
+
+		let cancelAction = UIAlertAction(title: "alert.cancel".localized,
+										 style: .cancel,
+										 handler: { _ in
+											alertController.dismiss(animated: true)
+										 })
+		alertController.addAction(cancelAction)
+		self.present(alertController, animated: true)
 	}
 }

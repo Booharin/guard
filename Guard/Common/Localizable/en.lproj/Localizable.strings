@@ -91,6 +91,13 @@
 
 //SETTINGS
 "settings.title" = "Settings";
-"logout.title" = "Log out";
 "settings.visibility.title" = "Visibility";
-"settings.logout.title" = "Logout";
+"settings.visibility.phone" = "Show phone";
+"settings.visibility.mail" = "Show email";
+"settings.visibility.notifications" = "Enable notifications";
+
+"settings.other.title" = "Other settings";
+"logout.title" = "Logout";
+"logout.alert.ok" = "Ok";
+"logout.alert.title" = "Caution";
+"logout.alert.message" = "Are you sure you want to log out of your profile?";

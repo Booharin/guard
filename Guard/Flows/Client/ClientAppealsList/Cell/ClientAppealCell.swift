@@ -39,10 +39,7 @@ class ClientAppealCell: UITableViewCell, ClientAppealCellProtocol {
 	}
 	
 	private func addViews() {
-		let tapGesture = UITapGestureRecognizer(target: self,
-												action: #selector(didTapped))
-		addGestureRecognizer(tapGesture)
-		addSubview(containerView)
+		contentView.addSubview(containerView)
 		containerView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
 		}
@@ -82,9 +79,5 @@ class ClientAppealCell: UITableViewCell, ClientAppealCellProtocol {
 			$0.top.equalTo(dateLabel.snp.bottom).offset(8)
 			$0.trailing.equalToSuperview().offset(-35)
 		}
-	}
-	
-	@objc func didTapped() {
-		viewModel.tapSubject.onNext(())
 	}
 }

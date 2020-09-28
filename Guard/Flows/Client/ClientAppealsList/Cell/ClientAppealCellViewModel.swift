@@ -24,7 +24,10 @@ struct ClientAppealCellViewModel: ViewModel {
 	}
 
 	func viewDidSet() {
-		tapSubject
+		view.containerView
+			.rx
+			.tapGesture()
+			.when(.recognized)
 			.subscribe(onNext: { _ in
 				UIView.animate(withDuration: self.animateDuration, animations: {
 					self.view.containerView.backgroundColor = Colors.cellSelectedColor

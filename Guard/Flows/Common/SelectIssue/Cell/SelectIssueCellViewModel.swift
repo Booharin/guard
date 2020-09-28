@@ -24,7 +24,10 @@ struct SelectIssueCellViewModel: ViewModel {
 	}
 	
 	func viewDidSet() {
-		tapSubject
+		view.containerView
+			.rx
+			.tapGesture()
+			.when(.recognized)
 			.subscribe(onNext: { _ in
 				if let toMain = self.toMainSubject {
 					toMain.onNext(self.clientIssue)

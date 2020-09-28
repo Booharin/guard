@@ -34,10 +34,7 @@ class SelectIssueTableViewCell: UITableViewCell, SelectIssueTableViewCellProtoco
 	}
 	
 	private func addViews() {
-		let tapGesture = UITapGestureRecognizer(target: self,
-												action: #selector(didTapped))
-		addGestureRecognizer(tapGesture)
-		addSubview(containerView)
+		contentView.addSubview(containerView)
 		containerView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
 		}
@@ -55,9 +52,5 @@ class SelectIssueTableViewCell: UITableViewCell, SelectIssueTableViewCellProtoco
 			$0.width.height.equalTo(52)
 			$0.centerY.equalToSuperview()
 		}
-	}
-
-	@objc func didTapped() {
-		viewModel.tapSubject.onNext(())
 	}
 }

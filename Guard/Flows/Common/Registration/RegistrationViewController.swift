@@ -78,6 +78,7 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		super.viewWillAppear(animated)
 		
 		navigationController?.isNavigationBarHidden = false
+		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
 		self.navigationItem.setHidesBackButton(true, animated:false)
 	}
 	

@@ -96,6 +96,8 @@
 		52A271BE2508F94A0050FB60 /* ClientAppealCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A271BD2508F94A0050FB60 /* ClientAppealCell.swift */; };
 		52A271C02508F9AC0050FB60 /* ClientAppealCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A271BF2508F9AC0050FB60 /* ClientAppealCellViewModel.swift */; };
 		52A271C22508FA4E0050FB60 /* ClientAppeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A271C12508FA4E0050FB60 /* ClientAppeal.swift */; };
+		52A4258425221D7200E2FE7B /* SettingsHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A4258325221D7200E2FE7B /* SettingsHeaderCell.swift */; };
+		52A4258625221DC900E2FE7B /* SettingHeaderCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A4258525221DC900E2FE7B /* SettingHeaderCellViewModel.swift */; };
 		52AF28E62506145D00287A8F /* LawyerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28E52506145D00287A8F /* LawyerCell.swift */; };
 		52AF28E82506168B00287A8F /* LawyerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28E72506168B00287A8F /* LawyerCellViewModel.swift */; };
 		52AF28EB2506195800287A8F /* LawyersListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28EA2506195800287A8F /* LawyersListDataSource.swift */; };
@@ -247,6 +249,8 @@
 		52A271BD2508F94A0050FB60 /* ClientAppealCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealCell.swift; sourceTree = "<group>"; };
 		52A271BF2508F9AC0050FB60 /* ClientAppealCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealCellViewModel.swift; sourceTree = "<group>"; };
 		52A271C12508FA4E0050FB60 /* ClientAppeal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppeal.swift; sourceTree = "<group>"; };
+		52A4258325221D7200E2FE7B /* SettingsHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsHeaderCell.swift; sourceTree = "<group>"; };
+		52A4258525221DC900E2FE7B /* SettingHeaderCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingHeaderCellViewModel.swift; sourceTree = "<group>"; };
 		52AF28E52506145D00287A8F /* LawyerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerCell.swift; sourceTree = "<group>"; };
 		52AF28E72506168B00287A8F /* LawyerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerCellViewModel.swift; sourceTree = "<group>"; };
 		52AF28EA2506195800287A8F /* LawyersListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListDataSource.swift; sourceTree = "<group>"; };
@@ -488,6 +492,7 @@
 		523AEAEF251E462100F1E607 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				52A4258225221D5500E2FE7B /* HeaderCell */,
 				523AEAF5251E4C6800F1E607 /* Switcher */,
 				523AEAF4251E4C5C00F1E607 /* Logout */,
 			);
@@ -875,6 +880,15 @@
 			path = DataSource;
 			sourceTree = "<group>";
 		};
+		52A4258225221D5500E2FE7B /* HeaderCell */ = {
+			isa = PBXGroup;
+			children = (
+				52A4258525221DC900E2FE7B /* SettingHeaderCellViewModel.swift */,
+				52A4258325221D7200E2FE7B /* SettingsHeaderCell.swift */,
+			);
+			path = HeaderCell;
+			sourceTree = "<group>";
+		};
 		52AF28E42506143200287A8F /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1097,6 +1111,7 @@
 				5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */,
 				523AEAF3251E465B00F1E607 /* LogoutCellViewModel.swift in Sources */,
 				52212F8524FFDD41003FA67E /* ForgotPasswordViewModel.swift in Sources */,
+				52A4258625221DC900E2FE7B /* SettingHeaderCellViewModel.swift in Sources */,
 				5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */,
 				523E62DC2519E00500757FE3 /* String+Size.swift in Sources */,
 				52B654B4251B303F003D2465 /* SettingsViewController.swift in Sources */,
@@ -1158,6 +1173,7 @@
 				5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */,
 				523AEAF1251E464B00F1E607 /* LogoutCell.swift in Sources */,
 				525BFA77250A080D005393B1 /* ClientAppealObject+CoreDataClass.swift in Sources */,
+				52A4258425221D7200E2FE7B /* SettingsHeaderCell.swift in Sources */,
 				52B2686A2511137600111864 /* ChatConversation.swift in Sources */,
 				522272E42504C9470029A4E2 /* GuardDataModel.xcdatamodeld in Sources */,
 				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,

@@ -29,6 +29,9 @@ struct SwitcherCellViewModel: ViewModel {
 		view.titleLabel.font = SFUIDisplay.regular.of(size: 16)
 		view.titleLabel.textColor = Colors.mainTextColor
 		
+		view.switcher.setOn(isOn, animated: false)
+		view.switcher.isUserInteractionEnabled = true
+
 		view.separatorView.backgroundColor = Colors.separatorColor
 		view.separatorView.isHidden = isSeparatorHidden
 	}
