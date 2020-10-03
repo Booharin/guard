@@ -19,8 +19,7 @@ protocol SelectIssueViewControllerProtocol: class, ViewControllerProtocol {
 }
 
 /// Controller for selecting client issue
-final class SelectIssueViewController<modelType: SelectIssueViewModel>: UIViewController, UITableViewDelegate,
-SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewControllerProtocol {
+final class SelectIssueViewController<modelType: SelectIssueViewModel>: UIViewController, UITableViewDelegate, SelectIssueViewControllerProtocol {
 	
 	var tableView = UITableView()
 	var backButtonView = BackButtonView()
@@ -70,7 +69,7 @@ SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewCon
 		} else {
 			let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
 			self.navigationItem.leftBarButtonItem = leftBarButtonItem
-
+			
 			self.navigationItem.titleView = titleView
 		}
 	}
@@ -90,7 +89,7 @@ SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewCon
 			$0.centerY.equalToSuperview().offset(2)
 			$0.width.lessThanOrEqualTo(250)
 		}
-
+		
 		titleView.snp.makeConstraints {
 			$0.width.equalTo(titleLabel.snp.width).offset(46)
 			$0.height.equalTo(40)
@@ -111,111 +110,111 @@ SelectIssueViewControllerProtocol where modelType.ViewType == SelectIssueViewCon
 	}
 	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if isToMain {
+		if isToMain {
 			return createToMainHeaderView()
 		} else {
 			return createAppealHeaderView()
 		}
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+	}
+	
+	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 		return 95
-    }
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView,
-                                   withVelocity velocity: CGPoint,
-                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-        if(velocity.y > 0) {
-            // add gradient view
-            gradientView = createGradentView()
-            guard let gradientView = gradientView else { return }
-            view.addSubview(gradientView)
-            gradientView.snp.makeConstraints {
-                $0.top.leading.trailing.equalToSuperview()
-                $0.height.equalTo(50)
-            }
-
-            // hide nav bar
-            UIView.animate(withDuration: 0.3, animations: {
-                self.navigationController?.setNavigationBarHidden(true, animated: true)
-            })
-        } else {
-            // remove gradient view
-            gradientView?.removeFromSuperview()
-            gradientView = nil
-
-            // remove nav bar
-            UIView.animate(withDuration: 0.3, animations: {
-                self.navigationController?.setNavigationBarHidden(false, animated: true)
-            })
-        }
-    }
-    
-    private func createGradentView() -> UIView {
-        let gradientLAyer = CAGradientLayer()
-        gradientLAyer.colors = [
-            Colors.whiteColor.cgColor,
-            Colors.whiteColor.withAlphaComponent(0).cgColor
-        ]
-        gradientLAyer.locations = [0.0, 1.0]
-        gradientLAyer.frame = CGRect(x: 0,
-                                     y: 0,
-                                     width: UIScreen.main.bounds.width, height: 50)
-        let view = UIView()
-        view.layer.insertSublayer(gradientLAyer, at: 0)
-        return view
-    }
-    
-    private func createAppealHeaderView() -> UIView {
-        let headerView = UIView()
-        headerView.snp.makeConstraints {
-            $0.height.equalTo(95)
-            $0.width.equalTo(UIScreen.main.bounds.width)
-        }
-        headerView.addSubview(headerTitleLabel)
-        headerTitleLabel.snp.makeConstraints {
-            $0.height.equalTo(24)
-            $0.width.equalTo(UIScreen.main.bounds.width)
+	}
+	
+	func scrollViewWillEndDragging(_ scrollView: UIScrollView,
+								   withVelocity velocity: CGPoint,
+								   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+		
+		if(velocity.y > 0) {
+			// add gradient view
+			gradientView = createGradentView()
+			guard let gradientView = gradientView else { return }
+			view.addSubview(gradientView)
+			gradientView.snp.makeConstraints {
+				$0.top.leading.trailing.equalToSuperview()
+				$0.height.equalTo(50)
+			}
+			
+			// hide nav bar
+			UIView.animate(withDuration: 0.3, animations: {
+				self.navigationController?.setNavigationBarHidden(true, animated: true)
+			})
+		} else {
+			// remove gradient view
+			gradientView?.removeFromSuperview()
+			gradientView = nil
+			
+			// remove nav bar
+			UIView.animate(withDuration: 0.3, animations: {
+				self.navigationController?.setNavigationBarHidden(false, animated: true)
+			})
+		}
+	}
+	
+	private func createGradentView() -> UIView {
+		let gradientLAyer = CAGradientLayer()
+		gradientLAyer.colors = [
+			Colors.whiteColor.cgColor,
+			Colors.whiteColor.withAlphaComponent(0).cgColor
+		]
+		gradientLAyer.locations = [0.0, 1.0]
+		gradientLAyer.frame = CGRect(x: 0,
+									 y: 0,
+									 width: UIScreen.main.bounds.width, height: 50)
+		let view = UIView()
+		view.layer.insertSublayer(gradientLAyer, at: 0)
+		return view
+	}
+	
+	private func createAppealHeaderView() -> UIView {
+		let headerView = UIView()
+		headerView.snp.makeConstraints {
+			$0.height.equalTo(95)
+			$0.width.equalTo(UIScreen.main.bounds.width)
+		}
+		headerView.addSubview(headerTitleLabel)
+		headerTitleLabel.snp.makeConstraints {
+			$0.height.equalTo(24)
+			$0.width.equalTo(UIScreen.main.bounds.width)
 			$0.top.equalToSuperview().offset(4)
-        }
-        headerView.addSubview(headerSubtitleLabel)
-        headerSubtitleLabel.snp.makeConstraints {
-            $0.height.equalTo(28)
-            $0.width.equalTo(UIScreen.main.bounds.width)
+		}
+		headerView.addSubview(headerSubtitleLabel)
+		headerSubtitleLabel.snp.makeConstraints {
+			$0.height.equalTo(28)
+			$0.width.equalTo(UIScreen.main.bounds.width)
 			$0.bottom.equalToSuperview().offset(-30)
-        }
-        return headerView
-    }
-
+		}
+		return headerView
+	}
+	
 	private func createToMainHeaderView() -> UIView {
-        let headerView = UIView()
-        headerView.snp.makeConstraints {
-            $0.height.equalTo(95)
-            $0.width.equalTo(UIScreen.main.bounds.width)
-        }
-        headerView.addSubview(headerTitleLabel)
-        headerTitleLabel.snp.makeConstraints {
-            $0.height.equalTo(39)
-            $0.width.equalTo(UIScreen.main.bounds.width)
-            $0.top.equalToSuperview()
-        }
-        headerView.addSubview(headerSubtitleLabel)
-        headerSubtitleLabel.snp.makeConstraints {
-            $0.height.equalTo(28)
-            $0.width.equalTo(UIScreen.main.bounds.width)
+		let headerView = UIView()
+		headerView.snp.makeConstraints {
+			$0.height.equalTo(95)
+			$0.width.equalTo(UIScreen.main.bounds.width)
+		}
+		headerView.addSubview(headerTitleLabel)
+		headerTitleLabel.snp.makeConstraints {
+			$0.height.equalTo(39)
+			$0.width.equalTo(UIScreen.main.bounds.width)
+			$0.top.equalToSuperview()
+		}
+		headerView.addSubview(headerSubtitleLabel)
+		headerSubtitleLabel.snp.makeConstraints {
+			$0.height.equalTo(28)
+			$0.width.equalTo(UIScreen.main.bounds.width)
 			$0.top.equalTo(headerTitleLabel.snp.bottom).offset(-2)
-        }
-        return headerView
-    }
+		}
+		return headerView
+	}
 	
 	func updateTableView() {
 		DispatchQueue.main.async {
 			self.tableView.reloadData()
 		}
-
+		
 		if tableView.contentSize.height <= tableView.frame.height {
-            tableView.isScrollEnabled = false
+			tableView.isScrollEnabled = false
 		} else {
 			tableView.isScrollEnabled = true
 		}

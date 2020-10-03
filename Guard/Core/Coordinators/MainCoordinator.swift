@@ -10,13 +10,13 @@ import UIKit
 import RxSwift
 
 final class MainCoordinator: BaseCoordinator {
-	
+
 	var rootController: UINavigationController?
 	var onFinishFlow: (() -> Void)?
 	private let userType: UserType
 	private let tabBarController = TabBarController()
 	private var disposeBag = DisposeBag()
-	
+
 	private var tabBarImages: [UIImage] {
 		switch userType {
 		case .client:
@@ -25,15 +25,15 @@ final class MainCoordinator: BaseCoordinator {
 			return [#imageLiteral(resourceName: "tab_list_icn"), #imageLiteral(resourceName: "tab_chat_icn"), #imageLiteral(resourceName: "tab_profile_icn")]
 		}
 	}
-	
-	init(userType: UserType, clientIssue: ClientIssue? = nil) {
+
+	init(userType: UserType, issueType: IssueType? = nil) {
 		self.userType = userType
 	}
-	
+
 	override func start() {
 		showMainModule()
 	}
-	
+
 	private func showMainModule() {
 		
 		switch userType {

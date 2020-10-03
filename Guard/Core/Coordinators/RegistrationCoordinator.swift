@@ -53,8 +53,9 @@ final class RegistrationCoordinator: BaseCoordinator {
 		navVC.pushViewController(controller, animated: true)
     }
     
-	private func toMain(clientIssue: ClientIssue) {
-		let coordinator = MainCoordinator(userType: userType, clientIssue: clientIssue)
+	private func toMain(issueType: IssueType) {
+		let coordinator = MainCoordinator(userType: userType,
+										  issueType: issueType)
         coordinator.onFinishFlow = { [weak self, weak coordinator] in
             self?.removeDependency(coordinator)
             self?.start()
@@ -74,11 +75,11 @@ final class RegistrationCoordinator: BaseCoordinator {
 	
 	private func toSelectIssue() {
 		// to main
-		let toMainSubject = PublishSubject<ClientIssue>()
+		let toMainSubject = PublishSubject<IssueType>()
 		toMainSubject
 			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { clientIssue in
-				self.toMain(clientIssue: clientIssue)
+			.subscribe(onNext: { issueType in
+				self.toMain(issueType: issueType)
 				self.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)

@@ -15,47 +15,47 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	var view: LawyersListViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
-    
-    private let userProfileDict: [String : Any] = [
-        "userType": "lawyer",
-        "email": "some@bk.ru",
-        "firstName": "Alex",
-        "lastName": "Vardanyan",
-        "city": "Moscow",
-        "rate": 4.4
-    ]
-    
-    private let cities = [
-        "cities.moscow".localized
-    ]
-    
-    var lawyers = [UserProfile]()
-
+	
+	private let userProfileDict: [String : Any] = [
+		"userType": "lawyer",
+		"email": "some@bk.ru",
+		"firstName": "Alex",
+		"lastName": "Vardanyan",
+		"city": "Moscow",
+		"rate": 4.4
+	]
+	
+	private let cities = [
+		"cities.moscow".localized
+	]
+	
+	var lawyers = [UserProfile]()
+	
 	typealias Dependencies =
-	HasLocationService &
-	HasLocalStorageService
+		HasLocationService &
+		HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
 	
 	let toLawyerSubject: PublishSubject<UserProfile>
-
+	
 	init(toLawyerSubject: PublishSubject<UserProfile>) {
 		self.toLawyerSubject = toLawyerSubject
 	}
-
+	
 	func viewDidSet() {
-
-        getLawyersFromProfiles()
-
+		
+		getLawyersFromProfiles()
+		
 		// table view data source
 		let section = SectionModel<String, UserProfile>(model: "",
 														items: lawyers)
 		let items = BehaviorSubject<[SectionModel]>(value: [section])
 		items
 			.bind(to: view.tableView
-				.rx
-				.items(dataSource: LawyersListDataSource.dataSource(toLawyerSubject: toLawyerSubject)))
+					.rx
+					.items(dataSource: LawyersListDataSource.dataSource(toLawyerSubject: toLawyerSubject)))
 			.disposed(by: disposeBag)
-
+		
 		// back button
 		view.filterButtonView
 			.rx
@@ -87,7 +87,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 						self.view.titleView.alpha = 1
 					})
 				})
-                self.view.showActionSheet(with: self.cities)
+				self.view.showActionSheet(with: self.cities)
 			})
 			.subscribe(onNext: { _ in
 				//
@@ -107,41 +107,41 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		}
 		
 		if self.view.tableView.contentSize.height < self.view.tableView.frame.height {
-            self.view.tableView.isScrollEnabled = false
+			self.view.tableView.isScrollEnabled = false
 		} else {
 			self.view.tableView.isScrollEnabled = true
 		}
 	}
-    
-    private func getLawyersFromProfiles() {
-        let userProfilesArray = [
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict
-        ]
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: userProfilesArray,
-                                                      options: .prettyPrinted)
-            let profilesResponse = try JSONDecoder().decode([UserProfile].self, from: jsonData)
-            self.update(with: profilesResponse)
-        } catch {
-            #if DEBUG
-            print(error)
-            #endif
-        }
-    }
+	
+	private func getLawyersFromProfiles() {
+		let userProfilesArray = [
+			userProfileDict,
+			userProfileDict,
+			userProfileDict,
+			userProfileDict,
+			userProfileDict,
+			userProfileDict,
+			userProfileDict,
+			userProfileDict,
+			userProfileDict,
+			userProfileDict,
+			userProfileDict,
+			userProfileDict,
+			userProfileDict,
+			userProfileDict,
+			userProfileDict
+		]
+		do {
+			let jsonData = try JSONSerialization.data(withJSONObject: userProfilesArray,
+													  options: .prettyPrinted)
+			let profilesResponse = try JSONDecoder().decode([UserProfile].self, from: jsonData)
+			self.update(with: profilesResponse)
+		} catch {
+			#if DEBUG
+			print(error)
+			#endif
+		}
+	}
 	
 	func removeBindings() {}
 }

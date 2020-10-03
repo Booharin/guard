@@ -10,20 +10,20 @@ import RxDataSources
 import RxSwift
 
 struct SelectIssueDataSource {
-    typealias DataSource = RxTableViewSectionedReloadDataSource
-    
-	static func dataSource(toMainSubject: PublishSubject<ClientIssue>?,
-                           toCreateAppealSubject: PublishSubject<ClientIssue>?) -> DataSource<SectionModel<String, ClientIssue>> {
-        return .init(configureCell: { dataSource, tableView, indexPath, clientIssue -> UITableViewCell in
-            
-            let cell = SelectIssueTableViewCell()
-			cell.viewModel = SelectIssueCellViewModel(clientIssue: clientIssue,
-                                                      toMainSubject: toMainSubject,
-                                                      toCreateAppealSubject: toCreateAppealSubject)
+	typealias DataSource = RxTableViewSectionedReloadDataSource
+	
+	static func dataSource(toMainSubject: PublishSubject<IssueType>?,
+						   toCreateAppealSubject: PublishSubject<IssueType>?) -> DataSource<SectionModel<String, IssueType>> {
+		return .init(configureCell: { dataSource, tableView, indexPath, issueType -> UITableViewCell in
+			
+			let cell = SelectIssueTableViewCell()
+			cell.viewModel = SelectIssueCellViewModel(issueType: issueType,
+													  toMainSubject: toMainSubject,
+													  toCreateAppealSubject: toCreateAppealSubject)
 			cell.viewModel.assosiateView(cell)
-            return cell
-        }, titleForHeaderInSection: { dataSource, index in
+			return cell
+		}, titleForHeaderInSection: { dataSource, index in
 			return dataSource.sectionModels[index].model
-        })
-    }
+		})
+	}
 }

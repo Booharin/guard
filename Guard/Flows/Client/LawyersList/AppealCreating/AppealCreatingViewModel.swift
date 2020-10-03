@@ -13,10 +13,10 @@ final class AppealCreatingViewModel: ViewModel {
 	var view: AppealCreatingViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
-	private let clientIssue: ClientIssue
-	
-	init(clientIssue: ClientIssue) {
-		self.clientIssue = clientIssue
+	private let issueType: IssueType
+
+	init(issueType: IssueType) {
+		self.issueType = issueType
 	}
 
 	func viewDidSet() {
@@ -49,13 +49,13 @@ final class AppealCreatingViewModel: ViewModel {
 		view.subtitleLabel.textColor = Colors.mainTextColor
 		view.subtitleLabel.text = "new_appeal.subtitle.title".localized
 		view.subtitleLabel.textAlignment = .center
-		
+
 		// client issue title
 		view.issueTitleLabel.font = SFUIDisplay.medium.of(size: 15)
 		view.issueTitleLabel.textColor = Colors.warningColor
 		view.issueTitleLabel.numberOfLines = 2
 		view.issueTitleLabel.textAlignment = .center
-		view.issueTitleLabel.text = clientIssue.issueType
+		view.issueTitleLabel.text = issueType.title
 
 		// login
 		view.titleTextField.configure(placeholderText: "new_appeal.title.textfield.placeholder".localized)

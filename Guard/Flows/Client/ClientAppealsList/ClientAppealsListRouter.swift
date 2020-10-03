@@ -43,11 +43,11 @@ final class ClientAppealsListRouter: BaseRouter, ClientAppealsListRouterProtocol
 	}
 	
 	private func toSelectIssue() {
-		let toCreateAppealSubject = PublishSubject<ClientIssue>()
+		let toCreateAppealSubject = PublishSubject<IssueType>()
 		toCreateAppealSubject
 			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [unowned self] clientIssue in
-				self.toAppealCreating(clientIssue)
+			.subscribe(onNext: { [unowned self] issueType in
+				self.toAppealCreating(issueType)
 			})
 			.disposed(by: disposeBag)
 		
@@ -58,9 +58,9 @@ final class ClientAppealsListRouter: BaseRouter, ClientAppealsListRouterProtocol
 		self.navigationController?.pushViewController(selectIssueController, animated: true)
 	}
 	
-	private func toAppealCreating(_ clientIssue: ClientIssue) {
+	private func toAppealCreating(_ issueType: IssueType) {
 		let toAppealCreatingController = AppealCreatingViewController(viewModel:
-																		AppealCreatingViewModel(clientIssue: clientIssue)
+																		AppealCreatingViewModel(issueType: issueType)
 		)
 		self.navigationController?.pushViewController(toAppealCreatingController, animated: true)
 	}

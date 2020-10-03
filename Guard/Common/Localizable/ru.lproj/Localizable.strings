@@ -9,7 +9,7 @@
 //CHOOSE
 "choose.title" = "Кто вы?";
 "choose.lawyer.enter.button" = "Юрист";
-"choose.lawyer.enter.button.subtitle" = "У вас высшее юридическое образование. Знаете законы. Можете дать совет";
+"choose.lawyer.enter.button.subtitle" = "У вас юридическое образование. Знаете законы. Можете дать совет";
 "choose.client.enter.button" = "Клиент";
 "choose.client.enter.button.subtitle" = "У вас проблемы с законом. Есть вопрос. Нужна помощь";
 

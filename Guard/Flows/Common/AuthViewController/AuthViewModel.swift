@@ -129,7 +129,12 @@ final class AuthViewModel: ViewModel,
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.authenticateTapped()
+				//self.authenticateTapped()
+				guard
+				let emailURL = URL(string: "mailto:\("booharin@bk.ru")?subject=some subject") else { return }
+				if UIApplication.shared.canOpenURL(emailURL) {
+					UIApplication.shared.open(emailURL)
+				}
 			}).disposed(by: disposeBag)
 		
 		// forget password
