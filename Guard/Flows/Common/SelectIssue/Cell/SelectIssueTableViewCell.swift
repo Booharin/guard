@@ -44,7 +44,6 @@ class SelectIssueTableViewCell: UITableViewCell, SelectIssueTableViewCellProtoco
 		issueTitle.snp.makeConstraints() {
 			$0.leading.equalToSuperview().offset(117)
 			$0.trailing.equalToSuperview().offset(-50)
-			$0.height.equalTo(20)
 			$0.top.equalToSuperview().offset(14)
 		}
 		containerView.addSubview(issuesubtitle)

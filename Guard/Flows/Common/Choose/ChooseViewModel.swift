@@ -14,14 +14,14 @@ final class ChooseViewModel: ViewModel {
 	var view: ChooseViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
-	
+
 	func viewDidSet() {
 		// title
 		view.titleLabel.text = "choose.title".localized
 		view.titleLabel.font = Saira.light.of(size: 25)
 		view.titleLabel.textAlignment = .center
 		view.titleLabel.textColor = Colors.mainTextColor
-		
+
 		// lawyer button
 		view.lawyerEnterView
 			.rx
@@ -39,7 +39,7 @@ final class ChooseViewModel: ViewModel {
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.toRegistration?(.lawyer)
 			}).disposed(by: disposeBag)
-		
+
 		// lawyer title
 		view.lawyerTitleLabel.font = Saira.regular.of(size: 22)
 		view.lawyerTitleLabel.textColor = Colors.mainTextColor
@@ -68,18 +68,17 @@ final class ChooseViewModel: ViewModel {
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.toRegistration?(.client)
 			}).disposed(by: disposeBag)
-		
+
 		// lawyer title
 		view.clientTitleLabel.font = Saira.regular.of(size: 22)
 		view.clientTitleLabel.textColor = Colors.greenColor
 		view.clientTitleLabel.text = "choose.client.enter.button".localized
-		
+
 		// lawyer subtitle
 		view.clientSubtitleLabel.font = Saira.light.of(size: 15)
 		view.clientSubtitleLabel.textColor = Colors.greenColor
 		view.clientSubtitleLabel.text = "choose.client.enter.button.subtitle".localized
 		view.clientSubtitleLabel.numberOfLines = 2
-
 	}
 
 	func removeBindings() {}

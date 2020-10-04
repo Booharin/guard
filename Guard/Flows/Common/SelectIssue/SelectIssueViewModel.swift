@@ -16,17 +16,34 @@ final class SelectIssueViewModel: ViewModel {
 	private let animationDuration = 0.15
 	var toMainSubject: PublishSubject<IssueType>?
 	var toCreateAppealSubject: PublishSubject<IssueType>?
+	var toSubtypesSubject: PublishSubject<[IssueType]>?
+	var headerSubtitleHeight: CGFloat = 95
 
 	init(toMainSubject: PublishSubject<IssueType>? = nil,
-		 toCreateAppealSubject: PublishSubject<IssueType>? = nil) {
+		 toCreateAppealSubject: PublishSubject<IssueType>? = nil,
+		 issueTypes: [IssueType]? = nil) {
 		self.toMainSubject = toMainSubject
 		self.toCreateAppealSubject = toCreateAppealSubject
+		self.issueTypes = issueTypes
 	}
 
-	var issueTypes = [IssueType]()
+	var issueTypes: [IssueType]?
 
 	func viewDidSet() {
-		getIssueTypesFromServer()
+
+		if issueTypes == nil {
+			getIssueTypesFromServer()
+			toSubtypesSubject = PublishSubject<[IssueType]>()
+			toSubtypesSubject?
+				.observeOn(MainScheduler.instance)
+				.subscribe(onNext: { [weak self] issueTypes in
+					self?.passageToSubtypes(issueTypes: issueTypes)
+				})
+				.disposed(by: disposeBag)
+		} else {
+			update(with: issueTypes ?? [])
+		}
+
 		// back button
 		view.backButtonView
 			.rx
@@ -55,27 +72,41 @@ final class SelectIssueViewModel: ViewModel {
 		view.headerSubtitleLabel.textColor = Colors.mainTextColor
 		view.headerSubtitleLabel.textAlignment = .center
 		view.headerSubtitleLabel.font = Saira.light.of(size: 18)
-
+		view.headerSubtitleLabel.numberOfLines = 0
+		// select header for to main or to appeal creating
 		if toMainSubject == nil {
 			view.headerTitleLabel.font = Saira.light.of(size: 15)
 			view.headerTitleLabel.text = "new_appeal.header.title".localized
-			view.headerSubtitleLabel.text = "new_appeal.header.subtitle".localized
+			// select header for to subcategories
+			if toSubtypesSubject == nil {
+				view.headerSubtitleLabel.text = "new_appeal.header.subcategory.subtitle".localized
+				headerSubtitleHeight = 120
+			} else {
+				view.headerSubtitleLabel.text = "new_appeal.header.subtitle".localized
+			}
 		} else {
 			view.headerTitleLabel.font = Saira.light.of(size: 25)
-			view.headerTitleLabel.text = "client.issue.header.title".localized
-			view.headerSubtitleLabel.text = "client.issue.header.subtitle".localized
+			// select header for to subcategories
+			if toSubtypesSubject == nil {
+				view.headerTitleLabel.text = "client.issue.header.subcategory.title".localized
+				view.headerSubtitleLabel.text = "client.issue.header.subcategory.subtitle".localized
+			} else {
+				view.headerTitleLabel.text = "client.issue.header.title".localized
+				view.headerSubtitleLabel.text = "client.issue.header.subtitle".localized
+			}
 		}
 
 		let section = SectionModel<String, IssueType>(model: "",
-														items: issueTypes)
+													  items: issueTypes ?? [])
 		let items = BehaviorSubject<[SectionModel]>(value: [section])
 		items
 			.bind(to: view.tableView
 					.rx
 					.items(dataSource: SelectIssueDataSource.dataSource(toMainSubject: toMainSubject,
-																		toCreateAppealSubject: toCreateAppealSubject)))
+																		toCreateAppealSubject: toCreateAppealSubject,
+																		toSubtyesSubject: toSubtypesSubject)))
 			.disposed(by: disposeBag)
-		
+
 		// swipe to go back
 		view.view
 			.rx
@@ -114,6 +145,15 @@ final class SelectIssueViewModel: ViewModel {
 		}
 	}
 
+	private func passageToSubtypes(issueTypes: [IssueType]) {
+		let viewModel = SelectIssueViewModel(toMainSubject: toMainSubject,
+											 toCreateAppealSubject: toCreateAppealSubject,
+											 issueTypes: issueTypes)
+		let selectIssueController = SelectIssueViewController(viewModel: viewModel)
+		selectIssueController.hidesBottomBarWhenPushed = true
+		self.view.navController?.pushViewController(selectIssueController, animated: true)
+	}
+
 	func removeBindings() {}
 }
 
@@ -123,6 +163,9 @@ let issuesDict = [
 		 "subtitle": "Расторжение брака, наследство, страхование, заключение договоров, сопровождение юр.лиц, финансы, налоги, строительство",
 		 "issueCode": "CIVIC",
 		 "subtypes": [
+			["title": "Гражданское право",
+			 "subtitle": "Расторжение брака, наследство, страхование, заключение договоров, сопровождение юр.лиц, финансы, налоги, строительство",
+			 "issueCode": "CIVIC"],
 			["title": "Семейное право",
 			 "subtitle": "Расторжение брака, брачный договор, раздел имущества, алименты, порядок общения с ребенком",
 			 "issueCode": "FAMILY"],
@@ -164,6 +207,9 @@ let issuesDict = [
 		 "subtitle": "Наркотики, убийство, кража, мошенничество, телесные повреждения, взятка",
 		 "issueCode": "CRIMINAL",
 		 "subtypes": [
+			["title": "Уголовное право",
+			 "subtitle": "Наркотики, убийство, кража, мошенничество, телесные повреждения, взятка",
+			 "issueCode": "CRIMINAL"],
 			["title": "Против жизни и здоровья",
 			 "subtitle": "Наркотики, убийство, телесные повреждения, износилование",
 			 "issueCode": "AGAINST_LIFE"],

@@ -118,7 +118,7 @@ final class SelectIssueViewController<modelType: SelectIssueViewModel>: UIViewCo
 	}
 	
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return 95
+		return viewModel.headerSubtitleHeight
 	}
 	
 	func scrollViewWillEndDragging(_ scrollView: UIScrollView,
@@ -169,7 +169,7 @@ final class SelectIssueViewController<modelType: SelectIssueViewModel>: UIViewCo
 	private func createAppealHeaderView() -> UIView {
 		let headerView = UIView()
 		headerView.snp.makeConstraints {
-			$0.height.equalTo(95)
+			$0.height.equalTo(viewModel.headerSubtitleHeight)
 			$0.width.equalTo(UIScreen.main.bounds.width)
 		}
 		headerView.addSubview(headerTitleLabel)
@@ -180,8 +180,9 @@ final class SelectIssueViewController<modelType: SelectIssueViewModel>: UIViewCo
 		}
 		headerView.addSubview(headerSubtitleLabel)
 		headerSubtitleLabel.snp.makeConstraints {
-			$0.height.equalTo(28)
-			$0.width.equalTo(UIScreen.main.bounds.width)
+			$0.top.equalTo(headerTitleLabel.snp.bottom)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
 			$0.bottom.equalToSuperview().offset(-30)
 		}
 		return headerView

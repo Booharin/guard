@@ -53,6 +53,8 @@
 //ISSUE
 "client.issue.header.title" = "Привет!";
 "client.issue.header.subtitle" = "Что случилось?";
+"client.issue.header.subcategory.title" = "Выбирете подкатегорию";
+"client.issue.header.subcategory.subtitle" = "или оставьте общий раздел";
 
 "client.issue.drugs" = "Наркотики";
 "client.issue.divorce" = "Развод";
@@ -74,6 +76,7 @@
 "new_appeal.title" = "Создание обращения";
 "new_appeal.header.title" = "Шаг 1 / 2";
 "new_appeal.header.subtitle" = "Что случилось?";
+"new_appeal.header.subcategory.subtitle" = "Выбирете подкатегорию или оставьте общий раздел";
 "new_appeal.subtitle.title" = "Шаг 2 / 2";
 "new_appeal.button.title" = "Создать";
 "new_appeal.title.textfield.placeholder" = "Заголовок";

@@ -13,13 +13,15 @@ struct SelectIssueDataSource {
 	typealias DataSource = RxTableViewSectionedReloadDataSource
 	
 	static func dataSource(toMainSubject: PublishSubject<IssueType>?,
-						   toCreateAppealSubject: PublishSubject<IssueType>?) -> DataSource<SectionModel<String, IssueType>> {
+						   toCreateAppealSubject: PublishSubject<IssueType>?,
+						   toSubtyesSubject: PublishSubject<[IssueType]>?) -> DataSource<SectionModel<String, IssueType>> {
 		return .init(configureCell: { dataSource, tableView, indexPath, issueType -> UITableViewCell in
 			
 			let cell = SelectIssueTableViewCell()
 			cell.viewModel = SelectIssueCellViewModel(issueType: issueType,
 													  toMainSubject: toMainSubject,
-													  toCreateAppealSubject: toCreateAppealSubject)
+													  toCreateAppealSubject: toCreateAppealSubject,
+													  toSubtyesSubject: toSubtyesSubject)
 			cell.viewModel.assosiateView(cell)
 			return cell
 		}, titleForHeaderInSection: { dataSource, index in

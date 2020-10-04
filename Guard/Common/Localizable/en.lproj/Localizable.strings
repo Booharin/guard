@@ -53,6 +53,8 @@
 //ISSUE
 "client.issue.header.title" = "Hi, there!";
 "client.issue.header.subtitle" = "What’s happend?";
+"client.issue.header.subcategory.title" = "Select a subcategory";
+"client.issue.header.subcategory.subtitle" = "or leave the general section";
 
 "client.issue.drugs" = "Drugs";
 "client.issue.divorce" = "Divorce";
@@ -74,6 +76,7 @@
 "new_appeal.title" = "New appeal creation";
 "new_appeal.header.title" = "Step 1 / 2";
 "new_appeal.header.subtitle" = "What’s happend?";
+"new_appeal.header.subcategory.subtitle" = "Select a subcategory or leave the general section";
 "new_appeal.subtitle.title" = "Step 2 / 2";
 "new_appeal.button.title" = "Create appeal";
 "new_appeal.title.textfield.placeholder" = "Title";
