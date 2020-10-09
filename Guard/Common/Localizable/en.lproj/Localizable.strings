@@ -91,6 +91,8 @@
 "profile.action_sheet.settings" = "Settings";
 "profile.action_sheet.edit" = "Edit";
 "profile.action_sheet.cancel" = "Cancel";
+"profile.reviews" = "Reviews";
+"profile.rating" = "Rating";
 
 //SETTINGS
 "settings.title" = "Settings";

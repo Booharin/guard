@@ -21,7 +21,8 @@ protocol ClientProfileViewControllerProtocol {
 
 	var reviewsTitleLabel: UILabel { get }
 	var ratingTitleLabel: UILabel { get }
-	var reviewsLabel: UILabel { get }
+	var reviewsPositiveLabel: UILabel { get }
+	var reviewsNegativeLabel: UILabel { get }
 	var ratingLabel: UILabel { get }
 	func showActionSheet(toSettingsSubject: PublishSubject<Any>)
 }
@@ -38,8 +39,9 @@ ClientProfileViewControllerProtocol where modelType.ViewType == ClientProfileVie
 	var phoneLabel = UILabel()
 
 	var reviewsTitleLabel = UILabel()
+	var reviewsPositiveLabel = UILabel()
+	var reviewsNegativeLabel = UILabel()
 	var ratingTitleLabel = UILabel()
-	var reviewsLabel = UILabel()
 	var ratingLabel = UILabel()
 
 	var viewModel: modelType
@@ -142,6 +144,71 @@ ClientProfileViewControllerProtocol where modelType.ViewType == ClientProfileVie
 			$0.top.equalTo(emailLabel.snp.bottom).offset(10)
 			$0.leading.equalToSuperview().offset(20)
 			$0.trailing.equalToSuperview().offset(-20)
+		}
+		// reviews and rating
+		// vertical separator
+		let verticalSeparatorView = UIView()
+		verticalSeparatorView.backgroundColor = Colors.verticalSeparator
+		scrollView.addSubview(verticalSeparatorView)
+		verticalSeparatorView.snp.makeConstraints {
+			$0.top.equalTo(phoneLabel.snp.bottom).offset(72)
+			$0.centerX.equalToSuperview()
+			$0.height.equalTo(61)
+			$0.width.equalTo(1)
+		}
+		// reviews title
+		scrollView.addSubview(reviewsTitleLabel)
+		reviewsTitleLabel.snp.makeConstraints {
+			$0.top.equalTo(verticalSeparatorView.snp.top)
+			$0.trailing.equalTo(verticalSeparatorView.snp.leading).offset(-37)
+		}
+		// vertical reviews separator
+		let verticalReviewsSeparatorView = UIView()
+		verticalReviewsSeparatorView.backgroundColor = Colors.verticalSeparator
+		scrollView.addSubview(verticalReviewsSeparatorView)
+		verticalReviewsSeparatorView.snp.makeConstraints {
+			$0.top.equalTo(reviewsTitleLabel.snp.bottom).offset(17)
+			$0.height.equalTo(20)
+			$0.width.equalTo(1)
+			$0.centerX.equalTo(reviewsTitleLabel.snp.centerX)
+		}
+		// positive review
+		scrollView.addSubview(reviewsPositiveLabel)
+		reviewsPositiveLabel.snp.makeConstraints {
+			$0.centerY.equalTo(verticalReviewsSeparatorView.snp.centerY)
+			$0.trailing.equalTo(verticalReviewsSeparatorView.snp.leading).offset(-9)
+		}
+		// negative review
+		scrollView.addSubview(reviewsNegativeLabel)
+		reviewsNegativeLabel.snp.makeConstraints {
+			$0.centerY.equalTo(verticalReviewsSeparatorView.snp.centerY)
+			$0.leading.equalTo(verticalReviewsSeparatorView.snp.trailing).offset(9)
+		}
+		// rating title
+		scrollView.addSubview(ratingTitleLabel)
+		ratingTitleLabel.snp.makeConstraints {
+			$0.top.equalTo(verticalSeparatorView.snp.top)
+			$0.leading.equalTo(verticalSeparatorView.snp.trailing).offset(37)
+		}
+		let ratingView = UIView()
+		scrollView.addSubview(ratingView)
+		ratingView.snp.makeConstraints {
+			$0.top.equalTo(ratingTitleLabel.snp.bottom).offset(17)
+			$0.centerX.equalTo(ratingTitleLabel.snp.centerX)
+		}
+		// star image
+		let starImageView = UIImageView(image: #imageLiteral(resourceName: "star_icn"))
+		ratingView.addSubview(starImageView)
+		starImageView.snp.makeConstraints {
+			$0.height.width.equalTo(16)
+			$0.leading.equalToSuperview()
+			$0.centerY.equalToSuperview()
+		}
+		ratingView.addSubview(ratingLabel)
+		ratingLabel.snp.makeConstraints {
+			$0.height.equalTo(21)
+			$0.top.trailing.bottom.equalToSuperview()
+			$0.leading.equalTo(starImageView.snp.trailing).offset(7)
 		}
 	}
 

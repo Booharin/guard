@@ -20,6 +20,8 @@ struct Colors {
 	static let subtitleColor = #colorLiteral(red: 0.4705882353, green: 0.4705882353, blue: 0.4705882353, alpha: 1)
 	static let warningColor = #colorLiteral(red: 1, green: 0.4509803922, blue: 0.4509803922, alpha: 1)
 	static let avatarCircle = #colorLiteral(red: 0.9137254902, green: 0.9137254902, blue: 0.9137254902, alpha: 1)
+	static let verticalSeparator = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9254901961, alpha: 1)
+	static let negativeReview = #colorLiteral(red: 0.9647058824, green: 0.3843137255, blue: 0.3921568627, alpha: 1)
 
 	static let tabBarItemColor = #colorLiteral(red: 0.4705882353, green: 0.4705882353, blue: 0.4705882353, alpha: 1)
 	// chat

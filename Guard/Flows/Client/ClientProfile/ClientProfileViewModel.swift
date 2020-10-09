@@ -13,7 +13,7 @@ final class ClientProfileViewModel: ViewModel {
 	var view: ClientProfileViewControllerProtocol!
 	var router: ClientProfileRouterProtocol
 	private var disposeBag = DisposeBag()
-	
+
 	init(router: ClientProfileRouterProtocol) {
 		self.router = router
 	}
@@ -48,6 +48,27 @@ final class ClientProfileViewModel: ViewModel {
 		view.phoneLabel.textColor = Colors.mainTextColor
 		view.phoneLabel.font = SFUIDisplay.medium.of(size: 18)
 		view.phoneLabel.text = "+7(964)-638-19-28"
+
+		// reviews
+		view.reviewsTitleLabel.textColor = Colors.mainTextColor
+		view.reviewsTitleLabel.font = SFUIDisplay.light.of(size: 18)
+		view.reviewsTitleLabel.text = "profile.reviews".localized
+		// positive review
+		view.reviewsPositiveLabel.textColor = Colors.greenColor
+		view.reviewsPositiveLabel.font = SFUIDisplay.bold.of(size: 18)
+		view.reviewsPositiveLabel.text = "+2"
+		// negative review
+		view.reviewsNegativeLabel.textColor = Colors.negativeReview
+		view.reviewsNegativeLabel.font = SFUIDisplay.bold.of(size: 18)
+		view.reviewsNegativeLabel.text = "-4"
+		// rating title
+		view.ratingTitleLabel.textColor = Colors.mainTextColor
+		view.ratingTitleLabel.font = SFUIDisplay.light.of(size: 18)
+		view.ratingTitleLabel.text = "profile.rating".localized
+		// rating
+		view.ratingLabel.text = "4.2"
+		view.ratingLabel.textColor = Colors.mainTextColor
+		view.ratingLabel.font = SFUIDisplay.bold.of(size: 18)
 	}
 
 	func removeBindings() {}
