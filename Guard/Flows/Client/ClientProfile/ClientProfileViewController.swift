@@ -24,11 +24,12 @@ protocol ClientProfileViewControllerProtocol {
 	var reviewsPositiveLabel: UILabel { get }
 	var reviewsNegativeLabel: UILabel { get }
 	var ratingLabel: UILabel { get }
-	func showActionSheet(toSettingsSubject: PublishSubject<Any>)
+	func showActionSheet(toSettingsSubject: PublishSubject<Any>,
+						 toEditSubject: PublishSubject<UserProfile>)
 }
 
-final class ClientProfileViewController<modelType: ViewModel>: UIViewController,
-ClientProfileViewControllerProtocol where modelType.ViewType == ClientProfileViewControllerProtocol {
+final class ClientProfileViewController<modelType: ClientProfileViewModel>: UIViewController,
+    ClientProfileViewControllerProtocol {
 
 	var scrollView = UIScrollView()
 	var threedotsButton = UIButton()
@@ -213,7 +214,8 @@ ClientProfileViewControllerProtocol where modelType.ViewType == ClientProfileVie
 	}
 
 	// MARK: - Show action sheet
-	func showActionSheet(toSettingsSubject: PublishSubject<Any>) {
+	func showActionSheet(toSettingsSubject: PublishSubject<Any>,
+						 toEditSubject: PublishSubject<UserProfile>) {
 		let alertController = UIAlertController(title: nil,
 												message: nil,
 												preferredStyle: .actionSheet)
@@ -231,6 +233,8 @@ ClientProfileViewControllerProtocol where modelType.ViewType == ClientProfileVie
 									   style: .default,
 									   handler: { _ in
 										alertController.dismiss(animated: true)
+										guard let userProfile = self.viewModel.userProfile else { return }
+										toEditSubject.onNext(userProfile)
 									   })
 		alertController.addAction(editAction)
 		let cancelAction = UIAlertAction(title: "alert.cancel".localized,

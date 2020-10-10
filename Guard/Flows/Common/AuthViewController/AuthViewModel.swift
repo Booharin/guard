@@ -24,7 +24,6 @@ final class AuthViewModel: ViewModel,
 	var view: AuthViewControllerProtocol!
 	private var disposeBag = DisposeBag()
 	private let animationDuration = 0.15
-	private let textFieldAnimationDuration = 0.05
 	let authSubject = PublishSubject<Any>()
 	let toMainSubject: PublishSubject<UserType>?
 	let toChooseSubject: PublishSubject<Any>?
@@ -129,12 +128,7 @@ final class AuthViewModel: ViewModel,
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				//self.authenticateTapped()
-				guard
-				let emailURL = URL(string: "mailto:\("booharin@bk.ru")?subject=some subject") else { return }
-				if UIApplication.shared.canOpenURL(emailURL) {
-					UIApplication.shared.open(emailURL)
-				}
+				self.authenticateTapped()
 			}).disposed(by: disposeBag)
 		
 		// forget password

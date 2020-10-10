@@ -9,21 +9,28 @@
 import RxSwift
 import RxCocoa
 
-final class ClientProfileViewModel: ViewModel {
+final class ClientProfileViewModel: ViewModel, HasDependencies {
 	var view: ClientProfileViewControllerProtocol!
 	var router: ClientProfileRouterProtocol
+
+	typealias Dependencies = HasLocalStorageService
+	lazy var di: Dependencies = DI.dependencies
+	var userProfile: UserProfile?
+
 	private var disposeBag = DisposeBag()
 
 	init(router: ClientProfileRouterProtocol) {
 		self.router = router
+		self.userProfile = di.localStorageService.getProfile()
 	}
 
 	func viewDidSet() {
-		view.threedotsButton.setImage(#imageLiteral(resourceName: "Image"), for: .normal)
+		view.threedotsButton.setImage(#imageLiteral(resourceName: "three_dots_icn"), for: .normal)
 		view.threedotsButton.rx
 			.tap
 			.subscribe(onNext: { [unowned self] _ in
-				self.view.showActionSheet(toSettingsSubject: self.router.toSettingsSubject)
+				self.view.showActionSheet(toSettingsSubject: self.router.toSettingsSubject,
+										  toEditSubject: self.router.toEditSubject)
 			}).disposed(by: disposeBag)
 		// avatar
 		view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn")

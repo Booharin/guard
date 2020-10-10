@@ -121,6 +121,9 @@
 		52C5F4C424C9D90D00FB2DA8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */; };
 		52C5F4C624C9D92200FB2DA8 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C5F4C524C9D92200FB2DA8 /* ProfileViewModel.swift */; };
 		52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */; };
+		52E62F2225322C58007FB1BE /* EditClientProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E62F2125322C58007FB1BE /* EditClientProfileViewController.swift */; };
+		52E62F2425322C69007FB1BE /* EditClientProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E62F2325322C69007FB1BE /* EditClientProfileViewModel.swift */; };
+		52E62F26253238F8007FB1BE /* EditTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E62F25253238F8007FB1BE /* EditTextField.swift */; };
 		52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */; };
 		52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */; };
 		52EB81C324B9E7E5003285BC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81C224B9E7E5003285BC /* ViewModel.swift */; };
@@ -274,6 +277,9 @@
 		52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		52C5F4C524C9D92200FB2DA8 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		52E62F2125322C58007FB1BE /* EditClientProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientProfileViewController.swift; sourceTree = "<group>"; };
+		52E62F2325322C69007FB1BE /* EditClientProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientProfileViewModel.swift; sourceTree = "<group>"; };
+		52E62F25253238F8007FB1BE /* EditTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextField.swift; sourceTree = "<group>"; };
 		52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCoordinator.swift; sourceTree = "<group>"; };
 		52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		52EB81C224B9E7E5003285BC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -700,6 +706,7 @@
 			isa = PBXGroup;
 			children = (
 				5251AFB924A287CB00467E84 /* TextField.swift */,
+				52E62F25253238F8007FB1BE /* EditTextField.swift */,
 			);
 			path = TextField;
 			sourceTree = "<group>";
@@ -821,6 +828,7 @@
 			isa = PBXGroup;
 			children = (
 				5283CB6D2517CA1B005DEDA8 /* ClientProfile */,
+				52E62F2025322BED007FB1BE /* EditClientProfile */,
 				52760C48250172F200080152 /* LawyersList */,
 				52A271B32508E6C40050FB60 /* ClientAppealsList */,
 			);
@@ -981,6 +989,15 @@
 			path = TabBarController;
 			sourceTree = "<group>";
 		};
+		52E62F2025322BED007FB1BE /* EditClientProfile */ = {
+			isa = PBXGroup;
+			children = (
+				52E62F2125322C58007FB1BE /* EditClientProfileViewController.swift */,
+				52E62F2325322C69007FB1BE /* EditClientProfileViewModel.swift */,
+			);
+			path = EditClientProfile;
+			sourceTree = "<group>";
+		};
 		52EB81BE24B9DD5B003285BC /* Registration */ = {
 			isa = PBXGroup;
 			children = (
@@ -1137,6 +1154,7 @@
 				5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */,
 				52A271C22508FA4E0050FB60 /* ClientAppeal.swift in Sources */,
 				52B2685A25110E1400111864 /* ChatCellViewModel.swift in Sources */,
+				52E62F2425322C69007FB1BE /* EditClientProfileViewModel.swift in Sources */,
 				5253753724B84F0200CC729C /* UserProfile.swift in Sources */,
 				52B26863251111CA00111864 /* ConversationsListViewModel.swift in Sources */,
 				522272DD2504C6B20029A4E2 /* LocalStorageService.swift in Sources */,
@@ -1147,6 +1165,7 @@
 				52A271C02508F9AC0050FB60 /* ClientAppealCellViewModel.swift in Sources */,
 				5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */,
 				5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */,
+				52E62F26253238F8007FB1BE /* EditTextField.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
 				52B278CA24C0964F001E7295 /* LocationService.swift in Sources */,
@@ -1175,6 +1194,7 @@
 				525BFA77250A080D005393B1 /* ClientAppealObject+CoreDataClass.swift in Sources */,
 				52A4258425221D7200E2FE7B /* SettingsHeaderCell.swift in Sources */,
 				52B2686A2511137600111864 /* ChatConversation.swift in Sources */,
+				52E62F2225322C58007FB1BE /* EditClientProfileViewController.swift in Sources */,
 				522272E42504C9470029A4E2 /* GuardDataModel.xcdatamodeld in Sources */,
 				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,
 				52B268702511157900111864 /* ConversationsListModuleFactory.swift in Sources */,
