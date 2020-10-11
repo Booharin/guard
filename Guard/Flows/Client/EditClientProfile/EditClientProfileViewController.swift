@@ -15,9 +15,18 @@ protocol EditClientProfileViewControllerProtocol: ViewControllerProtocol {
 	var avatarImageView: UIImageView { get }
 	var editPhotoView: UIView { get }
 	var nameTextField: EditTextField { get }
+	var surnameTextField: EditTextField { get }
+	var phoneTextField: EditTextField { get }
+	var emailTextField: EditTextField { get }
+	var countrySelectView: SelectButtonView { get }
+	var citySelectView: SelectButtonView { get }
+	func showActionSheet(with titles: [String], completion: @escaping (String) -> Void)
 }
 
-final class EditClientProfileViewController<modelType: EditClientProfileViewModel>: UIViewController, EditClientProfileViewControllerProtocol {
+final class EditClientProfileViewController<modelType: EditClientProfileViewModel>:
+	UIViewController,
+	UITextFieldDelegate,
+	EditClientProfileViewControllerProtocol {
 
 	var navController: UINavigationController? {
 		self.navigationController
@@ -30,6 +39,11 @@ final class EditClientProfileViewController<modelType: EditClientProfileViewMode
 	var editPhotoView = UIView()
 
 	var nameTextField = EditTextField()
+	var surnameTextField = EditTextField()
+	var phoneTextField = EditTextField()
+	var emailTextField = EditTextField()
+	var countrySelectView = SelectButtonView()
+	var citySelectView = SelectButtonView()
 
 	var viewModel: modelType
 
@@ -119,12 +133,84 @@ final class EditClientProfileViewController<modelType: EditClientProfileViewMode
 			$0.center.equalTo(avatarImageView.snp.center)
 		}
 		// text fields
+		// name
 		scrollView.addSubview(nameTextField)
+		nameTextField.delegate = self
 		nameTextField.snp.makeConstraints {
 			$0.width.equalTo(UIScreen.main.bounds.width - 40)
-			$0.top.equalTo(avatarBackgroundView.snp.bottom).offset(60)
+			$0.top.equalTo(avatarBackgroundView.snp.bottom).offset(40)
 			$0.leading.equalToSuperview().offset(20)
 			$0.trailing.equalToSuperview().offset(-20)
+			$0.height.equalTo(48)
 		}
+		// surname
+		scrollView.addSubview(surnameTextField)
+		surnameTextField.delegate = self
+		surnameTextField.snp.makeConstraints {
+			$0.top.equalTo(nameTextField.snp.bottom)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
+			$0.height.equalTo(48)
+		}
+		// phone
+		scrollView.addSubview(phoneTextField)
+		phoneTextField.delegate = self
+		phoneTextField.snp.makeConstraints {
+			$0.top.equalTo(surnameTextField.snp.bottom)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
+			$0.height.equalTo(48)
+		}
+		// email
+		scrollView.addSubview(emailTextField)
+		emailTextField.delegate = self
+		emailTextField.snp.makeConstraints {
+			$0.top.equalTo(phoneTextField.snp.bottom)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
+			$0.height.equalTo(48)
+		}
+		// country
+		scrollView.addSubview(countrySelectView)
+		countrySelectView.snp.makeConstraints {
+			$0.top.equalTo(emailTextField.snp.bottom)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
+			$0.height.equalTo(48)
+		}
+		// country
+		scrollView.addSubview(citySelectView)
+		citySelectView.snp.makeConstraints {
+			$0.top.equalTo(countrySelectView.snp.bottom)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
+			$0.height.equalTo(48)
+		}
+	}
+	
+	// MARK: - Show action sheet
+	func showActionSheet(with titles: [String], completion: @escaping (String) -> Void) {
+		let alertController = UIAlertController(title: nil,
+												message: nil,
+												preferredStyle: .actionSheet)
+		alertController.view.tintColor = Colors.mainTextColor
+		titles.forEach { title in
+			let cityAction = UIAlertAction(title: title, style: .default, handler: { _ in
+				completion(title)
+				alertController.dismiss(animated: true)
+			})
+			alertController.addAction(cityAction)
+		}
+		let cancelAction = UIAlertAction(title: "alert.cancel".localized, style: .cancel, handler: { _ in
+			alertController.dismiss(animated: true)
+		})
+		alertController.addAction(cancelAction)
+		self.present(alertController, animated: true)
+	}
+
+	// MARK: - Text field delegate
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		self.view.endEditing(true)
+		return false
 	}
 }

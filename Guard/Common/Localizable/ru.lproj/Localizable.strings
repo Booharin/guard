@@ -67,6 +67,8 @@
 
 //ALERT
 "alert.cancel" = "Отмена";
+"alert.yes" = "да";
+"alert.no" = "нет";
 
 //APPEALS
 "appeals.greeting.title" = "Привет";
@@ -91,6 +93,14 @@
 "profile.action_sheet.settings" = "Настройки";
 "profile.action_sheet.edit" = "Редактировать";
 "profile.action_sheet.cancel" = "Отмена";
+
+//EDIT_PROFILE
+"edit_profile.name.placeholder" = "Имя";
+"edit_profile.surname.placeholder" = "Фамилия";
+"edit_profile.phone.placeholder" = "Телефон";
+"edit_profile.email.placeholder" = "Email";
+"edit_profile.alert.title" = "Подтверждение";
+"edit_profile.alert.message" = "Вы действительно хотите изменить данные профиля?";
 
 //SETTINGS
 "settings.title" = "Настройки";

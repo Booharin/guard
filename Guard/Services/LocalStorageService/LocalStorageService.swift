@@ -13,11 +13,12 @@ protocol HasLocalStorageService {
 }
 /// Core data model handle service interface
 protocol LocalStorageServiceInterface {
+
 	/// Method for saving user profile to CoreData
 	/// - Parameters:
 	///   - profile: User profile
-
 	func saveProfile(_ profile: UserProfile)
+
 	/// Method for geting user profile from CoreData by mail
 	///  - Parameters:
 	///   - email: User email

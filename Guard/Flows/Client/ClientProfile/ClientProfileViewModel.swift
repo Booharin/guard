@@ -6,6 +6,7 @@
 //  Copyright © 2020 ds. All rights reserved.
 //
 
+import UIKit
 import RxSwift
 import RxCocoa
 
@@ -17,6 +18,7 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 	lazy var di: Dependencies = DI.dependencies
 	var userProfile: UserProfile?
 
+	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
 
 	init(router: ClientProfileRouterProtocol) {
@@ -28,6 +30,15 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 		view.threedotsButton.setImage(#imageLiteral(resourceName: "three_dots_icn"), for: .normal)
 		view.threedotsButton.rx
 			.tap
+			.do(onNext: { [unowned self] _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.threedotsButton.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.threedotsButton.alpha = 1
+					})
+				})
+			})
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.showActionSheet(toSettingsSubject: self.router.toSettingsSubject,
 										  toEditSubject: self.router.toEditSubject)

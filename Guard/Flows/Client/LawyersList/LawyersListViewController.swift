@@ -20,23 +20,23 @@ final class LawyersListViewController<modelType: ViewModel>: UIViewController, U
 															 LawyersListViewControllerProtocol where modelType.ViewType == LawyersListViewControllerProtocol {
 	var filterButtonView = FilterButtonView()
 	var viewModel: modelType
-	
+
 	var titleView = UIView()
 	var titleLabel = UILabel()
 	var tableView = UITableView()
 	private var gradientView: UIView?
-	
+
 	private var lawyers: [UserProfile]?
-	
+
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 	}
-	
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -45,20 +45,20 @@ final class LawyersListViewController<modelType: ViewModel>: UIViewController, U
 		addViews()
 		setNavigationBar()
 	}
-	
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
 	}
-	
+
 	func setNavigationBar() {
 		let rightBarButtonItem = UIBarButtonItem(customView: filterButtonView)
 		self.navigationItem.rightBarButtonItem = rightBarButtonItem
 		self.navigationItem.titleView = titleView
 	}
-	
+
 	private func addViews() {
 		// title view
 		titleView.addSubview(titleLabel)
@@ -66,12 +66,12 @@ final class LawyersListViewController<modelType: ViewModel>: UIViewController, U
 			$0.center.equalToSuperview()
 			$0.width.lessThanOrEqualTo(200)
 		}
-		
+
 		titleView.snp.makeConstraints {
 			$0.width.equalTo(titleLabel.snp.width).offset(46)
 			$0.height.equalTo(40)
 		}
-		
+
 		let locationImageView = UIImageView(image: #imageLiteral(resourceName: "location_marker_icn").withRenderingMode(.alwaysTemplate))
 		locationImageView.tintColor = Colors.mainColor
 		titleView.addSubview(locationImageView)

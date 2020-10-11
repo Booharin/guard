@@ -67,6 +67,8 @@
 
 //ALERT
 "alert.cancel" = "Cancel";
+"alert.yes" = "yes";
+"alert.no" = "no";
 
 //APPEALS
 "appeals.greeting.title" = "Hi";
@@ -93,6 +95,14 @@
 "profile.action_sheet.cancel" = "Cancel";
 "profile.reviews" = "Reviews";
 "profile.rating" = "Rating";
+
+//EDIT_PROFILE
+"edit_profile.name.placeholder" = "Name";
+"edit_profile.surname.placeholder" = "Surname";
+"edit_profile.phone.placeholder" = "Phone";
+"edit_profile.email.placeholder" = "Email";
+"edit_profile.alert.title" = "Approval";
+"edit_profile.alert.message" = "Are you sure you want to change your profile information?";
 
 //SETTINGS
 "settings.title" = "Settings";
