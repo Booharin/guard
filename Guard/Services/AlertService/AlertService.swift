@@ -32,7 +32,7 @@ final class AlertService: AlertServiceInterface {
 	private let animationDuration = 0.15
 	private let alertShowAnimationDuration = 0.15
 	private var disposeBag = DisposeBag()
-	
+
 	var currentWindow: UIWindow? {
 		return UIApplication.shared.windows.first
 	}

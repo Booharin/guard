@@ -21,11 +21,14 @@ protocol EditClientProfileViewControllerProtocol: ViewControllerProtocol {
 	var countrySelectView: SelectButtonView { get }
 	var citySelectView: SelectButtonView { get }
 	func showActionSheet(with titles: [String], completion: @escaping (String) -> Void)
+	func takePhotoFromGallery()
 }
 
 final class EditClientProfileViewController<modelType: EditClientProfileViewModel>:
 	UIViewController,
 	UITextFieldDelegate,
+	UIImagePickerControllerDelegate,
+	UINavigationControllerDelegate,
 	EditClientProfileViewControllerProtocol {
 
 	var navController: UINavigationController? {
@@ -44,6 +47,7 @@ final class EditClientProfileViewController<modelType: EditClientProfileViewMode
 	var emailTextField = EditTextField()
 	var countrySelectView = SelectButtonView()
 	var citySelectView = SelectButtonView()
+	private var imagePicker = UIImagePickerController()
 
 	var viewModel: modelType
 
@@ -213,4 +217,24 @@ final class EditClientProfileViewController<modelType: EditClientProfileViewMode
 		self.view.endEditing(true)
 		return false
 	}
+	
+	// MARK: - Take photo from gallery
+	func takePhotoFromGallery() {
+		imagePicker.delegate = self
+		imagePicker.sourceType = .savedPhotosAlbum
+		imagePicker.allowsEditing = true
+		
+		present(imagePicker, animated: true)
+	}
+	
+	func imagePickerController(_ picker: UIImagePickerController,
+							   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+		if let pickedImage = info[.originalImage] as? UIImage {
+			avatarImageView.contentMode = .scaleAspectFill
+			avatarImageView.image = pickedImage
+		}
+		self.dismiss(animated: true)
+	}
 }
+
+

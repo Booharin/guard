@@ -80,7 +80,7 @@ final class EditClientProfileViewModel: ViewModel, HasDependencies {
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				//
+				self.view.takePhotoFromGallery()
 			}).disposed(by: disposeBag)
 		// name
 		view.nameTextField.configure(placeholderText: "edit_profile.name.placeholder".localized)
