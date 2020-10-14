@@ -16,8 +16,11 @@ protocol LawyersListViewControllerProtocol {
 	func showActionSheet(with cities: [String])
 }
 
-final class LawyersListViewController<modelType: ViewModel>: UIViewController, UITableViewDelegate,
-															 LawyersListViewControllerProtocol where modelType.ViewType == LawyersListViewControllerProtocol {
+final class LawyersListViewController<modelType: LawyersListViewModel>:
+	UIViewController,
+	UITableViewDelegate,
+	LawyersListViewControllerProtocol {
+
 	var filterButtonView = FilterButtonView()
 	var viewModel: modelType
 

@@ -336,9 +336,13 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				"email": self?.view.loginTextField.text ?? "",
 				"firstName": "",
 				"lastName": "",
+				"country": "Russia",
+				"photo": "www.apple.com",
+				"id": 0,
 				"city": self?.view.cityTextField.text ?? "",
-                "rate": 5.5
-				]
+				"phone": "03",
+				"rate": 5.5
+			]
 
 			self?.saveProfileToStorage(dict: userProfileDict)
 			

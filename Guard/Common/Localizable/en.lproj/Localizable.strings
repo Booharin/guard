@@ -74,6 +74,9 @@
 "appeals.greeting.title" = "Hi";
 "appeals.greeting.description" = "All your appeals is here";
 
+//APPEAL
+"appeal.lawyerSelectedButton.title" = "lawyer selected";
+
 //NEW_APPEL
 "new_appeal.title" = "New appeal creation";
 "new_appeal.header.title" = "Step 1 / 2";

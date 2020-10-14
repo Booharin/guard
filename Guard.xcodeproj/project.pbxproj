@@ -140,6 +140,9 @@
 		52EB81D024B9ED02003285BC /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52EB81CE24B9ED02003285BC /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81D224B9F245003285BC /* String+withoutExtraSpaces.swift */; };
 		52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */; };
+		52F0F5712536DA3B00FE2B14 /* AppealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5702536DA3B00FE2B14 /* AppealViewController.swift */; };
+		52F0F5732536DA5900FE2B14 /* AppealViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5722536DA5900FE2B14 /* AppealViewModel.swift */; };
+		52F0F5752536DF5500FE2B14 /* ThreeDotsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */; };
 		52FFF4A5250B85D100957356 /* ClientAppealsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */; };
 		52FFF4A7250B873800957356 /* ClientAppealsListModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF4A6250B873800957356 /* ClientAppealsListModuleFactory.swift */; };
 /* End PBXBuildFile section */
@@ -296,6 +299,9 @@
 		52EB81CE24B9ED02003285BC /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxRelay.framework; path = Carthage/Build/iOS/RxRelay.framework; sourceTree = "<group>"; };
 		52EB81D224B9F245003285BC /* String+withoutExtraSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+withoutExtraSpaces.swift"; sourceTree = "<group>"; };
 		52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+isvalidEmail.swift"; sourceTree = "<group>"; };
+		52F0F5702536DA3B00FE2B14 /* AppealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealViewController.swift; sourceTree = "<group>"; };
+		52F0F5722536DA5900FE2B14 /* AppealViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealViewModel.swift; sourceTree = "<group>"; };
+		52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDotsButtonView.swift; sourceTree = "<group>"; };
 		52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListRouter.swift; sourceTree = "<group>"; };
 		52FFF4A6250B873800957356 /* ClientAppealsListModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListModuleFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -754,6 +760,7 @@
 				52524E6024FED0E30078AA62 /* SkipButtonView.swift */,
 				523EEEAA251284230007ED2F /* AppealButtonView.swift */,
 				52BD63EF2532F92400FF393D /* SelectButtonView.swift */,
+				52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -848,6 +855,8 @@
 				52E62F2025322BED007FB1BE /* EditClientProfile */,
 				52760C48250172F200080152 /* LawyersList */,
 				52A271B32508E6C40050FB60 /* ClientAppealsList */,
+				52F0F56F2536DA2000FE2B14 /* Appeal */,
+				5235F285250CB6C600639FC4 /* AppealCreating */,
 			);
 			path = Client;
 			sourceTree = "<group>";
@@ -855,7 +864,6 @@
 		52760C48250172F200080152 /* LawyersList */ = {
 			isa = PBXGroup;
 			children = (
-				5235F285250CB6C600639FC4 /* AppealCreating */,
 				52AF28E92506191D00287A8F /* DataSource */,
 				52AF28E42506143200287A8F /* Cell */,
 				52760C492501731C00080152 /* LawyersListViewController.swift */,
@@ -1046,6 +1054,15 @@
 			path = String;
 			sourceTree = "<group>";
 		};
+		52F0F56F2536DA2000FE2B14 /* Appeal */ = {
+			isa = PBXGroup;
+			children = (
+				52F0F5702536DA3B00FE2B14 /* AppealViewController.swift */,
+				52F0F5722536DA5900FE2B14 /* AppealViewModel.swift */,
+			);
+			path = Appeal;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1166,6 +1183,7 @@
 				52B268732511181200111864 /* ConversationsListDataSource.swift in Sources */,
 				5222B68E24C75DC2000BEE13 /* SelectIssueCellViewModel.swift in Sources */,
 				5283CB732517CBED005DEDA8 /* ClientProfileModuleFactory.swift in Sources */,
+				52F0F5752536DF5500FE2B14 /* ThreeDotsButtonView.swift in Sources */,
 				523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */,
 				5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */,
 				52A271C22508FA4E0050FB60 /* ClientAppeal.swift in Sources */,
@@ -1177,12 +1195,14 @@
 				52C5F4C624C9D92200FB2DA8 /* ProfileViewModel.swift in Sources */,
 				52BD63F02532F92400FF393D /* SelectButtonView.swift in Sources */,
 				52483BB324A279E40003A56A /* BaseCoordinator.swift in Sources */,
+				52F0F5712536DA3B00FE2B14 /* AppealViewController.swift in Sources */,
 				52B268682511131600111864 /* ConversationCellViewModel.swift in Sources */,
 				52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */,
 				52A271C02508F9AC0050FB60 /* ClientAppealCellViewModel.swift in Sources */,
 				5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */,
 				5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */,
 				52E62F26253238F8007FB1BE /* EditTextField.swift in Sources */,
+				52F0F5732536DA5900FE2B14 /* AppealViewModel.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
 				52B278CA24C0964F001E7295 /* LocationService.swift in Sources */,

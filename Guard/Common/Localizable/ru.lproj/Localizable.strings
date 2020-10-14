@@ -74,6 +74,9 @@
 "appeals.greeting.title" = "Привет";
 "appeals.greeting.description" = "Все ваши обращения здесь";
 
+//APPEAL
+"appeal.lawyerSelectedButton.title" = "Назначен юрист";
+
 //NEW_APPEL
 "new_appeal.title" = "Создание обращения";
 "new_appeal.header.title" = "Шаг 1 / 2";

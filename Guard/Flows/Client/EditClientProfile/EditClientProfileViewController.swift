@@ -85,14 +85,14 @@ final class EditClientProfileViewController<modelType: EditClientProfileViewMode
 		scrollView.addSubview(backButton)
 		backButton.snp.makeConstraints {
 			$0.width.height.equalTo(50)
-			$0.top.equalToSuperview().offset(10)
+			$0.top.equalToSuperview()
 			$0.leading.equalToSuperview().offset(20)
 		}
 		// confirm button
 		scrollView.addSubview(confirmButton)
 		confirmButton.snp.makeConstraints {
 			$0.width.height.equalTo(50)
-			$0.top.equalToSuperview().offset(10)
+			$0.top.equalToSuperview()
 			$0.trailing.equalToSuperview().offset(-20)
 		}
 		// avatar

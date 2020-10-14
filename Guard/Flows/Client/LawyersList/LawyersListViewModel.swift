@@ -21,8 +21,12 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		"email": "some@bk.ru",
 		"firstName": "Alex",
 		"lastName": "Vardanyan",
+		"country": "Russia",
 		"city": "Moscow",
-		"rate": 4.4
+		"rate": 4.4,
+		"id": 0,
+		"phone": "03",
+		"photo": "www.apple.com"
 	]
 	
 	private let cities = [

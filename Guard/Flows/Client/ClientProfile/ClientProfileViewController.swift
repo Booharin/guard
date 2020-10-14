@@ -83,7 +83,7 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>: UIVi
 		scrollView.addSubview(threedotsButton)
 		threedotsButton.snp.makeConstraints {
 			$0.width.height.equalTo(50)
-			$0.top.equalToSuperview().offset(10)
+			$0.top.equalToSuperview()
 			$0.trailing.equalToSuperview().offset(-20)
 		}
 		// avatar

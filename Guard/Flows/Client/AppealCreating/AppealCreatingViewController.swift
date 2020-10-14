@@ -61,9 +61,6 @@ AppealCreatingViewControllerProtocol where modelType.ViewType == AppealCreatingV
 	}
 	
 	func setNavigationBar() {
-		navigationController?.isNavigationBarHidden = false
-		self.navigationItem.setHidesBackButton(true, animated: false)
-
 		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
 		self.navigationItem.leftBarButtonItem = leftBarButtonItem
 
