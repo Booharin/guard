@@ -74,7 +74,7 @@ final class ChatViewModel: ViewModel {
 		// title
 		view.titleLabel.font = SFUIDisplay.bold.of(size: 15)
 		view.titleLabel.textColor = Colors.mainTextColor
-		view.titleLabel.text = chatConversation.companion.fullName
+		view.titleLabel.text = "Pary Mason"//chatConversation.companion.fullName
 		
 		// swipe to go back
 		view.view

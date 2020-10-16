@@ -61,7 +61,7 @@ final class MainCoordinator: BaseCoordinator {
 	
 	private func setClientControllers() {
 		// to lawyer issue
-		let toLawyerSubject = PublishSubject<UserProfile>()
+		let toLawyerSubject = PublishSubject<LawyerProfile>()
 		toLawyerSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { _ in
@@ -96,31 +96,31 @@ final class MainCoordinator: BaseCoordinator {
 	
 	private func setLawyerControllers() {
 		// to lawyer issue
-		let toClientSubject = PublishSubject<UserProfile>()
+		let toClientSubject = PublishSubject<ClientProfile>()
 		toClientSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { _ in
 				//
 			})
 			.disposed(by: disposeBag)
-		
-		tabBarController.viewControllers = [
-			NavigationController(rootViewController:
-									LawyersListViewController(viewModel:
-																LawyersListViewModel(toLawyerSubject: toClientSubject)
-									)
-			),
-			NavigationController(rootViewController:
-									LawyersListViewController(viewModel:
-																LawyersListViewModel(toLawyerSubject: toClientSubject)
-									)
-			),
-			NavigationController(rootViewController:
-									LawyersListViewController(viewModel:
-																LawyersListViewModel(toLawyerSubject: toClientSubject)
-									)
-			)
-		]
+		// TODO: - Set to lawyers controllers
+//		tabBarController.viewControllers = [
+//			NavigationController(rootViewController:
+//									LawyersListViewController(viewModel:
+//																LawyersListViewModel(toLawyerSubject: toClientSubject)
+//									)
+//			),
+//			NavigationController(rootViewController:
+//									LawyersListViewController(viewModel:
+//																LawyersListViewModel(toLawyerSubject: toClientSubject)
+//									)
+//			),
+//			NavigationController(rootViewController:
+//									LawyersListViewController(viewModel:
+//																LawyersListViewModel(toLawyerSubject: toClientSubject)
+//									)
+//			)
+		//]
 	}
 
 	private func toAuth() {

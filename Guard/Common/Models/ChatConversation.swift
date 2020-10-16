@@ -8,6 +8,6 @@
 
 struct ChatConversation: Decodable {
 	let dateCreated: Double
-	let companion: UserProfile
+	let companionId: Int
 	let lastMessage: String
 }

@@ -80,7 +80,7 @@ final class AuthViewModel: ViewModel,
 				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
 		
-		if let profile = di.localStorageService.getProfile() {
+		if let profile = di.localStorageService.getCurrenClientProfile() {
 			view.loginTextField.text = profile.email
 		}
 		
@@ -231,6 +231,9 @@ final class AuthViewModel: ViewModel,
 		.observeOn(MainScheduler.instance)
 		.subscribe(onNext: { [weak self] _ in
 			self?.view.loadingView.stopAnimating()
+
+			//TODO: - когда заработает авторизации нужно будет проверять клиент/юрист по наличию поля issuType
+
 			self?.toMainSubject?.onNext(.client)
 		}).disposed(by: disposeBag)
 	}

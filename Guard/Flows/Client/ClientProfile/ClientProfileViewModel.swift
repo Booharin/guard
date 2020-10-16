@@ -16,14 +16,14 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 
 	typealias Dependencies = HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
-	var userProfile: UserProfile?
+	var clientProfile: ClientProfile?
 
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
 
 	init(router: ClientProfileRouterProtocol) {
 		self.router = router
-		self.userProfile = di.localStorageService.getProfile()
+		self.clientProfile = di.localStorageService.getCurrenClientProfile()
 	}
 
 	func viewDidSet() {

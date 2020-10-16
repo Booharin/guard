@@ -6,20 +6,34 @@
         <attribute name="issueType" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
     </entity>
-    <entity name="UserProfileObject" representedClassName="UserProfileObject" syncable="YES">
+    <entity name="ClientProfileObject" representedClassName="ClientProfileObject" syncable="YES">
         <attribute name="city" attributeType="String"/>
         <attribute name="country" optional="YES" attributeType="String"/>
+        <attribute name="dateCreated" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="email" attributeType="String"/>
         <attribute name="firstName" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
         <attribute name="phone" optional="YES" attributeType="String"/>
         <attribute name="photo" optional="YES" attributeType="String"/>
         <attribute name="rate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="userType" attributeType="String"/>
+    </entity>
+    <entity name="LawyerProfileObject" representedClassName="LawyerProfileObject" syncable="YES">
+        <attribute name="city" attributeType="String"/>
+        <attribute name="country" optional="YES" attributeType="String"/>
+        <attribute name="dateCreated" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="email" attributeType="String"/>
+        <attribute name="firstName" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="issueTypes" optional="YES" attributeType="Transformable"/>
+        <attribute name="lastName" optional="YES" attributeType="String"/>
+        <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="photo" optional="YES" attributeType="String"/>
+        <attribute name="rate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
     <elements>
         <element name="ClientAppealObject" positionX="-63" positionY="27" width="128" height="103"/>
-        <element name="UserProfileObject" positionX="-63" positionY="-18" width="128" height="193"/>
+        <element name="LawyerProfileObject" positionX="-54" positionY="63" width="128" height="208"/>
+        <element name="ClientProfileObject" positionX="-36" positionY="144" width="128" height="193"/>
     </elements>
 </model>

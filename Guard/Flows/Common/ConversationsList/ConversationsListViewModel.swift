@@ -22,14 +22,7 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 	
 	private let conversationDict: [String : Any] = [
 		"dateCreated": 1599719845.0,
-		"companion": [
-			"userType": "lawyer",
-			"email": "some@bk.ru",
-			"firstName": "Pary",
-			"lastName": "Mason",
-			"city": "Moscow",
-			"rate": 4.2
-		],
+		"companionId": 0,
 		"lastMessage": "Да и нахуй мне нужны такие ваши услуги!"
 	]
 	
@@ -55,7 +48,7 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 		view.greetingLabel.textColor = Colors.mainTextColor
 		view.greetingLabel.textAlignment = .center
 		
-		if let profile = di.localStorageService.getProfile(),
+		if let profile = di.localStorageService.getCurrenClientProfile(),
 		   !profile.firstName.isEmpty {
 			view.greetingLabel.text = "\("chat.greeting.title".localized), \(profile.firstName)"
 		} else {

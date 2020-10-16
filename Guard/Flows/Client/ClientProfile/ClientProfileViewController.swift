@@ -25,7 +25,7 @@ protocol ClientProfileViewControllerProtocol {
 	var reviewsNegativeLabel: UILabel { get }
 	var ratingLabel: UILabel { get }
 	func showActionSheet(toSettingsSubject: PublishSubject<Any>,
-						 toEditSubject: PublishSubject<UserProfile>)
+						 toEditSubject: PublishSubject<ClientProfile>)
 }
 
 final class ClientProfileViewController<modelType: ClientProfileViewModel>: UIViewController,
@@ -215,7 +215,7 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>: UIVi
 
 	// MARK: - Show action sheet
 	func showActionSheet(toSettingsSubject: PublishSubject<Any>,
-						 toEditSubject: PublishSubject<UserProfile>) {
+						 toEditSubject: PublishSubject<ClientProfile>) {
 		let alertController = UIAlertController(title: nil,
 												message: nil,
 												preferredStyle: .actionSheet)
@@ -233,7 +233,7 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>: UIVi
 									   style: .default,
 									   handler: { _ in
 										alertController.dismiss(animated: true)
-										guard let userProfile = self.viewModel.userProfile else { return }
+										guard let userProfile = self.viewModel.clientProfile else { return }
 										toEditSubject.onNext(userProfile)
 									   })
 		alertController.addAction(editAction)

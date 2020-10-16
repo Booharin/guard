@@ -13,13 +13,13 @@ import RxCocoa
 final class EditClientProfileViewModel: ViewModel, HasDependencies {
 	var view: EditClientProfileViewControllerProtocol!
 	private let animationDuration = 0.15
-	let userProfile: UserProfile
+	let userProfile: ClientProfile
 	private var disposeBag = DisposeBag()
 
 	typealias Dependencies = HasAlertService
 	lazy var di: Dependencies = DI.dependencies
 
-	init(userProfile: UserProfile) {
+	init(userProfile: ClientProfile) {
 		self.userProfile = userProfile
 	}
 

@@ -13,13 +13,13 @@ import UIKit
 struct LawyerCellViewModel: ViewModel {
 	var view: LawyerCellProtocol!
 	private var disposeBag = DisposeBag()
-	let toLawyerSubject: PublishSubject<UserProfile>
+	let toLawyerSubject: PublishSubject<LawyerProfile>
 	let tapSubject = PublishSubject<Any>()
 	let animateDuration = 0.15
-	let lawyer: UserProfile
+	let lawyer: LawyerProfile
 	
-	init(toLawyerSubject: PublishSubject<UserProfile>,
-		 lawyer: UserProfile) {
+	init(toLawyerSubject: PublishSubject<LawyerProfile>,
+		 lawyer: LawyerProfile) {
 		self.toLawyerSubject = toLawyerSubject
 		self.lawyer = lawyer
 	}

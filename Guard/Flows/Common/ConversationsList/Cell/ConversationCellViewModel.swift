@@ -41,7 +41,7 @@ struct ConversationCellViewModel: ViewModel {
 		
 		view.avatarImageView.image = #imageLiteral(resourceName: "lawyer_mock_icn")
 		
-		view.nameTitleLabel.text = chatConversation.companion.fullName
+		view.nameTitleLabel.text = "Pary Mason"//chatConversation.companion.fullName
 		view.nameTitleLabel.font = SFUIDisplay.regular.of(size: 16)
 		view.nameTitleLabel.textColor = Colors.mainTextColor
 		

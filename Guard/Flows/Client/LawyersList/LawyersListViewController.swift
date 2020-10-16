@@ -29,7 +29,7 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 	var tableView = UITableView()
 	private var gradientView: UIView?
 
-	private var lawyers: [UserProfile]?
+	private var lawyers: [LawyerProfile]?
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
