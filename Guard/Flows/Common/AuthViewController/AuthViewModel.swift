@@ -18,7 +18,9 @@ final class AuthViewModel: ViewModel,
 	AuthViewModelProtocol,
 	HasDependencies {
 
-	typealias Dependencies = HasLocalStorageService
+	typealias Dependencies =
+		HasLocalStorageService &
+		HasAuthService
 	lazy var di: Dependencies = DI.dependencies
 
 	var view: AuthViewControllerProtocol!
@@ -41,7 +43,7 @@ final class AuthViewModel: ViewModel,
 			return 81
 		}
 	}
-	
+
 	var loginTextFieldOffset: CGFloat {
 		switch UIScreen.displayClass {
 		case .iPhone11ProMax:
@@ -51,7 +53,7 @@ final class AuthViewModel: ViewModel,
 		default: return 13
 		}
 	}
-	
+
 	init(toMainSubject: PublishSubject<UserType>? = nil,
 		 toChooseSubject: PublishSubject<Any>? = nil,
 		 toForgotPasswordSubject: PublishSubject<Any>? = nil) {
@@ -220,22 +222,26 @@ final class AuthViewModel: ViewModel,
 			.withLatestFrom(credentials)
 			.filter { [unowned self] credentials in
 				
-				if credentials.0.isValidEmail {
+				//if credentials.0.isValidEmail {
 					self.view.loadingView.startAnimating()
 					return true
-				} else {
-					self.turnWarnings(with: "auth.alert.uncorrect_email.title".localized)
-					return false
-				}
-		}
-		.observeOn(MainScheduler.instance)
-		.subscribe(onNext: { [weak self] _ in
-			self?.view.loadingView.stopAnimating()
-
-			//TODO: - когда заработает авторизации нужно будет проверять клиент/юрист по наличию поля issuType
-
-			self?.toMainSubject?.onNext(.client)
-		}).disposed(by: disposeBag)
+//				} else {
+//					self.turnWarnings(with: "auth.alert.uncorrect_email.title".localized)
+//					return false
+//				}
+			}
+			.flatMap { [unowned self] credentials in
+				self.di.authService.signIn(email: credentials.0,
+										   password: credentials.1)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] _ in
+				self?.view.loadingView.stopAnimating()
+				
+				//TODO: - когда заработает авторизации нужно будет проверять клиент/юрист по наличию поля issuType
+				
+				self?.toMainSubject?.onNext(.client)
+			}).disposed(by: disposeBag)
 	}
 	
 	//MARK: - Face id tapped
@@ -313,6 +319,6 @@ final class AuthViewModel: ViewModel,
 			view.passwordTextField.textColor = Colors.warningColor
 		}
 	}
-	
+
 	func removeBindings() {}
 }

@@ -1,5 +1,7 @@
 github "Alamofire/Alamofire" ~> 5.0
+github "daltoniam/Starscream" ~> 4.0.0
 github "SnapKit/SnapKit" ~> 5.0.0
+github "evgenyneu/keychain-swift" ~> 19.0
 
 github "ReactiveX/RxSwift" ~> 5.0
 github "RxSwiftCommunity/RxGesture" ~> 3.0

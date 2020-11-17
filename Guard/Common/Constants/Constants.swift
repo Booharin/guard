@@ -10,4 +10,7 @@ struct Constants {
 	struct UserDefaultsKeys {
 		static let isLogin = "isLogin"
 	}
+	struct KeyChainKeys {
+		static let token = "network_token"
+	}
 }

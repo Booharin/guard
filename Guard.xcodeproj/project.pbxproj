@@ -42,6 +42,15 @@
 		523AEAF3251E465B00F1E607 /* LogoutCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523AEAF2251E465B00F1E607 /* LogoutCellViewModel.swift */; };
 		523AEAF7251E4D8900F1E607 /* SwitcherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523AEAF6251E4D8900F1E607 /* SwitcherCell.swift */; };
 		523AEAF9251E4F8E00F1E607 /* SwitcherCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523AEAF8251E4F8E00F1E607 /* SwitcherCellViewModel.swift */; };
+		523C8CD325626FF8006DECAB /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C8CD225626FF8006DECAB /* Environment.swift */; };
+		523C8CD52562705B006DECAB /* EnvironmentImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C8CD42562705B006DECAB /* EnvironmentImp.swift */; };
+		523C8CD7256270B1006DECAB /* ApiMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C8CD6256270B0006DECAB /* ApiMethods.swift */; };
+		523C8CD9256271C2006DECAB /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C8CD8256271C2006DECAB /* AuthService.swift */; };
+		523C8CDC25627227006DECAB /* AuthNetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C8CDB25627227006DECAB /* AuthNetworkRouter.swift */; };
+		523C8CDE2562728A006DECAB /* RequestRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C8CDD2562728A006DECAB /* RequestRouter.swift */; };
+		523C8CE1256276E8006DECAB /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C8CE0256276E8006DECAB /* NetworkError.swift */; };
+		523C8CE625628946006DECAB /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C8CE525628946006DECAB /* AuthResponse.swift */; };
+		523C8CE8256289E8006DECAB /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C8CE7256289E8006DECAB /* UserProfile.swift */; };
 		523E62DC2519E00500757FE3 /* String+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523E62DB2519E00500757FE3 /* String+Size.swift */; };
 		523EEEAB251284230007ED2F /* AppealButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523EEEAA251284230007ED2F /* AppealButtonView.swift */; };
 		523FF71624BD7EAB00C4F959 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */; };
@@ -76,6 +85,7 @@
 		525BFA74250A0723005393B1 /* Date+TimeStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525BFA73250A0723005393B1 /* Date+TimeStamp.swift */; };
 		525BFA77250A080D005393B1 /* ClientAppealObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525BFA75250A080D005393B1 /* ClientAppealObject+CoreDataClass.swift */; };
 		525BFA78250A080D005393B1 /* ClientAppealObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525BFA76250A080D005393B1 /* ClientAppealObject+CoreDataProperties.swift */; };
+		5273744E2563C01500912769 /* SocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273744D2563C01500912769 /* SocketService.swift */; };
 		52740F75250F40B3001D86FF /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52740F74250F40B3001D86FF /* ChatViewController.swift */; };
 		52740F77250F40D1001D86FF /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52740F76250F40D1001D86FF /* ChatViewModel.swift */; };
 		52760C4A2501731C00080152 /* LawyersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52760C492501731C00080152 /* LawyersListViewController.swift */; };
@@ -210,6 +220,15 @@
 		523AEAF2251E465B00F1E607 /* LogoutCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutCellViewModel.swift; sourceTree = "<group>"; };
 		523AEAF6251E4D8900F1E607 /* SwitcherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitcherCell.swift; sourceTree = "<group>"; };
 		523AEAF8251E4F8E00F1E607 /* SwitcherCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitcherCellViewModel.swift; sourceTree = "<group>"; };
+		523C8CD225626FF8006DECAB /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		523C8CD42562705B006DECAB /* EnvironmentImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentImp.swift; sourceTree = "<group>"; };
+		523C8CD6256270B0006DECAB /* ApiMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiMethods.swift; sourceTree = "<group>"; };
+		523C8CD8256271C2006DECAB /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		523C8CDB25627227006DECAB /* AuthNetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNetworkRouter.swift; sourceTree = "<group>"; };
+		523C8CDD2562728A006DECAB /* RequestRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestRouter.swift; sourceTree = "<group>"; };
+		523C8CE0256276E8006DECAB /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		523C8CE525628946006DECAB /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
+		523C8CE7256289E8006DECAB /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		523E62DB2519E00500757FE3 /* String+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Size.swift"; sourceTree = "<group>"; };
 		523EEEAA251284230007ED2F /* AppealButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealButtonView.swift; sourceTree = "<group>"; };
 		523FF71524BD7EAB00C4F959 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
@@ -242,6 +261,7 @@
 		525BFA73250A0723005393B1 /* Date+TimeStamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeStamp.swift"; sourceTree = "<group>"; };
 		525BFA75250A080D005393B1 /* ClientAppealObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClientAppealObject+CoreDataClass.swift"; sourceTree = "<group>"; };
 		525BFA76250A080D005393B1 /* ClientAppealObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClientAppealObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		5273744D2563C01500912769 /* SocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketService.swift; sourceTree = "<group>"; };
 		52740F74250F40B3001D86FF /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		52740F76250F40D1001D86FF /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		52760C492501731C00080152 /* LawyersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListViewController.swift; sourceTree = "<group>"; };
@@ -544,6 +564,52 @@
 			path = Switcher;
 			sourceTree = "<group>";
 		};
+		523C8CD025626FB5006DECAB /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				523C8CD8256271C2006DECAB /* AuthService.swift */,
+				523C8CDA256271D4006DECAB /* NetworkRouters */,
+				523C8CD125626FDE006DECAB /* Config */,
+				523C8CE425628922006DECAB /* Responses */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		523C8CD125626FDE006DECAB /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				523C8CD225626FF8006DECAB /* Environment.swift */,
+				523C8CD42562705B006DECAB /* EnvironmentImp.swift */,
+				523C8CD6256270B0006DECAB /* ApiMethods.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		523C8CDA256271D4006DECAB /* NetworkRouters */ = {
+			isa = PBXGroup;
+			children = (
+				523C8CDB25627227006DECAB /* AuthNetworkRouter.swift */,
+				523C8CDD2562728A006DECAB /* RequestRouter.swift */,
+			);
+			path = NetworkRouters;
+			sourceTree = "<group>";
+		};
+		523C8CDF256276BA006DECAB /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				523C8CE0256276E8006DECAB /* NetworkError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		523C8CE425628922006DECAB /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				523C8CE525628946006DECAB /* AuthResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
 		524223882533243900CBFE81 /* AlertService */ = {
 			isa = PBXGroup;
 			children = (
@@ -624,6 +690,8 @@
 		52483BAD24A279470003A56A /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5273744C2563C00000912769 /* SocketService */,
+				523C8CD025626FB5006DECAB /* Network */,
 				524223882533243900CBFE81 /* AlertService */,
 				522272DB2504C6000029A4E2 /* LocalStorageService */,
 				522272DA2504C5D60029A4E2 /* Location */,
@@ -794,6 +862,7 @@
 				52B2685D25110F3F00111864 /* ChatMessage.swift */,
 				52B268692511137600111864 /* ChatConversation.swift */,
 				52B066312538B35C005ACF8C /* UserType.swift */,
+				523C8CE7256289E8006DECAB /* UserProfile.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -813,6 +882,14 @@
 				525BFA73250A0723005393B1 /* Date+TimeStamp.swift */,
 			);
 			path = Date;
+			sourceTree = "<group>";
+		};
+		5273744C2563C00000912769 /* SocketService */ = {
+			isa = PBXGroup;
+			children = (
+				5273744D2563C01500912769 /* SocketService.swift */,
+			);
+			path = SocketService;
 			sourceTree = "<group>";
 		};
 		52740F73250F409F001D86FF /* Chat */ = {
@@ -1055,6 +1132,7 @@
 		52EB81C124B9E7BC003285BC /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				523C8CDF256276BA006DECAB /* Error */,
 				5222B69224C761AF000BEE13 /* TableView */,
 				52EB81C224B9E7E5003285BC /* ViewModel.swift */,
 				52EB81C624B9E882003285BC /* ViewControllerProtocol.swift */,
@@ -1172,14 +1250,17 @@
 				521681C7251E5A58007B4F6A /* SettingsDataSource.swift in Sources */,
 				52EB81C524B9E820003285BC /* AuthViewModel.swift in Sources */,
 				52B2685E25110F3F00111864 /* ChatMessage.swift in Sources */,
+				523C8CD52562705B006DECAB /* EnvironmentImp.swift in Sources */,
 				523AEAF9251E4F8E00F1E607 /* SwitcherCellViewModel.swift in Sources */,
 				52FFF4A7250B873800957356 /* ClientAppealsListModuleFactory.swift in Sources */,
+				523C8CE1256276E8006DECAB /* NetworkError.swift in Sources */,
 				52524E6124FED0E30078AA62 /* SkipButtonView.swift in Sources */,
 				5251AFB724A2853A00467E84 /* NavigationController.swift in Sources */,
 				52B26866251112E100111864 /* ConversationCell.swift in Sources */,
 				52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */,
 				5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */,
 				523AEAF3251E465B00F1E607 /* LogoutCellViewModel.swift in Sources */,
+				523C8CDC25627227006DECAB /* AuthNetworkRouter.swift in Sources */,
 				52212F8524FFDD41003FA67E /* ForgotPasswordViewModel.swift in Sources */,
 				52A4258625221DC900E2FE7B /* SettingHeaderCellViewModel.swift in Sources */,
 				5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */,
@@ -1223,6 +1304,7 @@
 				5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */,
 				5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */,
 				52E62F26253238F8007FB1BE /* EditTextField.swift in Sources */,
+				523C8CE625628946006DECAB /* AuthResponse.swift in Sources */,
 				52F0F5732536DA5900FE2B14 /* AppealViewModel.swift in Sources */,
 				52B0663025383EC1005ACF8C /* ClientProfileObject+CoreDataProperties.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
@@ -1249,15 +1331,20 @@
 				5222B68624C75609000BEE13 /* UITableViewCell+Identifier.swift in Sources */,
 				52AF28E62506145D00287A8F /* LawyerCell.swift in Sources */,
 				52A271BE2508F94A0050FB60 /* ClientAppealCell.swift in Sources */,
+				523C8CD9256271C2006DECAB /* AuthService.swift in Sources */,
 				5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */,
+				523C8CD7256270B1006DECAB /* ApiMethods.swift in Sources */,
 				523AEAF1251E464B00F1E607 /* LogoutCell.swift in Sources */,
 				525BFA77250A080D005393B1 /* ClientAppealObject+CoreDataClass.swift in Sources */,
 				52A4258425221D7200E2FE7B /* SettingsHeaderCell.swift in Sources */,
 				52B2686A2511137600111864 /* ChatConversation.swift in Sources */,
 				52E62F2225322C58007FB1BE /* EditClientProfileViewController.swift in Sources */,
+				523C8CDE2562728A006DECAB /* RequestRouter.swift in Sources */,
 				522272E42504C9470029A4E2 /* GuardDataModel.xcdatamodeld in Sources */,
 				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,
+				523C8CD325626FF8006DECAB /* Environment.swift in Sources */,
 				52B0662F25383EC1005ACF8C /* ClientProfileObject+CoreDataClass.swift in Sources */,
+				523C8CE8256289E8006DECAB /* UserProfile.swift in Sources */,
 				52B268702511157900111864 /* ConversationsListModuleFactory.swift in Sources */,
 				5251AFB424A283B000467E84 /* Constants.swift in Sources */,
 				52760C4A2501731C00080152 /* LawyersListViewController.swift in Sources */,
@@ -1279,6 +1366,7 @@
 				52AF28E82506168B00287A8F /* LawyerCellViewModel.swift in Sources */,
 				5242238A2533244A00CBFE81 /* AlertService.swift in Sources */,
 				52901BE82501002400271CAC /* ClientIssue.swift in Sources */,
+				5273744E2563C01500912769 /* SocketService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

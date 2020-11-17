@@ -9,32 +9,38 @@
 import Foundation
 
 protocol HasDependencies: class {
-    associatedtype Dependencies
-    
-    var di: Dependencies { get set }
+	associatedtype Dependencies
+	
+	var di: Dependencies { get set }
 }
 
 struct Dependencies:
-    HasLocationService,
+	HasLocationService,
 	HasLocalStorageService,
-	HasAlertService {
+	HasAlertService,
+	HasAuthService,
+	HasSocketService {
 	
-    var locationService: LocationServiceInterface
+	var locationService: LocationServiceInterface
 	var localStorageService: LocalStorageServiceInterface
 	var alertService: AlertServiceInterface
+	var authService: AuthServiceInterface
+	var socketService: SocketServiceInterface
 }
 
 enum DI {
-    static var dependencies: Dependencies!
+	static var dependencies: Dependencies!
 }
 
 class AppDIContainer {
-    
-    func createAppDependencies(launchOptions: [AnyHashable: Any]) -> Dependencies {
-        
+	
+	func createAppDependencies(launchOptions: [AnyHashable: Any]) -> Dependencies {
+
 		let d = Dependencies(locationService: LocationSerice(),
 							 localStorageService: LocalStorageService(),
-							 alertService: AlertService())
-        return d
-    }
+							 alertService: AlertService(),
+							 authService: AuthService(),
+							 socketService: SocketService())
+		return d
+	}
 }
