@@ -17,64 +17,39 @@ protocol LocalStorageServiceInterface {
 	/// Method for saving user profile to CoreData
 	/// - Parameters:
 	///   - profile: User profile
-	func saveProfile<T>(_ profile: T)
-	
-	/// Method for geting lawyer profile from CoreData by mail
+	func saveProfile(_ profile: UserProfile)
+
+	/// Method for geting user profile from CoreData by mail
 	///  - Parameters:
-	///   - email: lawyer email
-	/// - Returns: lawyer profile
-	func getLawyerProfile(by email: String) -> LawyerProfile?
-	
-	/// Method for geting client profile from CoreData by mail
-	///  - Parameters:
-	///   - email: client email
-	/// - Returns: client profile
-	func getClientProfile(by email: String) -> ClientProfile?
+	///   - email: user email
+	/// - Returns: user profile
+	func getProfile(by email: String) -> UserProfile?
+
 	//TODO: - Temporary solution
-	func getCurrenClientProfile() -> ClientProfile?
+	func getCurrenClientProfile() -> UserProfile?
 }
 /// Core data model handle service
 final class LocalStorageService: LocalStorageServiceInterface {
 	private let coreDataManager = CoreDataManager(withDataModelName: "GuardDataModel", bundle: .main)
-	
-	func saveProfile<T>(_ profile: T) {
-		
-		switch profile {
-		case (let x) where x is ClientProfile:
-			guard let clientProfile = profile as? ClientProfile else { return }
-			_ = ClientProfileObject(clientProfile: clientProfile,
-									context: coreDataManager.mainContext)
-		case (let x) where x is LawyerProfile:
-			guard let lawyerProfile = profile as? LawyerProfile else { return }
-			_ = LawyerProfileObject(lawyerProfile: lawyerProfile,
-									context: coreDataManager.mainContext)
-		default:
-			break
-		}
-		
+
+	func saveProfile(_ profile: UserProfile) {
+		let _ = UserProfileObject(userProfile: profile,
+								  context: coreDataManager.mainContext)
 		coreDataManager.saveContext(synchronously: true)
 	}
-	
-	func getLawyerProfile(by email: String) -> LawyerProfile? {
-		let profiles = coreDataManager.fetchObjects(entity: LawyerProfileObject.self,
+
+	func getProfile(by email: String) -> UserProfile? {
+		let profiles = coreDataManager.fetchObjects(entity: UserProfileObject.self,
 													predicate: NSPredicate(format: "email = %@", email),
 													context: coreDataManager.mainContext)
 		guard let profileObject = profiles.first else { return nil }
-		return LawyerProfile(lawyerProfileObject: profileObject)
+		return UserProfile(userProfileObject: profileObject)
 	}
-	
-	func getClientProfile(by email: String) -> ClientProfile? {
-		let profiles = coreDataManager.fetchObjects(entity: ClientProfileObject.self,
-													predicate: NSPredicate(format: "email = %@", email),
+
+	func getCurrenClientProfile() -> UserProfile? {
+		let profiles = coreDataManager.fetchObjects(entity: UserProfileObject.self,
 													context: coreDataManager.mainContext)
 		guard let profileObject = profiles.first else { return nil }
-		return ClientProfile(clientProfileObject: profileObject)
-	}
-	
-	func getCurrenClientProfile() -> ClientProfile? {
-		let profiles = coreDataManager.fetchObjects(entity: ClientProfileObject.self,
-													context: coreDataManager.mainContext)
-		guard let profileObject = profiles.first else { return nil }
-		return ClientProfile(clientProfileObject: profileObject)
+		return UserProfile(userProfileObject: profileObject)
 	}
 }

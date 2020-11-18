@@ -6,6 +6,50 @@
 //  Copyright © 2020 ds. All rights reserved.
 //
 
+enum UserRole: String {
+	case client = "client"
+	case lawyer = "lawyer"
+	case admin = "admin"
+}
+
 struct UserProfile: Codable {
-	
+	var id: Int
+	var firstName: String?
+	var lastName: String?
+	var email: String
+	var phoneNumber: String?
+	var password: String
+	var photo: String?
+	var cityCode: Int
+	var countryCode: Int
+	var dateCreated: String
+	var averageRate: Double?
+	var role: String
+	var isPhoneVisible: Bool?
+	var isEmailVisible: Bool?
+	var isChatEnabled: Bool?
+	var reviews: [UserReview]?
+	var issueTypes: [String]?
+	var fullName: String {
+		return "\(firstName ?? "") \(lastName ?? "")"
+	}
+	var userRole: UserRole {
+		UserRole(rawValue: role) ?? .client
+	}
+
+	init(userProfileObject: UserProfileObject) {
+		self.id = Int(userProfileObject.id)
+		self.firstName = userProfileObject.firstName ?? ""
+		self.lastName = userProfileObject.lastName ?? ""
+		self.email = userProfileObject.email ?? ""
+		self.phoneNumber = userProfileObject.phoneNumber ?? ""
+		self.password = userProfileObject.password ?? ""
+		self.photo = userProfileObject.photo ?? ""
+		self.cityCode = Int(userProfileObject.cityCode)
+		self.countryCode = Int(userProfileObject.countryCode)
+		self.dateCreated = userProfileObject.dateCreated ?? ""
+		self.averageRate = userProfileObject.averageRate
+		self.role = userProfileObject.role ?? ""
+		self.issueTypes = userProfileObject.issueTypes
+	}
 }

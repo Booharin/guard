@@ -6,7 +6,7 @@
 //  Copyright © 2020 ds. All rights reserved.
 //
 
-struct UserReview: Decodable {
+struct UserReview: Codable {
 	let reviewDescription: String?
 	let rating: Double
 	let dateCreated: Int

@@ -157,6 +157,9 @@
 		52F0F5712536DA3B00FE2B14 /* AppealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5702536DA3B00FE2B14 /* AppealViewController.swift */; };
 		52F0F5732536DA5900FE2B14 /* AppealViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5722536DA5900FE2B14 /* AppealViewModel.swift */; };
 		52F0F5752536DF5500FE2B14 /* ThreeDotsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */; };
+		52F749332565A846009CD041 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F749322565A846009CD041 /* KeyChainService.swift */; };
+		52F749362565B15D009CD041 /* UserProfileObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F749342565B15D009CD041 /* UserProfileObject+CoreDataClass.swift */; };
+		52F749372565B15D009CD041 /* UserProfileObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F749352565B15D009CD041 /* UserProfileObject+CoreDataProperties.swift */; };
 		52FFF4A5250B85D100957356 /* ClientAppealsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */; };
 		52FFF4A7250B873800957356 /* ClientAppealsListModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF4A6250B873800957356 /* ClientAppealsListModuleFactory.swift */; };
 /* End PBXBuildFile section */
@@ -330,6 +333,9 @@
 		52F0F5702536DA3B00FE2B14 /* AppealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealViewController.swift; sourceTree = "<group>"; };
 		52F0F5722536DA5900FE2B14 /* AppealViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealViewModel.swift; sourceTree = "<group>"; };
 		52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDotsButtonView.swift; sourceTree = "<group>"; };
+		52F749322565A846009CD041 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
+		52F749342565B15D009CD041 /* UserProfileObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataClass.swift"; sourceTree = "<group>"; };
+		52F749352565B15D009CD041 /* UserProfileObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListRouter.swift; sourceTree = "<group>"; };
 		52FFF4A6250B873800957356 /* ClientAppealsListModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListModuleFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -473,6 +479,7 @@
 		522272E12504C9140029A4E2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				52A00F74256590670099D961 /* UserProfileObject */,
 				52B0661825383C58005ACF8C /* LawyerProfileObject */,
 				52B0661725383C4A005ACF8C /* ClientProfileObject */,
 				525BFA70250A0468005393B1 /* ClientAppeal */,
@@ -690,6 +697,7 @@
 		52483BAD24A279470003A56A /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				52F749312565A82D009CD041 /* KeyChainService */,
 				5273744C2563C00000912769 /* SocketService */,
 				523C8CD025626FB5006DECAB /* Network */,
 				524223882533243900CBFE81 /* AlertService */,
@@ -962,6 +970,15 @@
 			path = ClientProfile;
 			sourceTree = "<group>";
 		};
+		52A00F74256590670099D961 /* UserProfileObject */ = {
+			isa = PBXGroup;
+			children = (
+				52F749342565B15D009CD041 /* UserProfileObject+CoreDataClass.swift */,
+				52F749352565B15D009CD041 /* UserProfileObject+CoreDataProperties.swift */,
+			);
+			path = UserProfileObject;
+			sourceTree = "<group>";
+		};
 		52A271B32508E6C40050FB60 /* ClientAppealsList */ = {
 			isa = PBXGroup;
 			children = (
@@ -1161,6 +1178,14 @@
 			path = Appeal;
 			sourceTree = "<group>";
 		};
+		52F749312565A82D009CD041 /* KeyChainService */ = {
+			isa = PBXGroup;
+			children = (
+				52F749322565A846009CD041 /* KeyChainService.swift */,
+			);
+			path = KeyChainService;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1273,6 +1298,7 @@
 				52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */,
 				525BFA6B250A0279005393B1 /* ClientAppealDataSource.swift in Sources */,
 				5251AFB024A2829200467E84 /* Colors.swift in Sources */,
+				52F749372565B15D009CD041 /* UserProfileObject+CoreDataProperties.swift in Sources */,
 				52FFF4A5250B85D100957356 /* ClientAppealsListRouter.swift in Sources */,
 				5235F289250CB7A400639FC4 /* AppealCreatingViewModel.swift in Sources */,
 				52B2685C25110E3300111864 /* ChatDataSource.swift in Sources */,
@@ -1303,6 +1329,7 @@
 				52A271C02508F9AC0050FB60 /* ClientAppealCellViewModel.swift in Sources */,
 				5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */,
 				5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */,
+				52F749362565B15D009CD041 /* UserProfileObject+CoreDataClass.swift in Sources */,
 				52E62F26253238F8007FB1BE /* EditTextField.swift in Sources */,
 				523C8CE625628946006DECAB /* AuthResponse.swift in Sources */,
 				52F0F5732536DA5900FE2B14 /* AppealViewModel.swift in Sources */,
@@ -1336,6 +1363,7 @@
 				523C8CD7256270B1006DECAB /* ApiMethods.swift in Sources */,
 				523AEAF1251E464B00F1E607 /* LogoutCell.swift in Sources */,
 				525BFA77250A080D005393B1 /* ClientAppealObject+CoreDataClass.swift in Sources */,
+				52F749332565A846009CD041 /* KeyChainService.swift in Sources */,
 				52A4258425221D7200E2FE7B /* SettingsHeaderCell.swift in Sources */,
 				52B2686A2511137600111864 /* ChatConversation.swift in Sources */,
 				52E62F2225322C58007FB1BE /* EditClientProfileViewController.swift in Sources */,

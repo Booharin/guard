@@ -7,10 +7,10 @@
 //
 //
 
-import Foundation
-import CoreData
-
-@objc(ClientProfileObject)
-public class ClientProfileObject: NSManagedObject {
-	
-}
+//import Foundation
+//import CoreData
+//
+//@objc(ClientProfileObject)
+//public class ClientProfileObject: NSManagedObject {
+//	
+//}

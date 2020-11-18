@@ -7,10 +7,10 @@
 //
 //
 
-import Foundation
-import CoreData
-
-@objc(LawyerProfileObject)
-public class LawyerProfileObject: NSManagedObject {
-	
-}
+//import Foundation
+//import CoreData
+//
+//@objc(LawyerProfileObject)
+//public class LawyerProfileObject: NSManagedObject {
+//	
+//}

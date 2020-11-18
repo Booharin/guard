@@ -19,13 +19,15 @@ struct Dependencies:
 	HasLocalStorageService,
 	HasAlertService,
 	HasAuthService,
-	HasSocketService {
+	HasSocketService,
+	HasKeyChainService {
 	
 	var locationService: LocationServiceInterface
 	var localStorageService: LocalStorageServiceInterface
 	var alertService: AlertServiceInterface
 	var authService: AuthServiceInterface
 	var socketService: SocketServiceInterface
+	var keyChainService: KeyChainServiceInterface
 }
 
 enum DI {
@@ -40,7 +42,8 @@ class AppDIContainer {
 							 localStorageService: LocalStorageService(),
 							 alertService: AlertService(),
 							 authService: AuthService(),
-							 socketService: SocketService())
+							 socketService: SocketService(),
+							 keyChainService: KeyChainService())
 		return d
 	}
 }

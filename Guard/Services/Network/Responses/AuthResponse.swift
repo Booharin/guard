@@ -7,6 +7,6 @@
 //
 
 struct AuthResponse: Codable {
-	let user: UserProfile
-	let token: String
+	let user: UserProfile?
+	let token: String?
 }

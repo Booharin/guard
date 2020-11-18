@@ -18,9 +18,13 @@ protocol AuthServiceInterface {
 	func signIn(email: String, password: String) -> Observable<Result<Any, AFError>>
 }
 
-struct AuthService: AuthServiceInterface {
+final class AuthService: AuthServiceInterface, HasDependencies {
 	
 	private let router: AuthNetworkRouter
+	typealias Dependencies =
+		HasKeyChainService &
+		HasLocalStorageService
+	lazy var di: Dependencies = DI.dependencies
 	
 	init() {
 		router = AuthNetworkRouter(environment: EnvironmentImp())
@@ -49,8 +53,8 @@ struct AuthService: AuthServiceInterface {
 							print(token)
 							#endif
 
-							self.saveToken(token: token)
-							self.saveUser(user: user)
+							self.di.keyChainService.save(token, for: Constants.KeyChainKeys.token)
+							self.di.localStorageService.saveProfile(user)
 
 							observer.onNext(response.result)
 							observer.onCompleted()
@@ -69,17 +73,4 @@ struct AuthService: AuthServiceInterface {
 			})
 		}
 	}
-	
-	private func saveToken(token: String) {
-		let keychain = KeychainSwift()
-		keychain.set(token, forKey: Constants.KeyChainKeys.token)
-	}
-	
-//	private func saveUser(user: User) {
-//		let realm = try? Realm()
-//		let _user = user.toManagedObject()
-//		try? realm?.write {
-//			realm?.add(_user, update: .all)
-//		}
-//	}
 }
