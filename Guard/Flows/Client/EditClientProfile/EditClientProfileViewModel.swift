@@ -13,13 +13,15 @@ import RxCocoa
 final class EditClientProfileViewModel: ViewModel, HasDependencies {
 	var view: EditClientProfileViewControllerProtocol!
 	private let animationDuration = 0.15
-	let userProfile: ClientProfile
+	let userProfile: UserProfile
 	private var disposeBag = DisposeBag()
 
-	typealias Dependencies = HasAlertService
+	typealias Dependencies =
+		HasAlertService &
+		HasKeyChainService
 	lazy var di: Dependencies = DI.dependencies
 
-	init(userProfile: ClientProfile) {
+	init(userProfile: UserProfile) {
 		self.userProfile = userProfile
 	}
 
@@ -84,25 +86,28 @@ final class EditClientProfileViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 		// name
 		view.nameTextField.configure(placeholderText: "edit_profile.name.placeholder".localized)
-		if !userProfile.firstName.isEmpty {
+		if let firstName = userProfile.firstName,
+			!firstName.isEmpty {
 			view.nameTextField.text = userProfile.firstName
 		}
 		// surname
 		view.surnameTextField.configure(placeholderText: "edit_profile.surname.placeholder".localized)
-		if !userProfile.lastName.isEmpty {
-			view.surnameTextField.text = userProfile.lastName
+		if let lastName = userProfile.lastName,
+			!lastName.isEmpty {
+			view.surnameTextField.text = lastName
 		}
 		// phone
 		view.phoneTextField.configure(placeholderText: "edit_profile.phone.placeholder".localized)
-		if !userProfile.phone.isEmpty {
-			view.phoneTextField.text = userProfile.phone
+		if let phone = userProfile.phoneNumber,
+			!phone.isEmpty {
+			view.phoneTextField.text = phone
 		}
 		// email
 		view.emailTextField.keyboardType = .emailAddress
 		view.emailTextField.autocapitalizationType = .none
 		view.emailTextField.configure(placeholderText: "edit_profile.email.placeholder".localized)
-		if !userProfile.email.isEmpty {
-			view.emailTextField.text = userProfile.email
+		if let email = di.keyChainService.getValue(for: Constants.KeyChainKeys.email) {
+			view.emailTextField.text = email
 		}
 		// country select
 		view.countrySelectView.titleLabel.text = "Russia" //userProfile.country

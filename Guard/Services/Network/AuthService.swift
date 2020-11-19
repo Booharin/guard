@@ -15,7 +15,7 @@ protocol HasAuthService {
 }
 
 protocol AuthServiceInterface {
-	func signIn(email: String, password: String) -> Observable<Result<Any, AFError>>
+	func signIn(email: String, password: String) -> Observable<Result<UserRole, AFError>>
 }
 
 final class AuthService: AuthServiceInterface, HasDependencies {
@@ -30,7 +30,7 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 		router = AuthNetworkRouter(environment: EnvironmentImp())
 	}
 	
-	func signIn(email: String, password: String) -> Observable<Result<Any, AFError>> {
+	func signIn(email: String, password: String) -> Observable<Result<UserRole, AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(self.router.signIn(email: email, password: password))
 				.responseJSON { response in
@@ -54,9 +54,11 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 							#endif
 
 							self.di.keyChainService.save(token, for: Constants.KeyChainKeys.token)
+							self.di.keyChainService.save(user.email ?? "", for: Constants.KeyChainKeys.email)
+							self.di.keyChainService.save(user.password ?? "", for: Constants.KeyChainKeys.password)
 							self.di.localStorageService.saveProfile(user)
 
-							observer.onNext(response.result)
+							observer.onNext(.success(user.userRole))
 							observer.onCompleted()
 						} catch {
 							#if DEBUG

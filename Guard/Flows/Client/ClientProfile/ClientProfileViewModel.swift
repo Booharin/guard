@@ -16,7 +16,7 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 
 	typealias Dependencies = HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
-	var clientProfile: ClientProfile?
+	var clientProfile: UserProfile?
 
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()

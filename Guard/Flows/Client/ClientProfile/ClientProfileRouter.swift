@@ -10,12 +10,12 @@ import RxSwift
 
 protocol ClientProfileRouterProtocol {
 	var toSettingsSubject: PublishSubject<Any> { get }
-	var toEditSubject: PublishSubject<ClientProfile> { get }
+	var toEditSubject: PublishSubject<UserProfile> { get }
 }
 
 final class ClientProfileRouter: BaseRouter, ClientProfileRouterProtocol {
 	var toSettingsSubject = PublishSubject<Any>()
-	var toEditSubject = PublishSubject<ClientProfile>()
+	var toEditSubject = PublishSubject<UserProfile>()
 	let toAuthSubject: PublishSubject<Any>
 	private var disposeBag = DisposeBag()
 
@@ -43,13 +43,13 @@ final class ClientProfileRouter: BaseRouter, ClientProfileRouterProtocol {
 	}
 
 	private func passageToSettings() {
-		let settingsController = SettingsViewController(viewModel: SettingsViewModel(userType: .client,
+		let settingsController = SettingsViewController(viewModel: SettingsViewModel(userRole: .client,
 																					 logoutSubject: toAuthSubject))
 		settingsController.hidesBottomBarWhenPushed = true
 		self.navigationController?.pushViewController(settingsController, animated: true)
 	}
 
-	private func passageToEdit(userProfile: ClientProfile) {
+	private func passageToEdit(userProfile: UserProfile) {
 		let editController = EditClientProfileViewController(viewModel: EditClientProfileViewModel(userProfile: userProfile))
 		editController.hidesBottomBarWhenPushed = true
 		self.navigationController?.pushViewController(editController, animated: true)

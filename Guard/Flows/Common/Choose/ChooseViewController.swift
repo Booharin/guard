@@ -11,7 +11,7 @@ import SnapKit
 
 /// Protocol of controller for user type choice
 protocol ChooseViewControllerProtocol {
-	var toRegistration: ((UserType) -> (Void))? { get }
+	var toRegistration: ((UserRole) -> (Void))? { get }
 	var titleLabel: UILabel { get }
 	
 	var lawyerEnterView: UIView { get }
@@ -27,7 +27,7 @@ protocol ChooseViewControllerProtocol {
 final class ChooseViewController<modelType: ViewModel>: UIViewController,
 	ChooseViewControllerProtocol where modelType.ViewType == ChooseViewControllerProtocol {
 	/// Pass to registration
-	var toRegistration: ((UserType) -> (Void))?
+	var toRegistration: ((UserRole) -> (Void))?
 	var titleLabel = UILabel()
 
 	var lawyerEnterView = UIView()

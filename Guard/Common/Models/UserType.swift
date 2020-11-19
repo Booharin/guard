@@ -7,7 +7,7 @@
 //
 
 /// User type
-enum UserType {
-	case client
-	case lawyer
-}
+//enum UserType {
+//	case client
+//	case lawyer
+//}

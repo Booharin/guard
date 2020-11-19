@@ -6,19 +6,13 @@
 //  Copyright © 2020 ds. All rights reserved.
 //
 
-enum UserRole: String {
-	case client = "client"
-	case lawyer = "lawyer"
-	case admin = "admin"
-}
-
 struct UserProfile: Codable {
 	var id: Int
 	var firstName: String?
 	var lastName: String?
-	var email: String
+	var email: String?
 	var phoneNumber: String?
-	var password: String
+	var password: String?
 	var photo: String?
 	var cityCode: Int
 	var countryCode: Int
@@ -41,9 +35,9 @@ struct UserProfile: Codable {
 		self.id = Int(userProfileObject.id)
 		self.firstName = userProfileObject.firstName ?? ""
 		self.lastName = userProfileObject.lastName ?? ""
-		self.email = userProfileObject.email ?? ""
+		self.email = nil
 		self.phoneNumber = userProfileObject.phoneNumber ?? ""
-		self.password = userProfileObject.password ?? ""
+		self.password = nil
 		self.photo = userProfileObject.photo ?? ""
 		self.cityCode = Int(userProfileObject.cityCode)
 		self.countryCode = Int(userProfileObject.countryCode)

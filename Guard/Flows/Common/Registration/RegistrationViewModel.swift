@@ -15,7 +15,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	private let animationDuration = 0.15
 	var registrationSubject: PublishSubject<Any>?
 	private var disposeBag = DisposeBag()
-	private let userType: UserType
+	private let userRole: UserRole
 
 	typealias Dependencies =
 	HasLocationService &
@@ -60,10 +60,10 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 
 	init(toSelectIssueSubject: PublishSubject<Any>? = nil,
 		 toAuthSubject: PublishSubject<Any>? = nil,
-		 userType: UserType) {
+		 userRole: UserRole) {
 		self.toSelectIssueSubject = toSelectIssueSubject
 		self.toAuthSubject = toAuthSubject
-		self.userType = userType
+		self.userRole = userRole
 	}
 
 	func viewDidSet() {
@@ -408,36 +408,32 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			view.cityTextField.textColor = Colors.warningColor
 		}
 	}
-	
+
 	private func saveProfileToStorage() {
 		// mock getting profile from server
 		var userProfileDict: [String : Any] = [
 			"email": view.loginTextField.text ?? "",
 			"firstName": "",
 			"lastName": "",
-			"country": "Russia",
+			"countryCode": 1,
 			"photo": "www.apple.com",
-			"id": 0,
-			"dateCreated": Int(Date().timeIntervalSince1970),
-			"city": view.cityTextField.text ?? "",
-			"phone": "03",
-			"rate": 5.5
+			"id": 10,
+			"dateCreated": "2020-10-16T22:26:20.000+00:00",
+			"cityCode": 77,//view.cityTextField.text ?? "",
+			"phoneNumber": "03",
+			"averageRate": 5.5,
+			"password": 123456,
+			"role": userRole.rawValue,
+			"isPhoneVisible": false,
+			"isEmailVisible": false,
+			"isChatEnabled": false
 		]
 
 		do {
-			switch userType {
-			case .client:
-				let jsonData = try JSONSerialization.data(withJSONObject: userProfileDict,
-														  options: .prettyPrinted)
-				let profileResponse = try JSONDecoder().decode(ClientProfile.self, from: jsonData)
-				di.localStorageService.saveProfile(profileResponse)
-			case .lawyer:
-				userProfileDict["issueTypes"] = []
-				let jsonData = try JSONSerialization.data(withJSONObject: userProfileDict,
-														  options: .prettyPrinted)
-				let profileResponse = try JSONDecoder().decode(LawyerProfile.self, from: jsonData)
-				di.localStorageService.saveProfile(profileResponse)
-			}
+			let jsonData = try JSONSerialization.data(withJSONObject: userProfileDict,
+													  options: .prettyPrinted)
+			let profileResponse = try JSONDecoder().decode(UserProfile.self, from: jsonData)
+			di.localStorageService.saveProfile(profileResponse)
 
 			UserDefaults.standard.set(true,
 									  forKey: Constants.UserDefaultsKeys.isLogin)

@@ -49,8 +49,9 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 		view.greetingLabel.textAlignment = .center
 		
 		if let profile = di.localStorageService.getCurrenClientProfile(),
-		   !profile.firstName.isEmpty {
-			view.greetingLabel.text = "\("chat.greeting.title".localized), \(profile.firstName)"
+		   let firstName = profile.firstName,
+		   !firstName.isEmpty {
+			view.greetingLabel.text = "\("chat.greeting.title".localized), \(firstName)"
 		} else {
 			view.greetingLabel.text = "chat.greeting.title".localized
 		}

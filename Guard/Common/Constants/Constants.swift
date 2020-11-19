@@ -12,5 +12,7 @@ struct Constants {
 	}
 	struct KeyChainKeys {
 		static let token = "network_token"
+		static let email = "email"
+		static let password = "password"
 	}
 }

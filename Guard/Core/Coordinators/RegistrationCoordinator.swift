@@ -13,11 +13,11 @@ final class RegistrationCoordinator: BaseCoordinator {
 	
 	var rootController: NavigationController?
 	var onFinishFlow: (() -> Void)?
-	private let userType: UserType
+	private let userRole: UserRole
 	private var disposeBag = DisposeBag()
 	
-	init(userType: UserType) {
-		self.userType = userType
+	init(userRole: UserRole) {
+		self.userRole = userRole
 	}
 	
 	override func start() {
@@ -46,7 +46,7 @@ final class RegistrationCoordinator: BaseCoordinator {
 		
 		let registrationViewModel = RegistrationViewModel(toSelectIssueSubject: toSelectIssueSubject,
 														  toAuthSubject: toAuthSubject,
-														  userType: self.userType)
+														  userRole: self.userRole)
 		let controller = RegistrationViewController(viewModel: registrationViewModel)
 		
 		guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }
@@ -54,7 +54,7 @@ final class RegistrationCoordinator: BaseCoordinator {
 	}
 	
 	private func toMain(issueType: IssueType) {
-		let coordinator = MainCoordinator(userType: userType,
+		let coordinator = MainCoordinator(userRole: userRole,
 										  issueType: issueType)
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)

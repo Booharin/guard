@@ -20,7 +20,7 @@ final class AuthCoordinator: BaseCoordinator {
 	
 	private func showLoginModule() {
 		// to main
-		let toMainSubject = PublishSubject<UserType>()
+		let toMainSubject = PublishSubject<UserRole>()
 		toMainSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [unowned self] in
@@ -62,8 +62,8 @@ final class AuthCoordinator: BaseCoordinator {
 		}
 	}
 	
-	private func toMain(_ userType: UserType) {
-		let coordinator = MainCoordinator(userType: userType)
+	private func toMain(_ userRole: UserRole) {
+		let coordinator = MainCoordinator(userRole: userRole)
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)
 			self?.start()

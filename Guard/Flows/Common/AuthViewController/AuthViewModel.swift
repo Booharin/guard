@@ -20,14 +20,15 @@ final class AuthViewModel: ViewModel,
 
 	typealias Dependencies =
 		HasLocalStorageService &
-		HasAuthService
+		HasAuthService &
+		HasKeyChainService
 	lazy var di: Dependencies = DI.dependencies
 
 	var view: AuthViewControllerProtocol!
 	private var disposeBag = DisposeBag()
 	private let animationDuration = 0.15
 	let authSubject = PublishSubject<Any>()
-	let toMainSubject: PublishSubject<UserType>?
+	let toMainSubject: PublishSubject<UserRole>?
 	let toChooseSubject: PublishSubject<Any>?
 	let toForgotPasswordSubject: PublishSubject<Any>?
 	
@@ -54,7 +55,7 @@ final class AuthViewModel: ViewModel,
 		}
 	}
 
-	init(toMainSubject: PublishSubject<UserType>? = nil,
+	init(toMainSubject: PublishSubject<UserRole>? = nil,
 		 toChooseSubject: PublishSubject<Any>? = nil,
 		 toForgotPasswordSubject: PublishSubject<Any>? = nil) {
 		self.toMainSubject = toMainSubject
@@ -114,7 +115,7 @@ final class AuthViewModel: ViewModel,
 			.subscribe(onNext: { [weak self] _ in
 				self?.toChooseSubject?.onNext(())
 			}).disposed(by: disposeBag)
-		
+
 		// face id button
 		view.faceIDButton
 			.rx
@@ -132,7 +133,7 @@ final class AuthViewModel: ViewModel,
 			.subscribe(onNext: { [unowned self] _ in
 				self.authenticateTapped()
 			}).disposed(by: disposeBag)
-		
+
 		// forget password
 		view.forgetPasswordLabel.text = "auth.forget_password.title".localized
 		view.forgetPasswordLabel.font = Saira.light.of(size: 12)
@@ -153,7 +154,7 @@ final class AuthViewModel: ViewModel,
 			.subscribe(onNext: { [weak self] _ in
 				self?.toForgotPasswordSubject?.onNext(())
 			}).disposed(by: disposeBag)
-		
+
 		// enter button
 		view.enterButton.isEnabled = false
 		view.enterButton
@@ -166,7 +167,7 @@ final class AuthViewModel: ViewModel,
 				self.loginUser()
 				self.authSubject.onNext(())
 			}).disposed(by: disposeBag)
-		
+
 		// alert label
 		view.alertLabel.numberOfLines = 2
 		view.alertLabel.textColor = Colors.warningColor
@@ -235,12 +236,16 @@ final class AuthViewModel: ViewModel,
 										   password: credentials.1)
 			}
 			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] _ in
+			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stopAnimating()
+				switch result {
+					case .success(let userRole):
+						self?.toMainSubject?.onNext(userRole)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
 				
-				//TODO: - когда заработает авторизации нужно будет проверять клиент/юрист по наличию поля issuType
-				
-				self?.toMainSubject?.onNext(.client)
 			}).disposed(by: disposeBag)
 	}
 	
@@ -257,9 +262,12 @@ final class AuthViewModel: ViewModel,
 				
 				DispatchQueue.main.async {
 					if success {
-//						self?.view.loginTextField.text = "admin@admin.ru"
-//						self?.view.passwordTextField.text = "12345"
-						self?.toMainSubject?.onNext(.client)
+						guard
+							let email = self?.di.keyChainService.getValue(for: Constants.KeyChainKeys.email),
+							let password = self?.di.keyChainService.getValue(for: Constants.KeyChainKeys.email) else { return }
+						self?.view.loginTextField.text = email
+						self?.view.passwordTextField.text = password
+						self?.loginUser()
 					} else {
 						// error
 					}

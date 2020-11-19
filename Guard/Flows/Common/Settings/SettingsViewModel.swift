@@ -14,14 +14,14 @@ import RxDataSources
 final class SettingsViewModel: ViewModel {
 	var view: SettingsViewControllerProtocol!
 	private let animationDuration = 0.15
-	private var userType: UserType
+	private var userRole: UserRole
 	private var disposeBag = DisposeBag()
 	private let logoutSubject: PublishSubject<Any>
 	private let logoutWithAlertSubject = PublishSubject<Any>()
 
-	init(userType: UserType,
+	init(userRole: UserRole,
 		 logoutSubject: PublishSubject<Any>) {
-		self.userType = userType
+		self.userRole = userRole
 		self.logoutSubject = logoutSubject
 	}
 

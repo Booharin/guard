@@ -34,16 +34,16 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		"cities.moscow".localized
 	]
 
-	var lawyers = [LawyerProfile]()
+	var lawyers = [UserProfile]()
 
 	typealias Dependencies =
 		HasLocationService &
 		HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
 
-	let toLawyerSubject: PublishSubject<LawyerProfile>
+	let toLawyerSubject: PublishSubject<UserProfile>
 
-	init(toLawyerSubject: PublishSubject<LawyerProfile>) {
+	init(toLawyerSubject: PublishSubject<UserProfile>) {
 		self.toLawyerSubject = toLawyerSubject
 	}
 
@@ -52,7 +52,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		getLawyersFromProfiles()
 
 		// table view data source
-		let section = SectionModel<String, LawyerProfile>(model: "",
+		let section = SectionModel<String, UserProfile>(model: "",
 														  items: lawyers)
 		let items = BehaviorSubject<[SectionModel]>(value: [section])
 		items
@@ -101,11 +101,12 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		view.titleLabel.font = Saira.semiBold.of(size: 16)
 		view.titleLabel.textColor = Colors.mainTextColor
 		if let profile = di.localStorageService.getCurrenClientProfile() {
-			view.titleLabel.text = "\(profile.city)"
+			// TODO: - когда будет понятно какой список городов вернется от сервера
+			//view.titleLabel.text = "\(profile.city)"
 		}
 	}
 
-	func update(with lawyers: [LawyerProfile]) {
+	func update(with lawyers: [UserProfile]) {
 		self.lawyers = lawyers
 		DispatchQueue.main.async {
 			self.view.tableView.reloadData()
@@ -139,7 +140,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		do {
 			let jsonData = try JSONSerialization.data(withJSONObject: userProfilesArray,
 													  options: .prettyPrinted)
-			let profilesResponse = try JSONDecoder().decode([LawyerProfile].self, from: jsonData)
+			let profilesResponse = try JSONDecoder().decode([UserProfile].self, from: jsonData)
 			self.update(with: profilesResponse)
 		} catch {
 			#if DEBUG

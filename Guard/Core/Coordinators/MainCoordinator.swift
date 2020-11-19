@@ -13,21 +13,23 @@ final class MainCoordinator: BaseCoordinator {
 
 	var rootController: UINavigationController?
 	var onFinishFlow: (() -> Void)?
-	private let userType: UserType
+	private let userRole: UserRole
 	private let tabBarController = TabBarController()
 	private var disposeBag = DisposeBag()
 
 	private var tabBarImages: [UIImage] {
-		switch userType {
+		switch userRole {
 		case .client:
 			return [#imageLiteral(resourceName: "tab_list_icn"), #imageLiteral(resourceName: "tab_appeals_icn"), #imageLiteral(resourceName: "tab_chat_icn"), #imageLiteral(resourceName: "tab_profile_icn")]
 		case .lawyer:
 			return [#imageLiteral(resourceName: "tab_list_icn"), #imageLiteral(resourceName: "tab_chat_icn"), #imageLiteral(resourceName: "tab_profile_icn")]
+		case .admin:
+			return [#imageLiteral(resourceName: "tab_list_icn"), #imageLiteral(resourceName: "tab_appeals_icn"), #imageLiteral(resourceName: "tab_chat_icn"), #imageLiteral(resourceName: "tab_profile_icn")]
 		}
 	}
 
-	init(userType: UserType, issueType: IssueType? = nil) {
-		self.userType = userType
+	init(userRole: UserRole, issueType: IssueType? = nil) {
+		self.userRole = userRole
 	}
 
 	override func start() {
@@ -36,11 +38,13 @@ final class MainCoordinator: BaseCoordinator {
 
 	private func showMainModule() {
 		
-		switch userType {
+		switch userRole {
 		case .client:
 			setClientControllers()
 		case .lawyer:
 			setLawyerControllers()
+		case .admin:
+			setClientControllers()
 		}
 		
 		tabBarController.tabBar.items?.enumerated().forEach {
@@ -61,7 +65,7 @@ final class MainCoordinator: BaseCoordinator {
 	
 	private func setClientControllers() {
 		// to lawyer issue
-		let toLawyerSubject = PublishSubject<LawyerProfile>()
+		let toLawyerSubject = PublishSubject<UserProfile>()
 		toLawyerSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { _ in
@@ -96,7 +100,7 @@ final class MainCoordinator: BaseCoordinator {
 	
 	private func setLawyerControllers() {
 		// to lawyer issue
-		let toClientSubject = PublishSubject<ClientProfile>()
+		let toClientSubject = PublishSubject<UserProfile>()
 		toClientSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { _ in

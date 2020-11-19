@@ -13,17 +13,17 @@ import UIKit
 struct LawyerCellViewModel: ViewModel {
 	var view: LawyerCellProtocol!
 	private var disposeBag = DisposeBag()
-	let toLawyerSubject: PublishSubject<LawyerProfile>
+	let toLawyerSubject: PublishSubject<UserProfile>
 	let tapSubject = PublishSubject<Any>()
 	let animateDuration = 0.15
-	let lawyer: LawyerProfile
-	
-	init(toLawyerSubject: PublishSubject<LawyerProfile>,
-		 lawyer: LawyerProfile) {
+	let lawyer: UserProfile
+
+	init(toLawyerSubject: PublishSubject<UserProfile>,
+		 lawyer: UserProfile) {
 		self.toLawyerSubject = toLawyerSubject
 		self.lawyer = lawyer
 	}
-	
+
 	func viewDidSet() {
 		view.containerView
 			.rx
@@ -39,17 +39,18 @@ struct LawyerCellViewModel: ViewModel {
 				})
 				self.toLawyerSubject.onNext(self.lawyer)
 			}).disposed(by: disposeBag)
-		
+
 		view.avatarImageView.image = #imageLiteral(resourceName: "lawyer_mock_icn")
-		
+
 		view.nameTitle.text = lawyer.fullName
 		view.nameTitle.font = SFUIDisplay.regular.of(size: 16)
 		view.nameTitle.textColor = Colors.mainTextColor
-		
+
 		view.rateLabel.font = SFUIDisplay.bold.of(size: 15)
 		view.rateLabel.textColor = Colors.mainTextColor
-		view.rateLabel.text = "\(String(format: "%.1f", lawyer.rate))"
+		guard let rate = lawyer.averageRate else { return }
+		view.rateLabel.text = "\(String(format: "%.1f", rate))"
 	}
-	
+
 	func removeBindings() {}
 }
