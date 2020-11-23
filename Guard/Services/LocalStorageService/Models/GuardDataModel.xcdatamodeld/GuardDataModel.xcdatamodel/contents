@@ -8,22 +8,18 @@
     </entity>
     <entity name="UserProfileObject" representedClassName="UserProfileObject" syncable="YES">
         <attribute name="averageRate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="cityCode" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="countryCode" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="dateCreated" optional="YES" attributeType="String"/>
+        <attribute name="cityCode" optional="YES" attributeType="Transformable"/>
+        <attribute name="countryCode" optional="YES" attributeType="Transformable"/>
+        <attribute name="dateCreated" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="isChatEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="isEmailVisible" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="isPhoneVisible" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="issueTypes" optional="YES" attributeType="Transformable"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
-        <attribute name="phoneNumber" optional="YES" attributeType="String"/>
         <attribute name="photo" optional="YES" attributeType="String"/>
         <attribute name="role" optional="YES" attributeType="String"/>
     </entity>
     <elements>
         <element name="ClientAppealObject" positionX="-63" positionY="27" width="128" height="103"/>
-        <element name="UserProfileObject" positionX="-45" positionY="162" width="128" height="253"/>
+        <element name="UserProfileObject" positionX="-45" positionY="162" width="128" height="193"/>
     </elements>
 </model>

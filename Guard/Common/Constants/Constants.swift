@@ -6,13 +6,14 @@
 //  Copyright © 2020 ds. All rights reserved.
 //
 
-struct Constants {
-	struct UserDefaultsKeys {
+enum Constants {
+	enum UserDefaultsKeys {
 		static let isLogin = "isLogin"
 	}
-	struct KeyChainKeys {
+	enum KeyChainKeys {
 		static let token = "network_token"
 		static let email = "email"
 		static let password = "password"
+		static let phoneNumber = "phoneNumber"
 	}
 }

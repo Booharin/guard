@@ -223,13 +223,13 @@ final class AuthViewModel: ViewModel,
 			.withLatestFrom(credentials)
 			.filter { [unowned self] credentials in
 				
-				//if credentials.0.isValidEmail {
+				if credentials.0.isValidEmail {
 					self.view.loadingView.startAnimating()
 					return true
-//				} else {
-//					self.turnWarnings(with: "auth.alert.uncorrect_email.title".localized)
-//					return false
-//				}
+				} else {
+					self.turnWarnings(with: "auth.alert.uncorrect_email.title".localized)
+					return false
+				}
 			}
 			.flatMap { [unowned self] credentials in
 				self.di.authService.signIn(email: credentials.0,

@@ -12,17 +12,13 @@ struct UserProfile: Codable {
 	var lastName: String?
 	var email: String?
 	var phoneNumber: String?
-	var password: String?
 	var photo: String?
-	var cityCode: Int
-	var countryCode: Int
-	var dateCreated: String
+	var cityCode: [Int]
+	var countryCode: [Int]
+	var dateCreated: Int
 	var averageRate: Double?
 	var role: String
-	var isPhoneVisible: Bool?
-	var isEmailVisible: Bool?
-	var isChatEnabled: Bool?
-	var reviews: [UserReview]?
+	var reviewList: [UserReview]?
 	var issueTypes: [String]?
 	var fullName: String {
 		return "\(firstName ?? "") \(lastName ?? "")"
@@ -36,12 +32,10 @@ struct UserProfile: Codable {
 		self.firstName = userProfileObject.firstName ?? ""
 		self.lastName = userProfileObject.lastName ?? ""
 		self.email = nil
-		self.phoneNumber = userProfileObject.phoneNumber ?? ""
-		self.password = nil
 		self.photo = userProfileObject.photo ?? ""
-		self.cityCode = Int(userProfileObject.cityCode)
-		self.countryCode = Int(userProfileObject.countryCode)
-		self.dateCreated = userProfileObject.dateCreated ?? ""
+		self.cityCode = userProfileObject.cityCode ?? []
+		self.countryCode = userProfileObject.countryCode ?? []
+		self.dateCreated = Int(userProfileObject.dateCreated)
 		self.averageRate = userProfileObject.averageRate
 		self.role = userProfileObject.role ?? ""
 		self.issueTypes = userProfileObject.issueTypes

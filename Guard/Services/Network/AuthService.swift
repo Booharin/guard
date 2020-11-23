@@ -54,8 +54,9 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 							#endif
 
 							self.di.keyChainService.save(token, for: Constants.KeyChainKeys.token)
-							self.di.keyChainService.save(user.email ?? "", for: Constants.KeyChainKeys.email)
-							self.di.keyChainService.save(user.password ?? "", for: Constants.KeyChainKeys.password)
+							self.di.keyChainService.save(email, for: Constants.KeyChainKeys.email)
+							self.di.keyChainService.save(password, for: Constants.KeyChainKeys.password)
+							self.di.keyChainService.save(user.phoneNumber ?? "", for: Constants.KeyChainKeys.phoneNumber)
 							self.di.localStorageService.saveProfile(user)
 
 							observer.onNext(.success(user.userRole))

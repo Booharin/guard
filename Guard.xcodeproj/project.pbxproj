@@ -96,6 +96,8 @@
 		5283CB732517CBED005DEDA8 /* ClientProfileModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5283CB722517CBED005DEDA8 /* ClientProfileModuleFactory.swift */; };
 		5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5283CB742517CC43005DEDA8 /* ClientProfileRouter.swift */; };
 		52901BE82501002400271CAC /* ClientIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52901BE72501002400271CAC /* ClientIssue.swift */; };
+		5291351B256BB8E0000527C5 /* UserProfileObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52913519256BB8E0000527C5 /* UserProfileObject+CoreDataClass.swift */; };
+		5291351C256BB8E0000527C5 /* UserProfileObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5291351A256BB8E0000527C5 /* UserProfileObject+CoreDataProperties.swift */; };
 		52A271B02508E45A0050FB60 /* Saira-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */; };
 		52A271B22508E4970050FB60 /* Saira-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */; };
 		52A271B52508ED230050FB60 /* ClientAppealsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A271B42508ED230050FB60 /* ClientAppealsListViewController.swift */; };
@@ -106,6 +108,10 @@
 		52A271C22508FA4E0050FB60 /* ClientAppeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A271C12508FA4E0050FB60 /* ClientAppeal.swift */; };
 		52A4258425221D7200E2FE7B /* SettingsHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A4258325221D7200E2FE7B /* SettingsHeaderCell.swift */; };
 		52A4258625221DC900E2FE7B /* SettingHeaderCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A4258525221DC900E2FE7B /* SettingHeaderCellViewModel.swift */; };
+		52ADFD3A256A5931008F98C4 /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52ADFD39256A5931008F98C4 /* KeychainSwift.framework */; };
+		52ADFD3B256A5931008F98C4 /* KeychainSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52ADFD39256A5931008F98C4 /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		52ADFD3D256A5959008F98C4 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52ADFD3C256A5959008F98C4 /* Starscream.framework */; };
+		52ADFD3E256A5959008F98C4 /* Starscream.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52ADFD3C256A5959008F98C4 /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52AF28E62506145D00287A8F /* LawyerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28E52506145D00287A8F /* LawyerCell.swift */; };
 		52AF28E82506168B00287A8F /* LawyerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28E72506168B00287A8F /* LawyerCellViewModel.swift */; };
 		52AF28EB2506195800287A8F /* LawyersListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28EA2506195800287A8F /* LawyersListDataSource.swift */; };
@@ -153,8 +159,6 @@
 		52F0F5752536DF5500FE2B14 /* ThreeDotsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */; };
 		52F749332565A846009CD041 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F749322565A846009CD041 /* KeyChainService.swift */; };
 		52F7493925665F93009CD041 /* UserRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F7493825665F93009CD041 /* UserRole.swift */; };
-		52F749D825669A0B009CD041 /* UserProfileObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F749D625669A0B009CD041 /* UserProfileObject+CoreDataClass.swift */; };
-		52F749D925669A0B009CD041 /* UserProfileObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F749D725669A0B009CD041 /* UserProfileObject+CoreDataProperties.swift */; };
 		52FFF4A5250B85D100957356 /* ClientAppealsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */; };
 		52FFF4A7250B873800957356 /* ClientAppealsListModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF4A6250B873800957356 /* ClientAppealsListModuleFactory.swift */; };
 /* End PBXBuildFile section */
@@ -169,9 +173,11 @@
 				52EB81CD24B9ECE4003285BC /* RxSwift.framework in Embed Frameworks */,
 				52EB81CA24B9ECE0003285BC /* RxCocoa.framework in Embed Frameworks */,
 				5222B68924C7594C000BEE13 /* Differentiator.framework in Embed Frameworks */,
+				52ADFD3E256A5959008F98C4 /* Starscream.framework in Embed Frameworks */,
 				52597DC624BB8FC9005A922F /* RxGesture.framework in Embed Frameworks */,
 				523A67BF24C2C6FB0008E8AF /* RxDataSources.framework in Embed Frameworks */,
 				5251AFA424A281F100467E84 /* Alamofire.framework in Embed Frameworks */,
+				52ADFD3B256A5931008F98C4 /* KeychainSwift.framework in Embed Frameworks */,
 				5251AFA624A281F100467E84 /* SnapKit.framework in Embed Frameworks */,
 				52EB81D024B9ED02003285BC /* RxRelay.framework in Embed Frameworks */,
 			);
@@ -270,6 +276,8 @@
 		5283CB722517CBED005DEDA8 /* ClientProfileModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileModuleFactory.swift; sourceTree = "<group>"; };
 		5283CB742517CC43005DEDA8 /* ClientProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileRouter.swift; sourceTree = "<group>"; };
 		52901BE72501002400271CAC /* ClientIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIssue.swift; sourceTree = "<group>"; };
+		52913519256BB8E0000527C5 /* UserProfileObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataClass.swift"; sourceTree = "<group>"; };
+		5291351A256BB8E0000527C5 /* UserProfileObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Medium.ttf"; sourceTree = "<group>"; };
 		52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-SemiBold.ttf"; sourceTree = "<group>"; };
 		52A271B42508ED230050FB60 /* ClientAppealsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListViewController.swift; sourceTree = "<group>"; };
@@ -280,6 +288,8 @@
 		52A271C12508FA4E0050FB60 /* ClientAppeal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppeal.swift; sourceTree = "<group>"; };
 		52A4258325221D7200E2FE7B /* SettingsHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsHeaderCell.swift; sourceTree = "<group>"; };
 		52A4258525221DC900E2FE7B /* SettingHeaderCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingHeaderCellViewModel.swift; sourceTree = "<group>"; };
+		52ADFD39256A5931008F98C4 /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/iOS/KeychainSwift.framework; sourceTree = "<group>"; };
+		52ADFD3C256A5959008F98C4 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
 		52AF28E52506145D00287A8F /* LawyerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerCell.swift; sourceTree = "<group>"; };
 		52AF28E72506168B00287A8F /* LawyerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerCellViewModel.swift; sourceTree = "<group>"; };
 		52AF28EA2506195800287A8F /* LawyersListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListDataSource.swift; sourceTree = "<group>"; };
@@ -324,8 +334,6 @@
 		52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDotsButtonView.swift; sourceTree = "<group>"; };
 		52F749322565A846009CD041 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
 		52F7493825665F93009CD041 /* UserRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRole.swift; sourceTree = "<group>"; };
-		52F749D625669A0B009CD041 /* UserProfileObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataClass.swift"; sourceTree = "<group>"; };
-		52F749D725669A0B009CD041 /* UserProfileObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListRouter.swift; sourceTree = "<group>"; };
 		52FFF4A6250B873800957356 /* ClientAppealsListModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListModuleFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -338,9 +346,11 @@
 				52EB81CC24B9ECE4003285BC /* RxSwift.framework in Frameworks */,
 				52EB81C924B9ECE0003285BC /* RxCocoa.framework in Frameworks */,
 				5222B68824C7594C000BEE13 /* Differentiator.framework in Frameworks */,
+				52ADFD3D256A5959008F98C4 /* Starscream.framework in Frameworks */,
 				52597DC524BB8FC9005A922F /* RxGesture.framework in Frameworks */,
 				523A67BE24C2C6FB0008E8AF /* RxDataSources.framework in Frameworks */,
 				5251AFA324A281F100467E84 /* Alamofire.framework in Frameworks */,
+				52ADFD3A256A5931008F98C4 /* KeychainSwift.framework in Frameworks */,
 				5251AFA524A281F100467E84 /* SnapKit.framework in Frameworks */,
 				52EB81CF24B9ED02003285BC /* RxRelay.framework in Frameworks */,
 			);
@@ -737,6 +747,8 @@
 		5251AFA024A281F100467E84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52ADFD3C256A5959008F98C4 /* Starscream.framework */,
+				52ADFD39256A5931008F98C4 /* KeychainSwift.framework */,
 				5222B68724C7594C000BEE13 /* Differentiator.framework */,
 				523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */,
 				52597DC424BB8FC9005A922F /* RxGesture.framework */,
@@ -960,8 +972,8 @@
 		52A00F74256590670099D961 /* UserProfileObject */ = {
 			isa = PBXGroup;
 			children = (
-				52F749D625669A0B009CD041 /* UserProfileObject+CoreDataClass.swift */,
-				52F749D725669A0B009CD041 /* UserProfileObject+CoreDataProperties.swift */,
+				52913519256BB8E0000527C5 /* UserProfileObject+CoreDataClass.swift */,
+				5291351A256BB8E0000527C5 /* UserProfileObject+CoreDataProperties.swift */,
 			);
 			path = UserProfileObject;
 			sourceTree = "<group>";
@@ -1257,6 +1269,7 @@
 				523C8CDC25627227006DECAB /* AuthNetworkRouter.swift in Sources */,
 				52212F8524FFDD41003FA67E /* ForgotPasswordViewModel.swift in Sources */,
 				52A4258625221DC900E2FE7B /* SettingHeaderCellViewModel.swift in Sources */,
+				5291351B256BB8E0000527C5 /* UserProfileObject+CoreDataClass.swift in Sources */,
 				5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */,
 				523E62DC2519E00500757FE3 /* String+Size.swift in Sources */,
 				52B654B4251B303F003D2465 /* SettingsViewController.swift in Sources */,
@@ -1291,7 +1304,6 @@
 				52BD63F02532F92400FF393D /* SelectButtonView.swift in Sources */,
 				52483BB324A279E40003A56A /* BaseCoordinator.swift in Sources */,
 				52F0F5712536DA3B00FE2B14 /* AppealViewController.swift in Sources */,
-				52F749D825669A0B009CD041 /* UserProfileObject+CoreDataClass.swift in Sources */,
 				52B268682511131600111864 /* ConversationCellViewModel.swift in Sources */,
 				52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */,
 				52A271C02508F9AC0050FB60 /* ClientAppealCellViewModel.swift in Sources */,
@@ -1342,7 +1354,6 @@
 				52760C4A2501731C00080152 /* LawyersListViewController.swift in Sources */,
 				52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */,
 				52A271B92508F27A0050FB60 /* AddButtonView.swift in Sources */,
-				52F749D925669A0B009CD041 /* UserProfileObject+CoreDataProperties.swift in Sources */,
 				52B654B6251B3063003D2465 /* SettingsViewModel.swift in Sources */,
 				52760C4C2501736600080152 /* LawyersListViewModel.swift in Sources */,
 				52B278C824C09621001E7295 /* Dependencies.swift in Sources */,
@@ -1351,6 +1362,7 @@
 				5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */,
 				52B2685825110DFB00111864 /* ChatCell.swift in Sources */,
 				52EB81C724B9E882003285BC /* ViewControllerProtocol.swift in Sources */,
+				5291351C256BB8E0000527C5 /* UserProfileObject+CoreDataProperties.swift in Sources */,
 				52C5F4C424C9D90D00FB2DA8 /* ProfileViewController.swift in Sources */,
 				5251AFB224A2837D00467E84 /* AuthCoordinator.swift in Sources */,
 				52BD63EE2532F1D300FF393D /* UserReview.swift in Sources */,
