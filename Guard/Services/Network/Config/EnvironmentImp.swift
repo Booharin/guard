@@ -10,8 +10,8 @@ import Foundation
 
 struct EnvironmentImp: Environment {
 	#if DEBUG
-		let baseUrl = URL(string: "http://lawyerapi-env.eba-pkdnqeji.eu-central-1.elasticbeanstalk.com/api/v1/")!
+		let baseUrl = URL(string: "https://guardapi.co.uk/api/v1/")!
 	#else
-		let baseUrl = URL(string: "http://lawyerapi-env.eba-pkdnqeji.eu-central-1.elasticbeanstalk.com/api/v1/")!
+		let baseUrl = URL(string: "https://guardapi.co.uk/api/v1/")!
 	#endif
 }

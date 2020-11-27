@@ -34,11 +34,13 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(self.router.signIn(email: email, password: password))
 				.responseJSON { response in
+					#if DEBUG
 					print(response)
+					#endif
 					switch response.result {
 					case .success:
 						guard let data = response.data else {
-							observer.onError(NetworkError.common)
+							observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
 							return
 						}
 						do {
@@ -46,7 +48,7 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 							guard
 								let token = authResponce.token,
 								let user = authResponce.user else {
-									observer.onError(NetworkError.common)
+								observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
 									return
 							}
 							#if DEBUG
@@ -65,10 +67,10 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 							#if DEBUG
 							print(error)
 							#endif
-							observer.onError(NetworkError.common)
+							observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
 						}
 					case .failure:
-						observer.onError(response.error ?? NetworkError.common)
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
 					}
 			}
 			return Disposables.create(with: {

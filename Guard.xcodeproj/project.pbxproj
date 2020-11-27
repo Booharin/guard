@@ -96,8 +96,6 @@
 		5283CB732517CBED005DEDA8 /* ClientProfileModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5283CB722517CBED005DEDA8 /* ClientProfileModuleFactory.swift */; };
 		5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5283CB742517CC43005DEDA8 /* ClientProfileRouter.swift */; };
 		52901BE82501002400271CAC /* ClientIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52901BE72501002400271CAC /* ClientIssue.swift */; };
-		5291351B256BB8E0000527C5 /* UserProfileObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52913519256BB8E0000527C5 /* UserProfileObject+CoreDataClass.swift */; };
-		5291351C256BB8E0000527C5 /* UserProfileObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5291351A256BB8E0000527C5 /* UserProfileObject+CoreDataProperties.swift */; };
 		52A271B02508E45A0050FB60 /* Saira-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */; };
 		52A271B22508E4970050FB60 /* Saira-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */; };
 		52A271B52508ED230050FB60 /* ClientAppealsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A271B42508ED230050FB60 /* ClientAppealsListViewController.swift */; };
@@ -159,6 +157,8 @@
 		52F0F5752536DF5500FE2B14 /* ThreeDotsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */; };
 		52F749332565A846009CD041 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F749322565A846009CD041 /* KeyChainService.swift */; };
 		52F7493925665F93009CD041 /* UserRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F7493825665F93009CD041 /* UserRole.swift */; };
+		52FD08CC257120CB002A3719 /* UserProfileObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FD08CA257120CB002A3719 /* UserProfileObject+CoreDataClass.swift */; };
+		52FD08CD257120CB002A3719 /* UserProfileObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FD08CB257120CB002A3719 /* UserProfileObject+CoreDataProperties.swift */; };
 		52FFF4A5250B85D100957356 /* ClientAppealsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */; };
 		52FFF4A7250B873800957356 /* ClientAppealsListModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF4A6250B873800957356 /* ClientAppealsListModuleFactory.swift */; };
 /* End PBXBuildFile section */
@@ -276,8 +276,6 @@
 		5283CB722517CBED005DEDA8 /* ClientProfileModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileModuleFactory.swift; sourceTree = "<group>"; };
 		5283CB742517CC43005DEDA8 /* ClientProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileRouter.swift; sourceTree = "<group>"; };
 		52901BE72501002400271CAC /* ClientIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIssue.swift; sourceTree = "<group>"; };
-		52913519256BB8E0000527C5 /* UserProfileObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataClass.swift"; sourceTree = "<group>"; };
-		5291351A256BB8E0000527C5 /* UserProfileObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Medium.ttf"; sourceTree = "<group>"; };
 		52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-SemiBold.ttf"; sourceTree = "<group>"; };
 		52A271B42508ED230050FB60 /* ClientAppealsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListViewController.swift; sourceTree = "<group>"; };
@@ -334,6 +332,8 @@
 		52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDotsButtonView.swift; sourceTree = "<group>"; };
 		52F749322565A846009CD041 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
 		52F7493825665F93009CD041 /* UserRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRole.swift; sourceTree = "<group>"; };
+		52FD08CA257120CB002A3719 /* UserProfileObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataClass.swift"; sourceTree = "<group>"; };
+		52FD08CB257120CB002A3719 /* UserProfileObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListRouter.swift; sourceTree = "<group>"; };
 		52FFF4A6250B873800957356 /* ClientAppealsListModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListModuleFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -626,6 +626,8 @@
 		52483B8824A2774E0003A56A = {
 			isa = PBXGroup;
 			children = (
+				52FD08CA257120CB002A3719 /* UserProfileObject+CoreDataClass.swift */,
+				52FD08CB257120CB002A3719 /* UserProfileObject+CoreDataProperties.swift */,
 				521E64C124F8F7EA00FF96ED /* Default-568h@2x.png */,
 				52483B9324A2774E0003A56A /* Guard */,
 				52483B9224A2774E0003A56A /* Products */,
@@ -972,8 +974,6 @@
 		52A00F74256590670099D961 /* UserProfileObject */ = {
 			isa = PBXGroup;
 			children = (
-				52913519256BB8E0000527C5 /* UserProfileObject+CoreDataClass.swift */,
-				5291351A256BB8E0000527C5 /* UserProfileObject+CoreDataProperties.swift */,
 			);
 			path = UserProfileObject;
 			sourceTree = "<group>";
@@ -1269,7 +1269,7 @@
 				523C8CDC25627227006DECAB /* AuthNetworkRouter.swift in Sources */,
 				52212F8524FFDD41003FA67E /* ForgotPasswordViewModel.swift in Sources */,
 				52A4258625221DC900E2FE7B /* SettingHeaderCellViewModel.swift in Sources */,
-				5291351B256BB8E0000527C5 /* UserProfileObject+CoreDataClass.swift in Sources */,
+				52FD08CC257120CB002A3719 /* UserProfileObject+CoreDataClass.swift in Sources */,
 				5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */,
 				523E62DC2519E00500757FE3 /* String+Size.swift in Sources */,
 				52B654B4251B303F003D2465 /* SettingsViewController.swift in Sources */,
@@ -1362,7 +1362,7 @@
 				5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */,
 				52B2685825110DFB00111864 /* ChatCell.swift in Sources */,
 				52EB81C724B9E882003285BC /* ViewControllerProtocol.swift in Sources */,
-				5291351C256BB8E0000527C5 /* UserProfileObject+CoreDataProperties.swift in Sources */,
+				52FD08CD257120CB002A3719 /* UserProfileObject+CoreDataProperties.swift in Sources */,
 				52C5F4C424C9D90D00FB2DA8 /* ProfileViewController.swift in Sources */,
 				5251AFB224A2837D00467E84 /* AuthCoordinator.swift in Sources */,
 				52BD63EE2532F1D300FF393D /* UserReview.swift in Sources */,

@@ -15,7 +15,7 @@ struct UserProfile: Codable {
 	var photo: String?
 	var cityCode: [Int]
 	var countryCode: [Int]
-	var dateCreated: Int
+	var dateCreated: String
 	var averageRate: Double?
 	var role: String
 	var reviewList: [UserReview]?
@@ -35,7 +35,7 @@ struct UserProfile: Codable {
 		self.photo = userProfileObject.photo ?? ""
 		self.cityCode = userProfileObject.cityCode ?? []
 		self.countryCode = userProfileObject.countryCode ?? []
-		self.dateCreated = Int(userProfileObject.dateCreated)
+		self.dateCreated = userProfileObject.dateCreated ?? ""
 		self.averageRate = userProfileObject.averageRate
 		self.role = userProfileObject.role ?? ""
 		self.issueTypes = userProfileObject.issueTypes

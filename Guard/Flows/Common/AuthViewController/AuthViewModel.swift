@@ -21,13 +21,14 @@ final class AuthViewModel: ViewModel,
 	typealias Dependencies =
 		HasLocalStorageService &
 		HasAuthService &
-		HasKeyChainService
+		HasKeyChainService &
+		HasSocketService
 	lazy var di: Dependencies = DI.dependencies
 
 	var view: AuthViewControllerProtocol!
 	private var disposeBag = DisposeBag()
 	private let animationDuration = 0.15
-	let authSubject = PublishSubject<Any>()
+	var authSubject: PublishSubject<Any>?
 	let toMainSubject: PublishSubject<UserRole>?
 	let toChooseSubject: PublishSubject<Any>?
 	let toForgotPasswordSubject: PublishSubject<Any>?
@@ -164,8 +165,10 @@ final class AuthViewModel: ViewModel,
 				self.view.enterButton.animateBackground()
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.loginUser()
-				self.authSubject.onNext(())
+				if authSubject == nil {
+					self.loginUser()
+				}
+				self.authSubject?.onNext(())
 			}).disposed(by: disposeBag)
 
 		// alert label
@@ -206,8 +209,10 @@ final class AuthViewModel: ViewModel,
 			.disposed(by: disposeBag)
 		
 		authenticateTapped()
+		
+		di.socketService.connectSockets()
 	}
-	
+
 	// MARK: - Login flow
 	private func loginUser() {
 		let credentials = Observable.combineLatest(
@@ -217,8 +222,9 @@ final class AuthViewModel: ViewModel,
 			return true
 		}
 		.map { ($0?.withoutExtraSpaces ?? "", $1?.withoutExtraSpaces ?? "") }
-		
-		authSubject
+
+		authSubject = PublishSubject<Any>()
+		authSubject?
 			.asObservable()
 			.withLatestFrom(credentials)
 			.filter { [unowned self] credentials in
@@ -245,10 +251,9 @@ final class AuthViewModel: ViewModel,
 						//TODO: - обработать ошибку
 						print(error.localizedDescription)
 				}
-				
 			}).disposed(by: disposeBag)
 	}
-	
+
 	//MARK: - Face id tapped
 	private func authenticateTapped() {
 		let context = LAContext()

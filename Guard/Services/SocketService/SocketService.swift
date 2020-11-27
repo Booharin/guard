@@ -27,7 +27,7 @@ final class SocketService: SocketServiceInterface {
 	var isConnected = false
 	
 	func connectSockets() {
-		var request = URLRequest(url: URL(string: "http://localhost:8080")!)
+		var request = URLRequest(url: URL(string: "wss://guardapi.co.uk/greeting")!)
 		request.timeoutInterval = 5
 		socket = WebSocket(request: request)
 		socket?.delegate = self
@@ -85,6 +85,7 @@ extension SocketService: WebSocketDelegate {
 			isConnected = false
 		case .error(let error):
 			isConnected = false
+			print("error: \(error)")
 		//handleError(error)
 		}
 	}

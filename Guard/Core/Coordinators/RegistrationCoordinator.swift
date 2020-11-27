@@ -31,7 +31,6 @@ final class RegistrationCoordinator: BaseCoordinator {
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] _ in
 				self?.toSelectIssue()
-				self?.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)
 		// to auth
@@ -40,7 +39,6 @@ final class RegistrationCoordinator: BaseCoordinator {
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] _ in
 				self?.toAuth()
-				self?.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)
 		
