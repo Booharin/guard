@@ -15,6 +15,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	var view: LawyersListViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
+	var lawyersListSubject: PublishSubject<Any>?
 
 	private let userProfileDict: [String : Any] = [
 		"email": "some@bk.ru",
@@ -38,24 +39,23 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 
 	typealias Dependencies =
 		HasLocationService &
-		HasLocalStorageService
+		HasLocalStorageService &
+		HasLawyersNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
 	let toLawyerSubject: PublishSubject<UserProfile>
+	var dataSourceSubject: BehaviorSubject<[SectionModel<String, UserProfile>]>?
 
 	init(toLawyerSubject: PublishSubject<UserProfile>) {
 		self.toLawyerSubject = toLawyerSubject
 	}
 
 	func viewDidSet() {
-
-		getLawyersFromProfiles()
-
 		// table view data source
 		let section = SectionModel<String, UserProfile>(model: "",
-														  items: lawyers)
-		let items = BehaviorSubject<[SectionModel]>(value: [section])
-		items
+														items: lawyers)
+		dataSourceSubject = BehaviorSubject<[SectionModel]>(value: [section])
+		dataSourceSubject?
 			.bind(to: view.tableView
 					.rx
 					.items(dataSource: LawyersListDataSource.dataSource(toLawyerSubject: toLawyerSubject)))
@@ -104,48 +104,40 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 			// TODO: - когда будет понятно какой список городов вернется от сервера
 			//view.titleLabel.text = "\(profile.city)"
 		}
+		view.titleLabel.text = "Москва"
+
+		lawyersListSubject = PublishSubject<Any>()
+		lawyersListSubject?
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.lawyersNetworkService.getAllLawyers(from: self.view.titleLabel.text ?? "")
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stopAnimating()
+				switch result {
+					case .success(let lawyers):
+						self?.update(with: lawyers)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		view.loadingView.startAnimating()
+		lawyersListSubject?.onNext(())
 	}
 
 	func update(with lawyers: [UserProfile]) {
 		self.lawyers = lawyers
-		DispatchQueue.main.async {
-			self.view.tableView.reloadData()
-		}
+		let section = SectionModel<String, UserProfile>(model: "",
+														items: lawyers)
+		dataSourceSubject?.onNext([section])
 
-		if self.view.tableView.contentSize.height < self.view.tableView.frame.height {
+		if self.view.tableView.contentSize.height + 100 < self.view.tableView.frame.height {
 			self.view.tableView.isScrollEnabled = false
 		} else {
 			self.view.tableView.isScrollEnabled = true
-		}
-	}
-
-	private func getLawyersFromProfiles() {
-		let userProfilesArray = [
-			userProfileDict,
-			userProfileDict,
-			userProfileDict,
-			userProfileDict,
-			userProfileDict,
-			userProfileDict,
-			userProfileDict,
-			userProfileDict,
-			userProfileDict,
-			userProfileDict,
-			userProfileDict,
-			userProfileDict,
-			userProfileDict,
-			userProfileDict,
-			userProfileDict
-		]
-		do {
-			let jsonData = try JSONSerialization.data(withJSONObject: userProfilesArray,
-													  options: .prettyPrinted)
-			let profilesResponse = try JSONDecoder().decode([UserProfile].self, from: jsonData)
-			self.update(with: profilesResponse)
-		} catch {
-			#if DEBUG
-			print(error)
-			#endif
 		}
 	}
 

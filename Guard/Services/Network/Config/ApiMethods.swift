@@ -8,4 +8,7 @@
 
 enum ApiMethods {
 	static let login = "auth/login"
+	static let register = "common/register"
+	static let getLawyers = "common/lawyers"
+	static let getAllLawyers = "client/alllawyers"
 }

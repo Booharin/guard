@@ -7,7 +7,7 @@
 //
 
 enum UserRole: String {
-	case client = "client"
-	case lawyer = "lawyer"
-	case admin = "admin"
+	case client = "ROLE_CLIENT"
+	case lawyer = "ROLE_LAWYER"
+	case admin = "ROLE_ADMIN"
 }

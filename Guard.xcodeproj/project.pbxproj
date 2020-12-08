@@ -84,6 +84,13 @@
 		525BFA74250A0723005393B1 /* Date+TimeStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525BFA73250A0723005393B1 /* Date+TimeStamp.swift */; };
 		525BFA77250A080D005393B1 /* ClientAppealObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525BFA75250A080D005393B1 /* ClientAppealObject+CoreDataClass.swift */; };
 		525BFA78250A080D005393B1 /* ClientAppealObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525BFA76250A080D005393B1 /* ClientAppealObject+CoreDataProperties.swift */; };
+		52614F84257F6B5A0087962B /* LawyersNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52614F83257F6B5A0087962B /* LawyersNetworkService.swift */; };
+		52614F88257F6EFB0087962B /* LawyersNetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52614F87257F6EFB0087962B /* LawyersNetworkRouter.swift */; };
+		52614F96257FED6B0087962B /* UserProfileObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52614F94257FED6B0087962B /* UserProfileObject+CoreDataClass.swift */; };
+		52614F97257FED6B0087962B /* UserProfileObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52614F95257FED6B0087962B /* UserProfileObject+CoreDataProperties.swift */; };
+		526AC48325738D260041B571 /* UITextField+Autofill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AC48225738D260041B571 /* UITextField+Autofill.swift */; };
+		526DDD0725724C7600CF68F7 /* RegistrationNetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DDD0625724C7600CF68F7 /* RegistrationNetworkRouter.swift */; };
+		526DDD0925724DEB00CF68F7 /* RegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DDD0825724DEB00CF68F7 /* RegistrationService.swift */; };
 		5273744E2563C01500912769 /* SocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273744D2563C01500912769 /* SocketService.swift */; };
 		52740F75250F40B3001D86FF /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52740F74250F40B3001D86FF /* ChatViewController.swift */; };
 		52740F77250F40D1001D86FF /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52740F76250F40D1001D86FF /* ChatViewModel.swift */; };
@@ -95,7 +102,7 @@
 		5283CB712517CA71005DEDA8 /* ClientProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5283CB702517CA71005DEDA8 /* ClientProfileViewModel.swift */; };
 		5283CB732517CBED005DEDA8 /* ClientProfileModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5283CB722517CBED005DEDA8 /* ClientProfileModuleFactory.swift */; };
 		5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5283CB742517CC43005DEDA8 /* ClientProfileRouter.swift */; };
-		52901BE82501002400271CAC /* ClientIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52901BE72501002400271CAC /* ClientIssue.swift */; };
+		52901BE82501002400271CAC /* IssueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52901BE72501002400271CAC /* IssueType.swift */; };
 		52A271B02508E45A0050FB60 /* Saira-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */; };
 		52A271B22508E4970050FB60 /* Saira-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */; };
 		52A271B52508ED230050FB60 /* ClientAppealsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A271B42508ED230050FB60 /* ClientAppealsListViewController.swift */; };
@@ -113,7 +120,6 @@
 		52AF28E62506145D00287A8F /* LawyerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28E52506145D00287A8F /* LawyerCell.swift */; };
 		52AF28E82506168B00287A8F /* LawyerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28E72506168B00287A8F /* LawyerCellViewModel.swift */; };
 		52AF28EB2506195800287A8F /* LawyersListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28EA2506195800287A8F /* LawyersListDataSource.swift */; };
-		52B066322538B35C005ACF8C /* UserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B066312538B35C005ACF8C /* UserType.swift */; };
 		52B2685825110DFB00111864 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B2685725110DFB00111864 /* ChatCell.swift */; };
 		52B2685A25110E1400111864 /* ChatCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B2685925110E1400111864 /* ChatCellViewModel.swift */; };
 		52B2685C25110E3300111864 /* ChatDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B2685B25110E3300111864 /* ChatDataSource.swift */; };
@@ -157,8 +163,6 @@
 		52F0F5752536DF5500FE2B14 /* ThreeDotsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */; };
 		52F749332565A846009CD041 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F749322565A846009CD041 /* KeyChainService.swift */; };
 		52F7493925665F93009CD041 /* UserRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F7493825665F93009CD041 /* UserRole.swift */; };
-		52FD08CC257120CB002A3719 /* UserProfileObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FD08CA257120CB002A3719 /* UserProfileObject+CoreDataClass.swift */; };
-		52FD08CD257120CB002A3719 /* UserProfileObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FD08CB257120CB002A3719 /* UserProfileObject+CoreDataProperties.swift */; };
 		52FFF4A5250B85D100957356 /* ClientAppealsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */; };
 		52FFF4A7250B873800957356 /* ClientAppealsListModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF4A6250B873800957356 /* ClientAppealsListModuleFactory.swift */; };
 /* End PBXBuildFile section */
@@ -264,6 +268,13 @@
 		525BFA73250A0723005393B1 /* Date+TimeStamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeStamp.swift"; sourceTree = "<group>"; };
 		525BFA75250A080D005393B1 /* ClientAppealObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClientAppealObject+CoreDataClass.swift"; sourceTree = "<group>"; };
 		525BFA76250A080D005393B1 /* ClientAppealObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClientAppealObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		52614F83257F6B5A0087962B /* LawyersNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersNetworkService.swift; sourceTree = "<group>"; };
+		52614F87257F6EFB0087962B /* LawyersNetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersNetworkRouter.swift; sourceTree = "<group>"; };
+		52614F94257FED6B0087962B /* UserProfileObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataClass.swift"; sourceTree = "<group>"; };
+		52614F95257FED6B0087962B /* UserProfileObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		526AC48225738D260041B571 /* UITextField+Autofill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Autofill.swift"; sourceTree = "<group>"; };
+		526DDD0625724C7600CF68F7 /* RegistrationNetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationNetworkRouter.swift; sourceTree = "<group>"; };
+		526DDD0825724DEB00CF68F7 /* RegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationService.swift; sourceTree = "<group>"; };
 		5273744D2563C01500912769 /* SocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketService.swift; sourceTree = "<group>"; };
 		52740F74250F40B3001D86FF /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		52740F76250F40D1001D86FF /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
@@ -275,7 +286,7 @@
 		5283CB702517CA71005DEDA8 /* ClientProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileViewModel.swift; sourceTree = "<group>"; };
 		5283CB722517CBED005DEDA8 /* ClientProfileModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileModuleFactory.swift; sourceTree = "<group>"; };
 		5283CB742517CC43005DEDA8 /* ClientProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileRouter.swift; sourceTree = "<group>"; };
-		52901BE72501002400271CAC /* ClientIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientIssue.swift; sourceTree = "<group>"; };
+		52901BE72501002400271CAC /* IssueType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueType.swift; sourceTree = "<group>"; };
 		52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Medium.ttf"; sourceTree = "<group>"; };
 		52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-SemiBold.ttf"; sourceTree = "<group>"; };
 		52A271B42508ED230050FB60 /* ClientAppealsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListViewController.swift; sourceTree = "<group>"; };
@@ -291,7 +302,6 @@
 		52AF28E52506145D00287A8F /* LawyerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerCell.swift; sourceTree = "<group>"; };
 		52AF28E72506168B00287A8F /* LawyerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerCellViewModel.swift; sourceTree = "<group>"; };
 		52AF28EA2506195800287A8F /* LawyersListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListDataSource.swift; sourceTree = "<group>"; };
-		52B066312538B35C005ACF8C /* UserType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserType.swift; sourceTree = "<group>"; };
 		52B2685725110DFB00111864 /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		52B2685925110E1400111864 /* ChatCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCellViewModel.swift; sourceTree = "<group>"; };
 		52B2685B25110E3300111864 /* ChatDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDataSource.swift; sourceTree = "<group>"; };
@@ -332,8 +342,6 @@
 		52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDotsButtonView.swift; sourceTree = "<group>"; };
 		52F749322565A846009CD041 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
 		52F7493825665F93009CD041 /* UserRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRole.swift; sourceTree = "<group>"; };
-		52FD08CA257120CB002A3719 /* UserProfileObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataClass.swift"; sourceTree = "<group>"; };
-		52FD08CB257120CB002A3719 /* UserProfileObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListRouter.swift; sourceTree = "<group>"; };
 		52FFF4A6250B873800957356 /* ClientAppealsListModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListModuleFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -573,6 +581,8 @@
 			isa = PBXGroup;
 			children = (
 				523C8CD8256271C2006DECAB /* AuthService.swift */,
+				526DDD0825724DEB00CF68F7 /* RegistrationService.swift */,
+				52614F83257F6B5A0087962B /* LawyersNetworkService.swift */,
 				523C8CDA256271D4006DECAB /* NetworkRouters */,
 				523C8CD125626FDE006DECAB /* Config */,
 				523C8CE425628922006DECAB /* Responses */,
@@ -593,8 +603,10 @@
 		523C8CDA256271D4006DECAB /* NetworkRouters */ = {
 			isa = PBXGroup;
 			children = (
-				523C8CDB25627227006DECAB /* AuthNetworkRouter.swift */,
 				523C8CDD2562728A006DECAB /* RequestRouter.swift */,
+				523C8CDB25627227006DECAB /* AuthNetworkRouter.swift */,
+				526DDD0625724C7600CF68F7 /* RegistrationNetworkRouter.swift */,
+				52614F87257F6EFB0087962B /* LawyersNetworkRouter.swift */,
 			);
 			path = NetworkRouters;
 			sourceTree = "<group>";
@@ -626,8 +638,6 @@
 		52483B8824A2774E0003A56A = {
 			isa = PBXGroup;
 			children = (
-				52FD08CA257120CB002A3719 /* UserProfileObject+CoreDataClass.swift */,
-				52FD08CB257120CB002A3719 /* UserProfileObject+CoreDataProperties.swift */,
 				521E64C124F8F7EA00FF96ED /* Default-568h@2x.png */,
 				52483B9324A2774E0003A56A /* Guard */,
 				52483B9224A2774E0003A56A /* Products */,
@@ -830,6 +840,7 @@
 		5251AFC024A28FA400467E84 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				526AC48125738D080041B571 /* UITextField */,
 				525BFA72250A0712005393B1 /* Date */,
 				521E64CD24FBCEEF00FF96ED /* UIScreen */,
 				5222B68424C755E6000BEE13 /* UITableViewCell */,
@@ -865,13 +876,12 @@
 			isa = PBXGroup;
 			children = (
 				52BD63ED2532F1D300FF393D /* UserReview.swift */,
-				52901BE72501002400271CAC /* ClientIssue.swift */,
 				52A271C12508FA4E0050FB60 /* ClientAppeal.swift */,
 				52B2685D25110F3F00111864 /* ChatMessage.swift */,
 				52B268692511137600111864 /* ChatConversation.swift */,
-				52B066312538B35C005ACF8C /* UserType.swift */,
 				523C8CE7256289E8006DECAB /* UserProfile.swift */,
 				52F7493825665F93009CD041 /* UserRole.swift */,
+				52901BE72501002400271CAC /* IssueType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -891,6 +901,14 @@
 				525BFA73250A0723005393B1 /* Date+TimeStamp.swift */,
 			);
 			path = Date;
+			sourceTree = "<group>";
+		};
+		526AC48125738D080041B571 /* UITextField */ = {
+			isa = PBXGroup;
+			children = (
+				526AC48225738D260041B571 /* UITextField+Autofill.swift */,
+			);
+			path = UITextField;
 			sourceTree = "<group>";
 		};
 		5273744C2563C00000912769 /* SocketService */ = {
@@ -974,6 +992,8 @@
 		52A00F74256590670099D961 /* UserProfileObject */ = {
 			isa = PBXGroup;
 			children = (
+				52614F94257FED6B0087962B /* UserProfileObject+CoreDataClass.swift */,
+				52614F95257FED6B0087962B /* UserProfileObject+CoreDataProperties.swift */,
 			);
 			path = UserProfileObject;
 			sourceTree = "<group>";
@@ -1256,8 +1276,10 @@
 				521681C7251E5A58007B4F6A /* SettingsDataSource.swift in Sources */,
 				52EB81C524B9E820003285BC /* AuthViewModel.swift in Sources */,
 				52B2685E25110F3F00111864 /* ChatMessage.swift in Sources */,
+				52614F84257F6B5A0087962B /* LawyersNetworkService.swift in Sources */,
 				523C8CD52562705B006DECAB /* EnvironmentImp.swift in Sources */,
 				523AEAF9251E4F8E00F1E607 /* SwitcherCellViewModel.swift in Sources */,
+				52614F88257F6EFB0087962B /* LawyersNetworkRouter.swift in Sources */,
 				52FFF4A7250B873800957356 /* ClientAppealsListModuleFactory.swift in Sources */,
 				523C8CE1256276E8006DECAB /* NetworkError.swift in Sources */,
 				52524E6124FED0E30078AA62 /* SkipButtonView.swift in Sources */,
@@ -1269,7 +1291,6 @@
 				523C8CDC25627227006DECAB /* AuthNetworkRouter.swift in Sources */,
 				52212F8524FFDD41003FA67E /* ForgotPasswordViewModel.swift in Sources */,
 				52A4258625221DC900E2FE7B /* SettingHeaderCellViewModel.swift in Sources */,
-				52FD08CC257120CB002A3719 /* UserProfileObject+CoreDataClass.swift in Sources */,
 				5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */,
 				523E62DC2519E00500757FE3 /* String+Size.swift in Sources */,
 				52B654B4251B303F003D2465 /* SettingsViewController.swift in Sources */,
@@ -1278,18 +1299,19 @@
 				52740F77250F40D1001D86FF /* ChatViewModel.swift in Sources */,
 				522272C42504BF6C0029A4E2 /* FilterButtonView.swift in Sources */,
 				52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */,
+				52614F97257FED6B0087962B /* UserProfileObject+CoreDataProperties.swift in Sources */,
 				525BFA6B250A0279005393B1 /* ClientAppealDataSource.swift in Sources */,
 				5251AFB024A2829200467E84 /* Colors.swift in Sources */,
 				52FFF4A5250B85D100957356 /* ClientAppealsListRouter.swift in Sources */,
 				5235F289250CB7A400639FC4 /* AppealCreatingViewModel.swift in Sources */,
 				52B2685C25110E3300111864 /* ChatDataSource.swift in Sources */,
 				5222B68C24C75AB3000BEE13 /* SelectIssueTableViewCell.swift in Sources */,
+				526AC48325738D260041B571 /* UITextField+Autofill.swift in Sources */,
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
 				5283CB712517CA71005DEDA8 /* ClientProfileViewModel.swift in Sources */,
 				523EEEAB251284230007ED2F /* AppealButtonView.swift in Sources */,
 				52B268732511181200111864 /* ConversationsListDataSource.swift in Sources */,
 				52F7493925665F93009CD041 /* UserRole.swift in Sources */,
-				52B066322538B35C005ACF8C /* UserType.swift in Sources */,
 				5222B68E24C75DC2000BEE13 /* SelectIssueCellViewModel.swift in Sources */,
 				5283CB732517CBED005DEDA8 /* ClientProfileModuleFactory.swift in Sources */,
 				52F0F5752536DF5500FE2B14 /* ThreeDotsButtonView.swift in Sources */,
@@ -1307,13 +1329,16 @@
 				52B268682511131600111864 /* ConversationCellViewModel.swift in Sources */,
 				52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */,
 				52A271C02508F9AC0050FB60 /* ClientAppealCellViewModel.swift in Sources */,
+				52614F96257FED6B0087962B /* UserProfileObject+CoreDataClass.swift in Sources */,
 				5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */,
+				526DDD0925724DEB00CF68F7 /* RegistrationService.swift in Sources */,
 				5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */,
 				52E62F26253238F8007FB1BE /* EditTextField.swift in Sources */,
 				523C8CE625628946006DECAB /* AuthResponse.swift in Sources */,
 				52F0F5732536DA5900FE2B14 /* AppealViewModel.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
+				526DDD0725724C7600CF68F7 /* RegistrationNetworkRouter.swift in Sources */,
 				52B278CA24C0964F001E7295 /* LocationService.swift in Sources */,
 				521E64CF24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift in Sources */,
 				5283CB6F2517CA5D005DEDA8 /* ClientProfileViewController.swift in Sources */,
@@ -1362,14 +1387,13 @@
 				5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */,
 				52B2685825110DFB00111864 /* ChatCell.swift in Sources */,
 				52EB81C724B9E882003285BC /* ViewControllerProtocol.swift in Sources */,
-				52FD08CD257120CB002A3719 /* UserProfileObject+CoreDataProperties.swift in Sources */,
 				52C5F4C424C9D90D00FB2DA8 /* ProfileViewController.swift in Sources */,
 				5251AFB224A2837D00467E84 /* AuthCoordinator.swift in Sources */,
 				52BD63EE2532F1D300FF393D /* UserReview.swift in Sources */,
 				5251AFC224A28FBC00467E84 /* String+Localizable.swift in Sources */,
 				52AF28E82506168B00287A8F /* LawyerCellViewModel.swift in Sources */,
 				5242238A2533244A00CBFE81 /* AlertService.swift in Sources */,
-				52901BE82501002400271CAC /* ClientIssue.swift in Sources */,
+				52901BE82501002400271CAC /* IssueType.swift in Sources */,
 				5273744E2563C01500912769 /* SocketService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

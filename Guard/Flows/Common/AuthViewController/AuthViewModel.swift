@@ -207,10 +207,28 @@ final class AuthViewModel: ViewModel,
 				}
 			})
 			.disposed(by: disposeBag)
-		
+
 		authenticateTapped()
-		
-		di.socketService.connectSockets()
+
+//		di.socketService.connectSockets()
+//		DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+//			do {
+//				let params: [String: Any] = [
+//					"chatId": 1,
+//					"senderId": 25,
+//					"recipientId": 3 ,
+//					"senderName": "Danila",
+//					"recipientName": "cool_lawyer",
+//					"content": "hi_test"
+//				]
+//				let requestData = try JSONSerialization.data(withJSONObject: params,
+//															 options: JSONSerialization.WritingOptions())
+//				let message = String(data: requestData, encoding: String.Encoding.utf8) ?? ""
+//				self.di.socketService.sendMessage(message)
+//			} catch {
+//				print("Invalid message data")
+//			}
+//		})
 	}
 
 	// MARK: - Login flow
@@ -269,10 +287,13 @@ final class AuthViewModel: ViewModel,
 					if success {
 						guard
 							let email = self?.di.keyChainService.getValue(for: Constants.KeyChainKeys.email),
-							let password = self?.di.keyChainService.getValue(for: Constants.KeyChainKeys.email) else { return }
+							let password = self?.di.keyChainService.getValue(for: Constants.KeyChainKeys.password) else { return }
 						self?.view.loginTextField.text = email
 						self?.view.passwordTextField.text = password
-						self?.loginUser()
+						if self?.authSubject == nil {
+							self?.loginUser()
+						}
+						self?.authSubject?.onNext(())
 					} else {
 						// error
 					}

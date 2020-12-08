@@ -19,6 +19,8 @@ struct Dependencies:
 	HasLocalStorageService,
 	HasAlertService,
 	HasAuthService,
+	HasRegistrationService,
+	HasLawyersNetworkService,
 	HasSocketService,
 	HasKeyChainService {
 	
@@ -26,6 +28,8 @@ struct Dependencies:
 	var localStorageService: LocalStorageServiceInterface
 	var alertService: AlertServiceInterface
 	var authService: AuthServiceInterface
+	var registrationService: RegistrationServiceInterface
+	var lawyersNetworkService: LawyersNetworkServiceInterface
 	var socketService: SocketServiceInterface
 	var keyChainService: KeyChainServiceInterface
 }
@@ -42,7 +46,9 @@ class AppDIContainer {
 							 localStorageService: LocalStorageService(),
 							 alertService: AlertService(),
 							 authService: AuthService(),
-							 socketService: SocketService(),
+							 registrationService: RegistrationService(),
+							 lawyersNetworkService: LawyersNetworkService(),
+							 socketService: SocketService(environment: EnvironmentImp()),
 							 keyChainService: KeyChainService())
 		return d
 	}

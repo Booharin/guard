@@ -10,4 +10,5 @@ import Foundation
 
 protocol Environment {
 	var baseUrl: URL { get }
+	var socketUrl: URL { get }
 }

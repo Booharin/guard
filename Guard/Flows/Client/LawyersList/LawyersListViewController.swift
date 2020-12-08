@@ -13,6 +13,7 @@ protocol LawyersListViewControllerProtocol {
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
+	var loadingView: UIActivityIndicatorView { get }
 	func showActionSheet(with cities: [String])
 }
 
@@ -27,6 +28,7 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 	var titleView = UIView()
 	var titleLabel = UILabel()
 	var tableView = UITableView()
+	var loadingView = UIActivityIndicatorView(style: .medium)
 	private var gradientView: UIView?
 
 	private var lawyers: [UserProfile]?
@@ -105,6 +107,12 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 		view.addSubview(tableView)
 		tableView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
+		}
+		// loading view
+		view.addSubview(loadingView)
+		loadingView.hidesWhenStopped = true
+		loadingView.snp.makeConstraints {
+			$0.center.equalToSuperview()
 		}
 	}
 	

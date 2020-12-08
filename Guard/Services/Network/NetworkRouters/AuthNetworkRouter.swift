@@ -16,7 +16,8 @@ struct AuthNetworkRouter {
 		self.environment = environment
 	}
 
-	func signIn(email: String, password: String) -> URLRequestConvertible {
+	func signIn(email: String,
+				password: String) -> URLRequestConvertible {
 		do {
 			return try SignIn(environment: environment,
 							  email: email,
@@ -41,7 +42,9 @@ extension AuthNetworkRouter {
 		let email: String
 		let password: String
 		
-		init(environment: Environment, email: String, password: String) {
+		init(environment: Environment,
+			 email: String,
+			 password: String) {
 			self.environment = environment
 			self.email = email
 			self.password = password
@@ -58,16 +61,6 @@ extension AuthNetworkRouter {
 				"userEmail" : email,
 				"userPassword" : password
 			]
-		}
-		
-		func asJSONURLRequest() throws -> URLRequest {
-			var urlRequest = URLRequest(url: fullUrl)
-			urlRequest.httpMethod = method.rawValue
-			urlRequest.allHTTPHeaderFields = [
-				"Content-Type" : "application/json"
-			]
-			
-			return try JSONEncoding.default.encode(urlRequest, with: parameters)
 		}
 	}
 }

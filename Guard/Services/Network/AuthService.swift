@@ -19,17 +19,17 @@ protocol AuthServiceInterface {
 }
 
 final class AuthService: AuthServiceInterface, HasDependencies {
-	
+
 	private let router: AuthNetworkRouter
 	typealias Dependencies =
 		HasKeyChainService &
 		HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
-	
+
 	init() {
 		router = AuthNetworkRouter(environment: EnvironmentImp())
 	}
-	
+
 	func signIn(email: String, password: String) -> Observable<Result<UserRole, AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(self.router.signIn(email: email, password: password))
@@ -51,15 +51,12 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 								observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
 									return
 							}
-							#if DEBUG
-							print(token)
-							#endif
-
 							self.di.keyChainService.save(token, for: Constants.KeyChainKeys.token)
 							self.di.keyChainService.save(email, for: Constants.KeyChainKeys.email)
 							self.di.keyChainService.save(password, for: Constants.KeyChainKeys.password)
 							self.di.keyChainService.save(user.phoneNumber ?? "", for: Constants.KeyChainKeys.phoneNumber)
 							self.di.localStorageService.saveProfile(user)
+							UserDefaults.standard.set(true, forKey: Constants.UserDefaultsKeys.isLogin)
 
 							observer.onNext(.success(user.userRole))
 							observer.onCompleted()

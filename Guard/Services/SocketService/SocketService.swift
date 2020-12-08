@@ -25,9 +25,13 @@ final class SocketService: SocketServiceInterface {
 	var socket: WebSocket?
 	var isConnecting = false
 	var isConnected = false
+	private let environment: Environment
+	init(environment: Environment) {
+		self.environment = environment
+	}
 	
 	func connectSockets() {
-		var request = URLRequest(url: URL(string: "wss://guardapi.co.uk/greeting")!)
+		var request = URLRequest(url: environment.socketUrl)
 		request.timeoutInterval = 5
 		socket = WebSocket(request: request)
 		socket?.delegate = self

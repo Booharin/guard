@@ -5,6 +5,7 @@
 //  Created by Alexandr Bukharin on 16.11.2020.
 //  Copyright © 2020 ds. All rights reserved.
 //
+import Foundation
 
 struct UserProfile: Codable {
 	var id: Int
@@ -13,13 +14,14 @@ struct UserProfile: Codable {
 	var email: String?
 	var phoneNumber: String?
 	var photo: String?
-	var cityCode: [Int]
-	var countryCode: [Int]
+	var cityCode: [Int]?
+	var countryCode: [Int]?
 	var dateCreated: String
 	var averageRate: Double?
 	var role: String
 	var reviewList: [UserReview]?
-	var issueTypes: [String]?
+	var issueTypes: [IssueType]?
+	var issueCodes: [Int]?
 	var fullName: String {
 		return "\(firstName ?? "") \(lastName ?? "")"
 	}
@@ -38,6 +40,6 @@ struct UserProfile: Codable {
 		self.dateCreated = userProfileObject.dateCreated ?? ""
 		self.averageRate = userProfileObject.averageRate
 		self.role = userProfileObject.role ?? ""
-		self.issueTypes = userProfileObject.issueTypes
+		self.issueCodes = userProfileObject.issueTypes
 	}
 }

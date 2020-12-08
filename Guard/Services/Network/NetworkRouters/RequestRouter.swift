@@ -22,6 +22,16 @@ public extension RequestRouter {
 		return baseUrl.appendingPathComponent(path)
 	}
 
+	func asJSONURLRequest() throws -> URLRequest {
+		var urlRequest = URLRequest(url: fullUrl)
+		urlRequest.httpMethod = method.rawValue
+		urlRequest.allHTTPHeaderFields = [
+			"Content-Type" : "application/json"
+		]
+
+		return try JSONEncoding.default.encode(urlRequest, with: parameters)
+	}
+
 	func asURLRequest() throws -> URLRequest {
 		var urlRequest = URLRequest(url: fullUrl)
 		urlRequest.httpMethod = method.rawValue
@@ -30,5 +40,11 @@ public extension RequestRouter {
 		]
 
 		return try URLEncoding.httpBody.encode(urlRequest, with: parameters)
+	}
+
+	func asURLDefaultRequest() throws -> URLRequest {
+		var urlRequest = URLRequest(url: fullUrl)
+		urlRequest.httpMethod = method.rawValue
+		return try URLEncoding.default.encode(urlRequest, with: parameters)
 	}
 }

@@ -21,8 +21,8 @@ final class LocationSerice: NSObject, LocationServiceInterface, CLLocationManage
 	private var locationManager: CLLocationManager
 	override init() {
 		self.locationManager = CLLocationManager()
-		super.init()
-		self.configureLocationManager()
+//		super.init()
+//		self.configureLocationManager()
 	}
 	
 	private func configureLocationManager() {

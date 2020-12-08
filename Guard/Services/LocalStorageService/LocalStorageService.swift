@@ -33,6 +33,11 @@ final class LocalStorageService: LocalStorageServiceInterface {
 	private let coreDataManager = CoreDataManager(withDataModelName: "GuardDataModel", bundle: .main)
 
 	func saveProfile(_ profile: UserProfile) {
+		// remove all profiles before saving
+		let profiles = coreDataManager.fetchObjects(entity: UserProfileObject.self,
+													context: coreDataManager.mainContext)
+		coreDataManager.delete(profiles)
+
 		let _ = UserProfileObject(userProfile: profile,
 								  context: coreDataManager.mainContext)
 		coreDataManager.saveContext(synchronously: true)

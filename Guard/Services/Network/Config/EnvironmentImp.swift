@@ -11,7 +11,9 @@ import Foundation
 struct EnvironmentImp: Environment {
 	#if DEBUG
 		let baseUrl = URL(string: "https://guardapi.co.uk/api/v1/")!
+		let socketUrl = URL(string: "wss://guardapi.co.uk/name")!
 	#else
 		let baseUrl = URL(string: "https://guardapi.co.uk/api/v1/")!
+		let socketUrl = URL(string: "wss://guardapi.co.uk/name")!
 	#endif
 }

@@ -179,7 +179,8 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		scrollView.addSubview(loadingView)
 		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
-			$0.center.equalTo(scrollView.snp.center)
+			$0.centerX.equalTo(scrollView.snp.centerX)
+			$0.top.equalTo(scrollView.snp.top).offset(100)
 		}
 	}
 }
