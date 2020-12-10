@@ -8,16 +8,24 @@
 
 import Foundation
 
-struct ClientAppeal: Decodable {
-    let issueType: String
+struct ClientAppeal: Codable {
+	let id: Int
     let title: String
     let appealDescription: String
-    let dateCreate: Double
-    
+	let clientId: Int
+	let issueCode: Int
+    let dateCreated: String
+	let cityTitle: String
+	let lawyerChoosed: Bool?
+
     init(clientAppealObject: ClientAppealObject) {
-        self.issueType = clientAppealObject.issueType ?? ""
+		self.id = Int(clientAppealObject.id)
         self.title = clientAppealObject.title ?? ""
         self.appealDescription = clientAppealObject.appealDescription ?? ""
-        self.dateCreate = clientAppealObject.dateCreate
+        self.dateCreated = clientAppealObject.dateCreated ?? ""
+		self.clientId = Int(clientAppealObject.clientId)
+		self.issueCode = Int(clientAppealObject.issueCode)
+		self.cityTitle = clientAppealObject.cityTitle ?? ""
+		self.lawyerChoosed = clientAppealObject.lawyerChoosed
     }
 }

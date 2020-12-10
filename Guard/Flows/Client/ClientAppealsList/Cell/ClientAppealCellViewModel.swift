@@ -51,11 +51,11 @@ struct ClientAppealCellViewModel: ViewModel {
 		
 		view.dateLabel.font = SFUIDisplay.light.of(size: 10)
 		view.dateLabel.textColor = Colors.mainTextColor
-		view.dateLabel.text = Date.getString(with: clientAppeal.dateCreate, format: "dd.MM.yyyy")
+		view.dateLabel.text = Date.getCorrectDate(from: clientAppeal.dateCreated, format: "dd.MM.yyyy")
 		
 		view.timeLabel.font = SFUIDisplay.light.of(size: 10)
 		view.timeLabel.textColor = Colors.mainTextColor
-		view.timeLabel.text = Date.getString(with: clientAppeal.dateCreate, format: "HH:mm")
+		view.timeLabel.text = Date.getCorrectDate(from: clientAppeal.dateCreated, format: "HH:mm")
 	}
 	
 	func removeBindings() {}

@@ -17,4 +17,12 @@ extension Date {
         dateFormatter.dateFormat = format
         return dateFormatter.string(from: date)
     }
+	
+	static func getCorrectDate(from dateString: String, format: String) -> String? {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+		guard let date = dateFormatter.date(from: dateString) else { return nil }
+		dateFormatter.dateFormat = format
+		return dateFormatter.string(from: date)
+	}
 }

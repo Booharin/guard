@@ -15,21 +15,8 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	var view: LawyersListViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
-	var lawyersListSubject: PublishSubject<Any>?
-
-	private let userProfileDict: [String : Any] = [
-		"email": "some@bk.ru",
-		"firstName": "Alex",
-		"lastName": "Vardanyan",
-		"country": "Russia",
-		"city": "Moscow",
-		"rate": 4.4,
-		"id": 0,
-		"phone": "03",
-		"photo": "www.apple.com",
-		"issueTypes": [],
-		"dateCreated": Int(Date().timeIntervalSince1970)
-	]
+	private var lawyersListSubject: PublishSubject<Any>?
+	private var router: LawyerListRouterProtocol
 
 	private let cities = [
 		"cities.moscow".localized
@@ -43,14 +30,21 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		HasLawyersNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
-	let toLawyerSubject: PublishSubject<UserProfile>
-	var dataSourceSubject: BehaviorSubject<[SectionModel<String, UserProfile>]>?
+	private var toLawyerSubject: PublishSubject<UserProfile>?
+	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, UserProfile>]>?
 
-	init(toLawyerSubject: PublishSubject<UserProfile>) {
-		self.toLawyerSubject = toLawyerSubject
+	init(router: LawyerListRouterProtocol) {
+		self.router = router
 	}
 
 	func viewDidSet() {
+		toLawyerSubject = PublishSubject<UserProfile>()
+		toLawyerSubject?
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { profile in
+				self.router.passToLawyer(with: profile)
+			})
+			.disposed(by: disposeBag)
 		// table view data source
 		let section = SectionModel<String, UserProfile>(model: "",
 														items: lawyers)
@@ -128,7 +122,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		lawyersListSubject?.onNext(())
 	}
 
-	func update(with lawyers: [UserProfile]) {
+	private func update(with lawyers: [UserProfile]) {
 		self.lawyers = lawyers
 		let section = SectionModel<String, UserProfile>(model: "",
 														items: lawyers)

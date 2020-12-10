@@ -16,15 +16,12 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 	private var disposeBag = DisposeBag()
 	private var appeals = [ClientAppeal]()
 	private var router: ClientAppealsListRouterProtocol
+	var appealsListSubject: PublishSubject<Any>?
+	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ClientAppeal>]>?
 	
-	private let appealDict: [String : Any] = [
-		"issueType": "drugs",
-		"title": "Приняли с весом",
-		"appealDescription": "Шёл, шёл, тут - `Стоять!, уголовный розыск`",
-		"dateCreate": 1599719845.0
-	]
-	
-	typealias Dependencies = HasLocalStorageService
+	typealias Dependencies =
+		HasLocalStorageService &
+		HasAppealsNetworkService
 	lazy var di: Dependencies = DI.dependencies
 	
 	init(router: ClientAppealsListRouterProtocol) {
@@ -32,18 +29,16 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 	}
 	
 	func viewDidSet() {
-		getAppealsFromServer()
-		
 		// table view data source
 		let section = SectionModel<String, ClientAppeal>(model: "",
 														 items: appeals)
-		let items = BehaviorSubject<[SectionModel]>(value: [section])
-		items
+		dataSourceSubject = BehaviorSubject<[SectionModel]>(value: [section])
+		dataSourceSubject?
 			.bind(to: view.tableView
 					.rx
 					.items(dataSource: ClientAppealDataSource.dataSource(toAppealDescriptionSubject: router.toAppealDescriptionSubject)))
 			.disposed(by: disposeBag)
-		
+
 		// add button
 		view.addButtonView
 			.rx
@@ -79,38 +74,39 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 		view.greetingDescriptionLabel.textColor = Colors.mainTextColor
 		view.greetingDescriptionLabel.textAlignment = .center
 		view.greetingDescriptionLabel.text = "appeals.greeting.description".localized
+
+		appealsListSubject = PublishSubject<Any>()
+		appealsListSubject?
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.appealsNetworkService.getClientAppeals(by: di.localStorageService.getCurrenClientProfile()?.id ?? 0)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stopAnimating()
+				switch result {
+					case .success(let appeals):
+						self?.update(with: appeals)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		view.loadingView.startAnimating()
+		appealsListSubject?.onNext(())
 	}
 
-	private func getAppealsFromServer() {
-		let appealsArray = [
-			appealDict,
-			appealDict,
-			appealDict,
-			appealDict,
-			appealDict,
-			appealDict,
-			appealDict,
-			appealDict,
-			appealDict,
-			appealDict,
-			appealDict,
-			appealDict,
-			appealDict,
-			appealDict,
-			appealDict
-		]
-		do {
-			let jsonData = try JSONSerialization.data(withJSONObject: appealsArray,
-													  options: .prettyPrinted)
-			let appealsResponse = try JSONDecoder().decode([ClientAppeal].self, from: jsonData)
-			self.appeals = appealsResponse
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-				self.view.updateTableView()
-			})
-		} catch {
-			#if DEBUG
-			print(error)
-			#endif
+	private func update(with appeals: [ClientAppeal]) {
+		self.appeals = appeals
+		let section = SectionModel<String, ClientAppeal>(model: "",
+														items: appeals)
+		dataSourceSubject?.onNext([section])
+
+		if self.view.tableView.contentSize.height + 100 < self.view.tableView.frame.height {
+			self.view.tableView.isScrollEnabled = false
+		} else {
+			self.view.tableView.isScrollEnabled = true
 		}
 	}
 	

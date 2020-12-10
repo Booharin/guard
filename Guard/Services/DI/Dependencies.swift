@@ -21,6 +21,7 @@ struct Dependencies:
 	HasAuthService,
 	HasRegistrationService,
 	HasLawyersNetworkService,
+	HasAppealsNetworkService,
 	HasSocketService,
 	HasKeyChainService {
 	
@@ -30,6 +31,7 @@ struct Dependencies:
 	var authService: AuthServiceInterface
 	var registrationService: RegistrationServiceInterface
 	var lawyersNetworkService: LawyersNetworkServiceInterface
+	var appealsNetworkService: AppealsNetworkServiceInterface
 	var socketService: SocketServiceInterface
 	var keyChainService: KeyChainServiceInterface
 }
@@ -48,6 +50,7 @@ class AppDIContainer {
 							 authService: AuthService(),
 							 registrationService: RegistrationService(),
 							 lawyersNetworkService: LawyersNetworkService(),
+							 appealsNetworkService: AppealsNetworkService(),
 							 socketService: SocketService(environment: EnvironmentImp()),
 							 keyChainService: KeyChainService())
 		return d

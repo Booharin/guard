@@ -70,8 +70,8 @@ extension RegistrationNetworkRouter {
 		var path = ApiMethods.register
 		var parameters: Parameters {
 			return [
-				"email" : email,
-				"password" : password,
+				"email": email,
+				"password": password,
 				"city": city,
 				"role": userRole.rawValue,
 				"issueCode": []

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol LawyersListViewControllerProtocol {
+protocol LawyersListViewControllerProtocol: class, ViewControllerProtocol {
 	var filterButtonView: FilterButtonView { get }
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
@@ -21,7 +21,6 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 	UIViewController,
 	UITableViewDelegate,
 	LawyersListViewControllerProtocol {
-
 	var filterButtonView = FilterButtonView()
 	var viewModel: modelType
 
@@ -29,6 +28,9 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 	var titleLabel = UILabel()
 	var tableView = UITableView()
 	var loadingView = UIActivityIndicatorView(style: .medium)
+	var navController: UINavigationController? {
+		self.navigationController
+	}
 	private var gradientView: UIView?
 
 	private var lawyers: [UserProfile]?

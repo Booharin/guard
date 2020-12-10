@@ -2,8 +2,12 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="19H15" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ClientAppealObject" representedClassName="ClientAppealObject" syncable="YES">
         <attribute name="appealDescription" attributeType="String"/>
-        <attribute name="dateCreate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="issueType" attributeType="String"/>
+        <attribute name="cityTitle" optional="YES" attributeType="String"/>
+        <attribute name="clientId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="dateCreated" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="issueCode" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lawyerChoosed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String"/>
     </entity>
     <entity name="UserProfileObject" representedClassName="UserProfileObject" syncable="YES">
@@ -19,7 +23,7 @@
         <attribute name="role" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="ClientAppealObject" positionX="-63" positionY="27" width="128" height="103"/>
+        <element name="ClientAppealObject" positionX="-63" positionY="27" width="128" height="163"/>
         <element name="UserProfileObject" positionX="-45" positionY="162" width="128" height="193"/>
     </elements>
 </model>

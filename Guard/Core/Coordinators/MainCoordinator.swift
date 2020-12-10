@@ -64,14 +64,6 @@ final class MainCoordinator: BaseCoordinator {
 	}
 	
 	private func setClientControllers() {
-		// to lawyer issue
-		let toLawyerSubject = PublishSubject<UserProfile>()
-		toLawyerSubject
-			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { _ in
-				//
-			})
-			.disposed(by: disposeBag)
 		// to auth
 		let toAuthSubject = PublishSubject<Any>()
 		toAuthSubject
@@ -84,11 +76,7 @@ final class MainCoordinator: BaseCoordinator {
 		
 		tabBarController.viewControllers = [
 			// lawyers list
-			NavigationController(rootViewController:
-									LawyersListViewController(viewModel:
-																LawyersListViewModel(toLawyerSubject: toLawyerSubject)
-									)
-			),
+			LawyersListModuleFactory.createModule(),
 			// client appeals list
 			ClientAppealsListModuleFactory.createModule(),
 			// conversations list

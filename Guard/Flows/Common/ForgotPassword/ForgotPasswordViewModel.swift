@@ -12,7 +12,13 @@ import UIKit
 
 protocol ForgotPasswordViewModelProtocol {}
 
-final class ForgotPasswordViewModel: ViewModel, ForgotPasswordViewModelProtocol {
+final class ForgotPasswordViewModel: ViewModel,
+									 ForgotPasswordViewModelProtocol,
+									 HasDependencies {
+	
+	typealias Dependencies = HasAuthService
+	lazy var di: Dependencies = DI.dependencies
+
 	var view: ForgotPasswordViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
@@ -58,9 +64,12 @@ final class ForgotPasswordViewModel: ViewModel, ForgotPasswordViewModelProtocol 
 			.tap
 			.do(onNext: { [unowned self] _ in
 				self.view.sendButton.animateBackground()
+				self.view.loadingView.startAnimating()
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.sendPassword()
+				if sendPasswordSubject == nil {
+					self.sendPassword()
+				}
 				self.sendPasswordSubject?.onNext(())
 			}).disposed(by: disposeBag)
 		
@@ -148,34 +157,35 @@ final class ForgotPasswordViewModel: ViewModel, ForgotPasswordViewModelProtocol 
 	// MARK: - Login flow
 	private func sendPassword() {
 		sendPasswordSubject = PublishSubject<Any>()
-		
 		sendPasswordSubject?
 			.asObservable()
 			.withLatestFrom(view.loginTextField.rx.text.asObservable())
 			.map {
 				$0?.withoutExtraSpaces ?? ""
-		}
-		.filter { [unowned self] in
-			
-			if $0.isValidEmail {
-				return true
-			} else {
-				self.turnWarnings(with: "forgot.password.alert.title".localized)
-				return false
 			}
-		}
-		.observeOn(MainScheduler.instance)
-		.subscribe(onNext: { [weak self] _ in
-			self?.view.loadingView.stopAnimating()
-			self?.view.navController?.popViewController(animated: true)
-			},onError:  { [weak self] error in
-				
-				#if DEBUG
-				print(error.localizedDescription)
-				#endif
-				
+			.filter { [unowned self] in
+				if $0.isValidEmail {
+					return true
+				} else {
+					self.turnWarnings(with: "forgot.password.alert.title".localized)
+					return false
+				}
+			}
+			.flatMap { [unowned self] email in
+				self.di.authService.forgotPassword(email: email)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stopAnimating()
-		}).disposed(by: disposeBag)
+				self?.view.navController?.popViewController(animated: true)
+				switch result {
+				case .success:
+					self?.view.navController?.popViewController(animated: true)
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
 	}
 
 	private func keyboardHeight() -> Observable<CGFloat> {

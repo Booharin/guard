@@ -13,12 +13,12 @@ import UIKit
 struct LawyerCellViewModel: ViewModel {
 	var view: LawyerCellProtocol!
 	private var disposeBag = DisposeBag()
-	let toLawyerSubject: PublishSubject<UserProfile>
+	var toLawyerSubject: PublishSubject<UserProfile>?
 	let tapSubject = PublishSubject<Any>()
 	let animateDuration = 0.15
 	let lawyer: UserProfile
 
-	init(toLawyerSubject: PublishSubject<UserProfile>,
+	init(toLawyerSubject: PublishSubject<UserProfile>?,
 		 lawyer: UserProfile) {
 		self.toLawyerSubject = toLawyerSubject
 		self.lawyer = lawyer
@@ -37,7 +37,7 @@ struct LawyerCellViewModel: ViewModel {
 						self.view.containerView.backgroundColor = .clear
 					})
 				})
-				self.toLawyerSubject.onNext(self.lawyer)
+				self.toLawyerSubject?.onNext(self.lawyer)
 			}).disposed(by: disposeBag)
 
 		view.avatarImageView.image = #imageLiteral(resourceName: "lawyer_mock_icn")

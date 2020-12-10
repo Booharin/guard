@@ -42,9 +42,15 @@ public extension RequestRouter {
 		return try URLEncoding.httpBody.encode(urlRequest, with: parameters)
 	}
 
-	func asURLDefaultRequest() throws -> URLRequest {
+	//MARK: - Token
+	func asURLDefaultRequest(with token: String? = nil) throws -> URLRequest {
 		var urlRequest = URLRequest(url: fullUrl)
 		urlRequest.httpMethod = method.rawValue
+		if let token = token {
+			urlRequest.allHTTPHeaderFields = [
+				"Authorization" : "Bearer_\(token)"
+			]
+		}
 		return try URLEncoding.default.encode(urlRequest, with: parameters)
 	}
 }

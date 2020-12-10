@@ -31,7 +31,8 @@ final class AppealViewModel: ViewModel {
         view.issueTypeLabel.backgroundColor = Colors.warningColor
         view.issueTypeLabel.layer.cornerRadius = 12
         view.issueTypeLabel.clipsToBounds = true
-        view.issueTypeLabel.text = appeal.issueType
+		//TODO: - get appeal text
+        view.issueTypeLabel.text = "Семейное право"//appeal.issueCode
         view.issueTypeLabel.textAlignment = .center
         
         view.issueDescriptionLabel.font = SFUIDisplay.regular.of(size: 16)

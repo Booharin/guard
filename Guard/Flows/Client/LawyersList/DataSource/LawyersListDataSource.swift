@@ -12,7 +12,7 @@ import RxSwift
 struct LawyersListDataSource {
 	typealias DataSource = RxTableViewSectionedReloadDataSource
 	
-	static func dataSource(toLawyerSubject: PublishSubject<UserProfile>) -> DataSource<SectionModel<String, UserProfile>> {
+	static func dataSource(toLawyerSubject: PublishSubject<UserProfile>?) -> DataSource<SectionModel<String, UserProfile>> {
 		return .init(configureCell: { dataSource, tableView, indexPath, lawyer -> UITableViewCell in
 			
 			let cell = LawyerCell()

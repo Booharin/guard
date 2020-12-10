@@ -16,13 +16,23 @@ struct LawyersNetworkRouter {
 		self.environment = environment
 	}
 
-	func getAllLawyers(from city: String) -> URLRequestConvertible {
+	func getAllLawyers(from city: String, token: String?) -> URLRequestConvertible {
 		do {
 			return try AllLawyers(environment: environment,
-								  city: city).asURLDefaultRequest()
+								  city: city).asURLDefaultRequest(with: token)
 		} catch {
 			return AllLawyers(environment: environment,
 							  city: city)
+		}
+	}
+
+	func getLawyer(by id: Int, token: String?) -> URLRequestConvertible {
+		do {
+			return try GetLawyer(environment: environment,
+								 id: id).asURLDefaultRequest(with: token)
+		} catch {
+			return GetLawyer(environment: environment,
+							 id: id)
 		}
 	}
 }
@@ -32,7 +42,6 @@ extension LawyersNetworkRouter {
 	private struct AllLawyers: RequestRouter {
 
 		let environment: Environment
-
 		let city: String
 
 		init(environment: Environment,
@@ -49,7 +58,31 @@ extension LawyersNetworkRouter {
 		var path = ApiMethods.getAllLawyers
 		var parameters: Parameters {
 			return [
-				"cityTitle" : city
+				"cityTitle": city
+			]
+		}
+	}
+
+	private struct GetLawyer: RequestRouter {
+
+		let environment: Environment
+		let id: Int
+
+		init(environment: Environment,
+			 id: Int) {
+			self.environment = environment
+			self.id = id
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .get
+		var path = ApiMethods.getLawyer
+		var parameters: Parameters {
+			return [
+				"id": id
 			]
 		}
 	}

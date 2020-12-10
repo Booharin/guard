@@ -15,7 +15,7 @@ protocol ClientAppealsListViewControllerProtocol {
 	var tableView: UITableView { get }
 	var greetingLabel: UILabel { get }
 	var greetingDescriptionLabel: UILabel { get }
-	func updateTableView()
+	var loadingView: UIActivityIndicatorView { get }
 }
 
 final class ClientAppealsListViewController<modelType: ViewModel>: UIViewController, UITableViewDelegate,
@@ -26,6 +26,7 @@ final class ClientAppealsListViewController<modelType: ViewModel>: UIViewControl
 	var tableView = UITableView(frame: .zero, style: .grouped)
 	var greetingLabel = UILabel()
 	var greetingDescriptionLabel = UILabel()
+	var loadingView = UIActivityIndicatorView(style: .medium)
 	private var gradientView: UIView?
 	
 	var viewModel: modelType
@@ -75,6 +76,12 @@ final class ClientAppealsListViewController<modelType: ViewModel>: UIViewControl
 		view.addSubview(tableView)
 		tableView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
+		}
+		// loading view
+		view.addSubview(loadingView)
+		loadingView.hidesWhenStopped = true
+		loadingView.snp.makeConstraints {
+			$0.center.equalToSuperview()
 		}
 	}
 	
@@ -148,17 +155,5 @@ final class ClientAppealsListViewController<modelType: ViewModel>: UIViewControl
 			$0.top.equalTo(greetingLabel.snp.bottom).offset(-2)
 		}
 		return headerView
-	}
-	
-	func updateTableView() {
-		DispatchQueue.main.async {
-			self.tableView.reloadData()
-		}
-		
-		if tableView.contentSize.height <= tableView.frame.height {
-			tableView.isScrollEnabled = false
-		} else {
-			tableView.isScrollEnabled = true
-		}
 	}
 }
