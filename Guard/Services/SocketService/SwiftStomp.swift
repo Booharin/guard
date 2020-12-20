@@ -8,7 +8,6 @@
 
 import Foundation
 import Starscream
-import Reachability
 
 fileprivate let NULL_CHAR = String(format: "%C", arguments: [0x00])
 
@@ -97,7 +96,6 @@ public class SwiftStomp{
     fileprivate var status : StompConnectionStatus = .socketDisconnected
     fileprivate var reconnectScheduler : Timer?
     fileprivate var reconnectTryCount = 0
-    fileprivate var reachability : Reachability!
     fileprivate var hostIsReachabile = true
     
     public var delegate : SwiftStompDelegate?
@@ -109,39 +107,23 @@ public class SwiftStomp{
         return self.status
     }
     public var callbacksThread : DispatchQueue?
-    public var autoReconnect = false
+    public var autoReconnect = true
     
     public init (host : URL, headers : [String : String]? = nil){
         self.host = host
         self.connectionHeaders = headers
-        
-        
-        /// Configure reachability
-        self.initReachability()
-    }
-    
-    private func initReachability(){
-        
-        reachability = try! Reachability(queueQoS: .utility, targetQueue: DispatchQueue(label: "swiftStomp.reachability"), notificationQueue: .global())
-        reachability.whenReachable = { _ in
-            self.stompLog(type: .info, message: "Network IS reachable")
-            self.hostIsReachabile = true
-        }
-        reachability.whenUnreachable = { _ in
-            self.stompLog(type: .info, message: "Network IS NOT reachable")
-            self.hostIsReachabile = false
-        }
     }
 }
 
 /// Public Operating functions
-public extension SwiftStomp{
-    func connect(timeout : TimeInterval = 5, acceptVersion : String = "1.1,1.2", autoReconnect : Bool = false){
-        
-        self.autoReconnect = autoReconnect
+public extension SwiftStomp {
+    func connect(timeout : TimeInterval = 5,
+				 acceptVersion : String = "1.1,1.2",
+				 autoReconnect: Bool = true){
 
+        self.autoReconnect = autoReconnect
         //** If socket is connected now, just needs to connect to the Stomp
-        if self.status == .socketConnected{
+        if self.status == .socketConnected {
             self.stompConnect()
             return
         }
@@ -168,10 +150,7 @@ public extension SwiftStomp{
         self.socket.connect()
     }
     
-    func disconnect(force : Bool = false){
-        
-        self.invalidateConnector()
-        
+    func disconnect(force : Bool = false) {
         if !force{ //< Send disconnect first over STOMP
             self.stompDisconnect()
         } else { //< Disconnect socket directly! (Not recommended until you have to do it!)
@@ -306,32 +285,6 @@ fileprivate extension SwiftStomp{
         
         return headersToSend
     }
-    
-    func scheduleConnector(){
-        if let scheduler = self.reconnectScheduler, scheduler.isValid{
-            scheduler.invalidate()
-        }
-
-        try? self.reachability.startNotifier()
-
-        self.reconnectScheduler = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { (timer) in
-            if !self.hostIsReachabile{
-                self.stompLog(type: .info, message: "Network is not reachable. Ignore connecting!")
-                return
-            }
-
-            self.connect(autoReconnect: self.autoReconnect)
-        })
-    }
-    
-    func invalidateConnector(){
-        if let connector = self.reconnectScheduler, connector.isValid{
-            connector.invalidate()
-        }
-
-        self.reachability.stopNotifier()
-    }
-    
 }
 
 /// Back-Operating functions
@@ -342,16 +295,14 @@ fileprivate extension SwiftStomp{
         var headers = StompHeaderBuilder
             .add(key: .acceptVersion, value: self.acceptVersion)
             .get
-        
+
         //** Append connection headers
         if let connectionHeaders = self.connectionHeaders{
             for (hKey, hVal) in connectionHeaders{
                 headers[hKey] = hVal
             }
         }
-        
-            
-        
+
         self.sendFrame(frame: StompFrame(name: .connect, headers: headers))
     }
     
@@ -452,14 +403,12 @@ fileprivate extension SwiftStomp{
 }
 
 /// Web socket delegate
-extension SwiftStomp : WebSocketDelegate{
+extension SwiftStomp : WebSocketDelegate {
     
     public func didReceive(event: WebSocketEvent, client: WebSocket) {
         switch event {
         case .connected(let headers):
             self.status = .socketConnected
-            
-            self.invalidateConnector()
             
             stompLog(type: .info, message: "Scoket: connected: \(headers)")
             
@@ -471,7 +420,9 @@ extension SwiftStomp : WebSocketDelegate{
             stompLog(type: .info, message: "Socket: Disconnected: \(reason) with code: \(code)")
             
             self.delegate?.onDisconnect(swiftStomp: self, disconnectType: .fromSocket)
-            
+			DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+				self.connect()
+			})
         case .text(let string):
             stompLog(type: .info, message: "Socket: Received text")
             
@@ -493,7 +444,7 @@ extension SwiftStomp : WebSocketDelegate{
             
             self.delegate?.onSocketEvent(eventName: "reconnectSuggested", description: "Socket Reconnect suggested")
 
-            if suggested{
+            if suggested {
                 self.connect()
             }
         case .cancelled:
@@ -504,7 +455,9 @@ extension SwiftStomp : WebSocketDelegate{
             self.delegate?.onSocketEvent(eventName: "cancelled", description: "Socket cancelled")
 
             if self.autoReconnect{
-                self.scheduleConnector()
+				DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+					self.connect()
+				})
             }
         case .error(let error):
             self.status = .socketDisconnected
@@ -512,16 +465,18 @@ extension SwiftStomp : WebSocketDelegate{
             stompLog(type: .socketError, message: "Socket: Error: \(error.debugDescription)")
             self.delegate?.onError(swiftStomp: self, briefDescription: "Socket Error", fullDescription: error?.localizedDescription, receiptId: nil, type: .fromSocket)
             
-            if self.autoReconnect{
-                self.scheduleConnector()
-            }
+			if self.autoReconnect{
+				DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+					self.connect()
+				})
+			}
         }
     }
     
 }
 
 // MARK: - SwiftStomp delegate
-public protocol SwiftStompDelegate{
+public protocol SwiftStompDelegate {
     
     func onConnect(swiftStomp : SwiftStomp, connectType : StompConnectType)
     
@@ -537,7 +492,7 @@ public protocol SwiftStompDelegate{
 }
 
 // MARK: - Stomp Frame Class
-fileprivate class StompFrame<T : RawRepresentable> where T.RawValue == String{
+fileprivate class StompFrame<T : RawRepresentable> where T.RawValue == String {
     var name : T!
     var headers = [String : String]()
     var body : Any?

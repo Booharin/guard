@@ -14,20 +14,20 @@ import CoreData
 extension UserProfileObject {
 
 	convenience init(userProfile: UserProfile, context: NSManagedObjectContext) {
-			let entity = NSEntityDescription.entity(forEntityName: "UserProfileObject", in: context)!
-			self.init(entity: entity, insertInto: context)
-
-			self.firstName = userProfile.firstName
-			self.id = Int64(userProfile.id)
-			self.lastName = userProfile.lastName
-			self.photo = userProfile.photo
-			self.cityCode = userProfile.cityCode
-			self.countryCode = userProfile.countryCode
-			self.dateCreated = userProfile.dateCreated
-			self.averageRate = userProfile.averageRate ?? 0
-			self.role = userProfile.role
-			self.issueTypes = userProfile.issueCodes
-		}
+		let entity = NSEntityDescription.entity(forEntityName: "UserProfileObject", in: context)!
+		self.init(entity: entity, insertInto: context)
+		
+		self.firstName = userProfile.firstName
+		self.id = Int64(userProfile.id)
+		self.lastName = userProfile.lastName
+		self.photo = userProfile.photo
+		self.cityCode = userProfile.cityCode
+		self.countryCode = userProfile.countryCode
+		self.dateCreated = userProfile.dateCreated
+		self.averageRate = userProfile.averageRate ?? 0
+		self.role = userProfile.role
+		self.issueTypes = userProfile.issueCodes
+	}
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<UserProfileObject> {
         return NSFetchRequest<UserProfileObject>(entityName: "UserProfileObject")

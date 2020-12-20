@@ -18,9 +18,9 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	private var lawyersListSubject: PublishSubject<Any>?
 	private var router: LawyerListRouterProtocol
 
-	private let cities = [
-		"cities.moscow".localized
-	]
+	private var cities: [String] {
+		return di.localStorageService.getRussianCities().map { $0.title }
+	}
 
 	var lawyers = [UserProfile]()
 

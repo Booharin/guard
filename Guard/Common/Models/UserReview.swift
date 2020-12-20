@@ -9,6 +9,8 @@
 struct UserReview: Codable {
 	let reviewDescription: String?
 	let rating: Double
-	let dateCreated: Int
-	let profileId: Int
+	let dateCreated: String?
+	let receiverId: Int
+	let reviewId: Int
+	let senderId: Int
 }

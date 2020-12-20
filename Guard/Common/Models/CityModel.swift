@@ -11,4 +11,11 @@ struct CityModel: Codable {
 	var title: String
 	var titleEn: String
 	var countryCode: Int
+
+	init(cityObject: CityObject) {
+		self.title = cityObject.title ?? ""
+		self.titleEn = cityObject.titleEn ?? ""
+		self.cityCode = Int(cityObject.cityCode)
+		self.countryCode = Int(cityObject.countryCode)
+	}
 }

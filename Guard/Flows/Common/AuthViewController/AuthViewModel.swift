@@ -214,11 +214,11 @@ final class AuthViewModel: ViewModel,
 //		socketService.connectSockets()
 
 		DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-			self.di.socketStompService.subscribe(to: "1")
-			self.di.socketStompService.sendMessage(with: "Greeting",
-												   to: "1",
-												   receiptId: "27",
-												   headers: ["content-type": "application/json"])
+//			self.di.socketStompService.subscribe(to: "1")
+//			self.di.socketStompService.sendMessage(with: "Greeting",
+//												   to: "1",
+//												   receiptId: "27",
+//												   headers: ["content-type": "application/json"])
 //			do {
 //				let params: [String: Any] = [
 //					"chatId": 1,

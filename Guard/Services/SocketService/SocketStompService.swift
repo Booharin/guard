@@ -42,9 +42,9 @@ final class SocketStompService: SocketStompServiceInterface, HasDependencies {
 		socketStomp = SwiftStomp(host: environment.socketUrl)
 		socketStomp.enableLogging = true
 		socketStomp.delegate = self
-		socketStomp.autoReconnect = true
 
 		socketStomp.connect()
+		checkForInternetConnection()
 	}
 
 	func sendMessage(with text: String,
@@ -76,6 +76,21 @@ final class SocketStompService: SocketStompServiceInterface, HasDependencies {
 	func unsubscribe(from topic: String) {
 		socketStomp.unsubscribe(from: topic)
 	}
+
+	private func checkForInternetConnection() {
+		Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [weak self] (timer) in
+			if NetworkConnectivity.isConnectedToInternet {
+//				#if DEBUG
+//				print("Internet connected")
+//				#endif
+			} else {
+//				#if DEBUG
+//				print("Internet not connected")
+//				#endif
+				self?.socketStomp.connect(autoReconnect: true)
+			}
+		})
+	}
 }
 
 extension SocketStompService: SwiftStompDelegate {
@@ -86,10 +101,7 @@ extension SocketStompService: SwiftStompDelegate {
 			print("Connected to stomp")
 			//** Subscribe to topics or queues just after connect to the stomp!
 			guard let profile = di.localStorageService.getCurrenClientProfile() else { return }
-			//swiftStomp.subscribe(to: "/topic/\(profile.id)")
-			// TODO: - подписаться на id пользователя
-//			swiftStomp.subscribe(to: "/topic/greeting")
-//			swiftStomp.subscribe(to: "/topic/greeting2")
+			swiftStomp.subscribe(to: "/topic/\(profile.id)")
 		}
 	}
 
@@ -99,9 +111,6 @@ extension SocketStompService: SwiftStompDelegate {
 			print("Socket disconnected. Disconnect completed")
 		} else if disconnectType == .fromStomp {
 			print("Client disconnected from stomp but socket is still connected!")
-//			DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-//				self.socketStomp.connect()
-//			})
 		}
 	}
 

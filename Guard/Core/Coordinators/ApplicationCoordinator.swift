@@ -11,12 +11,13 @@ import RxSwift
 
 final class ApplicationCoordinator: BaseCoordinator, HasDependencies {
 	typealias Dependencies =
-		HasCommonDataNetworkService
+		HasCommonDataNetworkService &
+		HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
 	private var disposeBag = DisposeBag()
 
 	override func start() {
-		//getCommonData()
+		getCommonData()
 
 		if UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.isLogin) {
 			self.toAuth()
@@ -49,7 +50,8 @@ final class ApplicationCoordinator: BaseCoordinator, HasDependencies {
 			.subscribe(onNext: { result in
 				switch result {
 					case .success(let countries):
-						print(countries)
+						let russiaCountry = countries.filter { $0.countryCode == 7 }
+						self.di.localStorageService.saveCities(russiaCountry.first?.cities ?? [])
 					case .failure(let error):
 						//TODO: - обработать ошибку
 						print(error.localizedDescription)

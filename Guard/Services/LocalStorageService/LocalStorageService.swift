@@ -11,6 +11,7 @@ import Foundation
 protocol HasLocalStorageService {
 	var localStorageService: LocalStorageServiceInterface { get set }
 }
+
 /// Core data model handle service interface
 protocol LocalStorageServiceInterface {
 	
@@ -27,6 +28,13 @@ protocol LocalStorageServiceInterface {
 
 	//TODO: - Temporary solution
 	func getCurrenClientProfile() -> UserProfile?
+	/// Method for saving cities to storage
+	///  - Parameters:
+	///   - cities: cities array
+	func saveCities(_ cities: [CityModel])
+	/// Method for geting russian cities from storage
+	/// - Returns: cities array
+	func getRussianCities() -> [CityModel]
 }
 /// Core data model handle service
 final class LocalStorageService: LocalStorageServiceInterface {
@@ -56,5 +64,25 @@ final class LocalStorageService: LocalStorageServiceInterface {
 													context: coreDataManager.mainContext)
 		guard let profileObject = profiles.first else { return nil }
 		return UserProfile(userProfileObject: profileObject)
+	}
+
+	func saveCities(_ cities: [CityModel]) {
+		let cityObjects = coreDataManager.fetchObjects(entity: CityObject.self,
+													   context: coreDataManager.mainContext)
+		coreDataManager.delete(cityObjects)
+
+		let _ = cities.map {
+			CityObject(cityModel: $0,
+					   context: coreDataManager.mainContext)
+		}
+		coreDataManager.saveContext(synchronously: true)
+	}
+
+	func getRussianCities() -> [CityModel] {
+		let cityObjects = coreDataManager.fetchObjects(entity: CityObject.self,
+													   context: coreDataManager.mainContext)
+		return cityObjects
+			.filter { $0.countryCode == 7 }
+			.map { CityModel(cityObject: $0) }
 	}
 }
