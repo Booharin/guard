@@ -23,6 +23,16 @@ struct CommonDataNetworkRouter {
 			return CountriesAndCities(environment: environment)
 		}
 	}
+
+	func getIssueTypes(for locale: String) -> URLRequestConvertible {
+		do {
+			return try IssueTypes(environment: environment,
+								  locale: locale).asURLDefaultRequest()
+		} catch {
+			return IssueTypes(environment: environment,
+							  locale: locale)
+		}
+	}
 }
 
 extension CommonDataNetworkRouter {
@@ -43,6 +53,30 @@ extension CommonDataNetworkRouter {
 		var path = ApiMethods.countriesAndCities
 		var parameters: Parameters {
 			return [:]
+		}
+	}
+
+	private struct IssueTypes: RequestRouter {
+
+		let environment: Environment
+		let locale: String
+
+		init(environment: Environment,
+			 locale: String) {
+			self.environment = environment
+			self.locale = locale
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .get
+		var path = ApiMethods.issueTypes
+		var parameters: Parameters {
+			return [
+				"locale": locale
+			]
 		}
 	}
 }

@@ -20,4 +20,5 @@ enum ApiMethods {
 	static let clientAppeals = "appeal/client"
 	// common
 	static let countriesAndCities = "common/allcountries"
+	static let issueTypes = "common/issues"
 }

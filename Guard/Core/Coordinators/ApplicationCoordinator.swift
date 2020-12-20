@@ -49,12 +49,24 @@ final class ApplicationCoordinator: BaseCoordinator, HasDependencies {
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { result in
 				switch result {
-					case .success(let countries):
-						let russiaCountry = countries.filter { $0.countryCode == 7 }
-						self.di.localStorageService.saveCities(russiaCountry.first?.cities ?? [])
-					case .failure(let error):
-						//TODO: - обработать ошибку
-						print(error.localizedDescription)
+				case .success(let countries):
+					let russiaCountry = countries.filter { $0.countryCode == 7 }
+					self.di.localStorageService.saveCities(russiaCountry.first?.cities ?? [])
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+		
+		di.commonDataNetworkService.getIssueTypes(for: "ru_ru")
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { result in
+				switch result {
+				case .success(let issueTypes):
+					print(issueTypes)
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
 	}

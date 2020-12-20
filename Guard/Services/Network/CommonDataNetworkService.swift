@@ -16,7 +16,7 @@ protocol HasCommonDataNetworkService {
 
 protocol CommonDataNetworkServiceInterface {
 	func getCountriesAndCities() -> Observable<Result<[CountryModel], AFError>>
-	func getIssueTypes()
+	func getIssueTypes(for locale: String) -> Observable<Result<[IssueType], AFError>>
 }
 
 final class CommonDataNetworkService: CommonDataNetworkServiceInterface {
@@ -64,7 +64,38 @@ final class CommonDataNetworkService: CommonDataNetworkServiceInterface {
 		}
 	}
 
-	func getIssueTypes() {
-		
+	func getIssueTypes(for locale: String) -> Observable<Result<[IssueType], AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.getIssueTypes(for: locale)
+			)
+			.responseJSON { response in
+				#if DEBUG
+				print(response)
+				#endif
+				switch response.result {
+				case .success:
+					guard let data = response.data else {
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+						return
+					}
+					do {
+						let issueTypes = try JSONDecoder().decode([IssueType].self, from: data)
+						observer.onNext(.success(issueTypes))
+						observer.onCompleted()
+					} catch {
+						#if DEBUG
+						print(error)
+						#endif
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+					}
+				case .failure:
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
 	}
 }
