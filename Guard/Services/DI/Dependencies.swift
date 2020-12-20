@@ -22,8 +22,10 @@ struct Dependencies:
 	HasRegistrationService,
 	HasLawyersNetworkService,
 	HasAppealsNetworkService,
-	HasSocketService,
-	HasKeyChainService {
+	HasCommonDataNetworkService,
+	HasSocketStompService,
+	HasKeyChainService,
+	HasNotificationService {
 	
 	var locationService: LocationServiceInterface
 	var localStorageService: LocalStorageServiceInterface
@@ -32,8 +34,10 @@ struct Dependencies:
 	var registrationService: RegistrationServiceInterface
 	var lawyersNetworkService: LawyersNetworkServiceInterface
 	var appealsNetworkService: AppealsNetworkServiceInterface
-	var socketService: SocketServiceInterface
+	var commonDataNetworkService: CommonDataNetworkServiceInterface
+	var socketStompService: SocketStompServiceInterface
 	var keyChainService: KeyChainServiceInterface
+	var notificationService: NotificationServiceInterface
 }
 
 enum DI {
@@ -51,8 +55,10 @@ class AppDIContainer {
 							 registrationService: RegistrationService(),
 							 lawyersNetworkService: LawyersNetworkService(),
 							 appealsNetworkService: AppealsNetworkService(),
-							 socketService: SocketService(environment: EnvironmentImp()),
-							 keyChainService: KeyChainService())
+							 commonDataNetworkService: CommonDataNetworkService(),
+							 socketStompService: SocketStompService(environment: EnvironmentImp()),
+							 keyChainService: KeyChainService(),
+							 notificationService: NotificationService())
 		return d
 	}
 }

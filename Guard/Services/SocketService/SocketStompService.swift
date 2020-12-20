@@ -1,0 +1,144 @@
+//
+//  SocketStompService.swift
+//  Guard
+//
+//  Created by Alexandr Bukharin on 20.12.2020.
+//  Copyright © 2020 ds. All rights reserved.
+//
+
+import Foundation
+
+protocol HasSocketStompService {
+	var socketStompService: SocketStompServiceInterface { get set }
+}
+
+protocol SocketStompServiceInterface {
+	func sendMessage(with text: String,
+					 to: String,
+					 receiptId: String?,
+					 headers: [String: String]?)
+
+	func sendData(with body: Data,
+				  to: String,
+				  receiptId: String?,
+				  headers: [String: String]?)
+
+	func subscribe(to topic: String)
+
+	func unsubscribe(from topic: String)
+}
+
+final class SocketStompService: SocketStompServiceInterface, HasDependencies {
+	private var socketStomp: SwiftStomp
+	private let environment: Environment
+	typealias Dependencies =
+		HasNotificationService &
+		HasLocalStorageService
+	lazy var di: Dependencies = DI.dependencies
+
+	init(environment: Environment) {
+		self.environment = environment
+
+		socketStomp = SwiftStomp(host: environment.socketUrl)
+		socketStomp.enableLogging = true
+		socketStomp.delegate = self
+		socketStomp.autoReconnect = true
+
+		socketStomp.connect()
+	}
+
+	func sendMessage(with text: String,
+					 to: String,
+					 receiptId: String?,
+					 headers: [String: String]?) {
+
+		socketStomp.send(body: text,
+						 to: to,
+						 receiptId: receiptId,
+						 headers: headers)
+	}
+
+	func sendData(with body: Data,
+				  to: String,
+				  receiptId: String?,
+				  headers: [String: String]?) {
+
+		socketStomp.send(body: body,
+						 to: to,
+						 receiptId: receiptId,
+						 headers: headers)
+	}
+
+	func subscribe(to topic: String) {
+		socketStomp.subscribe(to: topic)
+	}
+
+	func unsubscribe(from topic: String) {
+		socketStomp.unsubscribe(from: topic)
+	}
+}
+
+extension SocketStompService: SwiftStompDelegate {
+	func onConnect(swiftStomp: SwiftStomp, connectType: StompConnectType) {
+		if connectType == .toSocketEndpoint{
+			print("Connected to socket")
+		} else if connectType == .toStomp {
+			print("Connected to stomp")
+			//** Subscribe to topics or queues just after connect to the stomp!
+			guard let profile = di.localStorageService.getCurrenClientProfile() else { return }
+			//swiftStomp.subscribe(to: "/topic/\(profile.id)")
+			// TODO: - подписаться на id пользователя
+//			swiftStomp.subscribe(to: "/topic/greeting")
+//			swiftStomp.subscribe(to: "/topic/greeting2")
+		}
+	}
+
+	func onDisconnect(swiftStomp: SwiftStomp,
+					  disconnectType: StompDisconnectType) {
+		if disconnectType == .fromSocket {
+			print("Socket disconnected. Disconnect completed")
+		} else if disconnectType == .fromStomp {
+			print("Client disconnected from stomp but socket is still connected!")
+//			DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+//				self.socketStomp.connect()
+//			})
+		}
+	}
+
+	func onMessageReceived(swiftStomp: SwiftStomp,
+						   message: Any?,
+						   messageId: String,
+						   destination: String,
+						   headers: [String : String]) {
+		if let message = message as? String {
+			print("Message with id `\(messageId)` received at destination `\(destination)`:\n\(message)")
+			di.notificationService.showLocalNotification(with: messageId,
+														 message: message)
+		} else if let message = message as? Data {
+			print("Data message with id `\(messageId)` and binary length `\(message.count)` received at destination `\(destination)`")
+		}
+	}
+
+	func onReceipt(swiftStomp: SwiftStomp,
+				   receiptId: String) {
+		print("Receipt with id `\(receiptId)` received")
+	}
+
+	func onError(swiftStomp: SwiftStomp,
+				 briefDescription: String,
+				 fullDescription: String?,
+				 receiptId: String?,
+				 type: StompErrorType) {
+		if type == .fromSocket {
+			print("Socket error occurred! [\(briefDescription)]")
+		} else if type == .fromStomp {
+			print("Stomp error occurred! [\(briefDescription)] : \(String(describing: fullDescription))")
+		} else {
+			print("Unknown error occured!")
+		}
+	}
+
+	func onSocketEvent(eventName: String, description: String) {
+		print("Socket event occured: \(eventName) => \(description)")
+	}
+}

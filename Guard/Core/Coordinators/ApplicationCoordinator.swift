@@ -7,17 +7,24 @@
 //
 
 import Foundation
+import RxSwift
 
-final class ApplicationCoordinator: BaseCoordinator {
-	
+final class ApplicationCoordinator: BaseCoordinator, HasDependencies {
+	typealias Dependencies =
+		HasCommonDataNetworkService
+	lazy var di: Dependencies = DI.dependencies
+	private var disposeBag = DisposeBag()
+
 	override func start() {
+		//getCommonData()
+
 		if UserDefaults.standard.bool(forKey: Constants.UserDefaultsKeys.isLogin) {
 			self.toAuth()
 		} else {
 			self.toChoose()
 		}
 	}
-	
+
 	private func toChoose() {
 		let coordinator = ChooseCoordinator()
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
@@ -26,7 +33,7 @@ final class ApplicationCoordinator: BaseCoordinator {
 		addDependency(coordinator)
 		coordinator.start()
 	}
-	
+
 	private func toAuth() {
 		let coordinator = AuthCoordinator()
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
@@ -34,5 +41,19 @@ final class ApplicationCoordinator: BaseCoordinator {
 		}
 		addDependency(coordinator)
 		coordinator.start()
+	}
+
+	private func getCommonData() {
+		di.commonDataNetworkService.getCountriesAndCities()
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { result in
+				switch result {
+					case .success(let countries):
+						print(countries)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
 	}
 }

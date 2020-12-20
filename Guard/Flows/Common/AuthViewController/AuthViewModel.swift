@@ -22,7 +22,7 @@ final class AuthViewModel: ViewModel,
 		HasLocalStorageService &
 		HasAuthService &
 		HasKeyChainService &
-		HasSocketService
+		HasSocketStompService
 	lazy var di: Dependencies = DI.dependencies
 
 	var view: AuthViewControllerProtocol!
@@ -209,9 +209,16 @@ final class AuthViewModel: ViewModel,
 			.disposed(by: disposeBag)
 
 		authenticateTapped()
+		
+//		let socketService = SocketService(environment: EnvironmentImp())
+//		socketService.connectSockets()
 
-//		di.socketService.connectSockets()
-//		DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+			self.di.socketStompService.subscribe(to: "1")
+			self.di.socketStompService.sendMessage(with: "Greeting",
+												   to: "1",
+												   receiptId: "27",
+												   headers: ["content-type": "application/json"])
 //			do {
 //				let params: [String: Any] = [
 //					"chatId": 1,
@@ -228,7 +235,7 @@ final class AuthViewModel: ViewModel,
 //			} catch {
 //				print("Invalid message data")
 //			}
-//		})
+		})
 	}
 
 	// MARK: - Login flow
