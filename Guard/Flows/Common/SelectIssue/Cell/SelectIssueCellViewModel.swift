@@ -33,14 +33,14 @@ struct SelectIssueCellViewModel: ViewModel {
 			.tapGesture()
 			.when(.recognized)
 			.subscribe(onNext: { _ in
-				if issueType.subtypes == nil {
+				if issueType.subIssueTypeList == nil {
 					if let toMain = self.toMainSubject {
 						toMain.onNext(self.issueType)
 					} else {
 						self.toCreateAppealSubject?.onNext(self.issueType)
 					}
 				} else {
-					toSubtyesSubject?.onNext(issueType.subtypes ?? [])
+					toSubtyesSubject?.onNext(issueType.subIssueTypeList ?? [])
 				}
 			}).disposed(by: disposeBag)
 

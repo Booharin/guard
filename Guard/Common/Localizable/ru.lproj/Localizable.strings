@@ -56,6 +56,9 @@
 "client.issue.header.subcategory.title" = "Выбирете подкатегорию";
 "client.issue.header.subcategory.subtitle" = "или оставьте общий раздел";
 
+"lawyer.issue.header.title" = "Привет!";
+"lawyer.issue.header.subtitle" = "Ваша сфера?";
+
 "client.issue.drugs" = "Наркотики";
 "client.issue.divorce" = "Развод";
 "client.issue.real_estate" = "Недвижимость";

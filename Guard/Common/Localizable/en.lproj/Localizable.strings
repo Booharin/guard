@@ -56,6 +56,9 @@
 "client.issue.header.subcategory.title" = "Select a subcategory";
 "client.issue.header.subcategory.subtitle" = "or leave the general section";
 
+"lawyer.issue.header.title" = "Hi, there!";
+"lawyer.issue.header.subtitle" = "Your field?";
+
 "client.issue.drugs" = "Drugs";
 "client.issue.divorce" = "Divorce";
 "client.issue.real_estate" = "Real Estate";

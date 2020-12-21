@@ -23,7 +23,7 @@ final class ClientAppealsListRouter: BaseRouter, ClientAppealsListRouterProtocol
 		super.init()
 		createTransitions()
 	}
-	
+
 	private func createTransitions() {
 		// to appeal description
 		toAppealDescriptionSubject
@@ -32,7 +32,7 @@ final class ClientAppealsListRouter: BaseRouter, ClientAppealsListRouterProtocol
                 self.toAppealDescription(appeal)
 			})
 			.disposed(by: disposeBag)
-		
+
 		// to select issue & than appeal creating
 		toSelectIssueSubject
 			.observeOn(MainScheduler.instance)
@@ -41,13 +41,13 @@ final class ClientAppealsListRouter: BaseRouter, ClientAppealsListRouterProtocol
 			})
 			.disposed(by: disposeBag)
 	}
-    
+
     private func toAppealDescription(_ appeal: ClientAppeal) {
         let toAppealCreatingController = AppealViewController(viewModel: AppealViewModel(appeal: appeal)
         )
         self.navigationController?.pushViewController(toAppealCreatingController, animated: true)
     }
-	
+
 	private func toSelectIssue() {
 		let toCreateAppealSubject = PublishSubject<IssueType>()
 		toCreateAppealSubject
@@ -63,7 +63,7 @@ final class ClientAppealsListRouter: BaseRouter, ClientAppealsListRouterProtocol
 		
 		self.navigationController?.pushViewController(selectIssueController, animated: true)
 	}
-	
+
 	private func toAppealCreating(_ issueType: IssueType) {
 		let toAppealCreatingController = AppealCreatingViewController(viewModel:
 																		AppealCreatingViewModel(issueType: issueType)

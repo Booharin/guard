@@ -57,13 +57,15 @@ final class ApplicationCoordinator: BaseCoordinator, HasDependencies {
 					print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
-		
+
 		di.commonDataNetworkService.getIssueTypes(for: "ru_ru")
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { result in
 				switch result {
 				case .success(let issueTypes):
+					#if DEBUG
 					print(issueTypes)
+					#endif
 				case .failure(let error):
 					//TODO: - обработать ошибку
 					print(error.localizedDescription)

@@ -19,5 +19,5 @@ struct IssueType: Codable {
 	var subtitleEn: String?
 	let issueCode: Int
 	var locale: String?
-	let subtypes: [IssueType]?
+	let subIssueTypeList: [IssueType]?
 }

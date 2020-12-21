@@ -81,9 +81,10 @@ final class RegistrationCoordinator: BaseCoordinator {
 				self.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)
-		
-		let controller = SelectIssueViewController(viewModel: SelectIssueViewModel(toMainSubject: toMainSubject))
-		
+
+		let controller = SelectIssueViewController(viewModel: SelectIssueViewModel(toMainSubject: toMainSubject,
+																				   userRole: userRole))
+
 		guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }
 		navVC.pushViewController(controller, animated: true)
 	}
