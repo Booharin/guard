@@ -27,7 +27,8 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	typealias Dependencies =
 		HasLocationService &
 		HasLocalStorageService &
-		HasLawyersNetworkService
+		HasLawyersNetworkService &
+		HasFilterViewService
 	lazy var di: Dependencies = DI.dependencies
 
 	private var toLawyerSubject: PublishSubject<UserProfile>?
@@ -69,9 +70,16 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 					})
 				})
 			})
-			.subscribe(onNext: { _ in
-				//
+			.subscribe(onNext: { [unowned self] _ in
+				self.di.filterViewService.showFilterView()
 			}).disposed(by: disposeBag)
+
+		di.filterViewService.selectedIssuesSubject
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] issues in
+				print("selected issues: ", issues)
+			})
+			.disposed(by: disposeBag)
 
 		// back button
 		view.titleView

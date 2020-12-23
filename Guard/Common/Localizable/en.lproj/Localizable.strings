@@ -72,6 +72,9 @@
 "alert.cancel" = "Cancel";
 "alert.yes" = "yes";
 "alert.no" = "no";
+"alert.ok" = "ok";
+"alert.warning.title" = "Warning";
+"alert.login.message" = "Wrong login or password";
 
 //APPEALS
 "appeals.greeting.title" = "Hi";

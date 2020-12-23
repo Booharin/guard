@@ -72,6 +72,9 @@
 "alert.cancel" = "Отмена";
 "alert.yes" = "да";
 "alert.no" = "нет";
+"alert.ok" = "Ок";
+"alert.warning.title" = "Внимание";
+"alert.login.message" = "Неверный логин или пароль";
 
 //APPEALS
 "appeals.greeting.title" = "Привет";

@@ -159,6 +159,7 @@
 		52BD63F02532F92400FF393D /* SelectButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BD63EF2532F92400FF393D /* SelectButtonView.swift */; };
 		52C5F4C424C9D90D00FB2DA8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */; };
 		52C5F4C624C9D92200FB2DA8 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C5F4C524C9D92200FB2DA8 /* ProfileViewModel.swift */; };
+		52D23604259340A400C0E922 /* FilterViewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D23603259340A400C0E922 /* FilterViewService.swift */; };
 		52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */; };
 		52E62F2225322C58007FB1BE /* EditClientProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E62F2125322C58007FB1BE /* EditClientProfileViewController.swift */; };
 		52E62F2425322C69007FB1BE /* EditClientProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E62F2325322C69007FB1BE /* EditClientProfileViewModel.swift */; };
@@ -359,6 +360,7 @@
 		52BD63EF2532F92400FF393D /* SelectButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButtonView.swift; sourceTree = "<group>"; };
 		52C5F4C324C9D90D00FB2DA8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		52C5F4C524C9D92200FB2DA8 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		52D23603259340A400C0E922 /* FilterViewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewService.swift; sourceTree = "<group>"; };
 		52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		52E62F2125322C58007FB1BE /* EditClientProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientProfileViewController.swift; sourceTree = "<group>"; };
 		52E62F2325322C69007FB1BE /* EditClientProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientProfileViewModel.swift; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 		522E5BE424A37C2F00879741 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				52D235FF2593347E00C0E922 /* BottomSheet */,
 				52524E5F24FECF5E0078AA62 /* Buttons */,
 				5251AFB524A2851200467E84 /* NavigationController */,
 				52E3D4E124C8AB0E00FD67C9 /* TabBarController */,
@@ -758,6 +761,7 @@
 		52483BAD24A279470003A56A /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				52D236022593408500C0E922 /* FilterViewService */,
 				527E4D49258FA02000744A40 /* NotificationService */,
 				52F749312565A82D009CD041 /* KeyChainService */,
 				5273744C2563C00000912769 /* SocketService */,
@@ -1198,6 +1202,21 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		52D235FF2593347E00C0E922 /* BottomSheet */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BottomSheet;
+			sourceTree = "<group>";
+		};
+		52D236022593408500C0E922 /* FilterViewService */ = {
+			isa = PBXGroup;
+			children = (
+				52D23603259340A400C0E922 /* FilterViewService.swift */,
+			);
+			path = FilterViewService;
+			sourceTree = "<group>";
+		};
 		52E3D4E124C8AB0E00FD67C9 /* TabBarController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1392,6 +1411,7 @@
 				5222B68C24C75AB3000BEE13 /* SelectIssueTableViewCell.swift in Sources */,
 				526AC48325738D260041B571 /* UITextField+Autofill.swift in Sources */,
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
+				52D23604259340A400C0E922 /* FilterViewService.swift in Sources */,
 				5283CB712517CA71005DEDA8 /* ClientProfileViewModel.swift in Sources */,
 				523EEEAB251284230007ED2F /* AppealButtonView.swift in Sources */,
 				52B268732511181200111864 /* ConversationsListDataSource.swift in Sources */,

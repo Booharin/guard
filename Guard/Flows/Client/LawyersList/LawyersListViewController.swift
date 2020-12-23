@@ -14,6 +14,7 @@ protocol LawyersListViewControllerProtocol: class, ViewControllerProtocol {
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
 	var loadingView: UIActivityIndicatorView { get }
+	var selectedIssues: [Int] { get set }
 	func showActionSheet(with cities: [String])
 }
 
@@ -21,6 +22,7 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 	UIViewController,
 	UITableViewDelegate,
 	LawyersListViewControllerProtocol {
+
 	var filterButtonView = FilterButtonView()
 	var viewModel: modelType
 
@@ -28,10 +30,14 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 	var titleLabel = UILabel()
 	var tableView = UITableView()
 	var loadingView = UIActivityIndicatorView(style: .medium)
+	var selectedIssues = [Int]()
 	var navController: UINavigationController? {
 		self.navigationController
 	}
 	private var gradientView: UIView?
+	private var filterViewHeight: CGFloat {
+		return UIScreen.main.bounds.height
+	}
 
 	private var lawyers: [UserProfile]?
 

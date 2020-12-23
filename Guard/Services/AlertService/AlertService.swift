@@ -20,9 +20,26 @@ protocol AlertServiceInterface {
 	///   - title: Title
 	///   - message: Message
 	///   - completion: Result
-	func showAlert(with title: String,
+	func showAlert(title: String,
 				   message: String,
+				   okButtonTitle: String,
+				   cancelButtonTitle: String?,
 				   completion: @escaping (Bool) -> Void)
+}
+
+extension AlertServiceInterface {
+	func showAlert(title: String,
+				   message: String,
+				   okButtonTitle: String,
+				   cancelButtonTitle: String? = nil,
+				   completion: @escaping (Bool) -> Void) {
+
+		showAlert(title: title,
+				  message: message,
+				  okButtonTitle: okButtonTitle,
+				  cancelButtonTitle: cancelButtonTitle,
+				  completion: completion)
+	}
 }
 
 /// Service for showing services
@@ -30,7 +47,7 @@ final class AlertService: AlertServiceInterface {
 	private var dimmView: UIView?
 	private var alertView: UIView?
 	private let animationDuration = 0.15
-	private let alertShowAnimationDuration = 0.15
+	private let alertShowAnimationDuration = 0.25
 	private var disposeBag = DisposeBag()
 
 	var currentWindow: UIWindow? {
@@ -45,8 +62,10 @@ final class AlertService: AlertServiceInterface {
 		UIScreen.main.bounds.width
 	}
 
-	func showAlert(with title: String,
+	func showAlert(title: String,
 				   message: String,
+				   okButtonTitle: String,
+				   cancelButtonTitle: String? = nil,
 				   completion: @escaping (Bool) -> Void) {
 
 		guard let window = currentWindow else { return }
@@ -101,9 +120,46 @@ final class AlertService: AlertServiceInterface {
 			$0.trailing.equalToSuperview().offset(-35)
 		}
 
+		// ok button
+		let okButton = UIButton()
+		okButton.setTitle(okButtonTitle,
+							  for: .normal)
+		okButton.backgroundColor = Colors.greenColor
+		okButton.layer.cornerRadius = 25
+		alertView.addSubview(okButton)
+		okButton.snp.makeConstraints {
+			$0.height.equalTo(50)
+			if cancelButtonTitle == nil {
+				$0.centerX.equalToSuperview()
+				$0.width.equalTo(136)
+			} else {
+				$0.trailing.lessThanOrEqualToSuperview().offset(-35)
+				$0.width.equalTo(108)
+			}
+			$0.top.equalTo(messageLabel.snp.bottom).offset(24)
+			$0.bottom.equalToSuperview().offset(-14)
+		}
+		okButton.rx
+			.tap
+			.do(onNext: { [unowned self] _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					okButton.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						okButton.alpha = 1
+					})
+				})
+			})
+			.subscribe(onNext: { [weak self] _ in
+				self?.dismissAlertView()
+				completion(true)
+			}).disposed(by: disposeBag)
+
 		// cancel button
+		if let cancelTitle = cancelButtonTitle {
+		
 		let cancelButton = UIButton()
-		cancelButton.setTitle("alert.no".localized.uppercased(),
+		cancelButton.setTitle(cancelTitle,
 							  for: .normal)
 		cancelButton.backgroundColor = Colors.warningColor
 		cancelButton.layer.cornerRadius = 25
@@ -130,42 +186,13 @@ final class AlertService: AlertServiceInterface {
 				self?.dismissAlertView()
 				completion(false)
 			}).disposed(by: disposeBag)
-
-		// ok button
-		let okButton = UIButton()
-		okButton.setTitle("alert.yes".localized.uppercased(),
-							  for: .normal)
-		okButton.backgroundColor = Colors.greenColor
-		okButton.layer.cornerRadius = 25
-		alertView.addSubview(okButton)
-		okButton.snp.makeConstraints {
-			$0.height.equalTo(50)
-			$0.width.equalTo(108)
-			$0.trailing.lessThanOrEqualToSuperview().offset(-35)
-			$0.top.equalTo(messageLabel.snp.bottom).offset(24)
-			$0.bottom.equalToSuperview().offset(-14)
 		}
-		okButton.rx
-			.tap
-			.do(onNext: { [unowned self] _ in
-				UIView.animate(withDuration: self.animationDuration, animations: {
-					okButton.alpha = 0.5
-				}, completion: { _ in
-					UIView.animate(withDuration: self.animationDuration, animations: {
-						okButton.alpha = 1
-					})
-				})
-			})
-			.subscribe(onNext: { [weak self] _ in
-				self?.dismissAlertView()
-				completion(true)
-			}).disposed(by: disposeBag)
 
 		window.layoutIfNeeded()
 
 		// animate show
 		alertView.snp.updateConstraints {
-			$0.bottom.equalTo(window.snp.bottom).offset(-self.screenHeight / 3)
+			$0.bottom.equalTo(window.snp.bottom).offset(-self.screenHeight / 2)
 		}
 		UIView.animate(withDuration: alertShowAnimationDuration,
 					   delay: 0,

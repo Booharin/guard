@@ -18,6 +18,7 @@ struct Dependencies:
 	HasLocationService,
 	HasLocalStorageService,
 	HasAlertService,
+	HasFilterViewService,
 	HasAuthService,
 	HasRegistrationService,
 	HasLawyersNetworkService,
@@ -30,6 +31,7 @@ struct Dependencies:
 	var locationService: LocationServiceInterface
 	var localStorageService: LocalStorageServiceInterface
 	var alertService: AlertServiceInterface
+	var filterViewService: FilterViewServiceInterface
 	var authService: AuthServiceInterface
 	var registrationService: RegistrationServiceInterface
 	var lawyersNetworkService: LawyersNetworkServiceInterface
@@ -51,6 +53,7 @@ class AppDIContainer {
 		let d = Dependencies(locationService: LocationSerice(),
 							 localStorageService: LocalStorageService(),
 							 alertService: AlertService(),
+							 filterViewService: FilterViewService(),
 							 authService: AuthService(),
 							 registrationService: RegistrationService(),
 							 lawyersNetworkService: LawyersNetworkService(),

@@ -27,7 +27,8 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 	private let router: AuthNetworkRouter
 	typealias Dependencies =
 		HasKeyChainService &
-		HasLocalStorageService
+		HasLocalStorageService &
+		HasAlertService
 	lazy var di: Dependencies = DI.dependencies
 
 	init() {
@@ -41,6 +42,19 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 					#if DEBUG
 					print(response)
 					#endif
+					// handle http status
+					if let code = response.response?.statusCode {
+						switch code {
+						case 403:
+							self.di.alertService.showAlert(title: "alert.warning.title".localized,
+														   message: "alert.login.message".localized,
+														   okButtonTitle: "alert.ok".localized.capitalized,
+														   completion: { _ in })
+						default:
+							break
+						}
+					}
+
 					switch response.result {
 					case .success:
 						guard let data = response.data else {

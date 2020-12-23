@@ -56,8 +56,10 @@ final class EditClientProfileViewModel: ViewModel, HasDependencies {
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.di.alertService.showAlert(with: "edit_profile.alert.title".localized,
-											   message: "edit_profile.alert.message".localized) { result in
+				self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
+											   message: "edit_profile.alert.message".localized,
+											   okButtonTitle: "alert.yes".localized.uppercased(),
+											   cancelButtonTitle: "alert.no".localized.uppercased()) { result in
 					if result {
 						self.view.navController?.popViewController(animated: true)
 					}
