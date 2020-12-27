@@ -18,7 +18,7 @@ protocol FilterViewServiceInterface {
 	func showFilterView()
 }
 
-final class FilterViewService: FilterViewServiceInterface {
+final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 	var selectedIssuesSubject = PublishSubject<[Int]>()
 	private var issues = [Int]()
 	private var dimmView: UIView?
@@ -27,6 +27,9 @@ final class FilterViewService: FilterViewServiceInterface {
 	private let filterViewShowAnimationDuration = 0.35
 	private let topOffset: CGFloat = 120
 	private var currentOffset: CGFloat = 120
+	private var issueLabels = [IssueLabel]()
+	typealias Dependencies = HasCommonDataNetworkService
+	lazy var di: Dependencies = DI.dependencies
 	private var disposeBag = DisposeBag()
 
 	private var currentWindow: UIWindow? {
@@ -51,13 +54,6 @@ final class FilterViewService: FilterViewServiceInterface {
 		dimmView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
 		}
-//		dimmView
-//			.rx
-//			.tapGesture()
-//			.when(.recognized)
-//			.subscribe(onNext: { [weak self] _ in
-//				self?.dismissFilterView()
-//			}).disposed(by: disposeBag)
 
 		// filter
 		filterView = UIView()
@@ -90,7 +86,7 @@ final class FilterViewService: FilterViewServiceInterface {
 					self.filterView?.frame.origin.y = self.currentOffset
 				}
 			}).disposed(by: disposeBag)
-		
+
 		filterView
 			.rx
 			.panGesture()
@@ -103,6 +99,59 @@ final class FilterViewService: FilterViewServiceInterface {
 					let self = self else { return }
 				self.dismissFilterView()
 			}).disposed(by: disposeBag)
+
+		// title
+		let titleLabel = UILabel()
+		filterView.addSubview(titleLabel)
+		titleLabel.snp.makeConstraints {
+			$0.top.equalTo(filterView.snp.top).offset(37)
+			$0.centerX.equalToSuperview()
+			$0.height.equalTo(18)
+		}
+		titleLabel.font = SFUIDisplay.bold.of(size: 15)
+		titleLabel.textColor = Colors.mainTextColor
+		titleLabel.text = "filter.title".localized
+
+		// close image
+		let closeImageView = UIImageView(image: #imageLiteral(resourceName: "filter_close_icn").withRenderingMode(.alwaysTemplate))
+		closeImageView.tintColor = Colors.mainColor
+		filterView.addSubview(closeImageView)
+		closeImageView.snp.makeConstraints {
+			$0.width.height.equalTo(20)
+			$0.top.equalToSuperview().offset(35)
+			$0.trailing.equalToSuperview().offset(-33)
+		}
+		// back button
+		closeImageView
+			.rx
+			.tapGesture()
+			.when(.recognized)
+			.do(onNext: { [unowned self] _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					closeImageView.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						closeImageView.alpha = 1
+					})
+				})
+			})
+			.subscribe(onNext: { [unowned self] _ in
+				self.dismissFilterView()
+			}).disposed(by: disposeBag)
+
+		let issuesSectionTitle = UILabel()
+		issuesSectionTitle.textColor = Colors.mainTextColor
+		issuesSectionTitle.font = SFUIDisplay.light.of(size: 18)
+		issuesSectionTitle.numberOfLines = 0
+		issuesSectionTitle.text = "filter.byIssue".localized
+		filterView.addSubview(issuesSectionTitle)
+		issuesSectionTitle.snp.makeConstraints {
+			$0.leading.equalToSuperview().offset(35)
+			$0.top.equalToSuperview().offset(100)
+			$0.height.equalTo(21)
+		}
+
+		createContainerWithIssueTypes()
 
 		window.layoutIfNeeded()
 
@@ -148,5 +197,50 @@ final class FilterViewService: FilterViewServiceInterface {
 			self.dimmView?.removeFromSuperview()
 			self.dimmView = nil
 		})
+	}
+
+	private func createContainerWithIssueTypes() {
+		let containerView = UIView()
+		let containerWidth = screenWidth - 75
+		var topOffset = 0
+		var currentLineWidth: CGFloat = 0
+		filterView?.addSubview(containerView)
+		containerView.snp.makeConstraints {
+			$0.top.equalToSuperview().offset(151)
+			$0.leading.equalToSuperview().offset(35)
+			$0.trailing.equalToSuperview().offset(-35)
+			$0.height.equalTo(23)
+		}
+
+		di.commonDataNetworkService.issueTypes?
+			.compactMap { $0.subIssueTypeList }
+			.reduce([], +)
+			.forEach {
+				print($0.title)
+				let label = IssueLabel(labelColor: Colors.issueLabelColor)
+				label.text = $0.title
+				let labelWidth = $0.title.width(withConstrainedHeight: 23,
+												font: SFUIDisplay.medium.of(size: 12)) + 20
+				let labelHeight = $0.title.height(withConstrainedWidth: containerWidth,
+												  font: SFUIDisplay.medium.of(size: 12)) + 9
+				containerView.addSubview(label)
+				label.snp.makeConstraints {
+					if currentLineWidth + labelWidth + 10 < containerWidth {
+						$0.leading.equalToSuperview().offset(currentLineWidth == 0 ? 0 : currentLineWidth + 10)
+						currentLineWidth += labelWidth
+					} else {
+						$0.leading.equalToSuperview()
+						topOffset += (10 + Int(labelHeight))
+						currentLineWidth = labelWidth
+					}
+					$0.top.equalToSuperview().offset(topOffset)
+					$0.width.equalTo(labelWidth > containerWidth ? containerWidth : labelWidth)
+					$0.height.equalTo(labelHeight)
+				}
+			}
+
+		containerView.snp.updateConstraints {
+			$0.height.equalTo(topOffset + 23)
+		}
 	}
 }

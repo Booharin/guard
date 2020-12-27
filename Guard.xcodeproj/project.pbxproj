@@ -42,6 +42,7 @@
 		5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69024C7616F000BEE13 /* SelectIssueDataSource.swift */; };
 		5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69324C761C3000BEE13 /* TableViewItem.swift */; };
 		5222B69624C761D6000BEE13 /* TableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69524C761D6000BEE13 /* TableViewSection.swift */; };
+		52337F212598F264009D8297 /* IssueLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52337F202598F264009D8297 /* IssueLabel.swift */; };
 		5235F287250CB6EA00639FC4 /* AppealCreatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235F286250CB6EA00639FC4 /* AppealCreatingViewController.swift */; };
 		5235F289250CB7A400639FC4 /* AppealCreatingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235F288250CB7A400639FC4 /* AppealCreatingViewModel.swift */; };
 		523A67BE24C2C6FB0008E8AF /* RxDataSources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */; };
@@ -249,6 +250,7 @@
 		5222B69024C7616F000BEE13 /* SelectIssueDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueDataSource.swift; sourceTree = "<group>"; };
 		5222B69324C761C3000BEE13 /* TableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewItem.swift; sourceTree = "<group>"; };
 		5222B69524C761D6000BEE13 /* TableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSection.swift; sourceTree = "<group>"; };
+		52337F202598F264009D8297 /* IssueLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueLabel.swift; sourceTree = "<group>"; };
 		5235F286250CB6EA00639FC4 /* AppealCreatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealCreatingViewController.swift; sourceTree = "<group>"; };
 		5235F288250CB7A400639FC4 /* AppealCreatingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealCreatingViewModel.swift; sourceTree = "<group>"; };
 		523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxDataSources.framework; path = Carthage/Build/iOS/RxDataSources.framework; sourceTree = "<group>"; };
@@ -580,14 +582,22 @@
 		522E5BE424A37C2F00879741 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				52D235FF2593347E00C0E922 /* BottomSheet */,
 				52524E5F24FECF5E0078AA62 /* Buttons */,
 				5251AFB524A2851200467E84 /* NavigationController */,
 				52E3D4E124C8AB0E00FD67C9 /* TabBarController */,
 				5251AFBB24A28AFC00467E84 /* ConfirmButton */,
 				5251AFB824A287AD00467E84 /* TextField */,
+				52337F222598F26A009D8297 /* Label */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		52337F222598F26A009D8297 /* Label */ = {
+			isa = PBXGroup;
+			children = (
+				52337F202598F264009D8297 /* IssueLabel.swift */,
+			);
+			path = Label;
 			sourceTree = "<group>";
 		};
 		5235F285250CB6C600639FC4 /* AppealCreating */ = {
@@ -1202,13 +1212,6 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
-		52D235FF2593347E00C0E922 /* BottomSheet */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = BottomSheet;
-			sourceTree = "<group>";
-		};
 		52D236022593408500C0E922 /* FilterViewService */ = {
 			isa = PBXGroup;
 			children = (
@@ -1449,6 +1452,7 @@
 				52B278CA24C0964F001E7295 /* LocationService.swift in Sources */,
 				521E64CF24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift in Sources */,
 				521016E52581FD72002A696E /* ClientAppealObject+CoreDataProperties.swift in Sources */,
+				52337F212598F264009D8297 /* IssueLabel.swift in Sources */,
 				5283CB6F2517CA5D005DEDA8 /* ClientProfileViewController.swift in Sources */,
 				523AEAF7251E4D8900F1E607 /* SwitcherCell.swift in Sources */,
 				521016DB2581426D002A696E /* AppealsNetworkService.swift in Sources */,

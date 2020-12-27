@@ -83,6 +83,10 @@
 //APPEAL
 "appeal.lawyerSelectedButton.title" = "Назначен юрист";
 
+//FILTER
+"filter.title" = "Фильтры";
+"filter.byIssue" = "По направлению:";
+
 //NEW_APPEL
 "new_appeal.title" = "Создание обращения";
 "new_appeal.header.title" = "Шаг 1 / 2";
