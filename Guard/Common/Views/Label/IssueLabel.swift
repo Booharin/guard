@@ -13,10 +13,13 @@ final class IssueLabel: UILabel {
 	private let labelColor: UIColor
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
-	private var isSelected = false
+	var isSelected = false
+	let issueCode: Int
 
-	init(labelColor: UIColor) {
+	init(labelColor: UIColor,
+		 issueCode: Int) {
 		self.labelColor = labelColor
+		self.issueCode = issueCode
 		super.init(frame: .zero)
 		backgroundColor = Colors.whiteColor
 		layer.cornerRadius = 11
@@ -54,5 +57,4 @@ final class IssueLabel: UILabel {
 			isSelected = false
 		}
 	}
-
 }

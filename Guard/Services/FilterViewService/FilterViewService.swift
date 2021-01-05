@@ -179,6 +179,8 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 			let dimmView = dimmView,
 			let window = currentWindow else { return }
 
+		self.issues = issueLabels.compactMap { $0.isSelected ? $0.issueCode : nil }
+
 		selectedIssuesSubject.onNext(self.issues)
 
 		filterView.snp.updateConstraints {
@@ -217,7 +219,8 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 			.reduce([], +)
 			.forEach {
 				print($0.title)
-				let label = IssueLabel(labelColor: Colors.issueLabelColor)
+				let label = IssueLabel(labelColor: Colors.issueLabelColor,
+									   issueCode: $0.issueCode)
 				label.text = $0.title
 				let labelWidth = $0.title.width(withConstrainedHeight: 23,
 												font: SFUIDisplay.medium.of(size: 12)) + 20
@@ -237,6 +240,7 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 					$0.width.equalTo(labelWidth > containerWidth ? containerWidth : labelWidth)
 					$0.height.equalTo(labelHeight)
 				}
+				issueLabels.append(label)
 			}
 
 		containerView.snp.updateConstraints {

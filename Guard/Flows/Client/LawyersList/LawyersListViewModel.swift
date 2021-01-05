@@ -75,9 +75,23 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 
 		di.filterViewService.selectedIssuesSubject
+			.do(onNext: { [weak self] _ in
+				self?.view.loadingView.startAnimating()
+			})
+			.flatMap { [unowned self] issues in
+				self.di.lawyersNetworkService.getLawyers(by: issues,
+														 city: self.view.titleLabel.text ?? "")
+			}
 			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] issues in
-				print("selected issues: ", issues)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stopAnimating()
+				switch result {
+					case .success(let lawyers):
+						self?.update(with: lawyers)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
 			})
 			.disposed(by: disposeBag)
 
