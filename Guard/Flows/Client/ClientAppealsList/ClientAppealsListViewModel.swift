@@ -32,12 +32,39 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 		// table view data source
 		let section = SectionModel<String, ClientAppeal>(model: "",
 														 items: appeals)
+		let dataSource = ClientAppealDataSource.dataSource(toAppealDescriptionSubject: router.toAppealDescriptionSubject)
+		dataSource.canEditRowAtIndexPath = { dataSource, indexPath  in
+			  return true
+		}
 		dataSourceSubject = BehaviorSubject<[SectionModel]>(value: [section])
 		dataSourceSubject?
 			.bind(to: view.tableView
 					.rx
-					.items(dataSource: ClientAppealDataSource.dataSource(toAppealDescriptionSubject: router.toAppealDescriptionSubject)))
+					.items(dataSource: dataSource))
 			.disposed(by: disposeBag)
+		
+		view.tableView.rx.itemDeleted
+			.asObservable()
+			.filter { [unowned self] indexPath in
+				indexPath.row < appeals.count
+			}
+			.flatMap { [unowned self] indexPath in
+				self.di.appealsNetworkService.deleteAppeal(id: appeals[indexPath.row].id)
+			}
+			.flatMap { [unowned self] _ in
+				self.di.appealsNetworkService.getClientAppeals(by: di.localStorageService.getCurrenClientProfile()?.id ?? 0)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stopAnimating()
+				switch result {
+					case .success(let appeals):
+						self?.update(with: appeals)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
 
 		// add button
 		view.addButtonView
@@ -94,7 +121,7 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 
 		view.loadingView.startAnimating()
-		appealsListSubject?.onNext(())
+		//appealsListSubject?.onNext(())
 	}
 
 	private func update(with appeals: [ClientAppeal]) {
@@ -103,7 +130,7 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 														items: appeals)
 		dataSourceSubject?.onNext([section])
 
-		if self.view.tableView.contentSize.height + 100 < self.view.tableView.frame.height {
+		if self.view.tableView.contentSize.height + 200 < self.view.tableView.frame.height {
 			self.view.tableView.isScrollEnabled = false
 		} else {
 			self.view.tableView.isScrollEnabled = true

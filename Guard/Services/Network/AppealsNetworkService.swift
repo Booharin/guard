@@ -16,6 +16,12 @@ protocol HasAppealsNetworkService {
 
 protocol AppealsNetworkServiceInterface {
 	func getClientAppeals(by id: Int) -> Observable<Result<[ClientAppeal], AFError>>
+	func createAppeal(title: String,
+					  appealDescription: String,
+					  clientId: Int,
+					  issueCode: Int,
+					  cityCode: Int) -> Observable<Result<Any, AFError>>
+	func deleteAppeal(id: Int) -> Observable<Result<Any, AFError>>
 }
 
 final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependencies {
@@ -55,6 +61,66 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
 					}
 				case .failure:
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func createAppeal(title: String,
+					  appealDescription: String,
+					  clientId: Int,
+					  issueCode: Int,
+					  cityCode: Int) -> Observable<Result<Any, AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.createAppeal(title: title,
+										 appealDescription: appealDescription,
+										 clientId: clientId,
+										 issueCode: issueCode,
+										 cityCode: cityCode,
+										 token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.response { response in
+				#if DEBUG
+				print(response)
+				#endif
+				switch response.result {
+				case .success:
+					observer.onNext(.success(()))
+				case .failure:
+					#if DEBUG
+					print(response.error?.localizedDescription ?? "")
+					#endif
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func deleteAppeal(id: Int) -> Observable<Result<Any, AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.deleteAppeal(id: id,
+										 token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.response { response in
+				#if DEBUG
+				print(response)
+				#endif
+				switch response.result {
+				case .success:
+					observer.onNext(.success(()))
+				case .failure:
+					#if DEBUG
+					print(response.error?.localizedDescription ?? "")
+					#endif
 					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
 				}
 			}

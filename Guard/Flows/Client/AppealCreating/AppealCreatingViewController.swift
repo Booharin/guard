@@ -17,6 +17,7 @@ protocol AppealCreatingViewControllerProtocol: class, ViewControllerProtocol {
 	var titleTextField: TextField { get }
 	var descriptionTextView: UITextView { get }
 	var createAppealButton: ConfirmButton { get }
+	var loadingView: UIActivityIndicatorView { get }
 }
 
 final class AppealCreatingViewController<modelType: ViewModel>: UIViewController, UITextViewDelegate,
@@ -33,6 +34,7 @@ AppealCreatingViewControllerProtocol where modelType.ViewType == AppealCreatingV
 	var navController: UINavigationController? {
 		return self.navigationController
 	}
+	var loadingView = UIActivityIndicatorView(style: .medium)
 	var viewModel: modelType
 
 	init(viewModel: modelType) {
@@ -125,6 +127,12 @@ AppealCreatingViewControllerProtocol where modelType.ViewType == AppealCreatingV
 			$0.height.equalTo(50)
 			$0.bottom.equalToSuperview().offset(-30)
 			$0.centerX.equalToSuperview()
+		}
+		// loading view
+		view.addSubview(loadingView)
+		loadingView.hidesWhenStopped = true
+		loadingView.snp.makeConstraints {
+			$0.center.equalTo(view.snp.center)
 		}
 	}
 	

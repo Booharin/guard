@@ -22,13 +22,15 @@ public extension RequestRouter {
 		return baseUrl.appendingPathComponent(path)
 	}
 
-	func asJSONURLRequest() throws -> URLRequest {
+	func asJSONURLRequest(with token: String? = nil) throws -> URLRequest {
 		var urlRequest = URLRequest(url: fullUrl)
 		urlRequest.httpMethod = method.rawValue
 		urlRequest.allHTTPHeaderFields = [
 			"Content-Type" : "application/json"
 		]
-
+		if let token = token {
+			urlRequest.allHTTPHeaderFields?["Authorization"] = "Bearer_\(token)"
+		}
 		return try JSONEncoding.default.encode(urlRequest, with: parameters)
 	}
 

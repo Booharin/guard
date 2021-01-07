@@ -18,6 +18,8 @@ enum ApiMethods {
 	static let getLawyer = "common/lawyer"
 	// appeals
 	static let clientAppeals = "appeal/client"
+	static let createAppeal = "appeal/save"
+	static let deleteAppeal = "appeal/remove"
 	// common
 	static let countriesAndCities = "common/allcountries"
 	static let issueTypes = "common/issues"

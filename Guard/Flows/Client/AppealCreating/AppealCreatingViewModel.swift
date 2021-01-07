@@ -9,11 +9,15 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class AppealCreatingViewModel: ViewModel {
+final class AppealCreatingViewModel: ViewModel, HasDependencies {
 	var view: AppealCreatingViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
 	private let issueType: IssueType
+	typealias Dependencies =
+		HasLocalStorageService &
+		HasAppealsNetworkService
+	lazy var di: Dependencies = DI.dependencies
 
 	init(issueType: IssueType) {
 		self.issueType = issueType
@@ -72,6 +76,7 @@ final class AppealCreatingViewModel: ViewModel {
 		view.descriptionTextView.text = "new_appeal.textview.placeholder".localized
 		view.descriptionTextView.font = Saira.light.of(size: 15)
 		view.descriptionTextView.textAlignment = .center
+		view.descriptionTextView.backgroundColor = Colors.whiteColor
 		view.descriptionTextView
 			.rx
 			.text
@@ -86,11 +91,27 @@ final class AppealCreatingViewModel: ViewModel {
 			.tap
 			.do(onNext: { [unowned self] _ in
 				self.view.createAppealButton.animateBackground()
+				self.view.loadingView.startAnimating()
 			})
-			.subscribe(onNext: { [unowned self] _ in
-				self.view.navController?.popToRootViewController(animated: true)
+			.flatMap { [unowned self] _ in
+				self.di.appealsNetworkService
+					.createAppeal(title: self.view.titleTextField.text ?? "",
+								  appealDescription: self.view.descriptionTextView.text ?? "",
+								  clientId: self.di.localStorageService.getCurrenClientProfile()?.id ?? 0,
+								  issueCode: issueType.issueCode,
+								  cityCode: self.di.localStorageService.getCurrenClientProfile()?.cityCode?.first ?? 99)
+			}
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stopAnimating()
+				switch result {
+				case .success:
+					self?.view.navController?.popToRootViewController(animated: true)
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
 			}).disposed(by: disposeBag)
-		
+
 		// MARK: - Check keyboard showing
 		keyboardHeight()
 			.observeOn(MainScheduler.instance)

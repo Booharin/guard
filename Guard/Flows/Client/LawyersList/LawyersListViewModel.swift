@@ -17,6 +17,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	private var disposeBag = DisposeBag()
 	private var lawyersListSubject: PublishSubject<Any>?
 	private var router: LawyerListRouterProtocol
+	private var selectedIssues = [Int]()
 
 	private var cities: [String] {
 		return di.localStorageService.getRussianCities().map { $0.title }
@@ -71,12 +72,16 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.di.filterViewService.showFilterView()
+				self.di.filterViewService.showFilterView(with: selectedIssues)
 			}).disposed(by: disposeBag)
 
 		di.filterViewService.selectedIssuesSubject
 			.do(onNext: { [weak self] _ in
 				self?.view.loadingView.startAnimating()
+			})
+			.do(onNext: { [weak self] issues in
+				// save selected issues
+				self?.selectedIssues = issues
 			})
 			.flatMap { [unowned self] issues in
 				self.di.lawyersNetworkService.getLawyers(by: issues,
@@ -117,10 +122,15 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		view.titleLabel.font = Saira.semiBold.of(size: 16)
 		view.titleLabel.textColor = Colors.mainTextColor
 		if let profile = di.localStorageService.getCurrenClientProfile() {
-			// TODO: - когда будет понятно какой список городов вернется от сервера
-			//view.titleLabel.text = "\(profile.city)"
+			di.localStorageService.getRussianCities().forEach() { city in
+				if city.cityCode == profile.cityCode?.first {
+					view.titleLabel.text = city.title
+				}
+			}
 		}
-		view.titleLabel.text = "Москва"
+		if view.titleLabel.text?.isEmpty ?? true {
+			view.titleLabel.text = cities.first ?? "Москва"
+		}
 
 		lawyersListSubject = PublishSubject<Any>()
 		lawyersListSubject?

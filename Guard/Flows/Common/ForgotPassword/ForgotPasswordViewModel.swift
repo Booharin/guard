@@ -177,7 +177,6 @@ final class ForgotPasswordViewModel: ViewModel,
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stopAnimating()
-				self?.view.navController?.popViewController(animated: true)
 				switch result {
 				case .success:
 					self?.view.navController?.popViewController(animated: true)

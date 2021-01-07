@@ -23,37 +23,37 @@ protocol ForgotPasswordViewControllerProtocol: class, ViewControllerProtocol {
 
 final class ForgotPasswordViewController<modelType: ViewModel>: UIViewController,
 ForgotPasswordViewControllerProtocol where modelType.ViewType == ForgotPasswordViewControllerProtocol {
-	
+
 	var logoImageView = UIImageView(image: #imageLiteral(resourceName: "logo_middle_icn"))
 	var logoTitleLabel = UILabel()
 	var logoSubtitleLabel = UILabel()
-	
+
 	var hintLabel = UILabel()
 	var loginTextField = TextField()
 	var alertLabel = UILabel()
 	var sendButton = ConfirmButton(title: "forgot.password.send.title".localized.uppercased())
 	var backButtonView = BackButtonView()
-	
+
 	var viewModel: modelType
-	
+
 	var navController: UINavigationController? {
 		return self.navigationController
 	}
-	
+
 	var loadingView = UIActivityIndicatorView(style: .medium)
-	
+
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 	}
-	
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+
 		self.viewModel.assosiateView(self)
 		view.backgroundColor = Colors.whiteColor
 		addViews()

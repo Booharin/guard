@@ -40,9 +40,14 @@ struct LawyersNetworkRouter {
 					cityTitle: String,
 					token: String?) -> URLRequestConvertible {
 		do {
-			return try LawyersByIssue(environment: environment,
-									  issueCode: issueCode,
-									  cityTitle: cityTitle).asURLDefaultRequest(with: token)
+			if issueCode.isEmpty {
+				return try AllLawyers(environment: environment,
+									  city: cityTitle).asURLDefaultRequest(with: token)
+			} else {
+				return try LawyersByIssue(environment: environment,
+										  issueCode: issueCode,
+										  cityTitle: cityTitle).asURLDefaultRequest(with: token)
+			}
 		} catch {
 			return LawyersByIssue(environment: environment,
 								  issueCode: issueCode,

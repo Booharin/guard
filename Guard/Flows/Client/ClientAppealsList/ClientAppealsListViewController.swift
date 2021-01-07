@@ -18,8 +18,9 @@ protocol ClientAppealsListViewControllerProtocol {
 	var loadingView: UIActivityIndicatorView { get }
 }
 
-final class ClientAppealsListViewController<modelType: ViewModel>: UIViewController, UITableViewDelegate,
-																   ClientAppealsListViewControllerProtocol where modelType.ViewType == ClientAppealsListViewControllerProtocol {
+final class ClientAppealsListViewController<modelType: ClientAppealsListViewModel>: UIViewController,
+																					UITableViewDelegate,
+																					ClientAppealsListViewControllerProtocol {
 	var addButtonView = AddButtonView()
 	var titleView = UIView()
 	var titleLabel = UILabel()
@@ -48,7 +49,7 @@ final class ClientAppealsListViewController<modelType: ViewModel>: UIViewControl
 		addViews()
 		setNavigationBar()
 	}
-	
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
@@ -56,6 +57,8 @@ final class ClientAppealsListViewController<modelType: ViewModel>: UIViewControl
 		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
 		navigationController?.navigationBar.isTranslucent = true
 		self.navigationItem.setHidesBackButton(true, animated:false)
+
+		viewModel.appealsListSubject?.onNext(())
 	}
 	
 	func setNavigationBar() {
@@ -85,14 +88,15 @@ final class ClientAppealsListViewController<modelType: ViewModel>: UIViewControl
 		}
 	}
 	
+	//MARK: - TableView delegate
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		return createHeaderView()
 	}
-	
+
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 		return 65
 	}
-	
+
 	func scrollViewWillEndDragging(_ scrollView: UIScrollView,
 								   withVelocity velocity: CGPoint,
 								   targetContentOffset: UnsafeMutablePointer<CGPoint>) {

@@ -15,7 +15,7 @@ protocol HasFilterViewService {
 
 protocol FilterViewServiceInterface {
 	var selectedIssuesSubject: PublishSubject<[Int]> { get set }
-	func showFilterView()
+	func showFilterView(with selectedIssues: [Int])
 }
 
 final class FilterViewService: FilterViewServiceInterface, HasDependencies {
@@ -44,7 +44,7 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 		UIScreen.main.bounds.width
 	}
 
-	func showFilterView() {
+	func showFilterView(with selectedIssues: [Int]) {
 		guard let window = currentWindow else { return }
 		// dimm
 		dimmView = UIView()
@@ -117,10 +117,11 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 		closeImageView.tintColor = Colors.mainColor
 		filterView.addSubview(closeImageView)
 		closeImageView.snp.makeConstraints {
-			$0.width.height.equalTo(20)
-			$0.top.equalToSuperview().offset(35)
-			$0.trailing.equalToSuperview().offset(-33)
+			$0.width.height.equalTo(60)
+			$0.top.equalToSuperview().offset(15)
+			$0.trailing.equalToSuperview().offset(-13)
 		}
+		closeImageView.contentMode = .center
 		// back button
 		closeImageView
 			.rx
@@ -151,7 +152,7 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 			$0.height.equalTo(21)
 		}
 
-		createContainerWithIssueTypes()
+		createContainer(with: selectedIssues)
 
 		window.layoutIfNeeded()
 
@@ -201,7 +202,7 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 		})
 	}
 
-	private func createContainerWithIssueTypes() {
+	private func createContainer(with selectedIssues: [Int]) {
 		let containerView = UIView()
 		let containerWidth = screenWidth - 75
 		var topOffset = 0
@@ -214,17 +215,21 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 			$0.height.equalTo(23)
 		}
 
+		issueLabels = []
+
 		di.commonDataNetworkService.issueTypes?
 			.compactMap { $0.subIssueTypeList }
 			.reduce([], +)
-			.forEach {
-				print($0.title)
+			.forEach { issueType in
+				print(issueType.title)
+				print(issueType.issueCode)
 				let label = IssueLabel(labelColor: Colors.issueLabelColor,
-									   issueCode: $0.issueCode)
-				label.text = $0.title
-				let labelWidth = $0.title.width(withConstrainedHeight: 23,
+									   issueCode: issueType.issueCode)
+				label.text = issueType.title
+				// calculate correct size of label
+				let labelWidth = issueType.title.width(withConstrainedHeight: 23,
 												font: SFUIDisplay.medium.of(size: 12)) + 20
-				let labelHeight = $0.title.height(withConstrainedWidth: containerWidth,
+				let labelHeight = issueType.title.height(withConstrainedWidth: containerWidth,
 												  font: SFUIDisplay.medium.of(size: 12)) + 9
 				containerView.addSubview(label)
 				label.snp.makeConstraints {
@@ -239,6 +244,11 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 					$0.top.equalToSuperview().offset(topOffset)
 					$0.width.equalTo(labelWidth > containerWidth ? containerWidth : labelWidth)
 					$0.height.equalTo(labelHeight)
+				}
+				// check if there selected issues
+				let selectedIssuesSet = Set(selectedIssues)
+				if selectedIssuesSet.contains(issueType.issueCode) {
+					label.selected(isOn: true)
 				}
 				issueLabels.append(label)
 			}
