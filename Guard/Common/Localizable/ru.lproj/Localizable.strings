@@ -82,6 +82,9 @@
 
 //APPEAL
 "appeal.lawyerSelectedButton.title" = "Назначен юрист";
+"appeal.edit.title" = "Редактировать";
+"appeal.saveButton.title" = "Сохранить";
+"appeal.cancelButton.title" = "Отмена";
 
 //FILTER
 "filter.title" = "Фильтры";

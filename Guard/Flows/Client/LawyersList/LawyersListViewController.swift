@@ -174,13 +174,17 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 												preferredStyle: .actionSheet)
 		alertController.view.tintColor = Colors.mainTextColor
 		cities.forEach { city in
-			let cityAction = UIAlertAction(title: city, style: .default, handler: { _ in
+			let cityAction = UIAlertAction(title: city,
+										   style: .default,
+										   handler: { _ in
 				self.titleLabel.text = city
 				alertController.dismiss(animated: true)
 			})
 			alertController.addAction(cityAction)
 		}
-		let cancelAction = UIAlertAction(title: "alert.cancel".localized, style: .cancel, handler: { _ in
+		let cancelAction = UIAlertAction(title: "alert.cancel".localized,
+										 style: .cancel,
+										 handler: { _ in
 			alertController.dismiss(animated: true)
 		})
 		alertController.addAction(cancelAction)

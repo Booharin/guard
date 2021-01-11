@@ -49,6 +49,32 @@ struct AppealsNetworkRouter {
 		}
 	}
 
+	func editAppeal(title: String,
+					appealDescription: String,
+					appeal: ClientAppeal,
+					cityCode: Int,
+					token: String?) -> URLRequestConvertible {
+		do {
+			return try EditAppeal(environment: environment,
+								  id: appeal.id,
+								  title: title,
+								  appealDescription: appealDescription,
+								  date: appeal.dateCreated,
+								  clientId: appeal.clientId,
+								  issueCode: appeal.issueCode,
+								  cityCode: cityCode).asJSONURLRequest(with: token)
+		} catch {
+			return EditAppeal(environment: environment,
+							  id: appeal.id,
+							  title: title,
+							  appealDescription: appealDescription,
+							  date: appeal.dateCreated,
+							  clientId: appeal.clientId,
+							  issueCode: appeal.issueCode,
+							  cityCode: cityCode)
+		}
+	}
+
 	func deleteAppeal(id: Int, token: String?) -> URLRequestConvertible {
 		do {
 			return try DeleteAppeal(environment: environment,
@@ -120,6 +146,55 @@ extension AppealsNetworkRouter {
 				"title": title,
 				"appealDescription": appealDescription,
 				"dateCreated": Date.getCurrentDate(),
+				"clientId": clientId,
+				"issueCode": issueCode,
+				"cityCode": cityCode,
+				"isLawyerChoosed": false
+			]
+		}
+	}
+
+	private struct EditAppeal: RequestRouter {
+
+		let environment: Environment
+		let id: Int
+		let title: String
+		let appealDescription: String
+		let date: String
+		let clientId: Int
+		let issueCode: Int
+		let cityCode: Int
+
+		init(environment: Environment,
+			 id: Int,
+			 title: String,
+			 appealDescription: String,
+			 date: String,
+			 clientId: Int,
+			 issueCode: Int,
+			 cityCode: Int) {
+			self.environment = environment
+			self.id = id
+			self.title = title
+			self.appealDescription = appealDescription
+			self.date = date
+			self.clientId = clientId
+			self.issueCode = issueCode
+			self.cityCode = cityCode
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .post
+		var path = ApiMethods.editAppeal
+		var parameters: Parameters {
+			return [
+				"id": id,
+				"title": title,
+				"appealDescription": appealDescription,
+				"dateCreated": date,
 				"clientId": clientId,
 				"issueCode": issueCode,
 				"cityCode": cityCode,

@@ -48,12 +48,13 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 	var confirmationPasswordTextField = TextField()
 	var cityTextField = TextField()
 	var alertLabel = UILabel()
-	
+
 	var enterButton = ConfirmButton(title: "registration.sign_up.title".localized.uppercased())
 	var backButtonView = BackButtonView()
-	var skipButtonView = SkipButtonView()
+	var skipButtonView = SkipButtonView(title: "registration.skip.title".localized,
+										font: Saira.light.of(size: 15))
 	var alreadyRegisteredLabel = UILabel()
-	
+
 	var loadingView = UIActivityIndicatorView(style: .medium)
 	
 	init(viewModel: modelType) {

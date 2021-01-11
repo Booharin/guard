@@ -20,8 +20,10 @@ protocol AppealCreatingViewControllerProtocol: class, ViewControllerProtocol {
 	var loadingView: UIActivityIndicatorView { get }
 }
 
-final class AppealCreatingViewController<modelType: ViewModel>: UIViewController, UITextViewDelegate,
-AppealCreatingViewControllerProtocol where modelType.ViewType == AppealCreatingViewControllerProtocol {
+final class AppealCreatingViewController<modelType: AppealCreatingViewModel>:
+	UIViewController,
+	UITextViewDelegate,
+	AppealCreatingViewControllerProtocol {
 
 	var backButtonView = BackButtonView()
 	var titleView = UIView()
@@ -135,7 +137,7 @@ AppealCreatingViewControllerProtocol where modelType.ViewType == AppealCreatingV
 			$0.center.equalTo(view.snp.center)
 		}
 	}
-	
+
 	func textViewDidBeginEditing(_ textView: UITextView) {
 		if textView.textColor == Colors.placeholderColor {
 			textView.text = nil
@@ -144,7 +146,7 @@ AppealCreatingViewControllerProtocol where modelType.ViewType == AppealCreatingV
 			textView.textAlignment = .natural
 		}
 	}
-	
+
 	func textViewDidEndEditing(_ textView: UITextView) {
 		if textView.text.isEmpty {
 			textView.text = "new_appeal.textview.placeholder".localized
@@ -153,7 +155,7 @@ AppealCreatingViewControllerProtocol where modelType.ViewType == AppealCreatingV
 			textView.textAlignment = .center
 		}
 	}
-	
+
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
             textView.resignFirstResponder()

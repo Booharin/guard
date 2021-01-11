@@ -13,6 +13,7 @@ protocol HasSocketStompService {
 }
 
 protocol SocketStompServiceInterface {
+	func connectSocketStomp()
 	func sendMessage(with text: String,
 					 to: String,
 					 receiptId: String?,
@@ -42,7 +43,9 @@ final class SocketStompService: SocketStompServiceInterface, HasDependencies {
 		socketStomp = SwiftStomp(host: environment.socketUrl)
 		socketStomp.enableLogging = true
 		socketStomp.delegate = self
+	}
 
+	func connectSocketStomp() {
 		socketStomp.connect()
 		checkForInternetConnection()
 	}
@@ -111,6 +114,9 @@ extension SocketStompService: SwiftStompDelegate {
 			print("Socket disconnected. Disconnect completed")
 		} else if disconnectType == .fromStomp {
 			print("Client disconnected from stomp but socket is still connected!")
+		}
+		DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+			self.socketStomp.connect(autoReconnect: true)
 		}
 	}
 

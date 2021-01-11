@@ -11,12 +11,17 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-final class ChatViewModel: ViewModel {
+final class ChatViewModel: ViewModel, HasDependencies {
 	var view: ChatViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
 	private let chatConversation: ChatConversation
 	private var messages = [ChatMessage]()
+	typealias Dependencies =
+		HasNotificationService &
+		HasSocketStompService &
+		HasLocalStorageService
+	lazy var di: Dependencies = DI.dependencies
 	
 	init(chatConversation: ChatConversation) {
 		self.chatConversation = chatConversation
@@ -119,6 +124,27 @@ final class ChatViewModel: ViewModel {
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.view.layoutIfNeeded()
 				})
+			}).disposed(by: disposeBag)
+
+		view.chatBarView.sendSubject
+			.subscribe(onNext: { [unowned self] text in
+				let dict: [String: Any] = [
+					"senderName": self.di.localStorageService.getCurrenClientProfile()?.firstName ?? "Name",
+					"content": text,
+					"senderId": self.di.localStorageService.getCurrenClientProfile()?.id ?? 0
+				]
+				do {
+					let jsonData = try JSONSerialization.data(withJSONObject: dict,
+															  options: .prettyPrinted)
+					guard let jSONText = String(data: jsonData, encoding: .utf8) else { return }
+
+					self.di.socketStompService.sendMessage(with: jSONText,
+														   to: "/app/chat/6/27/sendMessage",
+														   receiptId: "",
+														   headers: nil)
+				} catch {
+					print(error.localizedDescription)
+				}
 			}).disposed(by: disposeBag)
 	}
 	

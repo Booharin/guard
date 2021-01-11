@@ -97,7 +97,7 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 	func forgotPassword(email: String) -> Observable<Result<Any, AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(self.router.forgotPassword(email: email))
-				.responseJSON { response in
+				.response { response in
 					#if DEBUG
 					print(response)
 					#endif
@@ -121,7 +121,7 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 			let requestReference = AF.request(self.router.changePassword(id: id,
 																		 oldPassword: oldPassword,
 																		 newPassword: newPassword))
-				.responseJSON { response in
+				.response { response in
 					#if DEBUG
 					print(response)
 					#endif

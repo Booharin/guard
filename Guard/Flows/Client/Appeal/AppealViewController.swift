@@ -11,31 +11,48 @@ import UIKit
 protocol AppealViewControllerProtocol: ViewControllerProtocol {
 	var scrollView: UIScrollView { get }
 	var backButtonView: BackButtonView { get }
+	var cancelButtonView: SkipButtonView { get }
 	var threedotsButtonView: ThreeDotsButtonView { get }
+	var rightBarButtonItem: UIBarButtonItem? { get set }
 	var titleView: UIView { get }
-	var titleLabel: UILabel { get }
+	var titleTextField: TextField { get }
 	var issueTypeLabel: UILabel { get }
-	var issueDescriptionLabel: UILabel { get }
-	var lawyerSelectedButton: UIButton { get }
+	var descriptionTextView: UITextView { get }
+	var lawyerSelectedButton: ConfirmButton { get }
+	var loadingView: UIActivityIndicatorView { get }
+	func showActionSheet()
 }
 
 final class AppealViewController<modelType: AppealViewModel>:
 	UIViewController,
 	UITableViewDelegate,
+	UITextViewDelegate,
 	AppealViewControllerProtocol {
 
 	var viewModel: modelType
 	var scrollView = UIScrollView()
 	var backButtonView = BackButtonView()
+	var cancelButtonView = SkipButtonView(title: "appeal.cancelButton.title".localized,
+										  font: Saira.medium.of(size: 16))
 	var threedotsButtonView = ThreeDotsButtonView()
+	var rightBarButtonItem: UIBarButtonItem? {
+		get {
+			self.navigationItem.rightBarButtonItem
+		}
+		set {
+			self.navigationItem.rightBarButtonItem = newValue
+		}
+	}
 	var titleView = UIView()
-	var titleLabel = UILabel()
+	var titleTextField = TextField()
 	var issueTypeLabel = UILabel()
-	var issueDescriptionLabel = UILabel()
-	var lawyerSelectedButton = UIButton()
-    var navController: UINavigationController? {
-        self.navigationController
-    }
+	var descriptionTextView = UITextView()
+	var lawyerSelectedButton = ConfirmButton(title: "appeal.lawyerSelectedButton.title".localized.uppercased(),
+											 backgroundColor: Colors.greenColor)
+	var navController: UINavigationController? {
+		self.navigationController
+	}
+	var loadingView = UIActivityIndicatorView(style: .medium)
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
@@ -72,14 +89,14 @@ final class AppealViewController<modelType: AppealViewModel>:
 
 	private func addViews() {
 		// title
-		titleView.addSubview(titleLabel)
-		titleLabel.snp.makeConstraints {
+		titleView.addSubview(titleTextField)
+		titleTextField.snp.makeConstraints {
 			$0.centerX.equalToSuperview()
 			$0.centerY.equalToSuperview().offset(2)
 			$0.width.lessThanOrEqualTo(250)
 		}
 		titleView.snp.makeConstraints {
-			$0.width.equalTo(titleLabel.snp.width).offset(46)
+			$0.width.equalTo(titleTextField.snp.width).offset(46)
 			$0.height.equalTo(40)
 		}
 		// issue type
@@ -87,32 +104,80 @@ final class AppealViewController<modelType: AppealViewModel>:
 		issueTypeLabel.snp.makeConstraints {
 			$0.height.equalTo(24)
 			$0.top.equalToSuperview().offset(90)
-            $0.centerX.equalToSuperview()
-            $0.width.lessThanOrEqualTo(300).priority(1000)
-            $0.width.equalTo(issueTypeLabel.intrinsicContentSize.width + 20).priority(900)
+			$0.centerX.equalToSuperview()
+			$0.width.lessThanOrEqualTo(300).priority(1000)
+			$0.width.equalTo(issueTypeLabel.intrinsicContentSize.width + 20).priority(900)
 		}
-		// scroll
-		view.addSubview(scrollView)
-		scrollView.snp.makeConstraints {
-            $0.top.equalTo(issueTypeLabel.snp.bottom).offset(20)
-            $0.leading.trailing.bottom.equalToSuperview()
+		// description text view
+		descriptionTextView.delegate = self
+		view.addSubview(descriptionTextView)
+		descriptionTextView.snp.makeConstraints {
+			$0.leading.equalToSuperview().offset(36)
+			$0.trailing.equalToSuperview().offset(-36)
+			$0.top.equalTo(issueTypeLabel.snp.bottom).offset(23)
+			$0.bottom.equalToSuperview().offset(-160)
 		}
-        // description
-        scrollView.addSubview(issueDescriptionLabel)
-        issueDescriptionLabel.snp.makeConstraints {
-            $0.width.equalTo(UIScreen.main.bounds.width - 72)
-            $0.leading.equalToSuperview().offset(36)
-            $0.trailing.equalToSuperview().offset(-36)
-            $0.height.equalTo(20)
-            $0.top.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-110)
-        }
-        view.addSubview(lawyerSelectedButton)
-        lawyerSelectedButton.snp.makeConstraints {
-            $0.height.equalTo(50)
-            $0.leading.equalToSuperview().offset(36)
-            $0.trailing.equalToSuperview().offset(-36)
-            $0.bottom.equalToSuperview().offset(-30)
-        }
+		view.addSubview(lawyerSelectedButton)
+		lawyerSelectedButton.snp.makeConstraints {
+			$0.height.equalTo(50)
+			$0.leading.equalToSuperview().offset(36)
+			$0.trailing.equalToSuperview().offset(-36)
+			$0.bottom.equalToSuperview().offset(-100)
+		}
+		// loading view
+		view.addSubview(loadingView)
+		loadingView.hidesWhenStopped = true
+		loadingView.snp.makeConstraints {
+			$0.center.equalTo(view.snp.center)
+		}
+	}
+
+	// MARK: - Show edit action sheet
+	func showActionSheet() {
+		let alertController = UIAlertController(title: nil,
+												message: nil,
+												preferredStyle: .actionSheet)
+		alertController.view.tintColor = Colors.mainTextColor
+		let editAction = UIAlertAction(title: "appeal.edit.title".localized,
+									   style: .default,
+									   handler: { _ in
+										self.viewModel.isEditingSubject.onNext(true)
+										alertController.dismiss(animated: true)
+									   })
+		alertController.addAction(editAction)
+		let cancelAction = UIAlertAction(title: "alert.cancel".localized,
+										 style: .cancel,
+										 handler: { _ in
+											alertController.dismiss(animated: true)
+										 })
+		alertController.addAction(cancelAction)
+		self.present(alertController, animated: true)
+	}
+
+	// MARK: - TextView delegate
+	func textViewDidBeginEditing(_ textView: UITextView) {
+		if textView.textColor == Colors.placeholderColor {
+			textView.text = nil
+			textView.textColor = Colors.mainTextColor
+			textView.font = SFUIDisplay.regular.of(size: 16)
+			textView.textAlignment = .natural
+		}
+	}
+
+	func textViewDidEndEditing(_ textView: UITextView) {
+		if textView.text.isEmpty {
+			textView.text = "new_appeal.textview.placeholder".localized
+			textView.textColor = Colors.placeholderColor
+			textView.font = Saira.light.of(size: 15)
+			textView.textAlignment = .center
+		}
+	}
+
+	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+		if(text == "\n") {
+			textView.resignFirstResponder()
+			return false
+		}
+		return true
 	}
 }

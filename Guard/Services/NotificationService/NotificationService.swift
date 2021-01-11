@@ -38,7 +38,7 @@ final class NotificationService: NSObject, NotificationServiceInterface {
 		content.sound = UNNotificationSound.default
 		content.badge = 0
 
-		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0, repeats: false)
+		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
 		let identifier = "Local Notification"
 		let request = UNNotificationRequest(identifier: identifier,
 											content: content,
@@ -53,5 +53,10 @@ final class NotificationService: NSObject, NotificationServiceInterface {
 }
 
 extension NotificationService: UNUserNotificationCenterDelegate {
-	
+	func userNotificationCenter(_ center: UNUserNotificationCenter,
+								willPresent notification: UNNotification,
+								withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+
+		completionHandler([.alert, .badge, .sound])
+	}
 }

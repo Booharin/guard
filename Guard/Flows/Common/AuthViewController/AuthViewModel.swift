@@ -32,7 +32,7 @@ final class AuthViewModel: ViewModel,
 	let toMainSubject: PublishSubject<UserRole>?
 	let toChooseSubject: PublishSubject<Any>?
 	let toForgotPasswordSubject: PublishSubject<Any>?
-	
+
 	var logoTopOffset: CGFloat {
 		switch UIScreen.displayClass {
 		case .iPhone8:
@@ -76,6 +76,7 @@ final class AuthViewModel: ViewModel,
 		
 		// login
 		view.loginTextField.keyboardType = .emailAddress
+		view.loginTextField.autocapitalizationType = .none
 		view.loginTextField.configure(placeholderText: "registration.login.placeholder".localized)
 		view.loginTextField
 			.rx
@@ -271,6 +272,7 @@ final class AuthViewModel: ViewModel,
 				self?.view.loadingView.stopAnimating()
 				switch result {
 					case .success(let userRole):
+						self?.di.socketStompService.connectSocketStomp()
 						self?.toMainSubject?.onNext(userRole)
 					case .failure(let error):
 						//TODO: - обработать ошибку

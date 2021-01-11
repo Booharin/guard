@@ -9,13 +9,14 @@
 import UIKit
 
 final class SkipButtonView: UIButton {
-	init() {
+	init(title: String,
+		 font: UIFont) {
 		super.init(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
 		
 		let label = UILabel(frame: CGRect(x: -15, y: 15, width: 100, height: 20))
 		label.textAlignment = .right
-		label.text = "registration.skip.title".localized
-		label.font = Saira.light.of(size: 15)
+		label.text = title
+		label.font = font
 		label.textColor = Colors.mainColor
         addSubview(label)
 	}

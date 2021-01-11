@@ -61,7 +61,7 @@ final class AppealCreatingViewModel: ViewModel, HasDependencies {
 		view.issueTitleLabel.textAlignment = .center
 		view.issueTitleLabel.text = issueType.title
 
-		// login
+		// title
 		view.titleTextField.configure(placeholderText: "new_appeal.title.textfield.placeholder".localized)
 		view.titleTextField
 			.rx
@@ -119,21 +119,20 @@ final class AppealCreatingViewModel: ViewModel, HasDependencies {
 				if keyboardHeight > 0 {
 					guard self.view.descriptionTextView.textColor == Colors.mainTextColor else { return }
 					self.view.descriptionTextView.contentInset = UIEdgeInsets(top: 0,
-																					left: 0,
-																					bottom: keyboardHeight,
-																					right: 0)
+																			  left: 0,
+																			  bottom: keyboardHeight,
+																			  right: 0)
 				} else {
 					self.view.descriptionTextView.contentInset = UIEdgeInsets(top: 0,
-																					left: 0,
-																					bottom: 0,
-																					right: 0)
+																			  left: 0,
+																			  bottom: 0,
+																			  right: 0)
 				}
 			})
 			.disposed(by: disposeBag)
 	}
-	
-	private func checkAreTextFieldsEmpty() {
 
+	private func checkAreTextFieldsEmpty() {
 		guard
 			let title = view.titleTextField.text,
 			let description = view.descriptionTextView.text else { return }
@@ -147,7 +146,7 @@ final class AppealCreatingViewModel: ViewModel, HasDependencies {
 			view.createAppealButton.backgroundColor = Colors.buttonDisabledColor
 		}
 	}
-	
+
 	private func keyboardHeight() -> Observable<CGFloat> {
 		return Observable
 			.from([

@@ -82,6 +82,9 @@
 
 //APPEAL
 "appeal.lawyerSelectedButton.title" = "lawyer selected";
+"appeal.edit.title" = "Edit";
+"appeal.saveButton.title" = "Save";
+"appeal.cancelButton.title" = "Cancel";
 
 //FILTER
 "filter.title" = "Filters";

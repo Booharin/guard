@@ -21,6 +21,10 @@ protocol AppealsNetworkServiceInterface {
 					  clientId: Int,
 					  issueCode: Int,
 					  cityCode: Int) -> Observable<Result<Any, AFError>>
+	func editAppeal(title: String,
+					appealDescription: String,
+					appeal: ClientAppeal,
+					cityCode: Int) -> Observable<Result<Any, AFError>>
 	func deleteAppeal(id: Int) -> Observable<Result<Any, AFError>>
 }
 
@@ -83,6 +87,38 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 										 issueCode: issueCode,
 										 cityCode: cityCode,
 										 token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.response { response in
+				#if DEBUG
+				print(response)
+				#endif
+				switch response.result {
+				case .success:
+					observer.onNext(.success(()))
+				case .failure:
+					#if DEBUG
+					print(response.error?.localizedDescription ?? "")
+					#endif
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func editAppeal(title: String,
+					appealDescription: String,
+					appeal: ClientAppeal,
+					cityCode: Int) -> Observable<Result<Any, AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.editAppeal(title: title,
+									   appealDescription: appealDescription,
+									   appeal: appeal,
+									   cityCode: cityCode,
+									   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
 			)
 			.response { response in
 				#if DEBUG
