@@ -14,40 +14,65 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 	var view: ConversationsListViewControllerProtocol!
 	let router: ConversationsListRouterProtocol
 	private var conversations = [ChatConversation]()
+	var conversationsListSubject: PublishSubject<Any>?
+	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ChatConversation>]>?
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
-	
-	typealias Dependencies = HasLocalStorageService
+
+	typealias Dependencies =
+		HasLocalStorageService &
+		HasChatNetworkService &
+		HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
-	
-	private let conversationDict: [String : Any] = [
-		"dateCreated": 1599719845.0,
-		"companionId": 0,
-		"lastMessage": "Да и нахуй мне нужны такие ваши услуги!"
-	]
-	
+
 	init(router: ConversationsListRouterProtocol) {
 		self.router = router
 	}
-	
+
 	func viewDidSet() {
-		getConversationsFromServer()
-		
 		// table view data source
 		let section = SectionModel<String, ChatConversation>(model: "",
 															 items: conversations)
-		let items = BehaviorSubject<[SectionModel]>(value: [section])
-		items
+		let dataSource = ConversationsListDataSource.dataSource(toChat: router.toChatSubject)
+		dataSource.canEditRowAtIndexPath = { dataSource, indexPath  in
+			return true
+		}
+		dataSourceSubject = BehaviorSubject<[SectionModel]>(value: [section])
+		dataSourceSubject?
 			.bind(to: view.tableView
 					.rx
-					.items(dataSource: ConversationsListDataSource.dataSource(toChat: router.toChatSubject)))
+					.items(dataSource: dataSource))
 			.disposed(by: disposeBag)
-		
+
+		//TODO: - finish up when chat deleting will be ready
+		view.tableView.rx.itemDeleted
+			.asObservable()
+//			.filter { [unowned self] indexPath in
+//				indexPath.row < appeals.count
+//			}
+//			.flatMap { [unowned self] indexPath in
+//				self.di.appealsNetworkService.deleteAppeal(id: appeals[indexPath.row].id)
+//			}
+//			.flatMap { [unowned self] _ in
+//				self.di.appealsNetworkService.getClientAppeals(by: di.localStorageService.getCurrenClientProfile()?.id ?? 0)
+//			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+//				self?.view.loadingView.stopAnimating()
+//				switch result {
+//					case .success(let appeals):
+//						self?.update(with: appeals)
+//					case .failure(let error):
+//						//TODO: - обработать ошибку
+//						print(error.localizedDescription)
+//				}
+			}).disposed(by: disposeBag)
+
 		// greeting
 		view.greetingLabel.font = Saira.light.of(size: 25)
 		view.greetingLabel.textColor = Colors.mainTextColor
 		view.greetingLabel.textAlignment = .center
-		
+
 		if let profile = di.localStorageService.getCurrenClientProfile(),
 		   let firstName = profile.firstName,
 		   !firstName.isEmpty {
@@ -55,45 +80,47 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 		} else {
 			view.greetingLabel.text = "chat.greeting.title".localized
 		}
-		
+
 		view.greetingDescriptionLabel.font = Saira.light.of(size: 18)
 		view.greetingDescriptionLabel.textColor = Colors.mainTextColor
 		view.greetingDescriptionLabel.textAlignment = .center
 		view.greetingDescriptionLabel.text = "chat.greeting.description".localized
+
+		conversationsListSubject = PublishSubject<Any>()
+		conversationsListSubject?
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.getConversations(with: di.localStorageService.getCurrenClientProfile()?.id ?? 0,
+									  isLawyer: di.localStorageService.getCurrenClientProfile()?.userRole == .lawyer ? true : false)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stopAnimating()
+				switch result {
+					case .success(let conversations):
+						self?.update(with: conversations)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		view.loadingView.startAnimating()
 	}
-	
-	private func getConversationsFromServer() {
-		let conversationArray = [
-			conversationDict,
-			conversationDict,
-			conversationDict,
-			conversationDict,
-			conversationDict,
-			conversationDict,
-			conversationDict,
-			conversationDict,
-			conversationDict,
-			conversationDict,
-			conversationDict,
-			conversationDict,
-			conversationDict,
-			conversationDict,
-			conversationDict
-		]
-		do {
-			let jsonData = try JSONSerialization.data(withJSONObject: conversationArray,
-													  options: .prettyPrinted)
-			let conversationsResponse = try JSONDecoder().decode([ChatConversation].self, from: jsonData)
-			self.conversations = conversationsResponse
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-				self.view.updateTableView()
-			})
-		} catch {
-			#if DEBUG
-			print(error)
-			#endif
+
+	private func update(with conversations: [ChatConversation]) {
+		self.conversations = conversations
+		let section = SectionModel<String, ChatConversation>(model: "",
+															 items: conversations)
+		dataSourceSubject?.onNext([section])
+		
+		if self.view.tableView.contentSize.height + 200 < self.view.tableView.frame.height {
+			self.view.tableView.isScrollEnabled = false
+		} else {
+			self.view.tableView.isScrollEnabled = true
 		}
 	}
-	
+
 	func removeBindings() {}
 }

@@ -12,16 +12,20 @@ protocol ConversationsListViewControllerProtocol: ViewControllerProtocol {
 	var greetingLabel: UILabel { get }
 	var greetingDescriptionLabel: UILabel { get }
 	var tableView: UITableView { get }
+	var loadingView: UIActivityIndicatorView { get }
 	func updateTableView()
 }
 
-final class ConversationsListViewController<modelType: ViewModel>: UIViewController, UITableViewDelegate,
-																   ConversationsListViewControllerProtocol where modelType.ViewType == ConversationsListViewControllerProtocol {
+final class ConversationsListViewController<modelType: ConversationsListViewModel>:
+	UIViewController,
+	UITableViewDelegate,
+	ConversationsListViewControllerProtocol {
 	
 	var greetingLabel = UILabel()
 	var greetingDescriptionLabel = UILabel()
 	var tableView = UITableView()
 	private var gradientView: UIView?
+	var loadingView = UIActivityIndicatorView(style: .medium)
 	var viewModel: modelType
 	
 	init(viewModel: modelType) {
@@ -51,6 +55,8 @@ final class ConversationsListViewController<modelType: ViewModel>: UIViewControl
 		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
+
+		viewModel.conversationsListSubject?.onNext(())
 	}
 	
 	private func addViews() {
@@ -66,6 +72,12 @@ final class ConversationsListViewController<modelType: ViewModel>: UIViewControl
 		view.addSubview(tableView)
 		tableView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
+		}
+		// loading view
+		view.addSubview(loadingView)
+		loadingView.hidesWhenStopped = true
+		loadingView.snp.makeConstraints {
+			$0.center.equalToSuperview()
 		}
 	}
 	

@@ -160,6 +160,8 @@
 		52B268732511181200111864 /* ConversationsListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B268722511181200111864 /* ConversationsListDataSource.swift */; };
 		52B278C824C09621001E7295 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C724C09621001E7295 /* Dependencies.swift */; };
 		52B278CA24C0964F001E7295 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C924C0964F001E7295 /* LocationService.swift */; };
+		52B5042925AEE0C200C2D0E3 /* ChatNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B5042825AEE0C200C2D0E3 /* ChatNetworkService.swift */; };
+		52B5042B25AEE30E00C2D0E3 /* ChatNetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B5042A25AEE30E00C2D0E3 /* ChatNetworkRouter.swift */; };
 		52B654B4251B303F003D2465 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B654B3251B303F003D2465 /* SettingsViewController.swift */; };
 		52B654B6251B3063003D2465 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B654B5251B3063003D2465 /* SettingsViewModel.swift */; };
 		52BD63EE2532F1D300FF393D /* UserReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BD63ED2532F1D300FF393D /* UserReview.swift */; };
@@ -356,6 +358,8 @@
 		52B268722511181200111864 /* ConversationsListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsListDataSource.swift; sourceTree = "<group>"; };
 		52B278C724C09621001E7295 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		52B278C924C0964F001E7295 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		52B5042825AEE0C200C2D0E3 /* ChatNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNetworkService.swift; sourceTree = "<group>"; };
+		52B5042A25AEE30E00C2D0E3 /* ChatNetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNetworkRouter.swift; sourceTree = "<group>"; };
 		52B654B3251B303F003D2465 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		52B654B5251B3063003D2465 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		52BD63ED2532F1D300FF393D /* UserReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReview.swift; sourceTree = "<group>"; };
@@ -645,6 +649,7 @@
 				52614F83257F6B5A0087962B /* LawyersNetworkService.swift */,
 				521016DA2581426D002A696E /* AppealsNetworkService.swift */,
 				52507E2A258617A900C8B213 /* CommonDataNetworkService.swift */,
+				52B5042825AEE0C200C2D0E3 /* ChatNetworkService.swift */,
 				523C8CDA256271D4006DECAB /* NetworkRouters */,
 				523C8CD125626FDE006DECAB /* Config */,
 				523C8CE425628922006DECAB /* Responses */,
@@ -671,6 +676,7 @@
 				52614F87257F6EFB0087962B /* LawyersNetworkRouter.swift */,
 				521016DC258143BF002A696E /* AppealsNetworkRouter.swift */,
 				52507E302586293C00C8B213 /* CommonDataNetworkRouter.swift */,
+				52B5042A25AEE30E00C2D0E3 /* ChatNetworkRouter.swift */,
 			);
 			path = NetworkRouters;
 			sourceTree = "<group>";
@@ -1464,6 +1470,7 @@
 				52516D5C2513E03300521AA4 /* ChatBarView.swift in Sources */,
 				52B2686E251114E200111864 /* BaseRouter.swift in Sources */,
 				527E4D4B258FA05900744A40 /* NotificationService.swift in Sources */,
+				52B5042925AEE0C200C2D0E3 /* ChatNetworkService.swift in Sources */,
 				52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */,
 				52A271B52508ED230050FB60 /* ClientAppealsListViewController.swift in Sources */,
 				5235F287250CB6EA00639FC4 /* AppealCreatingViewController.swift in Sources */,
@@ -1475,6 +1482,7 @@
 				5222B68624C75609000BEE13 /* UITableViewCell+Identifier.swift in Sources */,
 				52AF28E62506145D00287A8F /* LawyerCell.swift in Sources */,
 				52A271BE2508F94A0050FB60 /* ClientAppealCell.swift in Sources */,
+				52B5042B25AEE30E00C2D0E3 /* ChatNetworkRouter.swift in Sources */,
 				523C8CD9256271C2006DECAB /* AuthService.swift in Sources */,
 				5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */,
 				523C8CD7256270B1006DECAB /* ApiMethods.swift in Sources */,

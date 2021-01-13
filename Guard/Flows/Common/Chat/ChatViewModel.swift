@@ -20,26 +20,27 @@ final class ChatViewModel: ViewModel, HasDependencies {
 	typealias Dependencies =
 		HasNotificationService &
 		HasSocketStompService &
-		HasLocalStorageService
+		HasLocalStorageService &
+		HasChatNetworkService
 	lazy var di: Dependencies = DI.dependencies
-	
+	var messagesListSubject: PublishSubject<Any>?
+	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ChatMessage>]>?
+
 	init(chatConversation: ChatConversation) {
 		self.chatConversation = chatConversation
 	}
-	
+
 	func viewDidSet() {
-		getMessagesFromServer()
-		
 		// table view data source
 		let section = SectionModel<String, ChatMessage>(model: "",
 														items: messages)
-		let items = BehaviorSubject<[SectionModel]>(value: [section])
-		items
+		dataSourceSubject = BehaviorSubject<[SectionModel]>(value: [section])
+		dataSourceSubject?
 			.bind(to: view.tableView
 					.rx
 					.items(dataSource: ChatDataSource.dataSource()))
 			.disposed(by: disposeBag)
-		
+
 		// back button
 		view.backButtonView
 			.rx
@@ -57,7 +58,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [weak self] _ in
 				self?.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
-		
+
 		// appeal button
 		view.appealButtonView
 			.rx
@@ -75,12 +76,12 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [weak self] _ in
 				//
 			}).disposed(by: disposeBag)
-		
+
 		// title
 		view.titleLabel.font = SFUIDisplay.bold.of(size: 15)
 		view.titleLabel.textColor = Colors.mainTextColor
-		view.titleLabel.text = "Pary Mason"//chatConversation.companion.fullName
-		
+		view.titleLabel.text = chatConversation.fullName
+
 		// swipe to go back
 		view.view
 			.rx
@@ -89,7 +90,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
-		
+
 		// MARK: - Check keyboard showing
 		keyboardHeight()
 			.observeOn(MainScheduler.instance)
@@ -146,15 +147,36 @@ final class ChatViewModel: ViewModel, HasDependencies {
 					print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
+
+		messagesListSubject = PublishSubject<Any>()
+		messagesListSubject?
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.getMessages(with: chatConversation.id)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stopAnimating()
+				switch result {
+					case .success(let messages):
+						self?.update(with: messages)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		view.loadingView.startAnimating()
 	}
-	
+
 	// MARK: - Scroll table view to bottom
 	func scrollToBottom() {
 		let indexPath = IndexPath(row: messages.count-1, section: 0)
 		guard indexPath.row >= 0 else { return }
 		self.view.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
 	}
-	
+
 	private func keyboardHeight() -> Observable<CGFloat> {
 		return Observable
 			.from([
@@ -169,50 +191,19 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			])
 			.merge()
 	}
-	
-	private func getMessagesFromServer() {
-		do {
-			let jsonData = try JSONSerialization.data(withJSONObject: messagesArray,
-													  options: .prettyPrinted)
-			let messagesResponse = try JSONDecoder().decode([ChatMessage].self, from: jsonData)
-			self.messages = messagesResponse
-		} catch {
-			#if DEBUG
-			print(error)
-			#endif
+
+	private func update(with messages: [ChatMessage]) {
+		self.messages = messages
+		let section = SectionModel<String, ChatMessage>(model: "",
+														items: messages)
+		dataSourceSubject?.onNext([section])
+
+		if self.view.tableView.contentSize.height + 200 < self.view.tableView.frame.height {
+			self.view.tableView.isScrollEnabled = false
+		} else {
+			self.view.tableView.isScrollEnabled = true
 		}
 	}
-	
+
 	func removeBindings() {}
-	
-	private let messagesArray = [
-		["dateCreated": 1599719845.0,
-		 "text": "Да мне тоже похуй, если честно!",
-		 "conversationId": 1,
-		 "eventOwner": "incoming"],
-		["dateCreated": 1600279290.0,
-		 "text": "Да и нахуй мне нужны такие ваши услуги!",
-		 "conversationId": 1,
-		 "eventOwner": "outgoing"],
-		["dateCreated": 1600279290.0,
-		 "text": "Надоело всё, не можете у моей жены штаны вернуть, а они мне дороги!",
-		 "conversationId": 1,
-		 "eventOwner": "outgoing"],
-		["dateCreated": 1600279289.0,
-		 "text": "Делаю, всё что могу, она их не отдает, говорит, что еще собака ваша на них рожала",
-		 "conversationId": 1,
-		 "eventOwner": "incoming"],
-		["dateCreated": 1600279288.0,
-		 "text": "Думаете легко с ней общаться постоянно?",
-		 "conversationId": 1,
-		 "eventOwner": "incoming"],
-		["dateCreated": 1600279287.0,
-		 "text": "Ну как продвигается?",
-		 "conversationId": 1,
-		 "eventOwner": "outgoing"],
-		["dateCreated": 1600279287.0,
-		 "text": "Добрый день",
-		 "conversationId": 1,
-		 "eventOwner": "outgoing"]
-	]
 }

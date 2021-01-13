@@ -121,7 +121,6 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 
 		view.loadingView.startAnimating()
-		//appealsListSubject?.onNext(())
 	}
 
 	private func update(with appeals: [ClientAppeal]) {
@@ -136,6 +135,6 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 			self.view.tableView.isScrollEnabled = true
 		}
 	}
-	
+
 	func removeBindings() {}
 }

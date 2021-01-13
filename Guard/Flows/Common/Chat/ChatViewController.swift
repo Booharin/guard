@@ -15,11 +15,14 @@ protocol ChatViewControllerProtocol: ViewControllerProtocol {
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
 	var chatBarView: ChatBarViewProtocol { get }
+	var loadingView: UIActivityIndicatorView { get }
 }
 
-final class ChatViewController<modelType: ChatViewModel>: UIViewController, UITableViewDelegate,
+final class ChatViewController<modelType: ChatViewModel>:
+	UIViewController,
+	UITableViewDelegate,
 	ChatViewControllerProtocol {
-	
+
 	var backButtonView = BackButtonView()
 	var appealButtonView = AppealButtonView()
 	var titleView = UIView()
@@ -31,16 +34,17 @@ final class ChatViewController<modelType: ChatViewModel>: UIViewController, UITa
 		self.navigationController
 	}
 	var viewModel: modelType
-	
+	var loadingView = UIActivityIndicatorView(style: .medium)
+
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 	}
-	
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -49,12 +53,14 @@ final class ChatViewController<modelType: ChatViewModel>: UIViewController, UITa
 		addViews()
 		setNavigationBar()
 	}
-	
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
+
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
+
+		viewModel.messagesListSubject?.onNext(())
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -103,8 +109,15 @@ final class ChatViewController<modelType: ChatViewModel>: UIViewController, UITa
 		tableView.delegate = self
 		view.addSubview(tableView)
 		tableView.snp.makeConstraints {
-			$0.leading.trailing.top.equalToSuperview()
+			$0.leading.trailing.equalToSuperview()
+			$0.top.equalToSuperview().offset(10)
 			$0.bottom.equalTo(chatBarView.snp.top)
+		}
+		// loading view
+		view.addSubview(loadingView)
+		loadingView.hidesWhenStopped = true
+		loadingView.snp.makeConstraints {
+			$0.center.equalToSuperview()
 		}
 	}
 	

@@ -20,7 +20,7 @@ extension Date {
 
 	static func getCorrectDate(from dateString: String, format: String) -> String? {
 		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
 		guard let date = dateFormatter.date(from: dateString) else { return nil }
 		dateFormatter.dateFormat = format
 		return dateFormatter.string(from: date)
@@ -28,7 +28,7 @@ extension Date {
 
 	static func getCurrentDate() -> String {
 		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.000+00:00"
+		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
 		return dateFormatter.string(from: Date())
 	}
 }
