@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 protocol EditClientProfileViewControllerProtocol: ViewControllerProtocol {
 	var scrollView: UIScrollView { get }
@@ -20,6 +21,7 @@ protocol EditClientProfileViewControllerProtocol: ViewControllerProtocol {
 	var emailTextField: EditTextField { get }
 	var countrySelectView: SelectButtonView { get }
 	var citySelectView: SelectButtonView { get }
+	var loadingView: UIActivityIndicatorView { get }
 	func showActionSheet(with titles: [String], completion: @escaping (String) -> Void)
 	func takePhotoFromGallery()
 }
@@ -48,6 +50,7 @@ final class EditClientProfileViewController<modelType: EditClientProfileViewMode
 	var countrySelectView = SelectButtonView()
 	var citySelectView = SelectButtonView()
 	private var imagePicker = UIImagePickerController()
+	var loadingView = UIActivityIndicatorView(style: .medium)
 
 	var viewModel: modelType
 
@@ -190,6 +193,12 @@ final class EditClientProfileViewController<modelType: EditClientProfileViewMode
 			$0.trailing.equalToSuperview().offset(-20)
 			$0.height.equalTo(48)
 		}
+		// loading view
+		view.addSubview(loadingView)
+		loadingView.hidesWhenStopped = true
+		loadingView.snp.makeConstraints {
+			$0.center.equalToSuperview()
+		}
 	}
 	
 	// MARK: - Show action sheet
@@ -229,12 +238,21 @@ final class EditClientProfileViewController<modelType: EditClientProfileViewMode
 	
 	func imagePickerController(_ picker: UIImagePickerController,
 							   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-		if let pickedImage = info[.originalImage] as? UIImage {
+		if let pickedImage = info[.editedImage] as? UIImage {
 			avatarImageView.contentMode = .scaleAspectFill
 			avatarImageView.image = pickedImage
+
+			guard let jpegData = pickedImage.jpegData(compressionQuality: 0.5) else { return }
+			let imgData = Data(jpegData)
+			viewModel.editImageData = imgData
+
+			let kbImageSize = Double(imgData.count) / 1000.0
+			if kbImageSize >= 1000 {
+				guard let jpegData = pickedImage.jpegData(compressionQuality: 0.25) else { return }
+				let imgData = Data(jpegData)
+				viewModel.editImageData = imgData
+			}
 		}
 		self.dismiss(animated: true)
 	}
 }
-
-

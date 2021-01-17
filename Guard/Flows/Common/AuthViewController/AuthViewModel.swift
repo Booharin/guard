@@ -254,7 +254,6 @@ final class AuthViewModel: ViewModel,
 			.asObservable()
 			.withLatestFrom(credentials)
 			.filter { [unowned self] credentials in
-				
 				if credentials.0.isValidEmail {
 					self.view.loadingView.startAnimating()
 					return true
@@ -272,7 +271,9 @@ final class AuthViewModel: ViewModel,
 				self?.view.loadingView.stopAnimating()
 				switch result {
 					case .success(let userRole):
-						self?.di.socketStompService.connectSocketStomp()
+						DispatchQueue.global().async {
+							self?.di.socketStompService.connectSocketStomp()
+						}
 						self?.toMainSubject?.onNext(userRole)
 					case .failure(let error):
 						//TODO: - обработать ошибку

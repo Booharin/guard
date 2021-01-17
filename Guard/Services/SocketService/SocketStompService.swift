@@ -7,12 +7,14 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol HasSocketStompService {
 	var socketStompService: SocketStompServiceInterface { get set }
 }
 
 protocol SocketStompServiceInterface {
+	var incomingMessageSubject: PublishSubject<Any> { get }
 	func connectSocketStomp()
 	func sendMessage(with text: String,
 					 to: String,
@@ -36,6 +38,7 @@ final class SocketStompService: SocketStompServiceInterface, HasDependencies {
 		HasNotificationService &
 		HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
+	var incomingMessageSubject = PublishSubject<Any>()
 
 	init(environment: Environment) {
 		self.environment = environment
@@ -129,8 +132,11 @@ extension SocketStompService: SwiftStompDelegate {
 			print("Message with id `\(messageId)` received at destination `\(destination)`:\n\(message)")
 			di.notificationService.showLocalNotification(with: messageId,
 														 message: message)
+			incomingMessageSubject.onNext(())
 		} else if let message = message as? Data {
 			print("Data message with id `\(messageId)` and binary length `\(message.count)` received at destination `\(destination)`")
+			di.notificationService.showLocalNotification(with: messageId,
+														 message: "data received")
 		}
 	}
 

@@ -25,6 +25,7 @@ struct Dependencies:
 	HasAppealsNetworkService,
 	HasCommonDataNetworkService,
 	HasChatNetworkService,
+	HasClientNetworkService,
 	HasSocketStompService,
 	HasKeyChainService,
 	HasNotificationService {
@@ -39,6 +40,7 @@ struct Dependencies:
 	var appealsNetworkService: AppealsNetworkServiceInterface
 	var commonDataNetworkService: CommonDataNetworkServiceInterface
 	var chatNetworkService: ChatNetworkServiceInterface
+	var clientNetworkService: ClientNetworkServiceInterface
 	var socketStompService: SocketStompServiceInterface
 	var keyChainService: KeyChainServiceInterface
 	var notificationService: NotificationServiceInterface
@@ -62,6 +64,7 @@ class AppDIContainer {
 							 appealsNetworkService: AppealsNetworkService(),
 							 commonDataNetworkService: CommonDataNetworkService(),
 							 chatNetworkService: ChatNetworkService(),
+							 clientNetworkService: ClientNetworkService(),
 							 socketStompService: SocketStompService(environment: EnvironmentImp()),
 							 keyChainService: KeyChainService(),
 							 notificationService: NotificationService())

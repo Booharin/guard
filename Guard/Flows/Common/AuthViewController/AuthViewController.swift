@@ -127,7 +127,8 @@ AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtoco
 		view.addSubview(loadingView)
 		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
-			$0.center.equalToSuperview()
+			$0.centerX.equalToSuperview()
+			$0.centerY.equalToSuperview().offset(-90)
 		}
 		// registration button
 		view.addSubview(registrationButton)

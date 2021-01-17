@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit.UIImage
 
 protocol HasLocalStorageService {
 	var localStorageService: LocalStorageServiceInterface { get set }
@@ -28,13 +29,37 @@ protocol LocalStorageServiceInterface {
 
 	//TODO: - Temporary solution
 	func getCurrenClientProfile() -> UserProfile?
+
 	/// Method for saving cities to storage
 	///  - Parameters:
 	///   - cities: cities array
 	func saveCities(_ cities: [CityModel])
+
 	/// Method for geting russian cities from storage
 	/// - Returns: cities array
 	func getRussianCities() -> [CityModel]
+
+	/// Method for saving reviews to storage
+	///  - Parameters:
+	///   - reviews: reviews
+	func saveReviews(_ reviews: [UserReview])
+
+	/// Method for geting reviews from storage
+	/// - Returns: reviews array
+	func getReviews() -> [UserReview]
+
+	/// Method for saving profile image to FileManager
+	///  - Parameters:
+	///   - data: image in Data format
+	///   - name: Name in directory
+	func saveImage(data: Data,
+				   name: String)
+
+	/// Method for geting profile image from FileManager
+	///  - Parameters:
+	///   - name: Name in directory
+	/// - Returns: Image
+	func getImage(with name: String) -> UIImage?
 }
 /// Core data model handle service
 final class LocalStorageService: LocalStorageServiceInterface {
@@ -84,5 +109,39 @@ final class LocalStorageService: LocalStorageServiceInterface {
 		return cityObjects
 			.filter { $0.countryCode == 7 }
 			.map { CityModel(cityObject: $0) }
+	}
+
+	func saveReviews(_ reviews: [UserReview]) {
+		let reviewsObjects = coreDataManager.fetchObjects(entity: ReviewObject.self,
+														  context: coreDataManager.mainContext)
+		coreDataManager.delete(reviewsObjects)
+		
+		let _ = reviews.map {
+			ReviewObject(reviewModel: $0,
+						 context: coreDataManager.mainContext)
+		}
+		coreDataManager.saveContext(synchronously: true)
+	}
+
+	func getReviews() -> [UserReview] {
+		let reviewObjects = coreDataManager.fetchObjects(entity: ReviewObject.self,
+														 context: coreDataManager.mainContext)
+		return reviewObjects.map { UserReview(reviewObject: $0) }
+	}
+	
+	func saveImage(data: Data,
+				   name: String) {
+		let filename = getDocumentsDirectory().appendingPathComponent(name)
+		try? data.write(to: filename)
+	}
+
+	func getImage(with name: String) -> UIImage? {
+		let imageURL = getDocumentsDirectory().appendingPathComponent(name)
+		return UIImage(contentsOfFile: imageURL.path)
+	}
+
+	private func getDocumentsDirectory() -> URL {
+		let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+		return paths[0]
 	}
 }

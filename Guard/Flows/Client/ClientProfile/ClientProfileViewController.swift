@@ -71,6 +71,9 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>: UIVi
 		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
 		navigationController?.navigationBar.isTranslucent = true
 		self.navigationItem.setHidesBackButton(true, animated:false)
+
+		viewModel.updateProfile()
+		viewModel.clientImageSubject?.onNext(())
 	}
 
 	private func addViews() {

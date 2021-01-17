@@ -142,7 +142,8 @@ final class ChatViewModel: ViewModel, HasDependencies {
 					self.di.socketStompService.sendMessage(with: jSONText,
 														   to: "/app/chat/6/27/sendMessage",
 														   receiptId: "",
-														   headers: nil)
+														   headers: ["content-type": "application/json"])
+					messagesListSubject?.onNext(())
 				} catch {
 					print(error.localizedDescription)
 				}
@@ -168,6 +169,14 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 
 		view.loadingView.startAnimating()
+
+		//MARK: - incoming message
+		di.socketStompService.incomingMessageSubject
+			.asObservable()
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] _ in
+				self?.messagesListSubject?.onNext(())
+			}).disposed(by: disposeBag)
 	}
 
 	// MARK: - Scroll table view to bottom
@@ -193,10 +202,13 @@ final class ChatViewModel: ViewModel, HasDependencies {
 	}
 
 	private func update(with messages: [ChatMessage]) {
-		self.messages = messages
+		self.messages = messages.sorted {
+			$0.dateCreated < $1.dateCreated
+		}
 		let section = SectionModel<String, ChatMessage>(model: "",
-														items: messages)
+														items: self.messages)
 		dataSourceSubject?.onNext([section])
+		scrollToBottom()
 
 		if self.view.tableView.contentSize.height + 200 < self.view.tableView.frame.height {
 			self.view.tableView.isScrollEnabled = false

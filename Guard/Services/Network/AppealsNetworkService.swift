@@ -48,6 +48,18 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 				#if DEBUG
 				print(response)
 				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
 				switch response.result {
 				case .success:
 					guard let data = response.data else {
@@ -92,6 +104,18 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 				#if DEBUG
 				print(response)
 				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
 				switch response.result {
 				case .success:
 					observer.onNext(.success(()))
@@ -124,6 +148,18 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 				#if DEBUG
 				print(response)
 				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
 				switch response.result {
 				case .success:
 					observer.onNext(.success(()))
@@ -150,6 +186,18 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 				#if DEBUG
 				print(response)
 				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
 				switch response.result {
 				case .success:
 					observer.onNext(.success(()))

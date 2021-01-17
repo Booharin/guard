@@ -62,13 +62,13 @@ final class ChatViewController<modelType: ChatViewModel>:
 
 		viewModel.messagesListSubject?.onNext(())
 	}
-	
+
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
 		navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
 	}
-	
+
 	private func setNavigationBar() {
 		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
 		self.navigationItem.leftBarButtonItem = leftBarButtonItem
@@ -76,7 +76,7 @@ final class ChatViewController<modelType: ChatViewModel>:
 		self.navigationItem.rightBarButtonItem = rightBarButtonItem
 		self.navigationItem.titleView = titleView
 	}
-	
+
 	private func addViews() {
 		// title view
 		titleView.addSubview(titleLabel)
@@ -89,7 +89,7 @@ final class ChatViewController<modelType: ChatViewModel>:
 			$0.width.equalTo(titleLabel.snp.width).offset(46)
 			$0.height.equalTo(40)
 		}
-		
+
 		// chat bar
 		view.addSubview(chatBarView)
 		chatBarView.snp.makeConstraints {
@@ -97,7 +97,7 @@ final class ChatViewController<modelType: ChatViewModel>:
 			$0.bottom.equalToSuperview()
 			$0.height.equalTo(106)
 		}
-		
+
 		// table view
 		tableView.register(SelectIssueTableViewCell.self,
 						   forCellReuseIdentifier: SelectIssueTableViewCell.reuseIdentifier)
@@ -120,7 +120,7 @@ final class ChatViewController<modelType: ChatViewModel>:
 			$0.center.equalToSuperview()
 		}
 	}
-	
+
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let headerView = UIView()
 		headerView.snp.makeConstraints {
@@ -129,11 +129,11 @@ final class ChatViewController<modelType: ChatViewModel>:
 		}
 		return headerView
 	}
-	
+
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 		return 40
 	}
-	
+
 	func scrollViewWillEndDragging(_ scrollView: UIScrollView,
 								   withVelocity velocity: CGPoint,
 								   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -162,7 +162,7 @@ final class ChatViewController<modelType: ChatViewModel>:
 			})
 		}
 	}
-	
+
 	private func createGradentView() -> UIView {
 		let gradientLAyer = CAGradientLayer()
 		gradientLAyer.colors = [

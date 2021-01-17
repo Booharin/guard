@@ -42,7 +42,7 @@ final class RegistrationService: RegistrationServiceInterface, HasDependencies {
 																 password: password,
 																 city: city,
 																 role: userRole))
-				.responseJSON { response in
+				.response { response in
 					#if DEBUG
 					print(response)
 					#endif

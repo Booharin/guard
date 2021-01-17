@@ -74,6 +74,9 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 							self.di.keyChainService.save(password, for: Constants.KeyChainKeys.password)
 							self.di.keyChainService.save(user.phoneNumber ?? "", for: Constants.KeyChainKeys.phoneNumber)
 							self.di.localStorageService.saveProfile(user)
+							if let reviews = user.reviewList {
+								self.di.localStorageService.saveReviews(reviews)
+							}
 							UserDefaults.standard.set(true, forKey: Constants.UserDefaultsKeys.isLogin)
 
 							observer.onNext(.success(user.userRole))

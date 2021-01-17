@@ -110,9 +110,11 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 	}
 
 	private func update(with conversations: [ChatConversation]) {
-		self.conversations = conversations
+		self.conversations = conversations.sorted {
+			$0.dateCreated < $1.dateCreated
+		}
 		let section = SectionModel<String, ChatConversation>(model: "",
-															 items: conversations)
+															 items: self.conversations)
 		dataSourceSubject?.onNext([section])
 		
 		if self.view.tableView.contentSize.height + 200 < self.view.tableView.frame.height {

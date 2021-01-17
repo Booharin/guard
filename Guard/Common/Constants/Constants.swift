@@ -17,4 +17,7 @@ enum Constants {
 		static let password = "password"
 		static let phoneNumber = "phoneNumber"
 	}
+	enum NotificationKeys {
+		static let logout = "profile_logout"
+	}
 }

@@ -109,6 +109,8 @@
 "profile.action_sheet.settings" = "Настройки";
 "profile.action_sheet.edit" = "Редактировать";
 "profile.action_sheet.cancel" = "Отмена";
+"profile.reviews" = "Отзывы";
+"profile.rating" = "Рейтинг";
 
 //EDIT_PROFILE
 "edit_profile.name.placeholder" = "Имя";
