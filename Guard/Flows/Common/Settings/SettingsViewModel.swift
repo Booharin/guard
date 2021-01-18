@@ -11,13 +11,28 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-final class SettingsViewModel: ViewModel {
+final class SettingsViewModel: ViewModel, HasDependencies {
 	var view: SettingsViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var userRole: UserRole
 	private var disposeBag = DisposeBag()
+
 	private let logoutSubject: PublishSubject<Any>
 	private let logoutWithAlertSubject = PublishSubject<Any>()
+	private let changePasswordSubject = PublishSubject<Any>()
+	private var settingsListSubject: PublishSubject<Any>?
+	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, SettingsCellType>]>?
+	private let showLoaderSubject = PublishSubject<Bool>()
+
+	typealias Dependencies =
+		HasClientNetworkService &
+		HasLocalStorageService
+	lazy var di: Dependencies = DI.dependencies
+
+	private var settingsCells = [SettingsCellType]()
+	var clientProfile: UserProfile? {
+		di.localStorageService.getCurrenClientProfile()
+	}
 
 	init(userRole: UserRole,
 		 logoutSubject: PublishSubject<Any>) {
@@ -26,28 +41,14 @@ final class SettingsViewModel: ViewModel {
 	}
 
 	func viewDidSet() {
-		let settingsItems: [SettingsCellType] = [
-			.headerItem(title: "settings.visibility.title".localized),
-			.notificationItem(title: "settings.visibility.phone".localized,
-							  isOn: false,
-							  isSeparatorHidden: false),
-			.notificationItem(title: "settings.visibility.mail".localized,
-							  isOn: true,
-							  isSeparatorHidden: false),
-			.notificationItem(title: "settings.visibility.notifications".localized,
-							  isOn: true,
-							  isSeparatorHidden: true),
-			.headerItem(title: "settings.other.title".localized),
-			.logoutItem(logoutSubject: logoutWithAlertSubject)
-		]
 		// table view data source
 		let section = SectionModel<String, SettingsCellType>(model: "",
-												items: settingsItems)
-		let items = BehaviorSubject<[SectionModel]>(value: [section])
-		items
+															 items: settingsCells)
+		dataSourceSubject = BehaviorSubject<[SectionModel]>(value: [section])
+		dataSourceSubject?
 			.bind(to: view.tableView
-				.rx
-				.items(dataSource: SettingsDataSource.dataSource()))
+					.rx
+					.items(dataSource: SettingsDataSource.dataSource()))
 			.disposed(by: disposeBag)
 
 		// title
@@ -82,12 +83,93 @@ final class SettingsViewModel: ViewModel {
 				self?.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
 
+		changePasswordSubject
+			.asObservable()
+			.subscribe(onNext: { [weak self] _ in
+				self?.view.navController?.popViewController(animated: true)
+			}).disposed(by: disposeBag)
+
 		logoutWithAlertSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.showActionSheet(toAuthSubject: self.logoutSubject)
 			})
 			.disposed(by: disposeBag)
+
+		showLoaderSubject
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] isShow in
+				switch isShow {
+				case true:
+					self?.view.loadingView.startAnimating()
+				case false:
+					self?.view.loadingView.stopAnimating()
+				}
+			}).disposed(by: disposeBag)
+
+		settingsListSubject = PublishSubject<Any>()
+		settingsListSubject?
+			.flatMap ({ _ -> Observable<Bool> in
+				if let settings = self.di.localStorageService.getSettings(for: self.clientProfile?.id ?? 0) {
+					self.update(with: settings)
+					self.view.loadingView.stopAnimating()
+					return .just(false)
+				} else {
+					return .just(true)
+				}
+			})
+			.filter { result in
+				return result == true
+			}
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.clientNetworkService
+					.getSettings(profileId: self.clientProfile?.id ?? 0)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stopAnimating()
+				switch result {
+					case .success(let settings):
+						self?.update(with: settings)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		view.loadingView.startAnimating()
+		settingsListSubject?.onNext(())
+	}
+
+	private func update(with settings: SettingsModel) {
+		self.settingsCells = [
+			.headerItem(title: "settings.visibility.title".localized),
+			.notificationItem(title: "settings.visibility.phone".localized,
+							  isOn: settings.isPhoneVisible,
+							  isSeparatorHidden: false,
+							  showLoaderSubject: showLoaderSubject),
+			.notificationItem(title: "settings.visibility.mail".localized,
+							  isOn: settings.isEmailVisible,
+							  isSeparatorHidden: false,
+							  showLoaderSubject: showLoaderSubject),
+			.notificationItem(title: "settings.visibility.chat".localized,
+							  isOn: settings.isChatEnabled,
+							  isSeparatorHidden: true,
+							  showLoaderSubject: showLoaderSubject),
+			.headerItem(title: "settings.other.title".localized),
+			.changePasswordItem(changePasswordSubject: changePasswordSubject),
+			.logoutItem(logoutSubject: logoutWithAlertSubject)
+		]
+		let section = SectionModel<String, SettingsCellType>(model: "",
+															 items: self.settingsCells)
+		dataSourceSubject?.onNext([section])
+
+		if self.view.tableView.contentSize.height + 100 < self.view.tableView.frame.height {
+			self.view.tableView.isScrollEnabled = false
+		} else {
+			self.view.tableView.isScrollEnabled = true
+		}
 	}
 
 	func removeBindings() {}

@@ -28,6 +28,13 @@
 		521E64C224F8F7EA00FF96ED /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521E64C124F8F7EA00FF96ED /* Default-568h@2x.png */; };
 		521E64C524F8FB6A00FF96ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521E64C324F8FB6A00FF96ED /* LaunchScreen.storyboard */; };
 		521E64CF24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521E64CE24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift */; };
+		521EA38625B5795D00B00413 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521EA38525B5795D00B00413 /* SettingsModel.swift */; };
+		521EA38925B57C4900B00413 /* SettingsObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521EA38725B57C4900B00413 /* SettingsObject+CoreDataClass.swift */; };
+		521EA38A25B57C4900B00413 /* SettingsObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521EA38825B57C4900B00413 /* SettingsObject+CoreDataProperties.swift */; };
+		521EA39125B5A68500B00413 /* ChangePasswordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521EA39025B5A68500B00413 /* ChangePasswordCell.swift */; };
+		521EA39325B5A76700B00413 /* ChangePasswordCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521EA39225B5A76700B00413 /* ChangePasswordCellViewModel.swift */; };
+		521EA39625B5D38600B00413 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521EA39525B5D38600B00413 /* ChangePasswordViewController.swift */; };
+		521EA39825B5D39700B00413 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521EA39725B5D39700B00413 /* ChangePasswordViewModel.swift */; };
 		5220ED2625B06D8400FDCEB9 /* ReviewObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5220ED2425B06D8400FDCEB9 /* ReviewObject+CoreDataClass.swift */; };
 		5220ED2725B06D8400FDCEB9 /* ReviewObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5220ED2525B06D8400FDCEB9 /* ReviewObject+CoreDataProperties.swift */; };
 		5220ED2A25B0755F00FDCEB9 /* ClientNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5220ED2925B0755F00FDCEB9 /* ClientNetworkService.swift */; };
@@ -243,6 +250,13 @@
 		521E64C124F8F7EA00FF96ED /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		521E64C624F8FB7700FF96ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		521E64CE24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+iPhoneType.swift"; sourceTree = "<group>"; };
+		521EA38525B5795D00B00413 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		521EA38725B57C4900B00413 /* SettingsObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsObject+CoreDataClass.swift"; sourceTree = "<group>"; };
+		521EA38825B57C4900B00413 /* SettingsObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		521EA39025B5A68500B00413 /* ChangePasswordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordCell.swift; sourceTree = "<group>"; };
+		521EA39225B5A76700B00413 /* ChangePasswordCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordCellViewModel.swift; sourceTree = "<group>"; };
+		521EA39525B5D38600B00413 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		521EA39725B5D39700B00413 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
 		5220ED2425B06D8400FDCEB9 /* ReviewObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReviewObject+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5220ED2525B06D8400FDCEB9 /* ReviewObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReviewObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5220ED2925B0755F00FDCEB9 /* ClientNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientNetworkService.swift; sourceTree = "<group>"; };
@@ -259,6 +273,7 @@
 		5222B69024C7616F000BEE13 /* SelectIssueDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueDataSource.swift; sourceTree = "<group>"; };
 		5222B69324C761C3000BEE13 /* TableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewItem.swift; sourceTree = "<group>"; };
 		5222B69524C761D6000BEE13 /* TableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSection.swift; sourceTree = "<group>"; };
+		5222DBFC25B482FF00BA4929 /* Guard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Guard.entitlements; sourceTree = "<group>"; };
 		52337F202598F264009D8297 /* IssueLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueLabel.swift; sourceTree = "<group>"; };
 		5235F286250CB6EA00639FC4 /* AppealCreatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealCreatingViewController.swift; sourceTree = "<group>"; };
 		5235F288250CB7A400639FC4 /* AppealCreatingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealCreatingViewModel.swift; sourceTree = "<group>"; };
@@ -504,6 +519,33 @@
 			path = UIScreen;
 			sourceTree = "<group>";
 		};
+		521EA38D25B57C7400B00413 /* SettingsObject */ = {
+			isa = PBXGroup;
+			children = (
+				521EA38725B57C4900B00413 /* SettingsObject+CoreDataClass.swift */,
+				521EA38825B57C4900B00413 /* SettingsObject+CoreDataProperties.swift */,
+			);
+			path = SettingsObject;
+			sourceTree = "<group>";
+		};
+		521EA38F25B5A5E500B00413 /* ChangePassword */ = {
+			isa = PBXGroup;
+			children = (
+				521EA39025B5A68500B00413 /* ChangePasswordCell.swift */,
+				521EA39225B5A76700B00413 /* ChangePasswordCellViewModel.swift */,
+			);
+			path = ChangePassword;
+			sourceTree = "<group>";
+		};
+		521EA39425B5D35300B00413 /* ChangePassword */ = {
+			isa = PBXGroup;
+			children = (
+				521EA39525B5D38600B00413 /* ChangePasswordViewController.swift */,
+				521EA39725B5D39700B00413 /* ChangePasswordViewModel.swift */,
+			);
+			path = ChangePassword;
+			sourceTree = "<group>";
+		};
 		5220ED2825B06DA200FDCEB9 /* ReviewObject */ = {
 			isa = PBXGroup;
 			children = (
@@ -562,6 +604,7 @@
 				52ADE3C4258FCB6200F0B067 /* CityObject */,
 				52A00F74256590670099D961 /* UserProfileObject */,
 				525BFA70250A0468005393B1 /* ClientAppeal */,
+				521EA38D25B57C7400B00413 /* SettingsObject */,
 				522272E22504C9470029A4E2 /* GuardDataModel.xcdatamodeld */,
 			);
 			path = Models;
@@ -634,6 +677,7 @@
 		523AEAEF251E462100F1E607 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				521EA38F25B5A5E500B00413 /* ChangePassword */,
 				52A4258225221D5500E2FE7B /* HeaderCell */,
 				523AEAF5251E4C6800F1E607 /* Switcher */,
 				523AEAF4251E4C5C00F1E607 /* Logout */,
@@ -746,6 +790,7 @@
 		52483B9324A2774E0003A56A /* Guard */ = {
 			isa = PBXGroup;
 			children = (
+				5222DBFC25B482FF00BA4929 /* Guard.entitlements */,
 				52483BA824A278D30003A56A /* Core */,
 				52483BAB24A279340003A56A /* Flows */,
 				52483BAD24A279470003A56A /* Services */,
@@ -977,6 +1022,7 @@
 				52901BE72501002400271CAC /* IssueType.swift */,
 				52507E2C25861DFF00C8B213 /* CountryModel.swift */,
 				52507E2E25861E8300C8B213 /* CityModel.swift */,
+				521EA38525B5795D00B00413 /* SettingsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1031,7 +1077,6 @@
 		52760C4425016BCD00080152 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				52B654B2251B3022003D2465 /* Settings */,
 				52B2685F2511118500111864 /* ConversationsList */,
 				52740F73250F409F001D86FF /* Chat */,
 				5210399524C4D612004560FD /* SelectIssue */,
@@ -1041,6 +1086,8 @@
 				5253753424B84D5700CC729C /* Choose */,
 				52212F8124FFDCE0003FA67E /* ForgotPassword */,
 				521017032582193A002A696E /* LawyerProfile */,
+				52B654B2251B3022003D2465 /* Settings */,
+				521EA39425B5D35300B00413 /* ChangePassword */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1402,6 +1449,7 @@
 				52507E2F25861E8300C8B213 /* CityModel.swift in Sources */,
 				52B26861251111A400111864 /* ConversationsListViewController.swift in Sources */,
 				521681C7251E5A58007B4F6A /* SettingsDataSource.swift in Sources */,
+				521EA38625B5795D00B00413 /* SettingsModel.swift in Sources */,
 				52EB81C524B9E820003285BC /* AuthViewModel.swift in Sources */,
 				52B2685E25110F3F00111864 /* ChatMessage.swift in Sources */,
 				52614F84257F6B5A0087962B /* LawyersNetworkService.swift in Sources */,
@@ -1438,6 +1486,7 @@
 				52ADE3BF258FC13600F0B067 /* NetworkConnectivity.swift in Sources */,
 				5235F289250CB7A400639FC4 /* AppealCreatingViewModel.swift in Sources */,
 				52B2685C25110E3300111864 /* ChatDataSource.swift in Sources */,
+				521EA39625B5D38600B00413 /* ChangePasswordViewController.swift in Sources */,
 				5222B68C24C75AB3000BEE13 /* SelectIssueTableViewCell.swift in Sources */,
 				526AC48325738D260041B571 /* UITextField+Autofill.swift in Sources */,
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
@@ -1464,6 +1513,7 @@
 				52F0F5712536DA3B00FE2B14 /* AppealViewController.swift in Sources */,
 				52B268682511131600111864 /* ConversationCellViewModel.swift in Sources */,
 				52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */,
+				521EA38A25B57C4900B00413 /* SettingsObject+CoreDataProperties.swift in Sources */,
 				52A271C02508F9AC0050FB60 /* ClientAppealCellViewModel.swift in Sources */,
 				52614F96257FED6B0087962B /* UserProfileObject+CoreDataClass.swift in Sources */,
 				5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */,
@@ -1473,6 +1523,7 @@
 				52E62F26253238F8007FB1BE /* EditTextField.swift in Sources */,
 				523C8CE625628946006DECAB /* AuthResponse.swift in Sources */,
 				52F0F5732536DA5900FE2B14 /* AppealViewModel.swift in Sources */,
+				521EA39325B5A76700B00413 /* ChangePasswordCellViewModel.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
 				526DDD0725724C7600CF68F7 /* RegistrationNetworkRouter.swift in Sources */,
@@ -1511,6 +1562,7 @@
 				523C8CD7256270B1006DECAB /* ApiMethods.swift in Sources */,
 				523AEAF1251E464B00F1E607 /* LogoutCell.swift in Sources */,
 				52F749332565A846009CD041 /* KeyChainService.swift in Sources */,
+				521EA39125B5A68500B00413 /* ChangePasswordCell.swift in Sources */,
 				52A4258425221D7200E2FE7B /* SettingsHeaderCell.swift in Sources */,
 				52B2686A2511137600111864 /* ChatConversation.swift in Sources */,
 				52E62F2225322C58007FB1BE /* EditClientProfileViewController.swift in Sources */,
@@ -1524,12 +1576,14 @@
 				5251AFB424A283B000467E84 /* Constants.swift in Sources */,
 				52760C4A2501731C00080152 /* LawyersListViewController.swift in Sources */,
 				52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */,
+				521EA39825B5D39700B00413 /* ChangePasswordViewModel.swift in Sources */,
 				52A271B92508F27A0050FB60 /* AddButtonView.swift in Sources */,
 				52B654B6251B3063003D2465 /* SettingsViewModel.swift in Sources */,
 				52760C4C2501736600080152 /* LawyersListViewModel.swift in Sources */,
 				52B278C824C09621001E7295 /* Dependencies.swift in Sources */,
 				5220ED2A25B0755F00FDCEB9 /* ClientNetworkService.swift in Sources */,
 				52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */,
+				521EA38925B57C4900B00413 /* SettingsObject+CoreDataClass.swift in Sources */,
 				52483BB524A279FC0003A56A /* ApplicationCoordinator.swift in Sources */,
 				5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */,
 				527E4D43258F3AEF00744A40 /* SwiftStomp.swift in Sources */,
@@ -1712,6 +1766,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_ENTITLEMENTS = Guard/Guard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62UUS6482X;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1735,6 +1790,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_ENTITLEMENTS = Guard/Guard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62UUS6482X;
 				FRAMEWORK_SEARCH_PATHS = (

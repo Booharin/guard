@@ -69,11 +69,11 @@ final class AuthViewModel: ViewModel,
 		view.logoTitleLabel.font = Saira.bold.of(size: 30)
 		view.logoTitleLabel.textColor = Colors.mainTextColor
 		view.logoTitleLabel.text = "registration.logo.title".localized.uppercased()
-		
+
 		view.logoSubtitleLabel.font = SFUIDisplay.regular.of(size: 14)
 		view.logoSubtitleLabel.textColor = Colors.mainTextColor
 		view.logoSubtitleLabel.text = "registration.logo.subtitle".localized
-		
+
 		// login
 		view.loginTextField.keyboardType = .emailAddress
 		view.loginTextField.autocapitalizationType = .none
@@ -84,11 +84,11 @@ final class AuthViewModel: ViewModel,
 			.subscribe(onNext: { _ in
 				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
-		
-		if let profile = di.localStorageService.getCurrenClientProfile() {
-			view.loginTextField.text = profile.email
+
+		if let email = di.keyChainService.getValue(for: Constants.KeyChainKeys.email) {
+			view.loginTextField.text = email
 		}
-		
+
 		// password
 		view.passwordTextField.configure(placeholderText: "registration.password.placeholder".localized,
 										 isSeparatorHidden: true)
@@ -99,7 +99,7 @@ final class AuthViewModel: ViewModel,
 			.subscribe(onNext: { _ in
 				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
-		
+
 		// registration button
 		view.registrationButton.titleLabel?.adjustsFontSizeToFitWidth = true
 		view.registrationButton
@@ -177,7 +177,7 @@ final class AuthViewModel: ViewModel,
 		view.alertLabel.textColor = Colors.warningColor
 		view.alertLabel.textAlignment = .center
 		view.alertLabel.font = SFUIDisplay.regular.of(size: 15)
-		
+
 		// MARK: - Check keyboard showing
 		keyboardHeight()
 			.observeOn(MainScheduler.instance)

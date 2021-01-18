@@ -24,6 +24,12 @@
         <attribute name="reviewId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="senderId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
+    <entity name="SettingsObject" representedClassName="SettingsObject" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isChatEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isEmailVisible" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isPhoneVisible" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
     <entity name="UserProfileObject" representedClassName="UserProfileObject" syncable="YES">
         <attribute name="averageRate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="cityCode" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
@@ -39,7 +45,8 @@
     <elements>
         <element name="CityObject" positionX="-54" positionY="171" width="128" height="103"/>
         <element name="ClientAppealObject" positionX="-63" positionY="27" width="128" height="163"/>
-        <element name="UserProfileObject" positionX="-45" positionY="162" width="128" height="193"/>
         <element name="ReviewObject" positionX="-54" positionY="171" width="128" height="133"/>
+        <element name="UserProfileObject" positionX="-45" positionY="162" width="128" height="193"/>
+        <element name="SettingsObject" positionX="-54" positionY="171" width="128" height="103"/>
     </elements>
 </model>

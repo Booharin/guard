@@ -23,6 +23,9 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 	var clientProfile: UserProfile? {
 		di.localStorageService.getCurrenClientProfile()
 	}
+	var settings: SettingsModel? {
+		di.localStorageService.getSettings(for: clientProfile?.id ?? 0)
+	}
 
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
@@ -82,8 +85,9 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 
 	func updateProfile() {
 		// avatar
-		if di.localStorageService
-			.getImage(with: "\(clientProfile?.id ?? 0)_profile_image.jpeg") == nil {
+		if let image = di.localStorageService.getImage(with: "\(clientProfile?.id ?? 0)_profile_image.jpeg") {
+			view.avatarImageView.image = image
+		} else {
 			view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn")
 		}
 		view.avatarImageView.clipsToBounds = true
@@ -110,12 +114,14 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 		view.emailLabel.textColor = Colors.mainTextColor
 		view.emailLabel.font = SFUIDisplay.regular.of(size: 15)
 		view.emailLabel.text = self.di.keyChainService.getValue(for: Constants.KeyChainKeys.email)
+		view.emailLabel.isHidden = !(settings?.isEmailVisible ?? true)
 		// phone label
 		view.phoneLabel.textAlignment = .center
 		view.phoneLabel.textColor = Colors.mainTextColor
 		view.phoneLabel.font = SFUIDisplay.medium.of(size: 18)
 		view.phoneLabel.text = self.di.keyChainService.getValue(for: Constants.KeyChainKeys.phoneNumber)
-		
+		view.phoneLabel.isHidden = !(settings?.isPhoneVisible ?? true)
+
 		clientImageSubject = PublishSubject<Any>()
 		clientImageSubject?
 			.asObservable()

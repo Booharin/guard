@@ -125,7 +125,8 @@
 "settings.visibility.title" = "Видимость";
 "settings.visibility.phone" = "Показать телефон";
 "settings.visibility.mail" = "Показать email";
-"settings.visibility.notifications" = "Включить уведомления";
+"settings.visibility.chat" = "Включить чат";
+"settings.change_password.title" = "Сменить пароль";
 
 "settings.other.title" = "Другое";
 "logout.title" = "Выйти из профиля";

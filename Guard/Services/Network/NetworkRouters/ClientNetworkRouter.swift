@@ -49,6 +49,34 @@ struct ClientNetworkRouter {
 							id: profileId)
 		}
 	}
+
+	func getSettings(id: Int,
+					 token: String?) -> URLRequestConvertible {
+		do {
+			return try GetSettings(environment: environment,
+								   id: id).asURLDefaultRequest(with: token)
+		} catch {
+			#if DEBUG
+			print("Error JSON URLRequest", error)
+			#endif
+			return GetSettings(environment: environment,
+							   id: id)
+		}
+	}
+
+	func saveSettings(settingsModel: SettingsModel,
+					  token: String?) -> URLRequestConvertible {
+		do {
+			return try SaveSettings(environment: environment,
+									settingsModel: settingsModel).asJSONURLRequest(with: token)
+		} catch {
+			#if DEBUG
+			print("Error JSON URLRequest", error)
+			#endif
+			return SaveSettings(environment: environment,
+								settingsModel: settingsModel)
+		}
+	}
 }
 
 extension ClientNetworkRouter {
@@ -105,7 +133,6 @@ extension ClientNetworkRouter {
 	private struct GetPhoto: RequestRouter {
 
 		let environment: Environment
-
 		let id: Int
 
 		init(environment: Environment,
@@ -125,6 +152,59 @@ extension ClientNetworkRouter {
 		}
 		var parameters: Parameters {
 			return [:]
+		}
+	}
+
+	private struct GetSettings: RequestRouter {
+
+		let environment: Environment
+		let id: Int
+
+		init(environment: Environment,
+			 id: Int) {
+
+			self.environment = environment
+			self.id = id
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .get
+		var path = ApiMethods.settings
+		var parameters: Parameters {
+			return [
+				"id": id
+			]
+		}
+	}
+
+	private struct SaveSettings: RequestRouter {
+
+		let environment: Environment
+		let settingsModel: SettingsModel
+
+		init(environment: Environment,
+			 settingsModel: SettingsModel) {
+
+			self.environment = environment
+			self.settingsModel = settingsModel
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .post
+		var path = ApiMethods.settings
+		var parameters: Parameters {
+			return [
+				"id": settingsModel.id,
+				"isPhoneVisible": settingsModel.isPhoneVisible,
+				"isEmailVisible": settingsModel.isEmailVisible,
+				"isChatEnabled": settingsModel.isChatEnabled
+			]
 		}
 	}
 }

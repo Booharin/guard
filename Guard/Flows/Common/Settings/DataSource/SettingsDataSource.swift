@@ -11,7 +11,11 @@ import RxSwift
 
 enum SettingsCellType {
 	case headerItem(title: String)
-	case notificationItem(title: String, isOn: Bool, isSeparatorHidden: Bool)
+	case notificationItem(title: String,
+						  isOn: Bool,
+						  isSeparatorHidden: Bool,
+						  showLoaderSubject: PublishSubject<Bool>)
+	case changePasswordItem(changePasswordSubject: PublishSubject<Any>)
 	case logoutItem(logoutSubject: PublishSubject<Any>)
 }
 
@@ -26,11 +30,20 @@ struct SettingsDataSource {
 				cell.viewModel = SettingsHeaderCellViewModel(title: title)
 				cell.viewModel.assosiateView(cell)
 				return cell
-			case let .notificationItem(title, isOn, isSeparatorHidden):
+			case let .notificationItem(title,
+									   isOn,
+									   isSeparatorHidden,
+									   showLoaderSubject):
 				let cell = SwitcherCell()
 				cell.viewModel = SwitcherCellViewModel(title: title,
 													   isOn: isOn,
-													   isSeparatorHidden: isSeparatorHidden)
+													   isSeparatorHidden: isSeparatorHidden,
+													   showLoaderSubject: showLoaderSubject)
+				cell.viewModel.assosiateView(cell)
+				return cell
+			case let .changePasswordItem(changePasswordSubject: changePasswordSubject):
+				let cell = ChangePasswordCell()
+				cell.viewModel = ChangePasswordCellViewModel(changePasswordSubject: changePasswordSubject)
 				cell.viewModel.assosiateView(cell)
 				return cell
 			case let .logoutItem(logoutSubject):

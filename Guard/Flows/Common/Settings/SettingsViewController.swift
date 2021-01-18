@@ -15,9 +15,11 @@ protocol SettingsViewControllerProtocol: ViewControllerProtocol {
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
 	func showActionSheet(toAuthSubject: PublishSubject<Any>)
+	var loadingView: UIActivityIndicatorView { get }
 }
 
-class SettingsViewController<modelType: SettingsViewModel>: UIViewController,
+class SettingsViewController<modelType: SettingsViewModel>:
+	UIViewController,
 	UITableViewDelegate,
 	SettingsViewControllerProtocol {
 
@@ -29,6 +31,7 @@ class SettingsViewController<modelType: SettingsViewModel>: UIViewController,
 	var navController: UINavigationController? {
 		self.navigationController
 	}
+	var loadingView = UIActivityIndicatorView(style: .medium)
 
 	var viewModel: modelType
 
@@ -93,6 +96,12 @@ class SettingsViewController<modelType: SettingsViewModel>: UIViewController,
 		view.addSubview(tableView)
 		tableView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
+		}
+		// loading view
+		view.addSubview(loadingView)
+		loadingView.hidesWhenStopped = true
+		loadingView.snp.makeConstraints {
+			$0.center.equalToSuperview()
 		}
 	}
 

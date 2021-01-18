@@ -19,9 +19,13 @@ protocol ClientNetworkServiceInterface {
 	func editClient(profile: UserProfile,
 					email: String,
 					phone: String) -> Observable<Result<Any, AFError>>
+
 	func editPhoto(imageData: Data?,
 				   profileId: Int) -> Observable<Result<Any, AFError>>
 	func getPhoto(profileId: Int) -> Observable<Result<Data, AFError>>
+
+	func getSettings(profileId: Int) -> Observable<Result<SettingsModel, AFError>>
+	func saveSettings(settingsModel: SettingsModel) -> Observable<Result<Any, AFError>>
 }
 
 final class ClientNetworkService: ClientNetworkServiceInterface {
@@ -125,7 +129,7 @@ final class ClientNetworkService: ClientNetworkServiceInterface {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.getPhoto(profileId: profileId,
-									   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+									 token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
 			)
 			.response { response in
 				#if DEBUG
@@ -150,6 +154,95 @@ final class ClientNetworkService: ClientNetworkServiceInterface {
 						return
 					}
 					observer.onNext(.success(data))
+				case .failure:
+					#if DEBUG
+					print(response.error?.localizedDescription ?? "")
+					#endif
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func getSettings(profileId: Int) -> Observable<Result<SettingsModel, AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.getSettings(id: profileId,
+										token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.responseJSON { response in
+				#if DEBUG
+				print(response)
+				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
+				switch response.result {
+				case .success:
+					guard let data = response.data else {
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+						return
+					}
+					do {
+						let settings = try JSONDecoder().decode(SettingsModel.self, from: data)
+						observer.onNext(.success(settings))
+					} catch {
+						#if DEBUG
+						print(error)
+						#endif
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+					}
+				case .failure:
+					#if DEBUG
+					print(response.error?.localizedDescription ?? "")
+					#endif
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func saveSettings(settingsModel: SettingsModel) -> Observable<Result<Any, AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.saveSettings(settingsModel: settingsModel,
+										 token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.response { response in
+				#if DEBUG
+				print(response)
+				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
+				switch response.result {
+				case .success:
+					self.di.localStorageService.saveSettings(settingsModel)
+					observer.onNext(.success(()))
 				case .failure:
 					#if DEBUG
 					print(response.error?.localizedDescription ?? "")

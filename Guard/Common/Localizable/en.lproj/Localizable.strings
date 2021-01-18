@@ -125,7 +125,8 @@
 "settings.visibility.title" = "Visibility";
 "settings.visibility.phone" = "Show phone";
 "settings.visibility.mail" = "Show email";
-"settings.visibility.notifications" = "Enable notifications";
+"settings.visibility.chat" = "Enable chat";
+"settings.change_password.title" = "Change password";
 
 "settings.other.title" = "Other settings";
 "logout.title" = "Logout";

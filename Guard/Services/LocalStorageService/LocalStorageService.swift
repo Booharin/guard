@@ -60,6 +60,17 @@ protocol LocalStorageServiceInterface {
 	///   - name: Name in directory
 	/// - Returns: Image
 	func getImage(with name: String) -> UIImage?
+
+	/// Method for saving settings
+	///  - Parameters:
+	///   - settings: settings model
+	func saveSettings(_ settings: SettingsModel)
+
+	/// Method for getting settings
+	///  - Parameters:
+	///   - id: profile id
+	/// - Returns: settings model
+	func getSettings(for id: Int) -> SettingsModel?
 }
 /// Core data model handle service
 final class LocalStorageService: LocalStorageServiceInterface {
@@ -78,7 +89,7 @@ final class LocalStorageService: LocalStorageServiceInterface {
 
 	func getProfile(by email: String) -> UserProfile? {
 		let profiles = coreDataManager.fetchObjects(entity: UserProfileObject.self,
-													predicate: NSPredicate(format: "email = %@", email),
+													predicate: NSPredicate(format: "email == %@", email),
 													context: coreDataManager.mainContext)
 		guard let profileObject = profiles.first else { return nil }
 		return UserProfile(userProfileObject: profileObject)
@@ -143,5 +154,23 @@ final class LocalStorageService: LocalStorageServiceInterface {
 	private func getDocumentsDirectory() -> URL {
 		let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
 		return paths[0]
+	}
+
+	func saveSettings(_ settings: SettingsModel) {
+		let settingsObjects = coreDataManager.fetchObjects(entity: SettingsObject.self,
+														   context: coreDataManager.mainContext)
+		coreDataManager.delete(settingsObjects)
+		
+		let _ = SettingsObject(settingsModel: settings,
+							   context: coreDataManager.mainContext)
+		coreDataManager.saveContext(synchronously: true)
+	}
+
+	func getSettings(for id: Int) -> SettingsModel? {
+		let settingsObjects = coreDataManager.fetchObjects(entity: SettingsObject.self,
+														   predicate: NSPredicate(format: "id == %d", id),
+														   context: coreDataManager.mainContext)
+		guard let settingObject = settingsObjects.first else { return nil }
+		return SettingsModel(settingsObject: settingObject)
 	}
 }
