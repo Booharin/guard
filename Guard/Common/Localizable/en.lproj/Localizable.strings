@@ -126,7 +126,13 @@
 "settings.visibility.phone" = "Show phone";
 "settings.visibility.mail" = "Show email";
 "settings.visibility.chat" = "Enable chat";
+//CHANGE_PASSWORD
 "settings.change_password.title" = "Change password";
+"change_password.title" = "Password changing";
+"change_password.save_password.title" = "Save";
+"change_password.old_password.title" = "Old password";
+"change_password.new_password.title" = "New password";
+"change_password.oldPassword.error.title" = "Invalid old password";
 
 "settings.other.title" = "Other settings";
 "logout.title" = "Logout";

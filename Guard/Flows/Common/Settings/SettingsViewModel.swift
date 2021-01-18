@@ -86,7 +86,10 @@ final class SettingsViewModel: ViewModel, HasDependencies {
 		changePasswordSubject
 			.asObservable()
 			.subscribe(onNext: { [weak self] _ in
-				self?.view.navController?.popViewController(animated: true)
+				let changePasswordViewModel = ChangePasswordViewModel()
+				let changePasswordViewController = ChangePasswordViewController(viewModel: changePasswordViewModel)
+				self?.view.navController?.pushViewController(changePasswordViewController,
+															 animated: true)
 			}).disposed(by: disposeBag)
 
 		logoutWithAlertSubject

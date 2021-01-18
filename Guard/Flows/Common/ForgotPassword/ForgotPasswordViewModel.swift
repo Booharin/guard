@@ -12,9 +12,10 @@ import UIKit
 
 protocol ForgotPasswordViewModelProtocol {}
 
-final class ForgotPasswordViewModel: ViewModel,
-									 ForgotPasswordViewModelProtocol,
-									 HasDependencies {
+final class ForgotPasswordViewModel:
+	ViewModel,
+	ForgotPasswordViewModelProtocol,
+	HasDependencies {
 	
 	typealias Dependencies = HasAuthService
 	lazy var di: Dependencies = DI.dependencies
@@ -23,7 +24,7 @@ final class ForgotPasswordViewModel: ViewModel,
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
 	var sendPasswordSubject: PublishSubject<Any>?
-	
+
 	func viewDidSet() {
 		// logo
 		view.logoTitleLabel.font = Saira.bold.of(size: 30)
@@ -126,7 +127,6 @@ final class ForgotPasswordViewModel: ViewModel,
 	}
 	
 	private func checkAreTextFieldsEmpty() {
-		
 		guard let loginText = view.loginTextField.text else { return }
 		
 		if !loginText.isEmpty {
