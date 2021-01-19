@@ -84,6 +84,35 @@ struct AppealsNetworkRouter {
 								id: id)
 		}
 	}
+
+	func getAppeals(by city: String, token: String?) -> URLRequestConvertible {
+		do {
+			return try AllAppeals(environment: environment,
+								  cityTitle: city).asURLDefaultRequest(with: token)
+		} catch {
+			return AllAppeals(environment: environment,
+							  cityTitle: city)
+		}
+	}
+
+	func getAppeals(by issueCode: [Int],
+					cityTitle: String,
+					token: String?) -> URLRequestConvertible {
+		do {
+			if issueCode.isEmpty {
+				return try AllAppeals(environment: environment,
+									  cityTitle: cityTitle).asURLDefaultRequest(with: token)
+			} else {
+				return try AppealsByIssue(environment: environment,
+										  issueCode: issueCode,
+										  cityTitle: cityTitle).asURLDefaultRequest(with: token)
+			}
+		} catch {
+			return AppealsByIssue(environment: environment,
+								  issueCode: issueCode,
+								  cityTitle: cityTitle)
+		}
+	}
 }
 
 extension AppealsNetworkRouter {
@@ -223,6 +252,60 @@ extension AppealsNetworkRouter {
 		var parameters: Parameters {
 			return [
 				"appealId": id
+			]
+		}
+	}
+
+	private struct AllAppeals: RequestRouter {
+
+		let environment: Environment
+		let cityTitle: String
+
+		init(environment: Environment,
+			 cityTitle: String) {
+			self.environment = environment
+			self.cityTitle = cityTitle
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .get
+		var path = ApiMethods.allAppeals
+		var parameters: Parameters {
+			return [
+				"cityTitle": cityTitle
+			]
+		}
+	}
+
+	private struct AppealsByIssue: RequestRouter {
+
+		let environment: Environment
+		let issueCode: [Int]
+		let cityTitle: String
+
+		init(environment: Environment,
+			 issueCode: [Int],
+			 cityTitle: String) {
+			self.environment = environment
+			self.issueCode = issueCode
+			self.cityTitle = cityTitle
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .get
+		var path = ApiMethods.appealsByIssue
+		var parameters: Parameters {
+			return [
+				"issueCodeList": issueCode
+					.map { String($0) }
+					.joined(separator:","),
+				"city": cityTitle
 			]
 		}
 	}

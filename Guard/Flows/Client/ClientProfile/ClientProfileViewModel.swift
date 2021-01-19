@@ -23,7 +23,7 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 	var clientProfile: UserProfile? {
 		di.localStorageService.getCurrenClientProfile()
 	}
-	var settings: SettingsModel? {
+	private var settings: SettingsModel? {
 		di.localStorageService.getSettings(for: clientProfile?.id ?? 0)
 	}
 

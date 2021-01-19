@@ -18,16 +18,16 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 	private var router: ClientAppealsListRouterProtocol
 	var appealsListSubject: PublishSubject<Any>?
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ClientAppeal>]>?
-	
+
 	typealias Dependencies =
 		HasLocalStorageService &
 		HasAppealsNetworkService
 	lazy var di: Dependencies = DI.dependencies
-	
+
 	init(router: ClientAppealsListRouterProtocol) {
 		self.router = router
 	}
-	
+
 	func viewDidSet() {
 		// table view data source
 		let section = SectionModel<String, ClientAppeal>(model: "",
@@ -119,8 +119,6 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 						print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
-
-		view.loadingView.startAnimating()
 	}
 
 	private func update(with appeals: [ClientAppeal]) {

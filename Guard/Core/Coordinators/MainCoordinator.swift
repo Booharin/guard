@@ -102,24 +102,25 @@ final class MainCoordinator: BaseCoordinator {
 				//
 			})
 			.disposed(by: disposeBag)
-		// TODO: - Set to lawyers controllers
-//		tabBarController.viewControllers = [
-//			NavigationController(rootViewController:
-//									LawyersListViewController(viewModel:
-//																LawyersListViewModel(toLawyerSubject: toClientSubject)
-//									)
-//			),
-//			NavigationController(rootViewController:
-//									LawyersListViewController(viewModel:
-//																LawyersListViewModel(toLawyerSubject: toClientSubject)
-//									)
-//			),
-//			NavigationController(rootViewController:
-//									LawyersListViewController(viewModel:
-//																LawyersListViewModel(toLawyerSubject: toClientSubject)
-//									)
-//			)
-		//]
+		// to auth
+		let toAuthSubject = PublishSubject<Any>()
+		toAuthSubject
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { _ in
+				self.toAuth()
+				self.onFinishFlow?()
+			})
+			.disposed(by: disposeBag)
+		
+		tabBarController.viewControllers = [
+			// appeals list
+			AppealsListModuleFactory.createModule(),
+			// conversations list
+			ConversationsListModuleFactory.createModule(),
+			// TODO: - Set to lawyer profile
+			// client profile
+			ClientProfileModuleFactory.createModule(toAuthSubject: toAuthSubject)
+		]
 	}
 
 	@objc private func toAuth() {

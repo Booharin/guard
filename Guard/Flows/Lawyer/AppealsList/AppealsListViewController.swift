@@ -1,46 +1,55 @@
 //
-//  ClientAppealsListViewController.swift
+//  AppealsListViewController.swift
 //  Guard
 //
-//  Created by Alexandr Bukharin on 09.09.2020.
-//  Copyright © 2020 ds. All rights reserved.
+//  Created by Alexandr Bukharin on 19.01.2021.
+//  Copyright © 2021 ds. All rights reserved.
 //
 
 import UIKit
 
-protocol ClientAppealsListViewControllerProtocol {
-	var addButtonView: AddButtonView { get }
+protocol AppealsListViewControllerProtocol {
+	var filterButtonView: FilterButtonView { get }
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
-	var greetingLabel: UILabel { get }
-	var greetingDescriptionLabel: UILabel { get }
 	var loadingView: UIActivityIndicatorView { get }
+	var selectedIssues: [Int] { get set }
+	func showActionSheet(with cities: [String])
 }
 
-final class ClientAppealsListViewController<modelType: ClientAppealsListViewModel>: UIViewController,
-																					UITableViewDelegate,
-																					ClientAppealsListViewControllerProtocol {
-	var addButtonView = AddButtonView()
+class AppealsListViewController<modelType: AppealsListViewModel>:
+	UIViewController,
+	UITableViewDelegate,
+	AppealsListViewControllerProtocol {
+
+	var filterButtonView = FilterButtonView()
+	var viewModel: modelType
+
 	var titleView = UIView()
 	var titleLabel = UILabel()
-	var tableView = UITableView(frame: .zero, style: .grouped)
-	var greetingLabel = UILabel()
-	var greetingDescriptionLabel = UILabel()
+	var tableView = UITableView()
 	var loadingView = UIActivityIndicatorView(style: .medium)
+	var selectedIssues = [Int]()
+	var navController: UINavigationController? {
+		self.navigationController
+	}
 	private var gradientView: UIView?
-	
-	var viewModel: modelType
-	
+	private var filterViewHeight: CGFloat {
+		return UIScreen.main.bounds.height
+	}
+
+	private var lawyers: [UserProfile]?
+
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 	}
-	
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -54,8 +63,6 @@ final class ClientAppealsListViewController<modelType: ClientAppealsListViewMode
 		super.viewWillAppear(animated)
 		
 		navigationController?.isNavigationBarHidden = false
-		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-		navigationController?.navigationBar.isTranslucent = true
 		self.navigationItem.setHidesBackButton(true, animated:false)
 
 		loadingView.startAnimating()
@@ -63,18 +70,49 @@ final class ClientAppealsListViewController<modelType: ClientAppealsListViewMode
 	}
 
 	func setNavigationBar() {
-		let rightBarButtonItem = UIBarButtonItem(customView: addButtonView)
+		let rightBarButtonItem = UIBarButtonItem(customView: filterButtonView)
 		self.navigationItem.rightBarButtonItem = rightBarButtonItem
+		self.navigationItem.titleView = titleView
 	}
 
 	private func addViews() {
+		// title view
+		titleView.addSubview(titleLabel)
+		titleLabel.snp.makeConstraints {
+			$0.center.equalToSuperview()
+			$0.width.lessThanOrEqualTo(200)
+		}
+
+		titleView.snp.makeConstraints {
+			$0.width.equalTo(titleLabel.snp.width).offset(46)
+			$0.height.equalTo(40)
+		}
+
+		let locationImageView = UIImageView(image: #imageLiteral(resourceName: "location_marker_icn").withRenderingMode(.alwaysTemplate))
+		locationImageView.tintColor = Colors.mainColor
+		titleView.addSubview(locationImageView)
+		locationImageView.snp.makeConstraints {
+			$0.width.height.equalTo(20)
+			$0.centerY.equalToSuperview()
+			$0.trailing.equalTo(titleLabel.snp.leading).offset(-3)
+		}
+
+		let chevronImageView = UIImageView(image: #imageLiteral(resourceName: "location_chevron_down").withRenderingMode(.alwaysTemplate))
+		chevronImageView.tintColor = Colors.mainColor
+		titleView.addSubview(chevronImageView)
+		chevronImageView.snp.makeConstraints {
+			$0.width.height.equalTo(6)
+			$0.centerY.equalToSuperview()
+			$0.leading.equalTo(titleLabel.snp.trailing).offset(3)
+		}
+
 		// table view
 		tableView.register(SelectIssueTableViewCell.self,
 						   forCellReuseIdentifier: SelectIssueTableViewCell.reuseIdentifier)
 		tableView.tableFooterView = UIView()
 		tableView.backgroundColor = Colors.whiteColor
 		tableView.rowHeight = UITableView.automaticDimension
-		tableView.estimatedRowHeight = 80
+		tableView.estimatedRowHeight = 72
 		tableView.separatorStyle = .none
 		tableView.delegate = self
 		view.addSubview(tableView)
@@ -87,15 +125,6 @@ final class ClientAppealsListViewController<modelType: ClientAppealsListViewMode
 		loadingView.snp.makeConstraints {
 			$0.center.equalToSuperview()
 		}
-	}
-
-	//MARK: - TableView delegate
-	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		return createHeaderView()
-	}
-
-	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return 65
 	}
 
 	func scrollViewWillEndDragging(_ scrollView: UIScrollView,
@@ -141,24 +170,27 @@ final class ClientAppealsListViewController<modelType: ClientAppealsListViewMode
 		return view
 	}
 
-	private func createHeaderView() -> UIView {
-		let headerView = UIView()
-		headerView.snp.makeConstraints {
-			$0.height.equalTo(65)
-			$0.width.equalTo(UIScreen.main.bounds.width)
+	// MARK: - Show cities action sheet
+	func showActionSheet(with cities: [String]) {
+		let alertController = UIAlertController(title: nil,
+												message: nil,
+												preferredStyle: .actionSheet)
+		alertController.view.tintColor = Colors.mainTextColor
+		cities.forEach { city in
+			let cityAction = UIAlertAction(title: city,
+										   style: .default,
+										   handler: { _ in
+				self.titleLabel.text = city
+				alertController.dismiss(animated: true)
+			})
+			alertController.addAction(cityAction)
 		}
-		headerView.addSubview(greetingLabel)
-		greetingLabel.snp.makeConstraints {
-			$0.height.equalTo(39)
-			$0.width.equalTo(UIScreen.main.bounds.width)
-			$0.top.equalToSuperview()
-		}
-		headerView.addSubview(greetingDescriptionLabel)
-		greetingDescriptionLabel.snp.makeConstraints {
-			$0.height.equalTo(28)
-			$0.width.equalTo(UIScreen.main.bounds.width)
-			$0.top.equalTo(greetingLabel.snp.bottom).offset(-2)
-		}
-		return headerView
+		let cancelAction = UIAlertAction(title: "alert.cancel".localized,
+										 style: .cancel,
+										 handler: { _ in
+			alertController.dismiss(animated: true)
+		})
+		alertController.addAction(cancelAction)
+		self.present(alertController, animated: true)
 	}
 }

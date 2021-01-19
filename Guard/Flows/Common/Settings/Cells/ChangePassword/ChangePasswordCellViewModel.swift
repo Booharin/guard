@@ -43,6 +43,8 @@ struct ChangePasswordCellViewModel: ViewModel {
 				})
 				self.changePasswordSubject.onNext(())
 			}).disposed(by: disposeBag)
+
+		view.separatorView.backgroundColor = Colors.separatorColor
 	}
 
 	func removeBindings() {}

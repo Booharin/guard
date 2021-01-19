@@ -172,5 +172,4 @@ final class LawyersNetworkService: LawyersNetworkServiceInterface, HasDependenci
 			})
 		}
 	}
-
 }

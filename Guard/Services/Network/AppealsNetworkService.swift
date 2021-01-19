@@ -26,6 +26,9 @@ protocol AppealsNetworkServiceInterface {
 					appeal: ClientAppeal,
 					cityCode: Int) -> Observable<Result<Any, AFError>>
 	func deleteAppeal(id: Int) -> Observable<Result<Any, AFError>>
+	func getAppeals(by city: String) -> Observable<Result<[ClientAppeal], AFError>>
+	func getAppeals(by issueCode: [Int],
+					city: String) -> Observable<Result<[ClientAppeal], AFError>>
 }
 
 final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependencies {
@@ -205,6 +208,103 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 					#if DEBUG
 					print(response.error?.localizedDescription ?? "")
 					#endif
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func getAppeals(by city: String) -> Observable<Result<[ClientAppeal], AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.getAppeals(by: city,
+									   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.responseJSON { response in
+				#if DEBUG
+				print(response)
+				#endif
+				
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
+				switch response.result {
+				case .success:
+					guard let data = response.data else {
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+						return
+					}
+					do {
+						let appeals = try JSONDecoder().decode([ClientAppeal].self, from: data)
+						observer.onNext(.success(appeals))
+						observer.onCompleted()
+					} catch {
+						#if DEBUG
+						print(error)
+						#endif
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+					}
+				case .failure:
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func getAppeals(by issueCode: [Int], city: String) -> Observable<Result<[ClientAppeal], AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.getAppeals(by: issueCode,
+									   cityTitle: city,
+									   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.responseJSON { response in
+				#if DEBUG
+				print(response)
+				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
+				switch response.result {
+				case .success:
+					guard let data = response.data else {
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+						return
+					}
+					do {
+						let appeals = try JSONDecoder().decode([ClientAppeal].self, from: data)
+						observer.onNext(.success(appeals))
+						observer.onCompleted()
+					} catch {
+						#if DEBUG
+						print(error)
+						#endif
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+					}
+				case .failure:
 					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
 				}
 			}

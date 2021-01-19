@@ -28,7 +28,8 @@ protocol ClientProfileViewControllerProtocol {
 						 toEditSubject: PublishSubject<UserProfile>)
 }
 
-final class ClientProfileViewController<modelType: ClientProfileViewModel>: UIViewController,
+final class ClientProfileViewController<modelType: ClientProfileViewModel>:
+	UIViewController,
     ClientProfileViewControllerProtocol {
 
 	var scrollView = UIScrollView()
