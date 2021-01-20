@@ -89,7 +89,8 @@ final class EditClientProfileViewModel: ViewModel, HasDependencies {
 			.getImage(with: "\(userProfile.id)_profile_image.jpeg") {
 			view.avatarImageView.image = image
 		} else {
-			view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn")
+			view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn").withRenderingMode(.alwaysTemplate)
+			view.avatarImageView.tintColor = Colors.lightGreyColor
 		}
 		view.avatarImageView.clipsToBounds = true
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol AppealsListViewControllerProtocol {
+protocol AppealsListViewControllerProtocol: class, ViewControllerProtocol {
 	var filterButtonView: FilterButtonView { get }
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }

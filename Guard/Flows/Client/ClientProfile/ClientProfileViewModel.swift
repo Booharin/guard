@@ -88,7 +88,8 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 		if let image = di.localStorageService.getImage(with: "\(clientProfile?.id ?? 0)_profile_image.jpeg") {
 			view.avatarImageView.image = image
 		} else {
-			view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn")
+			view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn").withRenderingMode(.alwaysTemplate)
+			view.avatarImageView.tintColor = Colors.lightGreyColor
 		}
 		view.avatarImageView.clipsToBounds = true
 		// title label

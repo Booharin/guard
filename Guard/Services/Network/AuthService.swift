@@ -65,7 +65,7 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 							let authResponce = try JSONDecoder().decode(AuthResponse.self, from: data)
 							guard
 								let token = authResponce.token,
-								let user = authResponce.user else {
+								var user = authResponce.user else {
 								observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
 									return
 							}
@@ -73,6 +73,10 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 							self.di.keyChainService.save(email, for: Constants.KeyChainKeys.email)
 							self.di.keyChainService.save(password, for: Constants.KeyChainKeys.password)
 							self.di.keyChainService.save(user.phoneNumber ?? "", for: Constants.KeyChainKeys.phoneNumber)
+
+							// MARK: - Save issue codes
+							user.issueCodes = user.issueTypes?.map { $0.issueCode }
+
 							self.di.localStorageService.saveProfile(user)
 							if let reviews = user.reviewList {
 								self.di.localStorageService.saveReviews(reviews)

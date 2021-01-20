@@ -25,6 +25,7 @@ struct Colors {
 	static let issueLabelColor = #colorLiteral(red: 0.2980392157, green: 0.7490196078, blue: 0.8901960784, alpha: 1)
 
 	static let tabBarItemColor = #colorLiteral(red: 0.4705882353, green: 0.4705882353, blue: 0.4705882353, alpha: 1)
+	static let lightGreyColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
 	// chat
 	static let outgoingMessageBackground = #colorLiteral(red: 0.9294117647, green: 1, blue: 0.9058823529, alpha: 1)
 	static let incomingMessageBackground = #colorLiteral(red: 0.8705882353, green: 0.968627451, blue: 1, alpha: 1)

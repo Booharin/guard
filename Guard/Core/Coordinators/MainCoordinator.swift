@@ -118,8 +118,8 @@ final class MainCoordinator: BaseCoordinator {
 			// conversations list
 			ConversationsListModuleFactory.createModule(),
 			// TODO: - Set to lawyer profile
-			// client profile
-			ClientProfileModuleFactory.createModule(toAuthSubject: toAuthSubject)
+			// lawyer profile
+			LawyerProfileModuleFactory.createModule(toAuthSubject: toAuthSubject)
 		]
 	}
 

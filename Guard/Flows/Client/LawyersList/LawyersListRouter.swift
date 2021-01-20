@@ -15,7 +15,9 @@ protocol LawyerListRouterProtocol {
 final class LawyersListRouter: BaseRouter, LawyerListRouterProtocol {
 
 	func passToLawyer(with userProfile: UserProfile) {
-		let viewModel = LawyerProfileViewModel(userProfile: userProfile)
+		let router = LawyerProfileRouter(toAuthSubject: nil)
+		let viewModel = LawyerProfileViewModel(lawyerProfileFromList: userProfile,
+											   router: router)
 		let controller = LawyerProfileViewController(viewModel: viewModel)
 		navigationController?.pushViewController(controller, animated: true)
 	}

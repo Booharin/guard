@@ -40,7 +40,8 @@ struct LawyerCellViewModel: ViewModel {
 				self.toLawyerSubject?.onNext(self.lawyer)
 			}).disposed(by: disposeBag)
 
-		view.avatarImageView.image = #imageLiteral(resourceName: "lawyer_mock_icn")
+		view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn").withRenderingMode(.alwaysTemplate)
+		view.avatarImageView.tintColor = Colors.lightGreyColor
 
 		view.nameTitle.text = lawyer.fullName
 		view.nameTitle.font = SFUIDisplay.regular.of(size: 16)
