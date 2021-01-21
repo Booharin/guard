@@ -251,9 +251,8 @@ final class EditLawyerProfileViewModel: ViewModel {
 						print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
-
-		updateIssuesContainerView(with: [1, 3, 666])//userProfile.issueCodes ?? [])
 	}
+	
 
 	private func updateIssuesContainerView(with issues: [Int]) {
 		let screenWidth = UIScreen.main.bounds.width
@@ -346,6 +345,10 @@ final class EditLawyerProfileViewModel: ViewModel {
 			$0.height.equalTo(topOffset + 23)
 		}
 	}
-	
+
+	func updateIssuesContainerView() {
+		updateIssuesContainerView(with: userProfile.issueCodes ?? [])
+	}
+
 	func removeBindings() {}
 }

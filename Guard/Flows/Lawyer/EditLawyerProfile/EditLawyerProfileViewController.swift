@@ -82,6 +82,8 @@ class EditLawyerProfileViewController<modelType: EditLawyerProfileViewModel>:
 		
 		navigationController?.isNavigationBarHidden = true
 		self.navigationItem.setHidesBackButton(true, animated:false)
+
+		viewModel.updateIssuesContainerView()
 	}
 
 	private func addViews() {
