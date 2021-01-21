@@ -15,12 +15,17 @@ final class IssueLabel: UILabel {
 	private var disposeBag = DisposeBag()
 	var isSelected = false
 	let issueCode: Int
+	private let isSelectable: Bool
 
 	init(labelColor: UIColor,
-		 issueCode: Int) {
+		 issueCode: Int,
+		 isSelectable: Bool) {
+
 		self.labelColor = labelColor
 		self.issueCode = issueCode
+		self.isSelectable = isSelectable
 		super.init(frame: .zero)
+
 		backgroundColor = Colors.whiteColor
 		layer.cornerRadius = 11
 		layer.borderWidth = 1
@@ -37,6 +42,7 @@ final class IssueLabel: UILabel {
 			.when(.recognized)
 			.subscribe(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
+					guard self.isSelectable == true else { return }
 					self.selected(isOn: !self.isSelected)
 				})
 			}).disposed(by: disposeBag)

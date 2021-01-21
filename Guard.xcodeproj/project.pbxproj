@@ -140,6 +140,9 @@
 		52AF28E62506145D00287A8F /* LawyerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28E52506145D00287A8F /* LawyerCell.swift */; };
 		52AF28E82506168B00287A8F /* LawyerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28E72506168B00287A8F /* LawyerCellViewModel.swift */; };
 		52AF28EB2506195800287A8F /* LawyersListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AF28EA2506195800287A8F /* LawyersListDataSource.swift */; };
+		52AFF0FC25BA0A5500D365C2 /* EditLawyerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AFF0FB25BA0A5500D365C2 /* EditLawyerProfileViewController.swift */; };
+		52AFF0FE25BA0AE300D365C2 /* EditLawyerProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AFF0FD25BA0AE300D365C2 /* EditLawyerProfileViewModel.swift */; };
+		52AFF10125BA10E300D365C2 /* EditIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AFF10025BA10E300D365C2 /* EditIssueView.swift */; };
 		52B1EE3E25A46A290088B8AF /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5251AFA124A281F100467E84 /* Alamofire.framework */; };
 		52B1EE3F25A46A290088B8AF /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5251AFA124A281F100467E84 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52B1EE4125A46A2B0088B8AF /* Differentiator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5222B68724C7594C000BEE13 /* Differentiator.framework */; };
@@ -376,6 +379,9 @@
 		52AF28E52506145D00287A8F /* LawyerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerCell.swift; sourceTree = "<group>"; };
 		52AF28E72506168B00287A8F /* LawyerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerCellViewModel.swift; sourceTree = "<group>"; };
 		52AF28EA2506195800287A8F /* LawyersListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListDataSource.swift; sourceTree = "<group>"; };
+		52AFF0FB25BA0A5500D365C2 /* EditLawyerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLawyerProfileViewController.swift; sourceTree = "<group>"; };
+		52AFF0FD25BA0AE300D365C2 /* EditLawyerProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLawyerProfileViewModel.swift; sourceTree = "<group>"; };
+		52AFF10025BA10E300D365C2 /* EditIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditIssueView.swift; sourceTree = "<group>"; };
 		52B2685725110DFB00111864 /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		52B2685925110E1400111864 /* ChatCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCellViewModel.swift; sourceTree = "<group>"; };
 		52B2685B25110E3300111864 /* ChatDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDataSource.swift; sourceTree = "<group>"; };
@@ -646,6 +652,7 @@
 		522E5BE424A37C2F00879741 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				52AFF0FF25BA10C900D365C2 /* Views */,
 				52524E5F24FECF5E0078AA62 /* Buttons */,
 				5251AFB524A2851200467E84 /* NavigationController */,
 				52E3D4E124C8AB0E00FD67C9 /* TabBarController */,
@@ -1115,6 +1122,7 @@
 			isa = PBXGroup;
 			children = (
 				523CD30E25B73049000E5078 /* LawyerProfile */,
+				52AFF0FA25BA0A2E00D365C2 /* EditLawyerProfile */,
 				523CD30525B6D0D2000E5078 /* AppealsList */,
 			);
 			path = Lawyer;
@@ -1237,6 +1245,23 @@
 				52AF28EA2506195800287A8F /* LawyersListDataSource.swift */,
 			);
 			path = DataSource;
+			sourceTree = "<group>";
+		};
+		52AFF0FA25BA0A2E00D365C2 /* EditLawyerProfile */ = {
+			isa = PBXGroup;
+			children = (
+				52AFF0FB25BA0A5500D365C2 /* EditLawyerProfileViewController.swift */,
+				52AFF0FD25BA0AE300D365C2 /* EditLawyerProfileViewModel.swift */,
+			);
+			path = EditLawyerProfile;
+			sourceTree = "<group>";
+		};
+		52AFF0FF25BA10C900D365C2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				52AFF10025BA10E300D365C2 /* EditIssueView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		52B2685525110DCA00111864 /* Cell */ = {
@@ -1505,6 +1530,7 @@
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
 				52D23604259340A400C0E922 /* FilterViewService.swift in Sources */,
 				523CD31625B733CC000E5078 /* LawyerProfileRouter.swift in Sources */,
+				52AFF0FE25BA0AE300D365C2 /* EditLawyerProfileViewModel.swift in Sources */,
 				5283CB712517CA71005DEDA8 /* ClientProfileViewModel.swift in Sources */,
 				523EEEAB251284230007ED2F /* AppealButtonView.swift in Sources */,
 				52B268732511181200111864 /* ConversationsListDataSource.swift in Sources */,
@@ -1515,6 +1541,7 @@
 				5283CB732517CBED005DEDA8 /* ClientProfileModuleFactory.swift in Sources */,
 				52F0F5752536DF5500FE2B14 /* ThreeDotsButtonView.swift in Sources */,
 				523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */,
+				52AFF10125BA10E300D365C2 /* EditIssueView.swift in Sources */,
 				5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */,
 				52A271C22508FA4E0050FB60 /* ClientAppeal.swift in Sources */,
 				52507E312586293C00C8B213 /* CommonDataNetworkRouter.swift in Sources */,
@@ -1596,6 +1623,7 @@
 				52B654B6251B3063003D2465 /* SettingsViewModel.swift in Sources */,
 				52760C4C2501736600080152 /* LawyersListViewModel.swift in Sources */,
 				52B278C824C09621001E7295 /* Dependencies.swift in Sources */,
+				52AFF0FC25BA0A5500D365C2 /* EditLawyerProfileViewController.swift in Sources */,
 				5220ED2A25B0755F00FDCEB9 /* ClientNetworkService.swift in Sources */,
 				52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */,
 				521EA38925B57C4900B00413 /* SettingsObject+CoreDataClass.swift in Sources */,

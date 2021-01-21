@@ -38,7 +38,6 @@ final class LawyerProfileViewModel:
 			return localLawyerProfile
 		}
 	}
-	private var issueLabels = [IssueLabel]()
 	private var settings: SettingsModel? {
 		di.localStorageService.getSettings(for: localLawyerProfile?.id ?? 0)
 	}
@@ -194,7 +193,7 @@ final class LawyerProfileViewModel:
 			let codes = currentProfile?.issueTypes?.map { $0.issueCode }
 			updateIssuesContainerView(with: codes ?? [])
 		} else {
-			updateIssuesContainerView(with: [1, 3, 666])//currentProfile?.issueCodes ?? [])
+			updateIssuesContainerView(with: currentProfile?.issueCodes ?? [])
 		}
 
 		lawyerImageSubject = PublishSubject<Any>()
@@ -238,7 +237,9 @@ final class LawyerProfileViewModel:
 		let interLabelOffset: CGFloat = 10
 		var currentLabels = [UILabel]()
 
-		issueLabels = []
+		view.issuesContainerView.subviews.forEach {
+			$0.removeFromSuperview()
+		}
 
 		di.commonDataNetworkService.issueTypes?
 			.compactMap { $0.subIssueTypeList }
@@ -248,7 +249,8 @@ final class LawyerProfileViewModel:
 				print(issueType.title)
 				print(issueType.issueCode)
 				let label = IssueLabel(labelColor: Colors.issueLabelColor,
-									   issueCode: issueType.issueCode)
+									   issueCode: issueType.issueCode,
+									   isSelectable: false)
 				label.text = issueType.title
 				// calculate correct size of label
 				let labelWidth = issueType.title.width(withConstrainedHeight: 23,
@@ -260,20 +262,26 @@ final class LawyerProfileViewModel:
 					if currentLineWidth + labelWidth + 10 < containerWidth {
 						currentLineWidth += labelWidth
 						if currentLabels.last == nil {
-							$0.leading.equalToSuperview().offset((containerWidth - labelWidth) / 2)
-							//$0.leading.equalToSuperview().offset(currentLineWidth == 0 ? 0 : currentLineWidth + 10)
+							let correctOffset = labelWidth >= containerWidth ?
+								0 : (containerWidth - labelWidth) / 2
+							$0.leading.equalToSuperview().offset(correctOffset)
 						} else if
 							let firstLabel = currentLabels.first,
 							let lastLabel = currentLabels.last {
 							$0.leading.equalTo(lastLabel.snp.trailing).offset(interLabelOffset)
 							firstLabel.snp.updateConstraints {
-								$0.leading.equalToSuperview().offset((containerWidth - currentLineWidth) / 2)
+								let correctOffset = currentLineWidth >= containerWidth ?
+									0 : (containerWidth - currentLineWidth) / 2
+								$0.leading.equalToSuperview().offset(correctOffset)
 							}
 						}
 					} else {
 						currentLabels = []
 
-						$0.leading.equalToSuperview().offset((containerWidth - labelWidth) / 2)
+						let correctOffset = labelWidth >= containerWidth ?
+							0 : (containerWidth - labelWidth) / 2
+
+						$0.leading.equalToSuperview().offset(correctOffset)
 						topOffset += (10 + Int(labelHeight))
 						currentLineWidth = labelWidth
 					}
@@ -289,7 +297,6 @@ final class LawyerProfileViewModel:
 				if selectedIssuesSet.contains(issueType.issueCode) {
 					label.selected(isOn: true)
 				}
-				issueLabels.append(label)
 			}
 
 		view.issuesContainerView.snp.updateConstraints {

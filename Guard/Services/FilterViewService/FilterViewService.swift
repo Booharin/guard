@@ -224,7 +224,8 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 				print(issueType.title)
 				print(issueType.issueCode)
 				let label = IssueLabel(labelColor: Colors.issueLabelColor,
-									   issueCode: issueType.issueCode)
+									   issueCode: issueType.issueCode,
+									   isSelectable: true)
 				label.text = issueType.title
 				// calculate correct size of label
 				let labelWidth = issueType.title.width(withConstrainedHeight: 23,
