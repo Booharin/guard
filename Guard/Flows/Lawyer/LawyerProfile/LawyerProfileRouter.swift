@@ -51,7 +51,11 @@ final class LawyerProfileRouter: BaseRouter, LawyerProfileRouterProtocol {
 	}
 
 	private func passageToEdit(userProfile: UserProfile) {
-		let editController = EditLawyerProfileViewController(viewModel: EditLawyerProfileViewModel(userProfile: userProfile))
+		let router = EditProfileRouter()
+		let viewModel = EditLawyerProfileViewModel(userProfile: userProfile,
+												   router: router)
+		let editController = EditLawyerProfileViewController(viewModel: viewModel)
+		router.view = editController
 		editController.hidesBottomBarWhenPushed = true
 		self.navigationController?.pushViewController(editController, animated: true)
 	}

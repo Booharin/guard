@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol EditLawyerProfileViewControllerProtocol: ViewControllerProtocol {
+protocol EditLawyerProfileViewControllerProtocol: class, ViewControllerProtocol {
 	var scrollView: UIScrollView { get }
 	var backButton: UIButton { get }
 	var	confirmButton: UIButton { get }

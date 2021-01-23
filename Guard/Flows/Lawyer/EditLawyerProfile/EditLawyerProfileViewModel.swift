@@ -15,7 +15,8 @@ final class EditLawyerProfileViewModel: ViewModel {
 	private let animationDuration = 0.15
 	var userProfile: UserProfile
 	private var disposeBag = DisposeBag()
-	private var editClientSubject: PublishSubject<UserProfile>?
+	private var editLawyerSubject: PublishSubject<UserProfile>?
+	private let selectIssueSubject = PublishSubject<IssueType>()
 
 	var currentCities = [Int]()
 	//TODO: - Change when countries number increase
@@ -23,21 +24,29 @@ final class EditLawyerProfileViewModel: ViewModel {
 		[7]
 	}
 	var editImageData: Data?
+	private var currentIssueCodes = [Int]()
+	private var addIssueButton: AddIssueButton?
+	private var router: EditProfileRouterProtocol
 
 	typealias Dependencies =
 		HasAlertService &
 		HasKeyChainService &
 		HasClientNetworkService &
 		HasLocalStorageService &
-		HasCommonDataNetworkService
+		HasCommonDataNetworkService &
+		HasLawyersNetworkService &
+		HasAlertService
 	lazy var di: Dependencies = DI.dependencies
 
-	init(userProfile: UserProfile) {
+	init(userProfile: UserProfile,
+		 router: EditProfileRouterProtocol) {
 		self.userProfile = userProfile
+		self.router = router
 	}
 
 	func viewDidSet() {
 		currentCities = di.localStorageService.getCurrenClientProfile()?.cityCode ?? []
+		currentIssueCodes = [123, 321]//userProfile.issueCodes ?? []
 		// back button
 		view.backButton.setImage(#imageLiteral(resourceName: "icn_back_arrow"), for: .normal)
 		view.backButton.rx
@@ -80,7 +89,11 @@ final class EditLawyerProfileViewModel: ViewModel {
 
 						userProfile.countryCode = currentCountries
 						userProfile.cityCode = currentCities
-						self.editClientSubject?.onNext(userProfile)
+
+						// set issue codes
+						userProfile.issueCodes = currentIssueCodes
+
+						self.editLawyerSubject?.onNext(userProfile)
 					}
 				}
 			}).disposed(by: disposeBag)
@@ -213,13 +226,26 @@ final class EditLawyerProfileViewModel: ViewModel {
 				self.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
 
-		editClientSubject = PublishSubject<UserProfile>()
-		editClientSubject?
+		editLawyerSubject = PublishSubject<UserProfile>()
+		editLawyerSubject?
 			.asObservable()
+			.filter { _ in
+				// check if all edit views removed
+				let issueViewsArray = self.view.issuesContainerView.subviews.compactMap { $0 as? EditIssueView }
+				if issueViewsArray.isEmpty {
+					self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
+												   message: "edit_lawyer.empty_issues.title".localized,
+												   okButtonTitle: "alert.yes".localized.uppercased()) { _ in }
+					self.view.loadingView.stopAnimating()
+					return false
+				} else {
+					return true
+				}
+			}
 			.flatMap { [unowned self] profile in
-				self.di.clientNetworkService.editClient(profile: profile,
-														email: view.emailTextField.text ?? "",
-														phone: view.phoneTextField.text ?? "")
+				self.di.lawyersNetworkService.editLawyer(profile: profile,
+														 email: view.emailTextField.text ?? "",
+														 phone: view.phoneTextField.text ?? "")
 			}
 			.filter { result in
 				switch result {
@@ -237,22 +263,33 @@ final class EditLawyerProfileViewModel: ViewModel {
 			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stopAnimating()
 				switch result {
-					case .success:
-						if let profile = self?.userProfile {
-							self?.di.localStorageService.saveProfile(profile)
-						}
-						self?.di.keyChainService.save(self?.view.emailTextField.text ?? "",
-													  for: Constants.KeyChainKeys.email)
-						self?.di.keyChainService.save(self?.view.phoneTextField.text ?? "",
-													  for: Constants.KeyChainKeys.phoneNumber)
-						self?.view.navController?.popViewController(animated: true)
-					case .failure(let error):
-						//TODO: - обработать ошибку
-						print(error.localizedDescription)
+				case .success:
+					if let profile = self?.userProfile {
+						self?.di.localStorageService.saveProfile(profile)
+					}
+					self?.di.keyChainService.save(self?.view.emailTextField.text ?? "",
+												  for: Constants.KeyChainKeys.email)
+					self?.di.keyChainService.save(self?.view.phoneTextField.text ?? "",
+												  for: Constants.KeyChainKeys.phoneNumber)
+					self?.view.navController?.popViewController(animated: true)
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		selectIssueSubject
+			.asObservable()
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] issueType in
+				print(issueType)
+				self?.view.navController?.viewControllers.forEach {
+					if let vc = $0 as? EditLawyerProfileViewController {
+						self?.view.navController?.popToViewController(vc, animated: true)
+					}
 				}
 			}).disposed(by: disposeBag)
 	}
-	
 
 	private func updateIssuesContainerView(with issues: [Int]) {
 		let screenWidth = UIScreen.main.bounds.width
@@ -262,6 +299,8 @@ final class EditLawyerProfileViewModel: ViewModel {
 		let interLabelOffset: CGFloat = 10
 		let closeButtonOffset: CGFloat = 17
 		var currentEditIssueViews = [EditIssueView]()
+		var isFirstLine = true
+		let addButtonOffset: CGFloat = 31
 
 		view.issuesContainerView.subviews.forEach {
 			$0.removeFromSuperview()
@@ -270,12 +309,12 @@ final class EditLawyerProfileViewModel: ViewModel {
 		di.commonDataNetworkService.issueTypes?
 			.compactMap { $0.subIssueTypeList }
 			.reduce([], +)
-			.filter { issues.contains($0.issueCode) }
+			.filter { issues.contains($0.subIssueCode ?? 0) }
 			.forEach { issueType in
 				print(issueType.title)
 				print(issueType.issueCode)
 				let label = IssueLabel(labelColor: Colors.clearColor,
-									   issueCode: issueType.issueCode,
+									   subIssueCode: issueType.subIssueCode ?? 0,
 									   isSelectable: false)
 				label.text = issueType.title
 				// calculate correct size of label
@@ -286,7 +325,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 												  font: SFUIDisplay.medium.of(size: 12)) + 9
 
 				let editIssueView = EditIssueView(editViewColor: Colors.issueLabelColor,
-												  issueCode: issueType.issueCode)
+												  subIssueCode: issueType.subIssueCode ?? 0)
 				view.issuesContainerView.addSubview(editIssueView)
 
 				editIssueView.addSubview(label)
@@ -298,16 +337,38 @@ final class EditLawyerProfileViewModel: ViewModel {
 								0 : (containerWidth - editIssueViewWidth) / 2
 							$0.leading.equalToSuperview().offset(correctOffset)
 						} else if
-							let firstLabel = currentEditIssueViews.first,
-							let lastLabel = currentEditIssueViews.last {
-							$0.leading.equalTo(lastLabel.snp.trailing).offset(interLabelOffset)
-							firstLabel.snp.updateConstraints {
+							let firstEditView = currentEditIssueViews.first,
+							let lastEditView = currentEditIssueViews.last {
+							$0.leading.equalTo(lastEditView.snp.trailing).offset(interLabelOffset)
+							firstEditView.snp.updateConstraints {
 								let correctOffset = currentLineWidth >= containerWidth ?
 									0 : (containerWidth - currentLineWidth) / 2
 								$0.leading.equalToSuperview().offset(correctOffset)
 							}
 						}
 					} else {
+
+						if isFirstLine == true,
+						   let firstEditView = currentEditIssueViews.first,
+						   let lastEditView = currentEditIssueViews.last {
+							firstEditView.snp.updateConstraints {
+								let correctOffset = currentLineWidth >= containerWidth ?
+									-addButtonOffset : (containerWidth - (currentLineWidth + addButtonOffset)) / 2
+								$0.leading.equalToSuperview().offset(correctOffset)
+							}
+
+							addIssueButton = AddIssueButton()
+							guard let addIssueButton = addIssueButton else { return }
+							view.scrollView.addSubview(addIssueButton)
+							addIssueButton.snp.makeConstraints {
+								$0.width.equalTo(26)
+								$0.height.equalTo(23)
+								$0.leading.equalTo(lastEditView.snp.trailing).offset(10)
+								$0.centerY.equalTo(lastEditView.snp.centerY)
+							}
+							subscribeAddButton()
+						}
+
 						currentEditIssueViews = []
 
 						let correctOffset = editIssueViewWidth >= containerWidth ?
@@ -316,6 +377,8 @@ final class EditLawyerProfileViewModel: ViewModel {
 						$0.leading.equalToSuperview().offset(correctOffset)
 						topOffset += (10 + Int(labelHeight))
 						currentLineWidth = editIssueViewWidth
+
+						isFirstLine = false
 					}
 
 					currentEditIssueViews.append(editIssueView)
@@ -336,10 +399,40 @@ final class EditLawyerProfileViewModel: ViewModel {
 
 				// check if there issues
 				let selectedIssuesSet = Set(issues)
-				if selectedIssuesSet.contains(issueType.issueCode) {
+				if selectedIssuesSet.contains(issueType.subIssueCode ?? 0) {
 					label.selected(isOn: true)
 				}
+
+				editIssueView.editSubject
+					.asObservable()
+					.observeOn(MainScheduler.instance)
+					.subscribe(onNext: { [weak self] code in
+						self?.removeIssue(with: code)
+					}).disposed(by: disposeBag)
+				
 			}
+
+		if addIssueButton == nil,
+		   let firstEditView = currentEditIssueViews.first,
+		   let lastEditView = currentEditIssueViews.last {
+			firstEditView.snp.updateConstraints {
+				let correctOffset = currentLineWidth >= containerWidth ?
+					-addButtonOffset : (containerWidth - (currentLineWidth + addButtonOffset)) / 2
+				$0.leading.equalToSuperview().offset(correctOffset)
+			}
+
+			addIssueButton = AddIssueButton()
+			guard let addIssueButton = addIssueButton else { return }
+			view.scrollView.addSubview(addIssueButton)
+			addIssueButton.snp.makeConstraints {
+				$0.width.equalTo(26)
+				$0.height.equalTo(23)
+				$0.leading.equalTo(lastEditView.snp.trailing).offset(10)
+				$0.centerY.equalTo(lastEditView.snp.centerY)
+			}
+
+			subscribeAddButton()
+		}
 
 		view.issuesContainerView.snp.updateConstraints {
 			$0.height.equalTo(topOffset + 23)
@@ -347,7 +440,38 @@ final class EditLawyerProfileViewModel: ViewModel {
 	}
 
 	func updateIssuesContainerView() {
-		updateIssuesContainerView(with: userProfile.issueCodes ?? [])
+		updateIssuesContainerView(with: currentIssueCodes)
+	}
+
+	private func subscribeAddButton() {
+		// add button
+		addIssueButton?.rx
+			.tap
+			.do(onNext: { [unowned self] _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.addIssueButton?.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.addIssueButton?.alpha = 1
+					})
+				})
+			})
+			.subscribe(onNext: { [unowned self] _ in
+				self.router.passToSelectIssue(selectIssueSubject: self.selectIssueSubject)
+			}).disposed(by: disposeBag)
+
+	}
+
+	private func removeIssue(with code: Int) {
+		self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
+									   message: "edit_lawyer.remove_issue.title".localized,
+									   okButtonTitle: "alert.yes".localized.uppercased(),
+									   cancelButtonTitle: "alert.no".localized.uppercased()) { result in
+			if result {
+				self.currentIssueCodes = self.currentIssueCodes.filter { $0 != code }
+				self.updateIssuesContainerView()
+			}
+		}
 	}
 
 	func removeBindings() {}

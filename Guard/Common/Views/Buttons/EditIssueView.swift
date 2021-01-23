@@ -11,15 +11,15 @@ import RxSwift
 
 final class EditIssueView: UIView {
 	private let editViewColor: UIColor
-	private let issueCode: Int
+	private let subIssueCode: Int
 	var editSubject = PublishSubject<Int>()
 	private let disposeBag = DisposeBag()
 
 	init(editViewColor: UIColor,
-		 issueCode: Int) {
+		 subIssueCode: Int) {
 
 		self.editViewColor = editViewColor
-		self.issueCode = issueCode
+		self.subIssueCode = subIssueCode
 		super.init(frame: .zero)
 
 		backgroundColor = editViewColor
@@ -36,12 +36,12 @@ final class EditIssueView: UIView {
 			$0.centerY.equalToSuperview()
 		}
 
-		imageView
+		self
 			.rx
 			.tapGesture()
 			.when(.recognized)
 			.subscribe(onNext: { [unowned self] _ in
-				self.editSubject.onNext(self.issueCode)
+				self.editSubject.onNext(self.subIssueCode)
 			}).disposed(by: disposeBag)
 	}
 

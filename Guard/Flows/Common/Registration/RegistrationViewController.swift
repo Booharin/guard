@@ -21,7 +21,7 @@ protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
 	
 	var enterButton: ConfirmButton { get }
 	var backButtonView: BackButtonView { get }
-	var skipButtonView: SkipButtonView { get }
+	var skipButton: SkipButton { get }
 	var alreadyRegisteredLabel: UILabel { get }
 	
 	var loadingView: UIActivityIndicatorView { get }
@@ -51,8 +51,8 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 
 	var enterButton = ConfirmButton(title: "registration.sign_up.title".localized.uppercased())
 	var backButtonView = BackButtonView()
-	var skipButtonView = SkipButtonView(title: "registration.skip.title".localized,
-										font: Saira.light.of(size: 15))
+	var skipButton = SkipButton(title: "registration.skip.title".localized,
+								font: Saira.light.of(size: 15))
 	var alreadyRegisteredLabel = UILabel()
 
 	var loadingView = UIActivityIndicatorView(style: .medium)
@@ -85,9 +85,9 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 	
 	func setNavigationBar() {
 		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
-		let rightBarButtonItem = UIBarButtonItem(customView: skipButtonView)
+		//let rightBarButtonItem = UIBarButtonItem(customView: skipButton)
 		self.navigationItem.leftBarButtonItem = leftBarButtonItem
-		self.navigationItem.rightBarButtonItem = rightBarButtonItem
+		//self.navigationItem.rightBarButtonItem = rightBarButtonItem
 	}
 	
 	private func addViews() {

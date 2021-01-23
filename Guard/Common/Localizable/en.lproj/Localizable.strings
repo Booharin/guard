@@ -119,6 +119,8 @@
 "edit_profile.email.placeholder" = "Email";
 "edit_profile.alert.title" = "Approval";
 "edit_profile.alert.message" = "Are you sure you want to change your profile information?";
+"edit_lawyer.empty_issues.title" = "You need at least one spcialization";
+"edit_lawyer.remove_issue.title" = "Are you sure you want to delete a specialization?";
 
 //SETTINGS
 "settings.title" = "Settings";

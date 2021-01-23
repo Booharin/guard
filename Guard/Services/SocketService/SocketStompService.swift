@@ -16,6 +16,7 @@ protocol HasSocketStompService {
 protocol SocketStompServiceInterface {
 	var incomingMessageSubject: PublishSubject<Any> { get }
 	func connectSocketStomp()
+	func disconnect()
 	func sendMessage(with text: String,
 					 to: String,
 					 receiptId: String?,
@@ -51,6 +52,10 @@ final class SocketStompService: SocketStompServiceInterface, HasDependencies {
 	func connectSocketStomp() {
 		socketStomp.connect()
 		checkForInternetConnection()
+	}
+
+	func disconnect() {
+		socketStomp.disconnect()
 	}
 
 	func sendMessage(with text: String,

@@ -11,8 +11,8 @@ import UIKit
 protocol AppealViewControllerProtocol: ViewControllerProtocol {
 	var scrollView: UIScrollView { get }
 	var backButtonView: BackButtonView { get }
-	var cancelButtonView: SkipButtonView { get }
-	var threedotsButtonView: ThreeDotsButtonView { get }
+	var cancelButton: SkipButton { get }
+	var threedotsButton: ThreeDotsButton { get }
 	var rightBarButtonItem: UIBarButtonItem? { get set }
 	var titleView: UIView { get }
 	var titleTextField: TextField { get }
@@ -32,9 +32,9 @@ final class AppealViewController<modelType: AppealViewModel>:
 	var viewModel: modelType
 	var scrollView = UIScrollView()
 	var backButtonView = BackButtonView()
-	var cancelButtonView = SkipButtonView(title: "appeal.cancelButton.title".localized,
-										  font: Saira.medium.of(size: 16))
-	var threedotsButtonView = ThreeDotsButtonView()
+	var cancelButton = SkipButton(title: "appeal.cancelButton.title".localized,
+								  font: Saira.medium.of(size: 16))
+	var threedotsButton = ThreeDotsButton()
 	var rightBarButtonItem: UIBarButtonItem? {
 		get {
 			self.navigationItem.rightBarButtonItem
@@ -81,7 +81,7 @@ final class AppealViewController<modelType: AppealViewModel>:
 
 	func setNavigationBar() {
 		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
-		let rightBarButtonItem = UIBarButtonItem(customView: threedotsButtonView)
+		let rightBarButtonItem = UIBarButtonItem(customView: threedotsButton)
 		self.navigationItem.leftBarButtonItem = leftBarButtonItem
 		self.navigationItem.rightBarButtonItem = rightBarButtonItem
 		self.navigationItem.titleView = titleView

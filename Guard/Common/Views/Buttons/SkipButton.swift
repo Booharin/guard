@@ -1,5 +1,5 @@
 //
-//  SkipButtonView.swift
+//  SkipButton.swift
 //  Guard
 //
 //  Created by Alexandr Bukharin on 01.09.2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class SkipButtonView: UIButton {
+final class SkipButton: UIButton {
 	init(title: String,
 		 font: UIFont) {
 		super.init(frame: CGRect(x: 0, y: 0, width: 100, height: 50))

@@ -31,6 +31,8 @@ enum ApiMethods {
 	static let issueTypes = "common/issues"
 	// client
 	static let editClient = "client/edit"
+	// lawyer
+	static let editLawyer = "lawyer/edit"
 	// settings
 	static let settings = "setting/settings"
 }

@@ -167,16 +167,16 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 
 		// skip button
-		view.skipButtonView
+		view.skipButton
 			.rx
 			.tapGesture()
 			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
-					self.view.skipButtonView.alpha = 0.5
+					self.view.skipButton.alpha = 0.5
 				}, completion: { _ in
 					UIView.animate(withDuration: self.animationDuration, animations: {
-						self.view.skipButtonView.alpha = 1
+						self.view.skipButton.alpha = 1
 					})
 				})
 			})

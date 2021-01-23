@@ -14,15 +14,15 @@ final class IssueLabel: UILabel {
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
 	var isSelected = false
-	let issueCode: Int
+	let subIssueCode: Int
 	private let isSelectable: Bool
 
 	init(labelColor: UIColor,
-		 issueCode: Int,
+		 subIssueCode: Int,
 		 isSelectable: Bool) {
 
 		self.labelColor = labelColor
-		self.issueCode = issueCode
+		self.subIssueCode = subIssueCode
 		self.isSelectable = isSelectable
 		super.init(frame: .zero)
 

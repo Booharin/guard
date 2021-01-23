@@ -95,7 +95,7 @@
 		5251AFBA24A287CB00467E84 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5251AFB924A287CB00467E84 /* TextField.swift */; };
 		5251AFBD24A28B2100467E84 /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5251AFBC24A28B2100467E84 /* ConfirmButton.swift */; };
 		5251AFC224A28FBC00467E84 /* String+Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5251AFC124A28FBC00467E84 /* String+Localizable.swift */; };
-		52524E6124FED0E30078AA62 /* SkipButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52524E6024FED0E30078AA62 /* SkipButtonView.swift */; };
+		52524E6124FED0E30078AA62 /* SkipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52524E6024FED0E30078AA62 /* SkipButton.swift */; };
 		5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753024B84CFC00CC729C /* ChooseCoordinator.swift */; };
 		5253753324B84D5200CC729C /* ChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753224B84D5200CC729C /* ChooseViewController.swift */; };
 		525BFA6925097405005393B1 /* sf-ui-display-light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 525BFA6825097402005393B1 /* sf-ui-display-light.ttf */; };
@@ -191,6 +191,8 @@
 		52E62F2225322C58007FB1BE /* EditClientProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E62F2125322C58007FB1BE /* EditClientProfileViewController.swift */; };
 		52E62F2425322C69007FB1BE /* EditClientProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E62F2325322C69007FB1BE /* EditClientProfileViewModel.swift */; };
 		52E62F26253238F8007FB1BE /* EditTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E62F25253238F8007FB1BE /* EditTextField.swift */; };
+		52E96FD525BC18F90014F0D0 /* AddIssueButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E96FD425BC18F90014F0D0 /* AddIssueButton.swift */; };
+		52E96FD725BC86690014F0D0 /* EditProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E96FD625BC86690014F0D0 /* EditProfileRouter.swift */; };
 		52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */; };
 		52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */; };
 		52EB81C324B9E7E5003285BC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81C224B9E7E5003285BC /* ViewModel.swift */; };
@@ -200,7 +202,7 @@
 		52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */; };
 		52F0F5712536DA3B00FE2B14 /* AppealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5702536DA3B00FE2B14 /* AppealViewController.swift */; };
 		52F0F5732536DA5900FE2B14 /* AppealViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5722536DA5900FE2B14 /* AppealViewModel.swift */; };
-		52F0F5752536DF5500FE2B14 /* ThreeDotsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */; };
+		52F0F5752536DF5500FE2B14 /* ThreeDotsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5742536DF5500FE2B14 /* ThreeDotsButton.swift */; };
 		52F749332565A846009CD041 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F749322565A846009CD041 /* KeyChainService.swift */; };
 		52F7493925665F93009CD041 /* UserRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F7493825665F93009CD041 /* UserRole.swift */; };
 		52FFF4A5250B85D100957356 /* ClientAppealsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */; };
@@ -330,7 +332,7 @@
 		5251AFB924A287CB00467E84 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		5251AFBC24A28B2100467E84 /* ConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
 		5251AFC124A28FBC00467E84 /* String+Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localizable.swift"; sourceTree = "<group>"; };
-		52524E6024FED0E30078AA62 /* SkipButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkipButtonView.swift; sourceTree = "<group>"; };
+		52524E6024FED0E30078AA62 /* SkipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkipButton.swift; sourceTree = "<group>"; };
 		5253753024B84CFC00CC729C /* ChooseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseCoordinator.swift; sourceTree = "<group>"; };
 		5253753224B84D5200CC729C /* ChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewController.swift; sourceTree = "<group>"; };
 		52597DC424BB8FC9005A922F /* RxGesture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxGesture.framework; path = Carthage/Build/iOS/RxGesture.framework; sourceTree = "<group>"; };
@@ -408,6 +410,8 @@
 		52E62F2125322C58007FB1BE /* EditClientProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientProfileViewController.swift; sourceTree = "<group>"; };
 		52E62F2325322C69007FB1BE /* EditClientProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientProfileViewModel.swift; sourceTree = "<group>"; };
 		52E62F25253238F8007FB1BE /* EditTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextField.swift; sourceTree = "<group>"; };
+		52E96FD425BC18F90014F0D0 /* AddIssueButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIssueButton.swift; sourceTree = "<group>"; };
+		52E96FD625BC86690014F0D0 /* EditProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileRouter.swift; sourceTree = "<group>"; };
 		52EB81BC24B9DCCE003285BC /* RegistrationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationCoordinator.swift; sourceTree = "<group>"; };
 		52EB81BF24B9DD72003285BC /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		52EB81C224B9E7E5003285BC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -420,7 +424,7 @@
 		52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+isvalidEmail.swift"; sourceTree = "<group>"; };
 		52F0F5702536DA3B00FE2B14 /* AppealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealViewController.swift; sourceTree = "<group>"; };
 		52F0F5722536DA5900FE2B14 /* AppealViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealViewModel.swift; sourceTree = "<group>"; };
-		52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDotsButtonView.swift; sourceTree = "<group>"; };
+		52F0F5742536DF5500FE2B14 /* ThreeDotsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDotsButton.swift; sourceTree = "<group>"; };
 		52F749322565A846009CD041 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
 		52F7493825665F93009CD041 /* UserRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRole.swift; sourceTree = "<group>"; };
 		52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListRouter.swift; sourceTree = "<group>"; };
@@ -652,7 +656,6 @@
 		522E5BE424A37C2F00879741 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				52AFF0FF25BA10C900D365C2 /* Views */,
 				52524E5F24FECF5E0078AA62 /* Buttons */,
 				5251AFB524A2851200467E84 /* NavigationController */,
 				52E3D4E124C8AB0E00FD67C9 /* TabBarController */,
@@ -1017,13 +1020,15 @@
 		52524E5F24FECF5E0078AA62 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
+				52AFF10025BA10E300D365C2 /* EditIssueView.swift */,
 				52A271B82508F27A0050FB60 /* AddButtonView.swift */,
 				522272C32504BF6C0029A4E2 /* FilterButtonView.swift */,
 				523FF71824BD970A00C4F959 /* BackButtonView.swift */,
-				52524E6024FED0E30078AA62 /* SkipButtonView.swift */,
+				52524E6024FED0E30078AA62 /* SkipButton.swift */,
 				523EEEAA251284230007ED2F /* AppealButtonView.swift */,
 				52BD63EF2532F92400FF393D /* SelectButtonView.swift */,
-				52F0F5742536DF5500FE2B14 /* ThreeDotsButtonView.swift */,
+				52F0F5742536DF5500FE2B14 /* ThreeDotsButton.swift */,
+				52E96FD425BC18F90014F0D0 /* AddIssueButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -1252,16 +1257,9 @@
 			children = (
 				52AFF0FB25BA0A5500D365C2 /* EditLawyerProfileViewController.swift */,
 				52AFF0FD25BA0AE300D365C2 /* EditLawyerProfileViewModel.swift */,
+				52E96FD625BC86690014F0D0 /* EditProfileRouter.swift */,
 			);
 			path = EditLawyerProfile;
-			sourceTree = "<group>";
-		};
-		52AFF0FF25BA10C900D365C2 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				52AFF10025BA10E300D365C2 /* EditIssueView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		52B2685525110DCA00111864 /* Cell */ = {
@@ -1497,7 +1495,7 @@
 				523CD30925B6D141000E5078 /* AppealsListViewModel.swift in Sources */,
 				52FFF4A7250B873800957356 /* ClientAppealsListModuleFactory.swift in Sources */,
 				523C8CE1256276E8006DECAB /* NetworkError.swift in Sources */,
-				52524E6124FED0E30078AA62 /* SkipButtonView.swift in Sources */,
+				52524E6124FED0E30078AA62 /* SkipButton.swift in Sources */,
 				5251AFB724A2853A00467E84 /* NavigationController.swift in Sources */,
 				52B26866251112E100111864 /* ConversationCell.swift in Sources */,
 				52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */,
@@ -1539,7 +1537,7 @@
 				523CD30B25B6DB46000E5078 /* AppealsListRouter.swift in Sources */,
 				5222B68E24C75DC2000BEE13 /* SelectIssueCellViewModel.swift in Sources */,
 				5283CB732517CBED005DEDA8 /* ClientProfileModuleFactory.swift in Sources */,
-				52F0F5752536DF5500FE2B14 /* ThreeDotsButtonView.swift in Sources */,
+				52F0F5752536DF5500FE2B14 /* ThreeDotsButton.swift in Sources */,
 				523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */,
 				52AFF10125BA10E300D365C2 /* EditIssueView.swift in Sources */,
 				5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */,
@@ -1549,6 +1547,7 @@
 				52E62F2425322C69007FB1BE /* EditClientProfileViewModel.swift in Sources */,
 				52B26863251111CA00111864 /* ConversationsListViewModel.swift in Sources */,
 				522272DD2504C6B20029A4E2 /* LocalStorageService.swift in Sources */,
+				52E96FD725BC86690014F0D0 /* EditProfileRouter.swift in Sources */,
 				527E4D45258F3F7700744A40 /* SocketStompService.swift in Sources */,
 				52BD63F02532F92400FF393D /* SelectButtonView.swift in Sources */,
 				523CD31425B7339F000E5078 /* LawyerProfileModuleFactory.swift in Sources */,
@@ -1608,6 +1607,7 @@
 				52A4258425221D7200E2FE7B /* SettingsHeaderCell.swift in Sources */,
 				52B2686A2511137600111864 /* ChatConversation.swift in Sources */,
 				52E62F2225322C58007FB1BE /* EditClientProfileViewController.swift in Sources */,
+				52E96FD525BC18F90014F0D0 /* AddIssueButton.swift in Sources */,
 				521016E42581FD72002A696E /* ClientAppealObject+CoreDataClass.swift in Sources */,
 				523C8CDE2562728A006DECAB /* RequestRouter.swift in Sources */,
 				522272E42504C9470029A4E2 /* GuardDataModel.xcdatamodeld in Sources */,

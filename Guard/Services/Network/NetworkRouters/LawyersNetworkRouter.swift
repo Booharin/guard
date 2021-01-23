@@ -54,6 +54,26 @@ struct LawyersNetworkRouter {
 								  cityTitle: cityTitle)
 		}
 	}
+
+	func editLawyer(profile: UserProfile,
+					email: String,
+					phone: String,
+					token: String?) -> URLRequestConvertible {
+		do {
+			return try EditLawyer(environment: environment,
+								  lawyerProfile: profile,
+								  email: email,
+								  phone: phone).asJSONURLRequest(with: token)
+		} catch {
+			#if DEBUG
+			print("Error JSON URLRequest", error)
+			#endif
+			return EditLawyer(environment: environment,
+							  lawyerProfile: profile,
+							  email: email,
+							  phone: phone)
+		}
+	}
 }
 
 extension LawyersNetworkRouter {
@@ -132,6 +152,58 @@ extension LawyersNetworkRouter {
 					.map { String($0) }
 					.joined(separator:","),
 				"cityTitle": cityTitle
+			]
+		}
+	}
+
+	private struct EditLawyer: RequestRouter {
+
+		let environment: Environment
+
+		let id: Int
+		let firstName: String
+		let lastName: String
+		let email: String
+		let phoneNumber: String
+		var photo: String?
+		let cityCode: [Int]
+		let countryCode: [Int]
+		let issueCodes: [Int]
+
+		init(environment: Environment,
+			 lawyerProfile: UserProfile,
+			 email: String,
+			 phone: String) {
+
+			self.environment = environment
+			self.id = lawyerProfile.id
+			self.firstName = lawyerProfile.firstName ?? ""
+			self.lastName = lawyerProfile.lastName ?? ""
+			self.email = email
+			self.phoneNumber = phone
+			self.photo = lawyerProfile.photo
+			self.cityCode = lawyerProfile.cityCode ?? []
+			self.countryCode = lawyerProfile.countryCode ?? []
+			self.issueCodes = lawyerProfile.issueCodes ?? []
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .post
+		var path = ApiMethods.editLawyer
+		var parameters: Parameters {
+			return [
+				"id": id,
+				"firstName": firstName,
+				"lastName": lastName,
+				"email": email,
+				"phoneNumber": phoneNumber,
+				"photo": photo,
+				"cityCode": cityCode,
+				"countryCode": countryCode,
+				"issueCodes": issueCodes
 			]
 		}
 	}

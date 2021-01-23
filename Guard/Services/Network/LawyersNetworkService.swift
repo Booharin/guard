@@ -17,6 +17,9 @@ protocol HasLawyersNetworkService {
 protocol LawyersNetworkServiceInterface {
 	func getAllLawyers(from city: String) -> Observable<Result<[UserProfile], AFError>>
 	func getLawyers(by issueCode: [Int], city: String) -> Observable<Result<[UserProfile], AFError>>
+	func editLawyer(profile: UserProfile,
+					email: String,
+					phone: String) -> Observable<Result<Any, AFError>>
 }
 
 final class LawyersNetworkService: LawyersNetworkServiceInterface, HasDependencies {
@@ -164,6 +167,48 @@ final class LawyersNetworkService: LawyersNetworkServiceInterface, HasDependenci
 						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
 					}
 				case .failure:
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func editLawyer(profile: UserProfile,
+					email: String,
+					phone: String) -> Observable<Result<Any, AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.editLawyer(profile: profile,
+									   email: email,
+									   phone: phone,
+									   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.response { response in
+				#if DEBUG
+				print(response)
+				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
+				switch response.result {
+				case .success:
+					observer.onNext(.success(()))
+				case .failure:
+					#if DEBUG
+					print(response.error?.localizedDescription ?? "")
+					#endif
 					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
 				}
 			}

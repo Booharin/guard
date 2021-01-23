@@ -14,10 +14,11 @@ struct IssuesResponse: Decodable {
 
 struct IssueType: Codable {
 	let title: String
-	let subtitle: String
 	var titleEn: String?
+	let subtitle: String
 	var subtitleEn: String?
 	let issueCode: Int
+	let subIssueCode: Int?
 	var locale: String?
 	let subIssueTypeList: [IssueType]?
 }

@@ -45,16 +45,16 @@ final class AppealViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 
 		// three dots button
-		view.threedotsButtonView
+		view.threedotsButton
 			.rx
 			.tapGesture()
 			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
-					self.view.threedotsButtonView.alpha = 0.5
+					self.view.threedotsButton.alpha = 0.5
 				}, completion: { _ in
 					UIView.animate(withDuration: self.animationDuration, animations: {
-						self.view.threedotsButtonView.alpha = 1
+						self.view.threedotsButton.alpha = 1
 					})
 				})
 			})
@@ -63,16 +63,16 @@ final class AppealViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 
 		// three dots button
-		view.cancelButtonView
+		view.cancelButton
 			.rx
 			.tapGesture()
 			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
-					self.view.cancelButtonView.alpha = 0.5
+					self.view.cancelButton.alpha = 0.5
 				}, completion: { _ in
 					UIView.animate(withDuration: self.animationDuration, animations: {
-						self.view.cancelButtonView.alpha = 1
+						self.view.cancelButton.alpha = 1
 					})
 				})
 			})
@@ -158,13 +158,13 @@ final class AppealViewModel: ViewModel, HasDependencies {
 					self.view.descriptionTextView.isEditable = true
 					self.view.lawyerSelectedButton.setTitle("appeal.saveButton.title".localized.uppercased(),
 															 for: .normal)
-					self.view.rightBarButtonItem = UIBarButtonItem(customView: self.view.cancelButtonView)
+					self.view.rightBarButtonItem = UIBarButtonItem(customView: self.view.cancelButton)
 				} else {
 					self.view.titleTextField.isUserInteractionEnabled = false
 					self.view.descriptionTextView.isEditable = false
 					self.view.lawyerSelectedButton.setTitle("appeal.lawyerSelectedButton.title".localized.uppercased(),
 															 for: .normal)
-					self.view.rightBarButtonItem = UIBarButtonItem(customView: self.view.threedotsButtonView)
+					self.view.rightBarButtonItem = UIBarButtonItem(customView: self.view.threedotsButton)
 				}
 			}).disposed(by: disposeBag)
 

@@ -119,6 +119,8 @@
 "edit_profile.email.placeholder" = "Email";
 "edit_profile.alert.title" = "Подтверждение";
 "edit_profile.alert.message" = "Вы действительно хотите изменить данные профиля?";
+"edit_lawyer.empty_issues.title" = "Вам нужна как минимум одна специализация";
+"edit_lawyer.remove_issue.title" = "Вы действительно хотите удалить специализацию?";
 
 //SETTINGS
 "settings.title" = "Настройки";

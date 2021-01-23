@@ -244,12 +244,12 @@ final class LawyerProfileViewModel:
 		di.commonDataNetworkService.issueTypes?
 			.compactMap { $0.subIssueTypeList }
 			.reduce([], +)
-			.filter { issues.contains($0.issueCode) }
+			.filter { issues.contains($0.subIssueCode ?? 0) }
 			.forEach { issueType in
 				print(issueType.title)
 				print(issueType.issueCode)
 				let label = IssueLabel(labelColor: Colors.issueLabelColor,
-									   issueCode: issueType.issueCode,
+									   subIssueCode: issueType.subIssueCode ?? 0,
 									   isSelectable: false)
 				label.text = issueType.title
 				// calculate correct size of label
@@ -294,7 +294,7 @@ final class LawyerProfileViewModel:
 				}
 				// check if there issues
 				let selectedIssuesSet = Set(issues)
-				if selectedIssuesSet.contains(issueType.issueCode) {
+				if selectedIssuesSet.contains(issueType.subIssueCode ?? 0) {
 					label.selected(isOn: true)
 				}
 			}

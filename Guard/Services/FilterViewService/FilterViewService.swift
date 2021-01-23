@@ -180,7 +180,7 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 			let dimmView = dimmView,
 			let window = currentWindow else { return }
 
-		self.issues = issueLabels.compactMap { $0.isSelected ? $0.issueCode : nil }
+		self.issues = issueLabels.compactMap { $0.isSelected ? $0.subIssueCode : nil }
 
 		selectedIssuesSubject.onNext(self.issues)
 
@@ -222,9 +222,9 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 			.reduce([], +)
 			.forEach { issueType in
 				print(issueType.title)
-				print(issueType.issueCode)
+				print(issueType.subIssueCode ?? 0)
 				let label = IssueLabel(labelColor: Colors.issueLabelColor,
-									   issueCode: issueType.issueCode,
+									   subIssueCode: issueType.subIssueCode ?? 0,
 									   isSelectable: true)
 				label.text = issueType.title
 				// calculate correct size of label
@@ -248,7 +248,7 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 				}
 				// check if there selected issues
 				let selectedIssuesSet = Set(selectedIssues)
-				if selectedIssuesSet.contains(issueType.issueCode) {
+				if selectedIssuesSet.contains(issueType.subIssueCode ?? 0) {
 					label.selected(isOn: true)
 				}
 				issueLabels.append(label)
