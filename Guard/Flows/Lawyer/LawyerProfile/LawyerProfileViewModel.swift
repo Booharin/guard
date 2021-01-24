@@ -26,6 +26,7 @@ final class LawyerProfileViewModel:
 	private let animationDuration = 0.15
 	private var router: LawyerProfileRouterProtocol
 	var lawyerImageSubject: PublishSubject<Any>?
+	private let chatWithLawyerSubject = PublishSubject<Any>()
 
 	private var lawyerProfileFromList: UserProfile?
 	var localLawyerProfile: UserProfile? {
@@ -38,9 +39,9 @@ final class LawyerProfileViewModel:
 			return localLawyerProfile
 		}
 	}
-	private var settings: SettingsModel? {
-		di.localStorageService.getSettings(for: localLawyerProfile?.id ?? 0)
-	}
+	private var settings: SettingsModel?
+	private var settingsListSubject: PublishSubject<Any>?
+
 	private var positiveReviewsCount = 0
 	private var negativeReviewsCount = 0
 	private var disposeBag = DisposeBag()
@@ -100,6 +101,44 @@ final class LawyerProfileViewModel:
 			}).disposed(by: disposeBag)
 		view.threedotsButton.isHidden = lawyerProfileFromList != nil
 
+		view.phoneLabel
+			.rx
+			.tapGesture()
+			.when(.recognized)
+			.filter { _ in
+				if let _ = self.lawyerProfileFromList {
+					return true
+				} else {
+					return false
+				}
+			}
+			.subscribe(onNext: { [weak self] _ in
+				guard
+					let phone = self?.view.phoneLabel.text,
+					let url = URL(string: "tel://\(phone)"),
+					UIApplication.shared.canOpenURL(url) else { return }
+				UIApplication.shared.open(url)
+			}).disposed(by: disposeBag)
+
+		view.emailLabel
+			.rx
+			.tapGesture()
+			.when(.recognized)
+			.filter { _ in
+				if let _ = self.lawyerProfileFromList {
+					return true
+				} else {
+					return false
+				}
+			}
+			.subscribe(onNext: { [weak self] _ in
+				guard
+					let email = self?.view.emailLabel.text,
+					let url = URL(string: "mailto:\(email)"),
+					UIApplication.shared.canOpenURL(url) else { return }
+				UIApplication.shared.open(url)
+			}).disposed(by: disposeBag)
+
 		// reviews
 		view.reviewsTitleLabel.textColor = Colors.mainTextColor
 		view.reviewsTitleLabel.font = SFUIDisplay.light.of(size: 18)
@@ -135,9 +174,72 @@ final class LawyerProfileViewModel:
 		view.ratingTitleLabel.font = SFUIDisplay.light.of(size: 18)
 		view.ratingTitleLabel.text = "profile.rating".localized
 		// rating
-		view.ratingLabel.text = String(format: "%.1f", di.localStorageService.getCurrenClientProfile()?.averageRate ?? 0)
+		view.ratingLabel.text = String(format: "%.1f", currentProfile?.averageRate ?? 0)
 		view.ratingLabel.textColor = Colors.mainTextColor
 		view.ratingLabel.font = SFUIDisplay.bold.of(size: 18)
+
+		chatWithLawyerSubject
+			.asObservable()
+			.filter { _ in
+				if let _ = self.lawyerProfileFromList {
+					return true
+				} else {
+					self.view.chatWithLawyerButton.isHidden = true
+					self.settings = self.di.localStorageService.getSettings(for: self.localLawyerProfile?.id ?? 0)
+					self.updateVisability()
+					return true
+				}
+			}
+			.flatMap { [unowned self] _ in
+				self.di.clientNetworkService.getSettings(profileId: self.currentProfile?.id ?? 0)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				switch result {
+					case .success(let settings):
+						if let _ = self?.lawyerProfileFromList {
+							self?.view.chatWithLawyerButton.isHidden = !settings.isChatEnabled
+						}
+						self?.settings = settings
+						self?.updateVisability()
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+		chatWithLawyerSubject.onNext(())
+
+		lawyerImageSubject = PublishSubject<Any>()
+		lawyerImageSubject?
+			.asObservable()
+			.flatMap ({ _ -> Observable<Bool> in
+				guard self.lawyerProfileFromList == nil else {
+					return .just(true)
+				}
+				if let image = self.di.localStorageService
+					.getImage(with: "\(self.currentProfile?.id ?? 0)_profile_image.jpeg") {
+					self.view.avatarImageView.image = image
+					return .just(false)
+				} else {
+					return .just(true)
+				}
+			})
+			.filter { result in
+				return result == true
+			}
+			.flatMap { [unowned self] _ in
+				self.di.clientNetworkService.getPhoto(profileId: currentProfile?.id ?? 0)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				switch result {
+					case .success(let data):
+						self?.view.avatarImageView.image = UIImage(data: data)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
 	}
 
 	func updateProfile() {
@@ -176,7 +278,7 @@ final class LawyerProfileViewModel:
 		} else {
 			view.emailLabel.text = self.di.keyChainService.getValue(for: Constants.KeyChainKeys.email)
 		}
-		view.emailLabel.isHidden = !(settings?.isEmailVisible ?? true)
+
 		// phone label
 		view.phoneLabel.textAlignment = .center
 		view.phoneLabel.textColor = Colors.mainTextColor
@@ -186,7 +288,6 @@ final class LawyerProfileViewModel:
 		} else {
 			view.phoneLabel.text = self.di.keyChainService.getValue(for: Constants.KeyChainKeys.phoneNumber)
 		}
-		view.phoneLabel.isHidden = !(settings?.isPhoneVisible ?? true)
 
 		//MARK: - Update containerView with issues
 		if currentProfile?.issueCodes?.isEmpty ?? true {
@@ -195,38 +296,11 @@ final class LawyerProfileViewModel:
 		} else {
 			updateIssuesContainerView(with: currentProfile?.issueCodes ?? [])
 		}
+	}
 
-		lawyerImageSubject = PublishSubject<Any>()
-		lawyerImageSubject?
-			.asObservable()
-			.flatMap ({ _ -> Observable<Bool> in
-				guard self.lawyerProfileFromList == nil else {
-					return .just(true)
-				}
-				if let image = self.di.localStorageService
-					.getImage(with: "\(self.currentProfile?.id ?? 0)_profile_image.jpeg") {
-					self.view.avatarImageView.image = image
-					return .just(false)
-				} else {
-					return .just(true)
-				}
-			})
-			.filter { result in
-				return result == true
-			}
-			.flatMap { [unowned self] _ in
-				self.di.clientNetworkService.getPhoto(profileId: currentProfile?.id ?? 0)
-			}
-			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] result in
-				switch result {
-					case .success(let data):
-						self?.view.avatarImageView.image = UIImage(data: data)
-					case .failure(let error):
-						//TODO: - обработать ошибку
-						print(error.localizedDescription)
-				}
-			}).disposed(by: disposeBag)
+	private func updateVisability() {
+		view.emailLabel.isHidden = !(settings?.isEmailVisible ?? false)
+		view.phoneLabel.isHidden = !(settings?.isPhoneVisible ?? false)
 	}
 
 	private func updateIssuesContainerView(with issues: [Int]) {

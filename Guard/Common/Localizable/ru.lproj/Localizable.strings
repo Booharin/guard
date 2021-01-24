@@ -85,6 +85,7 @@
 "appeal.edit.title" = "Редактировать";
 "appeal.saveButton.title" = "Сохранить";
 "appeal.cancelButton.title" = "Отмена";
+"appeal.chatButton.titile" = "Чат";
 
 //FILTER
 "filter.title" = "Фильтры";
@@ -111,6 +112,7 @@
 "profile.action_sheet.cancel" = "Отмена";
 "profile.reviews" = "Отзывы";
 "profile.rating" = "Рейтинг";
+"profile.chat.button.titile" = "Чат";
 
 //EDIT_PROFILE
 "edit_profile.name.placeholder" = "Имя";

@@ -17,15 +17,24 @@ final class AppealViewModel: ViewModel, HasDependencies {
 	private let appeal: ClientAppeal
 	typealias Dependencies =
 		HasLocalStorageService &
-		HasAppealsNetworkService
+		HasAppealsNetworkService &
+		HasCommonDataNetworkService
 	lazy var di: Dependencies = DI.dependencies
 	var isEditingSubject = PublishSubject<Bool>()
+	private var issueTitle: String?
 
 	init(appeal: ClientAppeal) {
 		self.appeal = appeal
 	}
 
 	func viewDidSet() {
+		// set issue title
+		di.commonDataNetworkService.subIssueTypes?.forEach {
+			if appeal.issueCode == $0.subIssueCode {
+				issueTitle = $0.title
+			}
+		}
+
 		// back button
 		view.backButtonView
 			.rx
@@ -113,8 +122,9 @@ final class AppealViewModel: ViewModel, HasDependencies {
 		view.issueTypeLabel.backgroundColor = Colors.warningColor
 		view.issueTypeLabel.layer.cornerRadius = 12
 		view.issueTypeLabel.clipsToBounds = true
-		//TODO: - get appeal text
-		view.issueTypeLabel.text = "Семейное право"//appeal.issueCode
+
+		view.issueTypeLabel.isHidden = issueTitle == nil
+		view.issueTypeLabel.text = issueTitle
 		view.issueTypeLabel.textAlignment = .center
 
 		view.lawyerSelectedButton.backgroundColor = Colors.greenColor

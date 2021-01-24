@@ -113,6 +113,17 @@ struct AppealsNetworkRouter {
 								  cityTitle: cityTitle)
 		}
 	}
+
+	func getClient(by appealId: Int,
+				   token: String?) -> URLRequestConvertible {
+		do {
+			return try ClientByAppealId(environment: environment,
+										appealId: appealId).asURLDefaultRequest(with: token)
+		} catch {
+			return ClientByAppealId(environment: environment,
+									appealId: appealId)
+		}
+	}
 }
 
 extension AppealsNetworkRouter {
@@ -306,6 +317,30 @@ extension AppealsNetworkRouter {
 					.map { String($0) }
 					.joined(separator:","),
 				"city": cityTitle
+			]
+		}
+	}
+
+	private struct ClientByAppealId: RequestRouter {
+
+		let environment: Environment
+		let appealId: Int
+
+		init(environment: Environment,
+			 appealId: Int) {
+			self.environment = environment
+			self.appealId = appealId
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .get
+		var path = ApiMethods.clientByAppealId
+		var parameters: Parameters {
+			return [
+				"appealId": appealId
 			]
 		}
 	}

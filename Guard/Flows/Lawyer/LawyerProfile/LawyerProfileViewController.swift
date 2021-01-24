@@ -27,6 +27,7 @@ protocol LawyerProfileViewControlerProtcol: class, ViewControllerProtocol {
 	var reviewsPositiveLabel: UILabel { get }
 	var reviewsNegativeLabel: UILabel { get }
 	var ratingLabel: UILabel { get }
+	var chatWithLawyerButton: ConfirmButton { get }
 	func showActionSheet(toSettingsSubject: PublishSubject<Any>,
 						 toEditSubject: PublishSubject<UserProfile>)
 }
@@ -51,6 +52,8 @@ final class LawyerProfileViewController<modelType: LawyerProfileViewModel>:
 	var reviewsNegativeLabel = UILabel()
 	var ratingTitleLabel = UILabel()
 	var ratingLabel = UILabel()
+	var chatWithLawyerButton = ConfirmButton(title: "profile.chat.button.titile".localized.uppercased(),
+											 backgroundColor: Colors.greenColor)
 
 	var viewModel: modelType
 	var navController: UINavigationController? {
@@ -109,7 +112,7 @@ final class LawyerProfileViewController<modelType: LawyerProfileViewModel>:
 		scrollView.addSubview(avatarBackgroundView)
 		avatarBackgroundView.snp.makeConstraints {
 			$0.width.height.equalTo(158)
-			$0.top.equalToSuperview()//.offset(40)
+			$0.top.equalToSuperview()
 			$0.centerX.equalToSuperview()
 		}
 		avatarBackgroundView.layer.borderWidth = 0.5
@@ -235,6 +238,19 @@ final class LawyerProfileViewController<modelType: LawyerProfileViewModel>:
 			$0.height.equalTo(21)
 			$0.top.trailing.bottom.equalToSuperview()
 			$0.leading.equalTo(starImageView.snp.trailing).offset(7)
+		}
+		// chat with lawyer button
+		scrollView.addSubview(chatWithLawyerButton)
+		chatWithLawyerButton.setImage(#imageLiteral(resourceName: "tab_chat_icn").withRenderingMode(.alwaysTemplate),
+									  for: .normal)
+		chatWithLawyerButton.imageView?.tintColor = Colors.whiteColor
+		chatWithLawyerButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)
+		chatWithLawyerButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+		chatWithLawyerButton.snp.makeConstraints {
+			$0.top.equalTo(verticalReviewsSeparatorView.snp.bottom).offset(50)
+			$0.width.equalTo(142)
+			$0.height.equalTo(49)
+			$0.centerX.equalToSuperview()
 		}
 	}
 

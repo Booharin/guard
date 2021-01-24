@@ -98,7 +98,7 @@ final class AppealCreatingViewModel: ViewModel, HasDependencies {
 					.createAppeal(title: self.view.titleTextField.text ?? "",
 								  appealDescription: self.view.descriptionTextView.text ?? "",
 								  clientId: self.di.localStorageService.getCurrenClientProfile()?.id ?? 0,
-								  issueCode: issueType.issueCode,
+								  issueCode: issueType.subIssueCode ?? 0,
 								  cityCode: self.di.localStorageService.getCurrenClientProfile()?.cityCode?.first ?? 99)
 			}
 			.subscribe(onNext: { [weak self] result in

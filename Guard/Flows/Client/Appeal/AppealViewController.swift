@@ -9,7 +9,6 @@
 import UIKit
 
 protocol AppealViewControllerProtocol: ViewControllerProtocol {
-	var scrollView: UIScrollView { get }
 	var backButtonView: BackButtonView { get }
 	var cancelButton: SkipButton { get }
 	var threedotsButton: ThreeDotsButton { get }
@@ -30,7 +29,6 @@ final class AppealViewController<modelType: AppealViewModel>:
 	AppealViewControllerProtocol {
 
 	var viewModel: modelType
-	var scrollView = UIScrollView()
 	var backButtonView = BackButtonView()
 	var cancelButton = SkipButton(title: "appeal.cancelButton.title".localized,
 								  font: Saira.medium.of(size: 16))

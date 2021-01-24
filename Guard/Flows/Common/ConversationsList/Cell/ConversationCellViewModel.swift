@@ -30,7 +30,7 @@ struct ConversationCellViewModel: ViewModel {
 			.when(.recognized)
 			.subscribe(onNext: { _ in
 				UIView.animate(withDuration: self.animateDuration, animations: {
-					self.view.containerView.backgroundColor = Colors.cellSelectedColor
+					self.view.containerView.backgroundColor = Colors.lightBlueColor
 				}, completion: { _ in
 					UIView.animate(withDuration: self.animateDuration, animations: {
 						self.view.containerView.backgroundColor = .clear

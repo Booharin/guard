@@ -85,6 +85,7 @@
 "appeal.edit.title" = "Edit";
 "appeal.saveButton.title" = "Save";
 "appeal.cancelButton.title" = "Cancel";
+"appeal.chatButton.titile" = "Chat";
 
 //FILTER
 "filter.title" = "Filters";
@@ -111,6 +112,7 @@
 "profile.action_sheet.cancel" = "Cancel";
 "profile.reviews" = "Reviews";
 "profile.rating" = "Rating";
+"profile.chat.button.titile" = "Chat";
 
 //EDIT_PROFILE
 "edit_profile.name.placeholder" = "Name";

@@ -16,12 +16,14 @@ protocol HasCommonDataNetworkService {
 
 protocol CommonDataNetworkServiceInterface {
 	var issueTypes: [IssueType]? { get set }
+	var subIssueTypes: [IssueType]? { get set }
 	func getCountriesAndCities() -> Observable<Result<[CountryModel], AFError>>
 	func getIssueTypes(for locale: String) -> Observable<Result<[IssueType], AFError>>
 }
 
 final class CommonDataNetworkService: CommonDataNetworkServiceInterface {
 	var issueTypes: [IssueType]?
+	var subIssueTypes: [IssueType]?
 	private let router: CommonDataNetworkRouter
 	typealias Dependencies =
 		HasKeyChainService
@@ -84,6 +86,7 @@ final class CommonDataNetworkService: CommonDataNetworkServiceInterface {
 					do {
 						let issueTypes = try JSONDecoder().decode([IssueType].self, from: data)
 						self.issueTypes = issueTypes
+						self.subIssueTypes = issueTypes.compactMap { $0.subIssueTypeList }.reduce([], +)
 						observer.onNext(.success(issueTypes))
 						observer.onCompleted()
 					} catch {

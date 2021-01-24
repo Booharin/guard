@@ -19,7 +19,7 @@ final class ConfirmButton: UIButton {
 		super.init(frame: .zero)
 		layer.cornerRadius = cornerRadius
 		self.backgroundColor = backgroundColor
-		
+
 		// image
 		if let image = image {
 			tintColor = Colors.mainColor

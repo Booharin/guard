@@ -9,8 +9,9 @@
 import UIKit
 import RxSwift
 
-protocol ClientProfileViewControllerProtocol {
+protocol ClientProfileViewControllerProtocol: ViewControllerProtocol {
 	var scrollView: UIScrollView { get }
+	var backButtonView: BackButtonView { get }
 	var threedotsButton: UIButton { get }
 
 	var avatarImageView: UIImageView { get }
@@ -33,6 +34,7 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
     ClientProfileViewControllerProtocol {
 
 	var scrollView = UIScrollView()
+	var backButtonView = BackButtonView()
 	var threedotsButton = UIButton()
 	var avatarImageView = UIImageView()
 	var titleNameLabel = UILabel()
@@ -47,6 +49,9 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 	var ratingLabel = UILabel()
 
 	var viewModel: modelType
+	var navController: UINavigationController? {
+		self.navigationController
+	}
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
@@ -63,18 +68,30 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 		self.viewModel.assosiateView(self)
 		view.backgroundColor = Colors.whiteColor
 		addViews()
+		setNavigationBar()
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
-		navigationController?.isNavigationBarHidden = true
-		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-		navigationController?.navigationBar.isTranslucent = true
+
+		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
 
 		viewModel.updateProfile()
 		viewModel.clientImageSubject?.onNext(())
+	}
+
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+	}
+
+	private func setNavigationBar() {
+		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
+		self.navigationItem.leftBarButtonItem = leftBarButtonItem
+		let rightBarButtonItem = UIBarButtonItem(customView: threedotsButton)
+		self.navigationItem.rightBarButtonItem = rightBarButtonItem
 	}
 
 	private func addViews() {
@@ -83,19 +100,12 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 		scrollView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
 		}
-		// three dots button
-		scrollView.addSubview(threedotsButton)
-		threedotsButton.snp.makeConstraints {
-			$0.width.height.equalTo(50)
-			$0.top.equalToSuperview()
-			$0.trailing.equalToSuperview().offset(-20)
-		}
 		// avatar
 		let avatarBackgroundView = UIView()
 		scrollView.addSubview(avatarBackgroundView)
 		avatarBackgroundView.snp.makeConstraints {
 			$0.width.height.equalTo(158)
-			$0.top.equalToSuperview().offset(40)
+			$0.top.equalToSuperview()
 			$0.centerX.equalToSuperview()
 		}
 		avatarBackgroundView.layer.borderWidth = 0.5
@@ -237,7 +247,7 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 									   style: .default,
 									   handler: { _ in
 										alertController.dismiss(animated: true)
-										guard let userProfile = self.viewModel.clientProfile else { return }
+										guard let userProfile = self.viewModel.localClientProfile else { return }
 										toEditSubject.onNext(userProfile)
 									   })
 		alertController.addAction(editAction)

@@ -33,9 +33,9 @@ final class AppealsListRouter: BaseRouter, AppealsListRouterProtocol {
 	}
 
 	private func toAppealDescription(_ appeal: ClientAppeal) {
-		let toAppealCreatingController = AppealViewController(viewModel: AppealViewModel(appeal: appeal)
-		)
+		let viewModel = AppealFromListViewModel(appeal: appeal)
+		let toAppealCreatingController = AppealFromListViewController(viewModel: viewModel)
+		//toAppealCreatingController.hidesBottomBarWhenPushed = true
 		self.navigationController?.pushViewController(toAppealCreatingController, animated: true)
 	}
-
 }

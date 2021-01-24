@@ -46,7 +46,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 
 	func viewDidSet() {
 		currentCities = di.localStorageService.getCurrenClientProfile()?.cityCode ?? []
-		currentIssueCodes = [123, 321]//userProfile.issueCodes ?? []
+		currentIssueCodes = [123, 321]//userProfile.issueCodes ?? [] //[123, 321]
 		// back button
 		view.backButton.setImage(#imageLiteral(resourceName: "icn_back_arrow"), for: .normal)
 		view.backButton.rx
@@ -63,6 +63,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
+
 		// confirm button
 		view.confirmButton.setImage(#imageLiteral(resourceName: "confirm_icn"), for: .normal)
 		view.confirmButton.rx
@@ -282,6 +283,10 @@ final class EditLawyerProfileViewModel: ViewModel {
 			.asObservable()
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] issueType in
+				if let subIssueCode = issueType.subIssueCode,
+				   !(self?.currentIssueCodes.contains(subIssueCode) ?? false) {
+					self?.currentIssueCodes.append(subIssueCode)
+				}
 				print(issueType)
 				self?.view.navController?.viewControllers.forEach {
 					if let vc = $0 as? EditLawyerProfileViewController {
@@ -305,6 +310,8 @@ final class EditLawyerProfileViewModel: ViewModel {
 		view.issuesContainerView.subviews.forEach {
 			$0.removeFromSuperview()
 		}
+		addIssueButton?.removeFromSuperview()
+		addIssueButton = nil
 
 		di.commonDataNetworkService.issueTypes?
 			.compactMap { $0.subIssueTypeList }
@@ -357,16 +364,19 @@ final class EditLawyerProfileViewModel: ViewModel {
 								$0.leading.equalToSuperview().offset(correctOffset)
 							}
 
-							addIssueButton = AddIssueButton()
-							guard let addIssueButton = addIssueButton else { return }
-							view.scrollView.addSubview(addIssueButton)
-							addIssueButton.snp.makeConstraints {
-								$0.width.equalTo(26)
-								$0.height.equalTo(23)
-								$0.leading.equalTo(lastEditView.snp.trailing).offset(10)
-								$0.centerY.equalTo(lastEditView.snp.centerY)
+							//MARK: - Add Issue button
+							if addIssueButton == nil {
+								addIssueButton = AddIssueButton()
+								guard let addIssueButton = addIssueButton else { return }
+								view.scrollView.addSubview(addIssueButton)
+								addIssueButton.snp.makeConstraints {
+									$0.width.equalTo(26)
+									$0.height.equalTo(23)
+									$0.leading.equalTo(lastEditView.snp.trailing).offset(10)
+									$0.centerY.equalTo(lastEditView.snp.centerY)
+								}
+								subscribeAddButton()
 							}
-							subscribeAddButton()
 						}
 
 						currentEditIssueViews = []
@@ -412,6 +422,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 				
 			}
 
+		//MARK: - Add Issue button if only one line with issues
 		if addIssueButton == nil,
 		   let firstEditView = currentEditIssueViews.first,
 		   let lastEditView = currentEditIssueViews.last {

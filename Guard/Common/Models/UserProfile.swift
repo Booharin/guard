@@ -28,6 +28,7 @@ struct UserProfile: Codable {
 	var userRole: UserRole {
 		UserRole(rawValue: role) ?? .client
 	}
+	var settings: SettingsModel?
 
 	init(userProfileObject: UserProfileObject) {
 		self.id = Int(userProfileObject.id)

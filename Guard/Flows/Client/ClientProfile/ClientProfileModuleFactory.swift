@@ -11,7 +11,8 @@ import RxSwift
 final class ClientProfileModuleFactory {
 	static func createModule(toAuthSubject: PublishSubject<Any>) -> NavigationController {
 		let router = ClientProfileRouter(toAuthSubject: toAuthSubject)
-		let viewModel = ClientProfileViewModel(router: router)
+		let viewModel = ClientProfileViewModel(clientProfileFromAppeal: nil,
+											   router: router)
 		let controller = NavigationController(rootViewController:
 			ClientProfileViewController(viewModel: viewModel)
 		)
