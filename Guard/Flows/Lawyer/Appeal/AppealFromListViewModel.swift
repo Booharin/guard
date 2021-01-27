@@ -37,6 +37,15 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 			}
 		}
 
+		// swipe to go back
+		view.view
+			.rx
+			.swipeGesture(.right)
+			.when(.recognized)
+			.subscribe(onNext: { [unowned self] _ in
+				self.view.navController?.popViewController(animated: true)
+			}).disposed(by: disposeBag)
+
 		// back button
 		view.backButtonView
 			.rx
@@ -95,12 +104,9 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 						self.view.profileView.alpha = 1
 					})
 				})
-
-				let router = ClientProfileRouter(toAuthSubject: PublishSubject<Any>())
-				let viewModel = ClientProfileViewModel(clientProfileFromAppeal: self.clientProfile,
-													   router: router)
-				let controller = ClientProfileViewController(viewModel: viewModel)
-				controller.hidesBottomBarWhenPushed = true
+				guard let profile = self.clientProfile else { return }
+				let controller = ClientFromAppealModuleFactory.createModule(clientProfile: profile,
+																			navController: self.view.navController)
 				self.view.navController?.pushViewController(controller, animated: true)
 			}).disposed(by: disposeBag)
 

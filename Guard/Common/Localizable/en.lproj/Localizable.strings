@@ -144,4 +144,7 @@
 "logout.alert.title" = "Caution";
 "logout.alert.message" = "Are you sure you want to log out of your profile?";
 //REVIEWS
-"reviews.title" = "Reviews";
+"reviews.title" = "Feedbacks";
+"new_review.title" = "Feedback";
+"new_review.textview.placeholder" = "Description";
+"new_review.create_button.titile" = "Save";

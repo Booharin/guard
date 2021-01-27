@@ -9,11 +9,11 @@
 import RxSwift
 
 protocol ReviewsListRouterProtocol {
-	var toReviewSubject: PublishSubject<UserReview?> { get }
+	var toReviewSubject: PublishSubject<ReviewDetails> { get }
 }
 
 final class ReviewsListRouter: BaseRouter, ReviewsListRouterProtocol {
-	var toReviewSubject = PublishSubject<UserReview?>()
+	var toReviewSubject = PublishSubject<ReviewDetails>()
 	private var disposeBag = DisposeBag()
 
 	override init() {
@@ -25,16 +25,17 @@ final class ReviewsListRouter: BaseRouter, ReviewsListRouterProtocol {
 		// to review
 		toReviewSubject
 		.observeOn(MainScheduler.instance)
-		.subscribe(onNext: { [unowned self] review in
-			self.toReview(with: review)
+		.subscribe(onNext: { [unowned self] reviewDetails in
+			self.toReview(with: reviewDetails)
 		})
 		.disposed(by: disposeBag)
 	}
 	
-	private func toReview(with review: UserReview?) {
-//		let chatViewController = ChatViewController(viewModel: ChatViewModel(chatConversation: conversation))
-//		chatViewController.hidesBottomBarWhenPushed = true
-//
-//		self.navigationController?.pushViewController(chatViewController, animated: true)
+	private func toReview(with details: ReviewDetails) {
+		let viewModel = ReviewDetailsViewModel(reviewDetails: details)
+		let viewController = ReviewDetailsViewController(viewModel: viewModel)
+		viewController.hidesBottomBarWhenPushed = true
+
+		self.navigationController?.pushViewController(viewController, animated: true)
 	}
 }

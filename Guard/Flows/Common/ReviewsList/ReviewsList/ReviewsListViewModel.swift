@@ -83,7 +83,7 @@ final class ReviewsListViewModel: ViewModel, HasDependencies {
 				self?.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
 
-		// add button
+		//MARK: - Add button
 		view.addButtonView
 			.rx
 			.tapGesture()
@@ -100,6 +100,7 @@ final class ReviewsListViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [unowned self] _ in
 				//self.router.toSelectIssueSubject.onNext(())
 			}).disposed(by: disposeBag)
+		view.addButtonView.isHidden = isMyReviews
 
 		reviewsListSubject = PublishSubject<Any>()
 		reviewsListSubject?

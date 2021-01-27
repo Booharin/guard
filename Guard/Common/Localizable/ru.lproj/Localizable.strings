@@ -145,3 +145,6 @@
 "logout.alert.message" = "Вы действительно хотите выйти из профиля?";
 //REVIEWS
 "reviews.title" = "Отзывы";
+"new_review.title" = "Отзыв";
+"new_review.textview.placeholder" = "Описание";
+"new_review.create_button.titile" = "Сохранить";

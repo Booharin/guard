@@ -1,17 +1,17 @@
 //
-//  ClientProfileViewController.swift
+//  LawyerFromListViewController.swift
 //  Guard
 //
-//  Created by Alexandr Bukharin on 20.09.2020.
-//  Copyright © 2020 ds. All rights reserved.
+//  Created by Alexandr Bukharin on 27.01.2021.
+//  Copyright © 2021 ds. All rights reserved.
 //
 
 import UIKit
 import RxSwift
 
-protocol ClientProfileViewControllerProtocol: ViewControllerProtocol {
+protocol LawyerFromListViewControllerProtcol: class, ViewControllerProtocol {
+	var backButtonView: BackButtonView { get }
 	var scrollView: UIScrollView { get }
-	var threedotsButton: ThreeDotsButton { get }
 
 	var avatarImageView: UIImageView { get }
 	var titleNameLabel: UILabel { get }
@@ -19,27 +19,30 @@ protocol ClientProfileViewControllerProtocol: ViewControllerProtocol {
 	var emailLabel: UILabel { get }
 	var phoneLabel: UILabel { get }
 
+	var issuesContainerView: UIView { get }
+
 	var reviewsView: UIView { get }
 	var reviewsTitleLabel: UILabel { get }
 	var ratingTitleLabel: UILabel { get }
 	var reviewsPositiveLabel: UILabel { get }
 	var reviewsNegativeLabel: UILabel { get }
 	var ratingLabel: UILabel { get }
-	func showActionSheet(toSettingsSubject: PublishSubject<Any>,
-						 toEditSubject: PublishSubject<UserProfile>)
+	var chatWithLawyerButton: ConfirmButton { get }
 }
 
-final class ClientProfileViewController<modelType: ClientProfileViewModel>:
+final class LawyerFromListViewController<modelType: LawyerFromListViewModel>:
 	UIViewController,
-    ClientProfileViewControllerProtocol {
+	LawyerFromListViewControllerProtcol {
 
+	var backButtonView = BackButtonView()
 	var scrollView = UIScrollView()
-	var threedotsButton = ThreeDotsButton()
 	var avatarImageView = UIImageView()
 	var titleNameLabel = UILabel()
 	var cityLabel = UILabel()
 	var emailLabel = UILabel()
 	var phoneLabel = UILabel()
+
+	var issuesContainerView = UIView()
 	var reviewsView = UIView()
 
 	var reviewsTitleLabel = UILabel()
@@ -47,6 +50,8 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 	var reviewsNegativeLabel = UILabel()
 	var ratingTitleLabel = UILabel()
 	var ratingLabel = UILabel()
+	var chatWithLawyerButton = ConfirmButton(title: "profile.chat.button.titile".localized.uppercased(),
+											 backgroundColor: Colors.greenColor)
 
 	var viewModel: modelType
 	var navController: UINavigationController? {
@@ -73,12 +78,12 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-
+		
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
 
 		viewModel.updateProfile()
-		viewModel.clientImageSubject?.onNext(())
+		viewModel.lawyerImageSubject?.onNext(())
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -88,8 +93,8 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 	}
 
 	private func setNavigationBar() {
-		let rightBarButtonItem = UIBarButtonItem(customView: threedotsButton)
-		self.navigationItem.rightBarButtonItem = rightBarButtonItem
+		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
+		self.navigationItem.leftBarButtonItem = leftBarButtonItem
 	}
 
 	private func addViews() {
@@ -158,13 +163,20 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 			$0.leading.equalToSuperview().offset(20)
 			$0.trailing.equalToSuperview().offset(-20)
 		}
+		scrollView.addSubview(issuesContainerView)
+		issuesContainerView.snp.makeConstraints {
+			$0.top.equalTo(phoneLabel.snp.bottom).offset(26)
+			$0.leading.equalToSuperview().offset(35)
+			$0.trailing.equalToSuperview().offset(-35)
+			$0.height.equalTo(23)
+		}
 		// reviews and rating
 		// vertical separator
 		let verticalSeparatorView = UIView()
 		verticalSeparatorView.backgroundColor = Colors.verticalSeparator
 		scrollView.addSubview(verticalSeparatorView)
 		verticalSeparatorView.snp.makeConstraints {
-			$0.top.equalTo(phoneLabel.snp.bottom).offset(72)
+			$0.top.equalTo(issuesContainerView.snp.bottom).offset(31)
 			$0.centerX.equalToSuperview()
 			$0.height.equalTo(61)
 			$0.width.equalTo(1)
@@ -229,38 +241,19 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 			$0.top.trailing.bottom.equalToSuperview()
 			$0.leading.equalTo(starImageView.snp.trailing).offset(7)
 		}
-	}
-
-	// MARK: - Show action sheet
-	func showActionSheet(toSettingsSubject: PublishSubject<Any>,
-						 toEditSubject: PublishSubject<UserProfile>) {
-		let alertController = UIAlertController(title: nil,
-												message: nil,
-												preferredStyle: .actionSheet)
-		alertController.view.tintColor = Colors.mainTextColor
-		// settings
-		let settingsAction = UIAlertAction(title: "profile.action_sheet.settings".localized,
-										   style: .default,
-										   handler: { _ in
-											alertController.dismiss(animated: true)
-											toSettingsSubject.onNext(())
-										   })
-		alertController.addAction(settingsAction)
-		// edit
-		let editAction = UIAlertAction(title: "profile.action_sheet.edit".localized,
-									   style: .default,
-									   handler: { _ in
-										alertController.dismiss(animated: true)
-										guard let userProfile = self.viewModel.clientProfile else { return }
-										toEditSubject.onNext(userProfile)
-									   })
-		alertController.addAction(editAction)
-		let cancelAction = UIAlertAction(title: "alert.cancel".localized,
-										 style: .cancel,
-										 handler: { _ in
-											alertController.dismiss(animated: true)
-										 })
-		alertController.addAction(cancelAction)
-		self.present(alertController, animated: true)
+		// chat with lawyer button
+		scrollView.addSubview(chatWithLawyerButton)
+		chatWithLawyerButton.setImage(#imageLiteral(resourceName: "tab_chat_icn").withRenderingMode(.alwaysTemplate),
+									  for: .normal)
+		chatWithLawyerButton.imageView?.tintColor = Colors.whiteColor
+		chatWithLawyerButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)
+		chatWithLawyerButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+		chatWithLawyerButton.snp.makeConstraints {
+			$0.top.equalTo(verticalReviewsSeparatorView.snp.bottom).offset(50)
+			$0.width.equalTo(142)
+			$0.height.equalTo(49)
+			$0.centerX.equalToSuperview()
+		}
 	}
 }
+

@@ -10,9 +10,8 @@ import UIKit
 import RxSwift
 
 protocol LawyerProfileViewControlerProtcol: class, ViewControllerProtocol {
-	var backButtonView: BackButtonView { get }
 	var scrollView: UIScrollView { get }
-	var threedotsButton: UIButton { get }
+	var threedotsButton: ThreeDotsButton { get }
 
 	var avatarImageView: UIImageView { get }
 	var titleNameLabel: UILabel { get }
@@ -28,7 +27,6 @@ protocol LawyerProfileViewControlerProtcol: class, ViewControllerProtocol {
 	var reviewsPositiveLabel: UILabel { get }
 	var reviewsNegativeLabel: UILabel { get }
 	var ratingLabel: UILabel { get }
-	var chatWithLawyerButton: ConfirmButton { get }
 	func showActionSheet(toSettingsSubject: PublishSubject<Any>,
 						 toEditSubject: PublishSubject<UserProfile>)
 }
@@ -37,9 +35,8 @@ final class LawyerProfileViewController<modelType: LawyerProfileViewModel>:
 	UIViewController,
 	LawyerProfileViewControlerProtcol {
 
-	var backButtonView = BackButtonView()
 	var scrollView = UIScrollView()
-	var threedotsButton = UIButton()
+	var threedotsButton = ThreeDotsButton()
 	var avatarImageView = UIImageView()
 	var titleNameLabel = UILabel()
 	var cityLabel = UILabel()
@@ -54,8 +51,6 @@ final class LawyerProfileViewController<modelType: LawyerProfileViewModel>:
 	var reviewsNegativeLabel = UILabel()
 	var ratingTitleLabel = UILabel()
 	var ratingLabel = UILabel()
-	var chatWithLawyerButton = ConfirmButton(title: "profile.chat.button.titile".localized.uppercased(),
-											 backgroundColor: Colors.greenColor)
 
 	var viewModel: modelType
 	var navController: UINavigationController? {
@@ -97,8 +92,6 @@ final class LawyerProfileViewController<modelType: LawyerProfileViewModel>:
 	}
 
 	private func setNavigationBar() {
-		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
-		self.navigationItem.leftBarButtonItem = leftBarButtonItem
 		let rightBarButtonItem = UIBarButtonItem(customView: threedotsButton)
 		self.navigationItem.rightBarButtonItem = rightBarButtonItem
 	}
@@ -247,19 +240,6 @@ final class LawyerProfileViewController<modelType: LawyerProfileViewModel>:
 			$0.top.trailing.bottom.equalToSuperview()
 			$0.leading.equalTo(starImageView.snp.trailing).offset(7)
 		}
-		// chat with lawyer button
-		scrollView.addSubview(chatWithLawyerButton)
-		chatWithLawyerButton.setImage(#imageLiteral(resourceName: "tab_chat_icn").withRenderingMode(.alwaysTemplate),
-									  for: .normal)
-		chatWithLawyerButton.imageView?.tintColor = Colors.whiteColor
-		chatWithLawyerButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)
-		chatWithLawyerButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
-		chatWithLawyerButton.snp.makeConstraints {
-			$0.top.equalTo(verticalReviewsSeparatorView.snp.bottom).offset(50)
-			$0.width.equalTo(142)
-			$0.height.equalTo(49)
-			$0.centerX.equalToSuperview()
-		}
 	}
 
 	// MARK: - Show action sheet
@@ -282,7 +262,7 @@ final class LawyerProfileViewController<modelType: LawyerProfileViewModel>:
 									   style: .default,
 									   handler: { _ in
 										alertController.dismiss(animated: true)
-										guard let userProfile = self.viewModel.currentProfile else { return }
+										guard let userProfile = self.viewModel.lawyerProfile else { return }
 										toEditSubject.onNext(userProfile)
 									   })
 		alertController.addAction(editAction)

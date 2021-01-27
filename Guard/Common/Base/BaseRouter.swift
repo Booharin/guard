@@ -6,6 +6,8 @@
 //  Copyright © 2020 ds. All rights reserved.
 //
 
+import UIKit
+
 class BaseRouter {
-	var navigationController: NavigationController?
+	var navigationController: UINavigationController?
 }

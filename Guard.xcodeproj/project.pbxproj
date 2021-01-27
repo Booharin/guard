@@ -15,6 +15,11 @@
 		521017022582181F002A696E /* LawyersListModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521017012582181F002A696E /* LawyersListModuleFactory.swift */; };
 		5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210399624C4D673004560FD /* SelectIssueViewController.swift */; };
 		5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210399824C4D688004560FD /* SelectIssueViewModel.swift */; };
+		5210837F25C1882300CFA016 /* ReviewDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210837E25C1882300CFA016 /* ReviewDetails.swift */; };
+		5210838225C1BEAB00CFA016 /* LawyerFromListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210838125C1BEAB00CFA016 /* LawyerFromListViewController.swift */; };
+		5210838425C1BF1000CFA016 /* LawyerFromListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210838325C1BF1000CFA016 /* LawyerFromListViewModel.swift */; };
+		5210838625C1BF3300CFA016 /* LawyerFromListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210838525C1BF3300CFA016 /* LawyerFromListRouter.swift */; };
+		5210838825C1BF5700CFA016 /* LawyerFromListModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210838725C1BF5700CFA016 /* LawyerFromListModuleFactory.swift */; };
 		5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */; };
 		521681C7251E5A58007B4F6A /* SettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521681C6251E5A58007B4F6A /* SettingsDataSource.swift */; };
 		521E649924F8433D00FF96ED /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 521E649B24F8433D00FF96ED /* Localizable.strings */; };
@@ -124,6 +129,10 @@
 		5283CB732517CBED005DEDA8 /* ClientProfileModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5283CB722517CBED005DEDA8 /* ClientProfileModuleFactory.swift */; };
 		5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5283CB742517CC43005DEDA8 /* ClientProfileRouter.swift */; };
 		52901BE82501002400271CAC /* IssueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52901BE72501002400271CAC /* IssueType.swift */; };
+		52926BEF25C1DC67008C671B /* ClientFromAppealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BEE25C1DC67008C671B /* ClientFromAppealViewController.swift */; };
+		52926BF125C1DCB2008C671B /* ClientFromAppealViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF025C1DCB2008C671B /* ClientFromAppealViewModel.swift */; };
+		52926BF325C1DCE9008C671B /* ClientFromAppealRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF225C1DCE9008C671B /* ClientFromAppealRouter.swift */; };
+		52926BF525C1DD1A008C671B /* ClientFromAppealModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF425C1DD1A008C671B /* ClientFromAppealModuleFactory.swift */; };
 		52A271B02508E45A0050FB60 /* Saira-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */; };
 		52A271B22508E4970050FB60 /* Saira-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */; };
 		52A271B52508ED230050FB60 /* ClientAppealsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A271B42508ED230050FB60 /* ClientAppealsListViewController.swift */; };
@@ -184,6 +193,9 @@
 		52B5042B25AEE30E00C2D0E3 /* ChatNetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B5042A25AEE30E00C2D0E3 /* ChatNetworkRouter.swift */; };
 		52B654B4251B303F003D2465 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B654B3251B303F003D2465 /* SettingsViewController.swift */; };
 		52B654B6251B3063003D2465 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B654B5251B3063003D2465 /* SettingsViewModel.swift */; };
+		52BCC3AD25C17DB30020F9F3 /* ReviewDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BCC3AC25C17DB30020F9F3 /* ReviewDetailsViewController.swift */; };
+		52BCC3B125C17DF60020F9F3 /* ReviewDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BCC3B025C17DF60020F9F3 /* ReviewDetailsViewModel.swift */; };
+		52BCC3B425C182E40020F9F3 /* StarsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BCC3B325C182E40020F9F3 /* StarsStackView.swift */; };
 		52BD63EE2532F1D300FF393D /* UserReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BD63ED2532F1D300FF393D /* UserReview.swift */; };
 		52BD63F02532F92400FF393D /* SelectButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BD63EF2532F92400FF393D /* SelectButtonView.swift */; };
 		52C4DBCA25C07BA700CDC148 /* ReviewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C4DBC925C07BA700CDC148 /* ReviewsListViewController.swift */; };
@@ -250,6 +262,11 @@
 		521017012582181F002A696E /* LawyersListModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListModuleFactory.swift; sourceTree = "<group>"; };
 		5210399624C4D673004560FD /* SelectIssueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueViewController.swift; sourceTree = "<group>"; };
 		5210399824C4D688004560FD /* SelectIssueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueViewModel.swift; sourceTree = "<group>"; };
+		5210837E25C1882300CFA016 /* ReviewDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetails.swift; sourceTree = "<group>"; };
+		5210838125C1BEAB00CFA016 /* LawyerFromListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerFromListViewController.swift; sourceTree = "<group>"; };
+		5210838325C1BF1000CFA016 /* LawyerFromListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerFromListViewModel.swift; sourceTree = "<group>"; };
+		5210838525C1BF3300CFA016 /* LawyerFromListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerFromListRouter.swift; sourceTree = "<group>"; };
+		5210838725C1BF5700CFA016 /* LawyerFromListModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerFromListModuleFactory.swift; sourceTree = "<group>"; };
 		5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewModel.swift; sourceTree = "<group>"; };
 		521681C6251E5A58007B4F6A /* SettingsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDataSource.swift; sourceTree = "<group>"; };
 		521E649A24F8433D00FF96ED /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -371,6 +388,10 @@
 		5283CB722517CBED005DEDA8 /* ClientProfileModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileModuleFactory.swift; sourceTree = "<group>"; };
 		5283CB742517CC43005DEDA8 /* ClientProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileRouter.swift; sourceTree = "<group>"; };
 		52901BE72501002400271CAC /* IssueType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueType.swift; sourceTree = "<group>"; };
+		52926BEE25C1DC67008C671B /* ClientFromAppealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientFromAppealViewController.swift; sourceTree = "<group>"; };
+		52926BF025C1DCB2008C671B /* ClientFromAppealViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientFromAppealViewModel.swift; sourceTree = "<group>"; };
+		52926BF225C1DCE9008C671B /* ClientFromAppealRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientFromAppealRouter.swift; sourceTree = "<group>"; };
+		52926BF425C1DD1A008C671B /* ClientFromAppealModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientFromAppealModuleFactory.swift; sourceTree = "<group>"; };
 		52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Medium.ttf"; sourceTree = "<group>"; };
 		52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-SemiBold.ttf"; sourceTree = "<group>"; };
 		52A271B42508ED230050FB60 /* ClientAppealsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListViewController.swift; sourceTree = "<group>"; };
@@ -411,6 +432,9 @@
 		52B5042A25AEE30E00C2D0E3 /* ChatNetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNetworkRouter.swift; sourceTree = "<group>"; };
 		52B654B3251B303F003D2465 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		52B654B5251B3063003D2465 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		52BCC3AC25C17DB30020F9F3 /* ReviewDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailsViewController.swift; sourceTree = "<group>"; };
+		52BCC3B025C17DF60020F9F3 /* ReviewDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailsViewModel.swift; sourceTree = "<group>"; };
+		52BCC3B325C182E40020F9F3 /* StarsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarsStackView.swift; sourceTree = "<group>"; };
 		52BD63ED2532F1D300FF393D /* UserReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReview.swift; sourceTree = "<group>"; };
 		52BD63EF2532F92400FF393D /* SelectButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButtonView.swift; sourceTree = "<group>"; };
 		52C4DBC925C07BA700CDC148 /* ReviewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsListViewController.swift; sourceTree = "<group>"; };
@@ -478,6 +502,17 @@
 				5210399824C4D688004560FD /* SelectIssueViewModel.swift */,
 			);
 			path = SelectIssue;
+			sourceTree = "<group>";
+		};
+		5210838025C1BE5900CFA016 /* LawyerFromList */ = {
+			isa = PBXGroup;
+			children = (
+				5210838125C1BEAB00CFA016 /* LawyerFromListViewController.swift */,
+				5210838325C1BF1000CFA016 /* LawyerFromListViewModel.swift */,
+				5210838525C1BF3300CFA016 /* LawyerFromListRouter.swift */,
+				5210838725C1BF5700CFA016 /* LawyerFromListModuleFactory.swift */,
+			);
+			path = LawyerFromList;
 			sourceTree = "<group>";
 		};
 		521681C5251E5A24007B4F6A /* DataSource */ = {
@@ -672,6 +707,7 @@
 		522E5BE424A37C2F00879741 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				52BCC3B225C182C90020F9F3 /* StackView */,
 				52524E5F24FECF5E0078AA62 /* Buttons */,
 				5251AFB524A2851200467E84 /* NavigationController */,
 				52E3D4E124C8AB0E00FD67C9 /* TabBarController */,
@@ -1071,6 +1107,7 @@
 				52507E2C25861DFF00C8B213 /* CountryModel.swift */,
 				52507E2E25861E8300C8B213 /* CityModel.swift */,
 				521EA38525B5795D00B00413 /* SettingsModel.swift */,
+				5210837E25C1882300CFA016 /* ReviewDetails.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1125,7 +1162,7 @@
 		52760C4425016BCD00080152 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				52C4DBD725C1659C00CDC148 /* ReviewDescription */,
+				52C4DBD725C1659C00CDC148 /* ReviewDetails */,
 				52C4DBC725C07AF900CDC148 /* ReviewsList */,
 				52B2685F2511118500111864 /* ConversationsList */,
 				52740F73250F409F001D86FF /* Chat */,
@@ -1148,6 +1185,7 @@
 				52AFF0FA25BA0A2E00D365C2 /* EditLawyerProfile */,
 				523CD30525B6D0D2000E5078 /* AppealsList */,
 				52E96FD825BDC2C90014F0D0 /* Appeal */,
+				52926BED25C1DC24008C671B /* ClientFromAppeal */,
 			);
 			path = Lawyer;
 			sourceTree = "<group>";
@@ -1155,12 +1193,13 @@
 		52760C46250172CE00080152 /* Client */ = {
 			isa = PBXGroup;
 			children = (
-				5283CB6D2517CA1B005DEDA8 /* ClientProfile */,
-				52E62F2025322BED007FB1BE /* EditClientProfile */,
 				52760C48250172F200080152 /* LawyersList */,
+				5210838025C1BE5900CFA016 /* LawyerFromList */,
 				52A271B32508E6C40050FB60 /* ClientAppealsList */,
 				52F0F56F2536DA2000FE2B14 /* Appeal */,
 				5235F285250CB6C600639FC4 /* AppealCreating */,
+				5283CB6D2517CA1B005DEDA8 /* ClientProfile */,
+				52E62F2025322BED007FB1BE /* EditClientProfile */,
 			);
 			path = Client;
 			sourceTree = "<group>";
@@ -1195,6 +1234,17 @@
 				5283CB742517CC43005DEDA8 /* ClientProfileRouter.swift */,
 			);
 			path = ClientProfile;
+			sourceTree = "<group>";
+		};
+		52926BED25C1DC24008C671B /* ClientFromAppeal */ = {
+			isa = PBXGroup;
+			children = (
+				52926BEE25C1DC67008C671B /* ClientFromAppealViewController.swift */,
+				52926BF025C1DCB2008C671B /* ClientFromAppealViewModel.swift */,
+				52926BF225C1DCE9008C671B /* ClientFromAppealRouter.swift */,
+				52926BF425C1DD1A008C671B /* ClientFromAppealModuleFactory.swift */,
+			);
+			path = ClientFromAppeal;
 			sourceTree = "<group>";
 		};
 		52A00F74256590670099D961 /* UserProfileObject */ = {
@@ -1339,6 +1389,30 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		52BCC3AE25C17DCB0020F9F3 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				52BCC3AC25C17DB30020F9F3 /* ReviewDetailsViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		52BCC3AF25C17DD40020F9F3 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				52BCC3B025C17DF60020F9F3 /* ReviewDetailsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		52BCC3B225C182C90020F9F3 /* StackView */ = {
+			isa = PBXGroup;
+			children = (
+				52BCC3B325C182E40020F9F3 /* StarsStackView.swift */,
+			);
+			path = StackView;
+			sourceTree = "<group>";
+		};
 		52C4DBC725C07AF900CDC148 /* ReviewsList */ = {
 			isa = PBXGroup;
 			children = (
@@ -1376,11 +1450,13 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		52C4DBD725C1659C00CDC148 /* ReviewDescription */ = {
+		52C4DBD725C1659C00CDC148 /* ReviewDetails */ = {
 			isa = PBXGroup;
 			children = (
+				52BCC3AF25C17DD40020F9F3 /* ViewModel */,
+				52BCC3AE25C17DCB0020F9F3 /* ViewController */,
 			);
-			path = ReviewDescription;
+			path = ReviewDetails;
 			sourceTree = "<group>";
 		};
 		52D236022593408500C0E922 /* FilterViewService */ = {
@@ -1582,6 +1658,7 @@
 				521017022582181F002A696E /* LawyersListModuleFactory.swift in Sources */,
 				52B654B4251B303F003D2465 /* SettingsViewController.swift in Sources */,
 				52AF28EB2506195800287A8F /* LawyersListDataSource.swift in Sources */,
+				5210838225C1BEAB00CFA016 /* LawyerFromListViewController.swift in Sources */,
 				52C4DBD625C1462E00CDC148 /* ReviewCellViewModel.swift in Sources */,
 				523CD31025B73065000E5078 /* LawyerProfileViewController.swift in Sources */,
 				525BFA74250A0723005393B1 /* Date+TimeStamp.swift in Sources */,
@@ -1611,6 +1688,8 @@
 				5222B68E24C75DC2000BEE13 /* SelectIssueCellViewModel.swift in Sources */,
 				5283CB732517CBED005DEDA8 /* ClientProfileModuleFactory.swift in Sources */,
 				52F0F5752536DF5500FE2B14 /* ThreeDotsButton.swift in Sources */,
+				52926BF325C1DCE9008C671B /* ClientFromAppealRouter.swift in Sources */,
+				52BCC3AD25C17DB30020F9F3 /* ReviewDetailsViewController.swift in Sources */,
 				523FF71924BD970A00C4F959 /* BackButtonView.swift in Sources */,
 				52AFF10125BA10E300D365C2 /* EditIssueView.swift in Sources */,
 				5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */,
@@ -1619,12 +1698,14 @@
 				52B2685A25110E1400111864 /* ChatCellViewModel.swift in Sources */,
 				52C4DBCA25C07BA700CDC148 /* ReviewsListViewController.swift in Sources */,
 				52E62F2425322C69007FB1BE /* EditClientProfileViewModel.swift in Sources */,
+				52BCC3B125C17DF60020F9F3 /* ReviewDetailsViewModel.swift in Sources */,
 				52B26863251111CA00111864 /* ConversationsListViewModel.swift in Sources */,
 				522272DD2504C6B20029A4E2 /* LocalStorageService.swift in Sources */,
 				52E96FD725BC86690014F0D0 /* EditProfileRouter.swift in Sources */,
 				527E4D45258F3F7700744A40 /* SocketStompService.swift in Sources */,
 				52BD63F02532F92400FF393D /* SelectButtonView.swift in Sources */,
 				523CD31425B7339F000E5078 /* LawyerProfileModuleFactory.swift in Sources */,
+				52926BF525C1DD1A008C671B /* ClientFromAppealModuleFactory.swift in Sources */,
 				52483BB324A279E40003A56A /* BaseCoordinator.swift in Sources */,
 				52F0F5712536DA3B00FE2B14 /* AppealViewController.swift in Sources */,
 				52B268682511131600111864 /* ConversationCellViewModel.swift in Sources */,
@@ -1632,6 +1713,7 @@
 				521EA38A25B57C4900B00413 /* SettingsObject+CoreDataProperties.swift in Sources */,
 				52A271C02508F9AC0050FB60 /* ClientAppealCellViewModel.swift in Sources */,
 				52C4DBD125C144B200CDC148 /* ReviewsListDataSource.swift in Sources */,
+				5210838825C1BF5700CFA016 /* LawyerFromListModuleFactory.swift in Sources */,
 				52614F96257FED6B0087962B /* UserProfileObject+CoreDataClass.swift in Sources */,
 				5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */,
 				52C4DBCC25C07BB800CDC148 /* ReviewsListViewModel.swift in Sources */,
@@ -1640,7 +1722,10 @@
 				5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */,
 				52E62F26253238F8007FB1BE /* EditTextField.swift in Sources */,
 				523C8CE625628946006DECAB /* AuthResponse.swift in Sources */,
+				5210838425C1BF1000CFA016 /* LawyerFromListViewModel.swift in Sources */,
+				5210838625C1BF3300CFA016 /* LawyerFromListRouter.swift in Sources */,
 				52F0F5732536DA5900FE2B14 /* AppealViewModel.swift in Sources */,
+				52BCC3B425C182E40020F9F3 /* StarsStackView.swift in Sources */,
 				521EA39325B5A76700B00413 /* ChangePasswordCellViewModel.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
@@ -1653,6 +1738,7 @@
 				523AEAF7251E4D8900F1E607 /* SwitcherCell.swift in Sources */,
 				521016DB2581426D002A696E /* AppealsNetworkService.swift in Sources */,
 				52212F8324FFDD24003FA67E /* ForgotPasswordViewController.swift in Sources */,
+				52926BEF25C1DC67008C671B /* ClientFromAppealViewController.swift in Sources */,
 				521E64B624F84B0200FF96ED /* FontHelper.swift in Sources */,
 				52507E2B258617A900C8B213 /* CommonDataNetworkService.swift in Sources */,
 				5220ED2725B06D8400FDCEB9 /* ReviewObject+CoreDataProperties.swift in Sources */,
@@ -1660,6 +1746,7 @@
 				52740F75250F40B3001D86FF /* ChatViewController.swift in Sources */,
 				52516D5C2513E03300521AA4 /* ChatBarView.swift in Sources */,
 				52B2686E251114E200111864 /* BaseRouter.swift in Sources */,
+				52926BF125C1DCB2008C671B /* ClientFromAppealViewModel.swift in Sources */,
 				527E4D4B258FA05900744A40 /* NotificationService.swift in Sources */,
 				52B5042925AEE0C200C2D0E3 /* ChatNetworkService.swift in Sources */,
 				52EB81BD24B9DCCE003285BC /* RegistrationCoordinator.swift in Sources */,
@@ -1685,6 +1772,7 @@
 				52B2686A2511137600111864 /* ChatConversation.swift in Sources */,
 				52E62F2225322C58007FB1BE /* EditClientProfileViewController.swift in Sources */,
 				52E96FD525BC18F90014F0D0 /* AddIssueButton.swift in Sources */,
+				5210837F25C1882300CFA016 /* ReviewDetails.swift in Sources */,
 				521016E42581FD72002A696E /* ClientAppealObject+CoreDataClass.swift in Sources */,
 				523C8CDE2562728A006DECAB /* RequestRouter.swift in Sources */,
 				522272E42504C9470029A4E2 /* GuardDataModel.xcdatamodeld in Sources */,

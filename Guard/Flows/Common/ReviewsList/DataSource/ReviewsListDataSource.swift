@@ -12,7 +12,7 @@ import RxSwift
 struct ReviewsListDataSource {
 	typealias DataSource = RxTableViewSectionedReloadDataSource
 
-	static func dataSource(toReview: PublishSubject<UserReview?>) -> DataSource<SectionModel<String, UserReview>> {
+	static func dataSource(toReview: PublishSubject<ReviewDetails>) -> DataSource<SectionModel<String, UserReview>> {
 		return .init(configureCell: { dataSource, tableView, indexPath, review -> UITableViewCell in
 			
 			let cell = ReviewCell()

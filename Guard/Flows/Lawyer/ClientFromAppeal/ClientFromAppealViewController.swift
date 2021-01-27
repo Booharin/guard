@@ -1,17 +1,17 @@
 //
-//  ClientProfileViewController.swift
+//  ClientFromAppealViewController.swift
 //  Guard
 //
-//  Created by Alexandr Bukharin on 20.09.2020.
-//  Copyright © 2020 ds. All rights reserved.
+//  Created by Alexandr Bukharin on 27.01.2021.
+//  Copyright © 2021 ds. All rights reserved.
 //
 
 import UIKit
 import RxSwift
 
-protocol ClientProfileViewControllerProtocol: ViewControllerProtocol {
+protocol ClientFromAppealViewControllerProtocol: ViewControllerProtocol {
 	var scrollView: UIScrollView { get }
-	var threedotsButton: ThreeDotsButton { get }
+	var backButtonView: BackButtonView { get }
 
 	var avatarImageView: UIImageView { get }
 	var titleNameLabel: UILabel { get }
@@ -25,16 +25,14 @@ protocol ClientProfileViewControllerProtocol: ViewControllerProtocol {
 	var reviewsPositiveLabel: UILabel { get }
 	var reviewsNegativeLabel: UILabel { get }
 	var ratingLabel: UILabel { get }
-	func showActionSheet(toSettingsSubject: PublishSubject<Any>,
-						 toEditSubject: PublishSubject<UserProfile>)
 }
 
-final class ClientProfileViewController<modelType: ClientProfileViewModel>:
+final class ClientFromAppealViewController:
 	UIViewController,
-    ClientProfileViewControllerProtocol {
+	ClientFromAppealViewControllerProtocol {
 
 	var scrollView = UIScrollView()
-	var threedotsButton = ThreeDotsButton()
+	var backButtonView = BackButtonView()
 	var avatarImageView = UIImageView()
 	var titleNameLabel = UILabel()
 	var cityLabel = UILabel()
@@ -48,12 +46,12 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 	var ratingTitleLabel = UILabel()
 	var ratingLabel = UILabel()
 
-	var viewModel: modelType
+	var viewModel: ClientFromAppealViewModel
 	var navController: UINavigationController? {
 		self.navigationController
 	}
 
-	init(viewModel: modelType) {
+	init(viewModel: ClientFromAppealViewModel) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 	}
@@ -88,8 +86,8 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 	}
 
 	private func setNavigationBar() {
-		let rightBarButtonItem = UIBarButtonItem(customView: threedotsButton)
-		self.navigationItem.rightBarButtonItem = rightBarButtonItem
+		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
+		self.navigationItem.leftBarButtonItem = leftBarButtonItem
 	}
 
 	private func addViews() {
@@ -230,37 +228,5 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 			$0.leading.equalTo(starImageView.snp.trailing).offset(7)
 		}
 	}
-
-	// MARK: - Show action sheet
-	func showActionSheet(toSettingsSubject: PublishSubject<Any>,
-						 toEditSubject: PublishSubject<UserProfile>) {
-		let alertController = UIAlertController(title: nil,
-												message: nil,
-												preferredStyle: .actionSheet)
-		alertController.view.tintColor = Colors.mainTextColor
-		// settings
-		let settingsAction = UIAlertAction(title: "profile.action_sheet.settings".localized,
-										   style: .default,
-										   handler: { _ in
-											alertController.dismiss(animated: true)
-											toSettingsSubject.onNext(())
-										   })
-		alertController.addAction(settingsAction)
-		// edit
-		let editAction = UIAlertAction(title: "profile.action_sheet.edit".localized,
-									   style: .default,
-									   handler: { _ in
-										alertController.dismiss(animated: true)
-										guard let userProfile = self.viewModel.clientProfile else { return }
-										toEditSubject.onNext(userProfile)
-									   })
-		alertController.addAction(editAction)
-		let cancelAction = UIAlertAction(title: "alert.cancel".localized,
-										 style: .cancel,
-										 handler: { _ in
-											alertController.dismiss(animated: true)
-										 })
-		alertController.addAction(cancelAction)
-		self.present(alertController, animated: true)
-	}
 }
+

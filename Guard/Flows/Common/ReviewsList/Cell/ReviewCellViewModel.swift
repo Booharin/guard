@@ -13,7 +13,7 @@ final class ReviewCellViewModel: ViewModel, HasDependencies {
 	var view: ReviewCellProtocol!
 	let animateDuration = 0.15
 	let review: UserReview
-	let toReview: PublishSubject<UserReview?>
+	let toReview: PublishSubject<ReviewDetails>
 	let tapSubject = PublishSubject<Any>()
 
 	typealias Dependencies = HasLocalStorageService
@@ -22,7 +22,7 @@ final class ReviewCellViewModel: ViewModel, HasDependencies {
 	private var disposeBag = DisposeBag()
 
 	init(review: UserReview,
-		 toReview: PublishSubject<UserReview?>) {
+		 toReview: PublishSubject<ReviewDetails>) {
 		self.review = review
 		self.toReview = toReview
 	}
@@ -40,10 +40,15 @@ final class ReviewCellViewModel: ViewModel, HasDependencies {
 						self.view.containerView.backgroundColor = .clear
 					})
 				})
-				self.toReview.onNext(self.review)
+				let reviewDetails = ReviewDetails(review: self.review,
+												  senderId: nil,
+												  receiverId: nil,
+												  senderName: nil)
+				self.toReview.onNext(reviewDetails)
 			}).disposed(by: disposeBag)
 
 		view.avatarImageView.image = #imageLiteral(resourceName: "tab_profile_icn")
+		view.avatarImageView.tintColor = Colors.lightGreyColor
 
 		view.nameTitleLabel.text = "Пользователь"
 		view.nameTitleLabel.font = SFUIDisplay.regular.of(size: 16)

@@ -230,19 +230,19 @@ final class EditLawyerProfileViewModel: ViewModel {
 		editLawyerSubject = PublishSubject<UserProfile>()
 		editLawyerSubject?
 			.asObservable()
-			.filter { _ in
-				// check if all edit views removed
-				let issueViewsArray = self.view.issuesContainerView.subviews.compactMap { $0 as? EditIssueView }
-				if issueViewsArray.isEmpty {
-					self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
-												   message: "edit_lawyer.empty_issues.title".localized,
-												   okButtonTitle: "alert.yes".localized.uppercased()) { _ in }
-					self.view.loadingView.stopAnimating()
-					return false
-				} else {
-					return true
-				}
-			}
+//			.filter { _ in
+//				// check if all edit views removed
+//				let issueViewsArray = self.view.issuesContainerView.subviews.compactMap { $0 as? EditIssueView }
+//				if issueViewsArray.isEmpty {
+//					self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
+//												   message: "edit_lawyer.empty_issues.title".localized,
+//												   okButtonTitle: "alert.yes".localized.uppercased()) { _ in }
+//					self.view.loadingView.stopAnimating()
+//					return false
+//				} else {
+//					return true
+//				}
+//			}
 			.flatMap { [unowned self] profile in
 				self.di.lawyersNetworkService.editLawyer(profile: profile,
 														 email: view.emailTextField.text ?? "",

@@ -18,6 +18,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	private var lawyersListSubject: PublishSubject<Any>?
 	private var router: LawyerListRouterProtocol
 	private var selectedIssues = [Int]()
+	private var currentCity: CityModel?
 
 	private var cities: [String] {
 		return di.localStorageService.getRussianCities().map { $0.title }
@@ -85,7 +86,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 			})
 			.flatMap { [unowned self] issues in
 				self.di.lawyersNetworkService.getLawyers(by: issues,
-														 city: self.view.titleLabel.text ?? "")
+														 city: currentCity?.title ?? "")
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
@@ -129,6 +130,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 					} else {
 						view.titleLabel.text = city.titleEn
 					}
+					currentCity = city
 				}
 			}
 		}
@@ -140,7 +142,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		lawyersListSubject?
 			.asObservable()
 			.flatMap { [unowned self] _ in
-				self.di.lawyersNetworkService.getAllLawyers(from: self.view.titleLabel.text ?? "")
+				self.di.lawyersNetworkService.getAllLawyers(from: currentCity?.title ?? "")
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
