@@ -21,8 +21,7 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 
 	typealias Dependencies =
 		HasLocalStorageService &
-		HasChatNetworkService &
-		HasLocalStorageService
+		HasChatNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
 	init(router: ConversationsListRouterProtocol) {

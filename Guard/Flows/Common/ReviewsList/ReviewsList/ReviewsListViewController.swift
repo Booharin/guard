@@ -1,35 +1,40 @@
 //
-//  ConversationsListViewController.swift
+//  ReviewsListViewController.swift
 //  Guard
 //
-//  Created by Alexandr Bukharin on 15.09.2020.
-//  Copyright © 2020 ds. All rights reserved.
+//  Created by Alexandr Bukharin on 26.01.2021.
+//  Copyright © 2021 ds. All rights reserved.
 //
 
 import UIKit
 
-protocol ConversationsListViewControllerProtocol: ViewControllerProtocol {
-	var greetingLabel: UILabel { get }
-	var greetingDescriptionLabel: UILabel { get }
+protocol ReviewsListViewControllerProtocol: ViewControllerProtocol {
+	var backButtonView: BackButtonView { get }
+	var addButtonView: AddButtonView { get }
+	var titleView: UIView { get }
+	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
 	var loadingView: UIActivityIndicatorView { get }
 }
 
-final class ConversationsListViewController<modelType: ConversationsListViewModel>:
+class ReviewsListViewController<modelType: ReviewsListViewModel>:
 	UIViewController,
 	UITableViewDelegate,
-	ConversationsListViewControllerProtocol {
+	ReviewsListViewControllerProtocol {
 	
-	var greetingLabel = UILabel()
-	var greetingDescriptionLabel = UILabel()
+	var backButtonView = BackButtonView()
+	var addButtonView = AddButtonView()
+	var titleView = UIView()
+	var titleLabel = UILabel()
 	var tableView = UITableView()
 	private var gradientView: UIView?
 	var loadingView = UIActivityIndicatorView(style: .medium)
-	var viewModel: modelType
 	var navController: UINavigationController? {
 		self.navigationController
 	}
 
+	var viewModel: modelType
+	
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
@@ -38,26 +43,49 @@ final class ConversationsListViewController<modelType: ConversationsListViewMode
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		self.viewModel.assosiateView(self)
 		view.backgroundColor = Colors.whiteColor
 		addViews()
+		setNavigationBar()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
-		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
+	}
 
-		viewModel.conversationsListSubject?.onNext(())
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+	}
+
+	private func setNavigationBar() {
+		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
+		let rightBarButtonItem = UIBarButtonItem(customView: addButtonView)
+		self.navigationItem.leftBarButtonItem = leftBarButtonItem
+		self.navigationItem.rightBarButtonItem = rightBarButtonItem
+		self.navigationItem.titleView = titleView
 	}
 	
 	private func addViews() {
+		// title view
+		titleView.addSubview(titleLabel)
+		titleLabel.snp.makeConstraints {
+			$0.centerX.equalToSuperview()
+			$0.centerY.equalToSuperview().offset(2)
+			$0.width.lessThanOrEqualTo(250)
+		}
+		titleView.snp.makeConstraints {
+			$0.width.equalTo(titleLabel.snp.width).offset(46)
+			$0.height.equalTo(40)
+		}
 		// table view
 		tableView.register(ConversationCell.self,
 						   forCellReuseIdentifier: ConversationCell.reuseIdentifier)
@@ -78,15 +106,7 @@ final class ConversationsListViewController<modelType: ConversationsListViewMode
 			$0.center.equalToSuperview()
 		}
 	}
-	
-	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		return createHeaderView()
-	}
-	
-	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return 105
-	}
-	
+
 	func scrollViewWillEndDragging(_ scrollView: UIScrollView,
 								   withVelocity velocity: CGPoint,
 								   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -114,7 +134,7 @@ final class ConversationsListViewController<modelType: ConversationsListViewMode
 			})
 		}
 	}
-	
+
 	private func createGradentView() -> UIView {
 		let gradientLAyer = CAGradientLayer()
 		gradientLAyer.colors = [
@@ -128,26 +148,5 @@ final class ConversationsListViewController<modelType: ConversationsListViewMode
 		let view = UIView()
 		view.layer.insertSublayer(gradientLAyer, at: 0)
 		return view
-	}
-	
-	private func createHeaderView() -> UIView {
-		let headerView = UIView()
-		headerView.snp.makeConstraints {
-			$0.height.equalTo(105)
-			$0.width.equalTo(UIScreen.main.bounds.width)
-		}
-		headerView.addSubview(greetingLabel)
-		greetingLabel.snp.makeConstraints {
-			$0.height.equalTo(39)
-			$0.width.equalTo(UIScreen.main.bounds.width)
-			$0.top.equalToSuperview()
-		}
-		headerView.addSubview(greetingDescriptionLabel)
-		greetingDescriptionLabel.snp.makeConstraints {
-			$0.height.equalTo(28)
-			$0.width.equalTo(UIScreen.main.bounds.width)
-			$0.top.equalTo(greetingLabel.snp.bottom).offset(-2)
-		}
-		return headerView
 	}
 }

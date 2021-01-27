@@ -20,6 +20,7 @@ protocol ClientProfileViewControllerProtocol: ViewControllerProtocol {
 	var emailLabel: UILabel { get }
 	var phoneLabel: UILabel { get }
 
+	var reviewsView: UIView { get }
 	var reviewsTitleLabel: UILabel { get }
 	var ratingTitleLabel: UILabel { get }
 	var reviewsPositiveLabel: UILabel { get }
@@ -41,6 +42,7 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 	var cityLabel = UILabel()
 	var emailLabel = UILabel()
 	var phoneLabel = UILabel()
+	var reviewsView = UIView()
 
 	var reviewsTitleLabel = UILabel()
 	var reviewsPositiveLabel = UILabel()
@@ -170,6 +172,12 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 			$0.centerX.equalToSuperview()
 			$0.height.equalTo(61)
 			$0.width.equalTo(1)
+		}
+		scrollView.addSubview(reviewsView)
+		reviewsView.snp.makeConstraints {
+			$0.width.height.equalTo(80)
+			$0.trailing.equalTo(verticalSeparatorView.snp.leading).offset(-30)
+			$0.centerY.equalTo(verticalSeparatorView.snp.centerY)
 		}
 		// reviews title
 		scrollView.addSubview(reviewsTitleLabel)

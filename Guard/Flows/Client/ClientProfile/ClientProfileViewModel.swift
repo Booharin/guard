@@ -32,6 +32,13 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 			return localClientProfile
 		}
 	}
+	private var currentReviews: [UserReview]? {
+		if let profile = clientProfileFromAppeal {
+			return profile.reviewList
+		} else {
+			return di.localStorageService.getReviews()
+		}
+	}
 	private var settings: SettingsModel? {
 		get {
 			if let profile = clientProfileFromAppeal {
@@ -41,7 +48,7 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 			}
 		}
 		set {
-			settings = newValue
+			self.settings = newValue
 		}
 	}
 
@@ -146,6 +153,16 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 		view.reviewsTitleLabel.textColor = Colors.mainTextColor
 		view.reviewsTitleLabel.font = SFUIDisplay.light.of(size: 18)
 		view.reviewsTitleLabel.text = "profile.reviews".localized
+
+		view.reviewsView
+			.rx
+			.tapGesture()
+			.when(.recognized)
+			.subscribe(onNext: { [weak self] _ in
+				self?.router.passageToReviewsList(isMyReviews: self?.clientProfileFromAppeal == nil,
+												  usertId: self?.currentProfile?.id ?? 0,
+												  reviews: self?.currentReviews ?? [])
+			}).disposed(by: disposeBag)
 
 		if let profile = clientProfileFromAppeal {
 			profile.reviewList?.forEach() {

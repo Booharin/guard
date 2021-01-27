@@ -186,6 +186,12 @@
 		52B654B6251B3063003D2465 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B654B5251B3063003D2465 /* SettingsViewModel.swift */; };
 		52BD63EE2532F1D300FF393D /* UserReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BD63ED2532F1D300FF393D /* UserReview.swift */; };
 		52BD63F02532F92400FF393D /* SelectButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BD63EF2532F92400FF393D /* SelectButtonView.swift */; };
+		52C4DBCA25C07BA700CDC148 /* ReviewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C4DBC925C07BA700CDC148 /* ReviewsListViewController.swift */; };
+		52C4DBCC25C07BB800CDC148 /* ReviewsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C4DBCB25C07BB800CDC148 /* ReviewsListViewModel.swift */; };
+		52C4DBCE25C07D3800CDC148 /* ReviewsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C4DBCD25C07D3800CDC148 /* ReviewsListRouter.swift */; };
+		52C4DBD125C144B200CDC148 /* ReviewsListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C4DBD025C144B200CDC148 /* ReviewsListDataSource.swift */; };
+		52C4DBD425C1460D00CDC148 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C4DBD325C1460D00CDC148 /* ReviewCell.swift */; };
+		52C4DBD625C1462E00CDC148 /* ReviewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C4DBD525C1462E00CDC148 /* ReviewCellViewModel.swift */; };
 		52D23604259340A400C0E922 /* FilterViewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D23603259340A400C0E922 /* FilterViewService.swift */; };
 		52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */; };
 		52E62F2225322C58007FB1BE /* EditClientProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E62F2125322C58007FB1BE /* EditClientProfileViewController.swift */; };
@@ -407,6 +413,12 @@
 		52B654B5251B3063003D2465 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		52BD63ED2532F1D300FF393D /* UserReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReview.swift; sourceTree = "<group>"; };
 		52BD63EF2532F92400FF393D /* SelectButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButtonView.swift; sourceTree = "<group>"; };
+		52C4DBC925C07BA700CDC148 /* ReviewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsListViewController.swift; sourceTree = "<group>"; };
+		52C4DBCB25C07BB800CDC148 /* ReviewsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsListViewModel.swift; sourceTree = "<group>"; };
+		52C4DBCD25C07D3800CDC148 /* ReviewsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsListRouter.swift; sourceTree = "<group>"; };
+		52C4DBD025C144B200CDC148 /* ReviewsListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsListDataSource.swift; sourceTree = "<group>"; };
+		52C4DBD325C1460D00CDC148 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
+		52C4DBD525C1462E00CDC148 /* ReviewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCellViewModel.swift; sourceTree = "<group>"; };
 		52D23603259340A400C0E922 /* FilterViewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewService.swift; sourceTree = "<group>"; };
 		52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		52E62F2125322C58007FB1BE /* EditClientProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientProfileViewController.swift; sourceTree = "<group>"; };
@@ -1113,6 +1125,8 @@
 		52760C4425016BCD00080152 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				52C4DBD725C1659C00CDC148 /* ReviewDescription */,
+				52C4DBC725C07AF900CDC148 /* ReviewsList */,
 				52B2685F2511118500111864 /* ConversationsList */,
 				52740F73250F409F001D86FF /* Chat */,
 				5210399524C4D612004560FD /* SelectIssue */,
@@ -1325,6 +1339,50 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		52C4DBC725C07AF900CDC148 /* ReviewsList */ = {
+			isa = PBXGroup;
+			children = (
+				52C4DBD225C145F500CDC148 /* Cell */,
+				52C4DBCF25C1446800CDC148 /* DataSource */,
+				52C4DBC825C07B0300CDC148 /* ReviewsList */,
+			);
+			path = ReviewsList;
+			sourceTree = "<group>";
+		};
+		52C4DBC825C07B0300CDC148 /* ReviewsList */ = {
+			isa = PBXGroup;
+			children = (
+				52C4DBC925C07BA700CDC148 /* ReviewsListViewController.swift */,
+				52C4DBCB25C07BB800CDC148 /* ReviewsListViewModel.swift */,
+				52C4DBCD25C07D3800CDC148 /* ReviewsListRouter.swift */,
+			);
+			path = ReviewsList;
+			sourceTree = "<group>";
+		};
+		52C4DBCF25C1446800CDC148 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				52C4DBD025C144B200CDC148 /* ReviewsListDataSource.swift */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
+		52C4DBD225C145F500CDC148 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				52C4DBD325C1460D00CDC148 /* ReviewCell.swift */,
+				52C4DBD525C1462E00CDC148 /* ReviewCellViewModel.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		52C4DBD725C1659C00CDC148 /* ReviewDescription */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ReviewDescription;
+			sourceTree = "<group>";
+		};
 		52D236022593408500C0E922 /* FilterViewService */ = {
 			isa = PBXGroup;
 			children = (
@@ -1524,6 +1582,7 @@
 				521017022582181F002A696E /* LawyersListModuleFactory.swift in Sources */,
 				52B654B4251B303F003D2465 /* SettingsViewController.swift in Sources */,
 				52AF28EB2506195800287A8F /* LawyersListDataSource.swift in Sources */,
+				52C4DBD625C1462E00CDC148 /* ReviewCellViewModel.swift in Sources */,
 				523CD31025B73065000E5078 /* LawyerProfileViewController.swift in Sources */,
 				525BFA74250A0723005393B1 /* Date+TimeStamp.swift in Sources */,
 				52740F77250F40D1001D86FF /* ChatViewModel.swift in Sources */,
@@ -1558,6 +1617,7 @@
 				52A271C22508FA4E0050FB60 /* ClientAppeal.swift in Sources */,
 				52507E312586293C00C8B213 /* CommonDataNetworkRouter.swift in Sources */,
 				52B2685A25110E1400111864 /* ChatCellViewModel.swift in Sources */,
+				52C4DBCA25C07BA700CDC148 /* ReviewsListViewController.swift in Sources */,
 				52E62F2425322C69007FB1BE /* EditClientProfileViewModel.swift in Sources */,
 				52B26863251111CA00111864 /* ConversationsListViewModel.swift in Sources */,
 				522272DD2504C6B20029A4E2 /* LocalStorageService.swift in Sources */,
@@ -1571,8 +1631,10 @@
 				52EB81D324B9F245003285BC /* String+withoutExtraSpaces.swift in Sources */,
 				521EA38A25B57C4900B00413 /* SettingsObject+CoreDataProperties.swift in Sources */,
 				52A271C02508F9AC0050FB60 /* ClientAppealCellViewModel.swift in Sources */,
+				52C4DBD125C144B200CDC148 /* ReviewsListDataSource.swift in Sources */,
 				52614F96257FED6B0087962B /* UserProfileObject+CoreDataClass.swift in Sources */,
 				5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */,
+				52C4DBCC25C07BB800CDC148 /* ReviewsListViewModel.swift in Sources */,
 				52507E2D25861DFF00C8B213 /* CountryModel.swift in Sources */,
 				526DDD0925724DEB00CF68F7 /* RegistrationService.swift in Sources */,
 				5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */,
@@ -1610,6 +1672,7 @@
 				52EB81C324B9E7E5003285BC /* ViewModel.swift in Sources */,
 				5222B68624C75609000BEE13 /* UITableViewCell+Identifier.swift in Sources */,
 				52AF28E62506145D00287A8F /* LawyerCell.swift in Sources */,
+				52C4DBD425C1460D00CDC148 /* ReviewCell.swift in Sources */,
 				52A271BE2508F94A0050FB60 /* ClientAppealCell.swift in Sources */,
 				52B5042B25AEE30E00C2D0E3 /* ChatNetworkRouter.swift in Sources */,
 				523C8CD9256271C2006DECAB /* AuthService.swift in Sources */,
@@ -1640,6 +1703,7 @@
 				52760C4C2501736600080152 /* LawyersListViewModel.swift in Sources */,
 				52B278C824C09621001E7295 /* Dependencies.swift in Sources */,
 				52AFF0FC25BA0A5500D365C2 /* EditLawyerProfileViewController.swift in Sources */,
+				52C4DBCE25C07D3800CDC148 /* ReviewsListRouter.swift in Sources */,
 				5220ED2A25B0755F00FDCEB9 /* ClientNetworkService.swift in Sources */,
 				52483BB724A27A120003A56A /* MainCoordinator.swift in Sources */,
 				521EA38925B57C4900B00413 /* SettingsObject+CoreDataClass.swift in Sources */,

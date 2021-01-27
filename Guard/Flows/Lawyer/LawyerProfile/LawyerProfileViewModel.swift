@@ -39,6 +39,13 @@ final class LawyerProfileViewModel:
 			return localLawyerProfile
 		}
 	}
+	private var currentReviews: [UserReview]? {
+		if let profile = lawyerProfileFromList {
+			return profile.reviewList
+		} else {
+			return di.localStorageService.getReviews()
+		}
+	}
 	private var settings: SettingsModel?
 	private var settingsListSubject: PublishSubject<Any>?
 
@@ -143,6 +150,16 @@ final class LawyerProfileViewModel:
 		view.reviewsTitleLabel.textColor = Colors.mainTextColor
 		view.reviewsTitleLabel.font = SFUIDisplay.light.of(size: 18)
 		view.reviewsTitleLabel.text = "profile.reviews".localized
+
+		view.reviewsView
+			.rx
+			.tapGesture()
+			.when(.recognized)
+			.subscribe(onNext: { [weak self] _ in
+				self?.router.passageToReviewsList(isMyReviews: self?.lawyerProfileFromList == nil,
+												  usertId: self?.currentProfile?.id ?? 0,
+												  reviews: self?.currentReviews ?? [])
+			}).disposed(by: disposeBag)
 
 		if let profile = lawyerProfileFromList {
 			profile.reviewList?.forEach() {

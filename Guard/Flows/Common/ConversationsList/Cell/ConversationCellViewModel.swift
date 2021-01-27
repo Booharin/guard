@@ -39,7 +39,7 @@ struct ConversationCellViewModel: ViewModel {
 				self.toChat.onNext(self.chatConversation)
 			}).disposed(by: disposeBag)
 
-		view.avatarImageView.image = #imageLiteral(resourceName: "lawyer_mock_icn")
+		view.avatarImageView.image = #imageLiteral(resourceName: "tab_profile_icn")
 
 		view.nameTitleLabel.text = chatConversation.fullName
 		view.nameTitleLabel.font = SFUIDisplay.regular.of(size: 16)

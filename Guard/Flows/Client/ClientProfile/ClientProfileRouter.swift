@@ -11,6 +11,9 @@ import RxSwift
 protocol ClientProfileRouterProtocol {
 	var toSettingsSubject: PublishSubject<Any> { get }
 	var toEditSubject: PublishSubject<UserProfile> { get }
+	func passageToReviewsList(isMyReviews: Bool,
+							  usertId: Int,
+							  reviews: [UserReview])
 }
 
 final class ClientProfileRouter: BaseRouter, ClientProfileRouterProtocol {
@@ -53,5 +56,18 @@ final class ClientProfileRouter: BaseRouter, ClientProfileRouterProtocol {
 		let editController = EditClientProfileViewController(viewModel: EditClientProfileViewModel(userProfile: userProfile))
 		editController.hidesBottomBarWhenPushed = true
 		self.navigationController?.pushViewController(editController, animated: true)
+	}
+
+	func passageToReviewsList(isMyReviews: Bool,
+							  usertId: Int,
+							  reviews: [UserReview]) {
+		let reviewsRouter = ReviewsListRouter()
+		let reviewsListViewModel = ReviewsListViewModel(router: reviewsRouter,
+														isMyReviews: isMyReviews,
+														userId: usertId,
+														reviews: reviews)
+		let viewController = ReviewsListViewController(viewModel: reviewsListViewModel)
+		viewController.hidesBottomBarWhenPushed = true
+		self.navigationController?.pushViewController(viewController, animated: true)
 	}
 }

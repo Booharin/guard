@@ -22,6 +22,7 @@ protocol LawyerProfileViewControlerProtcol: class, ViewControllerProtocol {
 
 	var issuesContainerView: UIView { get }
 
+	var reviewsView: UIView { get }
 	var reviewsTitleLabel: UILabel { get }
 	var ratingTitleLabel: UILabel { get }
 	var reviewsPositiveLabel: UILabel { get }
@@ -46,6 +47,7 @@ final class LawyerProfileViewController<modelType: LawyerProfileViewModel>:
 	var phoneLabel = UILabel()
 
 	var issuesContainerView = UIView()
+	var reviewsView = UIView()
 
 	var reviewsTitleLabel = UILabel()
 	var reviewsPositiveLabel = UILabel()
@@ -184,6 +186,12 @@ final class LawyerProfileViewController<modelType: LawyerProfileViewModel>:
 			$0.centerX.equalToSuperview()
 			$0.height.equalTo(61)
 			$0.width.equalTo(1)
+		}
+		scrollView.addSubview(reviewsView)
+		reviewsView.snp.makeConstraints {
+			$0.width.height.equalTo(80)
+			$0.trailing.equalTo(verticalSeparatorView.snp.leading).offset(-30)
+			$0.centerY.equalTo(verticalSeparatorView.snp.centerY)
 		}
 		// reviews title
 		scrollView.addSubview(reviewsTitleLabel)

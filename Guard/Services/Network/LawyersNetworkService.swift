@@ -17,6 +17,7 @@ protocol HasLawyersNetworkService {
 protocol LawyersNetworkServiceInterface {
 	func getAllLawyers(from city: String) -> Observable<Result<[UserProfile], AFError>>
 	func getLawyers(by issueCode: [Int], city: String) -> Observable<Result<[UserProfile], AFError>>
+	func getLawyer(by id: Int) -> Observable<Result<UserProfile, AFError>>
 	func editLawyer(profile: UserProfile,
 					email: String,
 					phone: String) -> Observable<Result<Any, AFError>>

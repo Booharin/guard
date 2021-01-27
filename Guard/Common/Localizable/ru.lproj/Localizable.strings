@@ -143,3 +143,5 @@
 "logout.alert.ok" = "Да";
 "logout.alert.title" = "Осторожно";
 "logout.alert.message" = "Вы действительно хотите выйти из профиля?";
+//REVIEWS
+"reviews.title" = "Отзывы";

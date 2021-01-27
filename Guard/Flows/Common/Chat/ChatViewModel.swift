@@ -127,6 +127,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 				})
 			}).disposed(by: disposeBag)
 
+		//MARK: - Send message
 		view.chatBarView.sendSubject
 			.subscribe(onNext: { [unowned self] text in
 				let dict: [String: Any] = [
@@ -147,6 +148,18 @@ final class ChatViewModel: ViewModel, HasDependencies {
 				} catch {
 					print(error.localizedDescription)
 				}
+			}).disposed(by: disposeBag)
+
+		//MARK: - Send data
+		view.chatBarView.attachSubject
+			.subscribe(onNext: { [weak self] text in
+				guard let data = #imageLiteral(resourceName: "attach_button_icn").jpegData(compressionQuality: 0.5) else { return }
+
+				self?.di.socketStompService.sendData(with: data,
+													 to: "/chat/6/27/Анатолий/26/sendPhotoMessage",
+													 receiptId: "",
+													 headers: ["content-type": "multipart/form-data"])
+				self?.messagesListSubject?.onNext(())
 			}).disposed(by: disposeBag)
 
 		messagesListSubject = PublishSubject<Any>()
