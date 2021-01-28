@@ -86,8 +86,8 @@ final class ReviewDetailsViewController<modelType: ReviewDetailsViewModel>:
 		}
 		view.addSubview(starsStackView)
 		starsStackView.snp.makeConstraints {
-			$0.width.equalTo(200)
-			$0.height.equalTo(60)
+			$0.width.equalTo(250)
+			$0.height.equalTo(42)
 			$0.centerX.equalToSuperview()
 			$0.top.equalToSuperview().offset(100)
 		}
@@ -105,6 +105,26 @@ final class ReviewDetailsViewController<modelType: ReviewDetailsViewModel>:
 			$0.trailing.equalToSuperview().offset(-36)
 			$0.top.equalTo(reviewerName.snp.bottom).offset(19)
 			$0.bottom.equalToSuperview().offset(-140)
+		}
+		// separator view
+		let separatorView = UIView()
+		separatorView.backgroundColor = Colors.separatorColor
+		view.addSubview(separatorView)
+		separatorView.snp.makeConstraints {
+			$0.height.equalTo(1)
+			$0.bottom.equalTo(descriptionTextView.snp.top).offset(-10)
+			$0.width.equalTo(130)
+			$0.centerX.equalToSuperview()
+		}
+		// bottom separator view
+		let bottomSeparatorView = UIView()
+		bottomSeparatorView.backgroundColor = Colors.separatorColor
+		view.addSubview(bottomSeparatorView)
+		bottomSeparatorView.snp.makeConstraints {
+			$0.height.equalTo(1)
+			$0.top.equalTo(descriptionTextView.snp.bottom).offset(10)
+			$0.width.equalTo(130)
+			$0.centerX.equalToSuperview()
 		}
 		// create button
 		view.addSubview(createReviewButton)

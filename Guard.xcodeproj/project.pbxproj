@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		521016DB2581426D002A696E /* AppealsNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521016DA2581426D002A696E /* AppealsNetworkService.swift */; };
 		521016DD258143BF002A696E /* AppealsNetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521016DC258143BF002A696E /* AppealsNetworkRouter.swift */; };
-		521016E42581FD72002A696E /* ClientAppealObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521016E22581FD72002A696E /* ClientAppealObject+CoreDataClass.swift */; };
-		521016E52581FD72002A696E /* ClientAppealObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521016E32581FD72002A696E /* ClientAppealObject+CoreDataProperties.swift */; };
 		521016E725820F55002A696E /* LawyersListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521016E625820F55002A696E /* LawyersListRouter.swift */; };
 		521017022582181F002A696E /* LawyersListModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521017012582181F002A696E /* LawyersListModuleFactory.swift */; };
 		5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210399624C4D673004560FD /* SelectIssueViewController.swift */; };
@@ -133,6 +131,9 @@
 		52926BF125C1DCB2008C671B /* ClientFromAppealViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF025C1DCB2008C671B /* ClientFromAppealViewModel.swift */; };
 		52926BF325C1DCE9008C671B /* ClientFromAppealRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF225C1DCE9008C671B /* ClientFromAppealRouter.swift */; };
 		52926BF525C1DD1A008C671B /* ClientFromAppealModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF425C1DD1A008C671B /* ClientFromAppealModuleFactory.swift */; };
+		52926BF725C1F2FD008C671B /* StarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF625C1F2FD008C671B /* StarImageView.swift */; };
+		52926BFA25C2A159008C671B /* ClientAppealObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF825C2A159008C671B /* ClientAppealObject+CoreDataClass.swift */; };
+		52926BFB25C2A159008C671B /* ClientAppealObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF925C2A159008C671B /* ClientAppealObject+CoreDataProperties.swift */; };
 		52A271B02508E45A0050FB60 /* Saira-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */; };
 		52A271B22508E4970050FB60 /* Saira-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */; };
 		52A271B52508ED230050FB60 /* ClientAppealsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A271B42508ED230050FB60 /* ClientAppealsListViewController.swift */; };
@@ -256,8 +257,6 @@
 /* Begin PBXFileReference section */
 		521016DA2581426D002A696E /* AppealsNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealsNetworkService.swift; sourceTree = "<group>"; };
 		521016DC258143BF002A696E /* AppealsNetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealsNetworkRouter.swift; sourceTree = "<group>"; };
-		521016E22581FD72002A696E /* ClientAppealObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClientAppealObject+CoreDataClass.swift"; sourceTree = "<group>"; };
-		521016E32581FD72002A696E /* ClientAppealObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClientAppealObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		521016E625820F55002A696E /* LawyersListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListRouter.swift; sourceTree = "<group>"; };
 		521017012582181F002A696E /* LawyersListModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListModuleFactory.swift; sourceTree = "<group>"; };
 		5210399624C4D673004560FD /* SelectIssueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIssueViewController.swift; sourceTree = "<group>"; };
@@ -392,6 +391,9 @@
 		52926BF025C1DCB2008C671B /* ClientFromAppealViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientFromAppealViewModel.swift; sourceTree = "<group>"; };
 		52926BF225C1DCE9008C671B /* ClientFromAppealRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientFromAppealRouter.swift; sourceTree = "<group>"; };
 		52926BF425C1DD1A008C671B /* ClientFromAppealModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientFromAppealModuleFactory.swift; sourceTree = "<group>"; };
+		52926BF625C1F2FD008C671B /* StarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarImageView.swift; sourceTree = "<group>"; };
+		52926BF825C2A159008C671B /* ClientAppealObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClientAppealObject+CoreDataClass.swift"; sourceTree = "<group>"; };
+		52926BF925C2A159008C671B /* ClientAppealObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClientAppealObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Medium.ttf"; sourceTree = "<group>"; };
 		52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-SemiBold.ttf"; sourceTree = "<group>"; };
 		52A271B42508ED230050FB60 /* ClientAppealsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListViewController.swift; sourceTree = "<group>"; };
@@ -1081,6 +1083,7 @@
 				52BD63EF2532F92400FF393D /* SelectButtonView.swift */,
 				52F0F5742536DF5500FE2B14 /* ThreeDotsButton.swift */,
 				52E96FD425BC18F90014F0D0 /* AddIssueButton.swift */,
+				52926BF625C1F2FD008C671B /* StarImageView.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -1115,8 +1118,8 @@
 		525BFA70250A0468005393B1 /* ClientAppeal */ = {
 			isa = PBXGroup;
 			children = (
-				521016E22581FD72002A696E /* ClientAppealObject+CoreDataClass.swift */,
-				521016E32581FD72002A696E /* ClientAppealObject+CoreDataProperties.swift */,
+				52926BF825C2A159008C671B /* ClientAppealObject+CoreDataClass.swift */,
+				52926BF925C2A159008C671B /* ClientAppealObject+CoreDataProperties.swift */,
 			);
 			path = ClientAppeal;
 			sourceTree = "<group>";
@@ -1638,6 +1641,7 @@
 				52614F84257F6B5A0087962B /* LawyersNetworkService.swift in Sources */,
 				523C8CD52562705B006DECAB /* EnvironmentImp.swift in Sources */,
 				523AEAF9251E4F8E00F1E607 /* SwitcherCellViewModel.swift in Sources */,
+				52926BFA25C2A159008C671B /* ClientAppealObject+CoreDataClass.swift in Sources */,
 				52ADE3C8258FCFB600F0B067 /* CityObject+CoreDataProperties.swift in Sources */,
 				52614F88257F6EFB0087962B /* LawyersNetworkRouter.swift in Sources */,
 				523CD30925B6D141000E5078 /* AppealsListViewModel.swift in Sources */,
@@ -1663,6 +1667,7 @@
 				523CD31025B73065000E5078 /* LawyerProfileViewController.swift in Sources */,
 				525BFA74250A0723005393B1 /* Date+TimeStamp.swift in Sources */,
 				52740F77250F40D1001D86FF /* ChatViewModel.swift in Sources */,
+				52926BFB25C2A159008C671B /* ClientAppealObject+CoreDataProperties.swift in Sources */,
 				522272C42504BF6C0029A4E2 /* FilterButtonView.swift in Sources */,
 				52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */,
 				52614F97257FED6B0087962B /* UserProfileObject+CoreDataProperties.swift in Sources */,
@@ -1722,6 +1727,7 @@
 				5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */,
 				52E62F26253238F8007FB1BE /* EditTextField.swift in Sources */,
 				523C8CE625628946006DECAB /* AuthResponse.swift in Sources */,
+				52926BF725C1F2FD008C671B /* StarImageView.swift in Sources */,
 				5210838425C1BF1000CFA016 /* LawyerFromListViewModel.swift in Sources */,
 				5210838625C1BF3300CFA016 /* LawyerFromListRouter.swift in Sources */,
 				52F0F5732536DA5900FE2B14 /* AppealViewModel.swift in Sources */,
@@ -1732,7 +1738,6 @@
 				526DDD0725724C7600CF68F7 /* RegistrationNetworkRouter.swift in Sources */,
 				52B278CA24C0964F001E7295 /* LocationService.swift in Sources */,
 				521E64CF24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift in Sources */,
-				521016E52581FD72002A696E /* ClientAppealObject+CoreDataProperties.swift in Sources */,
 				52337F212598F264009D8297 /* IssueLabel.swift in Sources */,
 				5283CB6F2517CA5D005DEDA8 /* ClientProfileViewController.swift in Sources */,
 				523AEAF7251E4D8900F1E607 /* SwitcherCell.swift in Sources */,
@@ -1773,7 +1778,6 @@
 				52E62F2225322C58007FB1BE /* EditClientProfileViewController.swift in Sources */,
 				52E96FD525BC18F90014F0D0 /* AddIssueButton.swift in Sources */,
 				5210837F25C1882300CFA016 /* ReviewDetails.swift in Sources */,
-				521016E42581FD72002A696E /* ClientAppealObject+CoreDataClass.swift in Sources */,
 				523C8CDE2562728A006DECAB /* RequestRouter.swift in Sources */,
 				522272E42504C9470029A4E2 /* GuardDataModel.xcdatamodeld in Sources */,
 				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,

@@ -62,6 +62,7 @@ final class ClientProfileRouter: BaseRouter, ClientProfileRouterProtocol {
 							  usertId: Int,
 							  reviews: [UserReview]) {
 		let reviewsRouter = ReviewsListRouter()
+		reviewsRouter.navigationController = self.navigationController
 		let reviewsListViewModel = ReviewsListViewModel(router: reviewsRouter,
 														isMyReviews: isMyReviews,
 														userId: usertId,

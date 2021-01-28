@@ -26,6 +26,11 @@ protocol ClientNetworkServiceInterface {
 
 	func getSettings(profileId: Int) -> Observable<Result<SettingsModel, AFError>>
 	func saveSettings(settingsModel: SettingsModel) -> Observable<Result<Any, AFError>>
+
+	func reviewUpload(reviewDescription: String,
+					  rating: Double,
+					  senderId: Int,
+					  receiverId: Int) -> Observable<Result<Any, AFError>>
 }
 
 final class ClientNetworkService: ClientNetworkServiceInterface {
@@ -242,6 +247,50 @@ final class ClientNetworkService: ClientNetworkServiceInterface {
 				switch response.result {
 				case .success:
 					self.di.localStorageService.saveSettings(settingsModel)
+					observer.onNext(.success(()))
+				case .failure:
+					#if DEBUG
+					print(response.error?.localizedDescription ?? "")
+					#endif
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func reviewUpload(reviewDescription: String,
+					  rating: Double,
+					  senderId: Int,
+					  receiverId: Int) -> Observable<Result<Any, AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.reviewUpload(reviewDescription: reviewDescription,
+										 rating: rating,
+										 senderId: senderId,
+										 receiverId: receiverId,
+										 token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.response { response in
+				#if DEBUG
+				print(response)
+				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
+				switch response.result {
+				case .success:
 					observer.onNext(.success(()))
 				case .failure:
 					#if DEBUG

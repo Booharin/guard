@@ -77,6 +77,29 @@ struct ClientNetworkRouter {
 								settingsModel: settingsModel)
 		}
 	}
+
+	func reviewUpload(reviewDescription: String,
+					  rating: Double,
+					  senderId: Int,
+					  receiverId: Int,
+					  token: String?) -> URLRequestConvertible {
+		do {
+			return try ReviewUpload(environment: environment,
+									reviewDescription: reviewDescription,
+									rating: rating,
+									senderId: senderId,
+									receiverId: receiverId).asJSONURLRequest(with: token)
+		} catch {
+			#if DEBUG
+			print("Error JSON URLRequest", error)
+			#endif
+			return ReviewUpload(environment: environment,
+								reviewDescription: reviewDescription,
+								rating: rating,
+								senderId: senderId,
+								receiverId: receiverId)
+		}
+	}
 }
 
 extension ClientNetworkRouter {
@@ -204,6 +227,44 @@ extension ClientNetworkRouter {
 				"isPhoneVisible": settingsModel.isPhoneVisible,
 				"isEmailVisible": settingsModel.isEmailVisible,
 				"isChatEnabled": settingsModel.isChatEnabled
+			]
+		}
+	}
+
+	private struct ReviewUpload: RequestRouter {
+
+		let environment: Environment
+		let reviewDescription: String
+		let rating: Double
+		let senderId: Int
+		let receiverId: Int
+
+		init(environment: Environment,
+			 reviewDescription: String,
+			 rating: Double,
+			 senderId: Int,
+			 receiverId: Int) {
+
+			self.environment = environment
+			self.reviewDescription = reviewDescription
+			self.rating = rating
+			self.senderId = senderId
+			self.receiverId = receiverId
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .post
+		var path = ApiMethods.reviewUpload
+		var parameters: Parameters {
+			return [
+				"reviewDescription": reviewDescription,
+				"rating": rating,
+				"senderId": senderId,
+				"receiverId": receiverId,
+				"dateCreated": Date.getCurrentDate()
 			]
 		}
 	}

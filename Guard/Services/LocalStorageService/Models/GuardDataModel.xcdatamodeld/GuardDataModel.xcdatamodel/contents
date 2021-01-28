@@ -12,8 +12,8 @@
         <attribute name="clientId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="dateCreated" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="issueCode" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="lawyerChoosed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="subIssueCode" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String"/>
     </entity>
     <entity name="ReviewObject" representedClassName="ReviewObject" syncable="YES">
@@ -46,7 +46,7 @@
         <element name="CityObject" positionX="-54" positionY="171" width="128" height="103"/>
         <element name="ClientAppealObject" positionX="-63" positionY="27" width="128" height="163"/>
         <element name="ReviewObject" positionX="-54" positionY="171" width="128" height="133"/>
-        <element name="UserProfileObject" positionX="-45" positionY="162" width="128" height="193"/>
         <element name="SettingsObject" positionX="-54" positionY="171" width="128" height="103"/>
+        <element name="UserProfileObject" positionX="-45" positionY="162" width="128" height="193"/>
     </elements>
 </model>

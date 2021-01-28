@@ -30,7 +30,7 @@ final class AppealViewModel: ViewModel, HasDependencies {
 	func viewDidSet() {
 		// set issue title
 		di.commonDataNetworkService.subIssueTypes?.forEach {
-			if appeal.issueCode == $0.subIssueCode {
+			if appeal.subIssueCode == $0.subIssueCode {
 				issueTitle = $0.title
 			}
 		}

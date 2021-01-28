@@ -42,8 +42,7 @@ final class ReviewCellViewModel: ViewModel, HasDependencies {
 				})
 				let reviewDetails = ReviewDetails(review: self.review,
 												  senderId: nil,
-												  receiverId: nil,
-												  senderName: nil)
+												  receiverId: nil)
 				self.toReview.onNext(reviewDetails)
 			}).disposed(by: disposeBag)
 
@@ -60,7 +59,7 @@ final class ReviewCellViewModel: ViewModel, HasDependencies {
 
 		view.dateLabel.font = SFUIDisplay.light.of(size: 10)
 		view.dateLabel.textColor = Colors.mainTextColor
-		view.dateLabel.text = Date.getCorrectDate(from: review.dateCreated, format: "dd.MM.yyyy")
+		view.dateLabel.text = Date.getCorrectDate(from: review.dateCreated ?? "", format: "dd.MM.yyyy")
 
 		view.rateLabel.font = SFUIDisplay.bold.of(size: 15)
 		view.rateLabel.textColor = Colors.mainTextColor

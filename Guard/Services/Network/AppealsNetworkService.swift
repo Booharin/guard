@@ -325,7 +325,7 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 				#if DEBUG
 				print(response)
 				#endif
-				
+
 				// handle http status
 				if let code = response.response?.statusCode {
 					switch code {
@@ -336,7 +336,7 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 						break
 					}
 				}
-				
+
 				switch response.result {
 				case .success:
 					guard let data = response.data else {

@@ -27,6 +27,7 @@ enum ApiMethods {
 	// chat
 	static let getConversations = "chat/getconversations"
 	static let getMessages = "chat/getmessages"
+	static let reviewUpload = "review/upload"
 	// common
 	static let countriesAndCities = "common/allcountries"
 	static let issueTypes = "common/issues"

@@ -61,7 +61,7 @@ struct AppealsNetworkRouter {
 								  appealDescription: appealDescription,
 								  date: appeal.dateCreated,
 								  clientId: appeal.clientId,
-								  issueCode: appeal.issueCode,
+								  issueCode: appeal.subIssueCode,
 								  cityCode: cityCode).asJSONURLRequest(with: token)
 		} catch {
 			return EditAppeal(environment: environment,
@@ -70,7 +70,7 @@ struct AppealsNetworkRouter {
 							  appealDescription: appealDescription,
 							  date: appeal.dateCreated,
 							  clientId: appeal.clientId,
-							  issueCode: appeal.issueCode,
+							  issueCode: appeal.subIssueCode,
 							  cityCode: cityCode)
 		}
 	}

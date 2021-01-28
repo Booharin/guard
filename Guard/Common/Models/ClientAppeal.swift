@@ -13,7 +13,7 @@ struct ClientAppeal: Codable {
     let title: String
     let appealDescription: String
 	let clientId: Int
-	let issueCode: Int
+	let subIssueCode: Int
     let dateCreated: String
 	let cityTitle: String
 	let lawyerChoosed: Bool?
@@ -24,7 +24,7 @@ struct ClientAppeal: Codable {
         self.appealDescription = clientAppealObject.appealDescription ?? ""
         self.dateCreated = clientAppealObject.dateCreated ?? ""
 		self.clientId = Int(clientAppealObject.clientId)
-		self.issueCode = Int(clientAppealObject.issueCode)
+		self.subIssueCode = Int(clientAppealObject.subIssueCode)
 		self.cityTitle = clientAppealObject.cityTitle ?? ""
 		self.lawyerChoosed = clientAppealObject.lawyerChoosed
     }

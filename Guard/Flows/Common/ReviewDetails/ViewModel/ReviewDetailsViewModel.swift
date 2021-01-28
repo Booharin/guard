@@ -17,17 +17,20 @@ final class ReviewDetailsViewModel: ViewModel, HasDependencies {
 	private var review: UserReview?
 	private var senderId: Int?
 	private var receiverId: Int?
-	private var senderName: String?
+
+	private let profileSubject = PublishSubject<Any>()
+
 	typealias Dependencies =
 		HasLocalStorageService &
-		HasAppealsNetworkService
+		HasAppealsNetworkService &
+		HasLawyersNetworkService &
+		HasClientNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
 	init(reviewDetails: ReviewDetails) {
 		self.review = reviewDetails.review
 		self.senderId = reviewDetails.senderId
 		self.receiverId = reviewDetails.receiverId
-		self.senderName = reviewDetails.senderName
 	}
 
 	func viewDidSet() {
@@ -55,15 +58,25 @@ final class ReviewDetailsViewModel: ViewModel, HasDependencies {
 		view.titleLabel.text = "new_review.title".localized
 		view.titleLabel.textAlignment = .center
 
+		if review != nil,
+		   let rate = review?.rating {
+			let roundedRate = Int(rate)
+			view.starsStackView.starsViews.indices.forEach { i in
+				if i <= roundedRate - 1 {
+					view.starsStackView.starsViews[i].selected(isOn: true)
+				}
+			}
+		}
+
 		// title
 		view.reviewerName.font = Saira.regular.of(size: 16)
 		view.reviewerName.textColor = Colors.mainTextColor
-		view.reviewerName.text = senderName ?? "Пользователь"
+		view.reviewerName.textAlignment = .center
 
 		// text view
 		view.descriptionTextView.isEditable = true
 		view.descriptionTextView.textColor = Colors.placeholderColor
-		view.descriptionTextView.text = "new_appeal.textview.placeholder".localized
+		view.descriptionTextView.text = "new_review.textview.placeholder".localized
 		view.descriptionTextView.font = Saira.light.of(size: 15)
 		view.descriptionTextView.textAlignment = .center
 		view.descriptionTextView.backgroundColor = Colors.whiteColor
@@ -73,8 +86,39 @@ final class ReviewDetailsViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [unowned self] _ in
 				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
+		view.descriptionTextView.isEditable = review == nil
+
+		if review != nil {
+			view.descriptionTextView.text = review?.reviewDescription
+			view.descriptionTextView.textColor = Colors.mainTextColor
+			view.descriptionTextView.font = SFUIDisplay.regular.of(size: 16)
+		}
+
+		profileSubject
+			.asObservable()
+			.do(onNext: { [unowned self] _ in
+				self.view.loadingView.startAnimating()
+			})
+			.flatMap { [unowned self] _ in
+				self.di.lawyersNetworkService.getLawyer(by: review?.senderId ?? 0)
+			}
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stopAnimating()
+				switch result {
+				case .success(let profile):
+					self?.view.reviewerName.isHidden = false
+					self?.view.reviewerName.text = profile.firstName
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+		if review != nil {
+			profileSubject.onNext(())
+		}
 
 		// send button
+		view.createReviewButton.isHidden = review != nil
 		view.createReviewButton.isEnabled = false
 		view.createReviewButton
 			.rx
@@ -83,23 +127,21 @@ final class ReviewDetailsViewModel: ViewModel, HasDependencies {
 				self.view.createReviewButton.animateBackground()
 				self.view.loadingView.startAnimating()
 			})
-//			.flatMap { [unowned self] _ in
-//				self.di.appealsNetworkService
-//					.createAppeal(title: self.view.titleTextField.text ?? "",
-//								  appealDescription: self.view.descriptionTextView.text ?? "",
-//								  clientId: self.di.localStorageService.getCurrenClientProfile()?.id ?? 0,
-//								  issueCode: issueType.subIssueCode ?? 0,
-//								  cityCode: self.di.localStorageService.getCurrenClientProfile()?.cityCode?.first ?? 99)
-//			}
+			.flatMap { [unowned self] _ in
+				self.di.clientNetworkService.reviewUpload(reviewDescription: self.view.descriptionTextView.text,
+														  rating: self.view.starsStackView.selectedCount,
+														  senderId: self.senderId ?? 0,
+														  receiverId: self.receiverId ?? 0)
+			}
 			.subscribe(onNext: { [weak self] result in
-//				self?.view.loadingView.stopAnimating()
-//				switch result {
-//				case .success:
-//					self?.view.navController?.popToRootViewController(animated: true)
-//				case .failure(let error):
-//					//TODO: - обработать ошибку
-//					print(error.localizedDescription)
-//				}
+				self?.view.loadingView.stopAnimating()
+				switch result {
+				case .success:
+					self?.view.navController?.popToRootViewController(animated: true)
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
 			}).disposed(by: disposeBag)
 
 		// MARK: - Check keyboard showing

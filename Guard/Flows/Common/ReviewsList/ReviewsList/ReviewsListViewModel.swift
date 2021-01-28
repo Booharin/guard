@@ -98,7 +98,10 @@ final class ReviewsListViewModel: ViewModel, HasDependencies {
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				//self.router.toSelectIssueSubject.onNext(())
+				var details = ReviewDetails()
+				details.senderId = di.localStorageService.getCurrenClientProfile()?.id
+				details.receiverId = userId
+				self.router.toReviewSubject.onNext(details)
 			}).disposed(by: disposeBag)
 		view.addButtonView.isHidden = isMyReviews
 
@@ -125,7 +128,7 @@ final class ReviewsListViewModel: ViewModel, HasDependencies {
 
 	private func update(with reviews: [UserReview]) {
 		self.reviews = reviews.sorted {
-			$0.dateCreated < $1.dateCreated
+			$0.dateCreated ?? "" < $1.dateCreated ?? ""
 		}
 		let section = SectionModel<String, UserReview>(model: "",
 													   items: self.reviews)

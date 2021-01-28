@@ -10,5 +10,4 @@ struct ReviewDetails {
 	var review: UserReview?
 	var senderId: Int?
 	var receiverId: Int?
-	var senderName: String?
 }
