@@ -15,6 +15,12 @@ protocol HasChatNetworkService {
 }
 
 protocol ChatNetworkServiceInterface {
+	func createConversation(lawyerId: Int,
+							clientId: Int) -> Observable<Result<Any, AFError>>
+	func createConversationByAppeal(lawyerId: Int,
+									clientId: Int,
+									appealId: Int) -> Observable<Result<Any, AFError>>
+	func deleteConversation(conversationId: Int) -> Observable<Result<Any, AFError>>
 	func getConversations(with profileId: Int,
 						  isLawyer: Bool) -> Observable<Result<[ChatConversation], AFError>>
 	func getMessages(with conversationId: Int) -> Observable<Result<[ChatMessage], AFError>>
@@ -28,6 +34,116 @@ final class ChatNetworkService: ChatNetworkServiceInterface, HasDependencies {
 
 	init() {
 		router = ChatNetworkRouter(environment: EnvironmentImp())
+	}
+
+	func createConversation(lawyerId: Int, clientId: Int) -> Observable<Result<Any, AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.createConversation(lawyerId: lawyerId,
+											   clientId: clientId,
+											   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.response { response in
+				#if DEBUG
+				print(response)
+				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
+				switch response.result {
+				case .success:
+					observer.onNext(.success(()))
+				case .failure:
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func createConversationByAppeal(lawyerId: Int,
+									clientId: Int,
+									appealId: Int) -> Observable<Result<Any, AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.createConversationByAppeal(lawyerId: lawyerId,
+													   clientId: clientId,
+													   appealId: appealId,
+													   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.response { response in
+				#if DEBUG
+				print(response)
+				#endif
+				
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+				
+				switch response.result {
+				case .success:
+					observer.onNext(.success(()))
+				case .failure:
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func deleteConversation(conversationId: Int) -> Observable<Result<Any, AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.deleteConversation(conversationId: conversationId,
+										token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.response { response in
+				#if DEBUG
+				//print(response)
+				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
+				switch response.result {
+				case .success:
+					observer.onNext(.success(()))
+				case .failure:
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
 	}
 
 	func getConversations(with profileId: Int,

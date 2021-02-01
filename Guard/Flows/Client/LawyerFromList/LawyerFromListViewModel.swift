@@ -27,7 +27,6 @@ final class LawyerFromListViewModel:
 	var lawyerImageSubject: PublishSubject<Any>?
 	private let chatWithLawyerSubject = PublishSubject<Any>()
 	private let settingsLawyerSubject = PublishSubject<Any>()
-	private let toChatWithLawyer: PublishSubject<Int>
 
 	private let lawyerProfile: UserProfile
 	private var lawyerSettings: SettingsModel?
@@ -37,12 +36,10 @@ final class LawyerFromListViewModel:
 	private var disposeBag = DisposeBag()
 
 	init(lawyerProfile: UserProfile,
-		 router: LawyerFromListRouterProtocol,
-		 toChatWithLawyer: PublishSubject<Int>) {
+		 router: LawyerFromListRouterProtocol) {
 		self.lawyerProfile = lawyerProfile
 		self.lawyerSettings = lawyerProfile.settings
 		self.router = router
-		self.toChatWithLawyer = toChatWithLawyer
 	}
 
 	func viewDidSet() {
@@ -185,7 +182,24 @@ final class LawyerFromListViewModel:
 			.tap
 			.subscribe(onNext: { [weak self] _ in
 				self?.view.tabBarViewController?.selectedIndex = 2
-				self?.chatWithLawyerSubject.onNext(self?.lawyerProfile.id ?? 0)
+
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					guard
+						let navigationController = self?.view.tabBarViewController?.viewControllers?[2] as? UINavigationController,
+						let vc = navigationController.viewControllers.first as? ConversationsListViewController,
+						let profile = self?.lawyerProfile else { return }
+
+					let newConversation = ChatConversation(id: -1,
+														   dateCreated: "",
+														   userId: profile.id,
+														   lastMessage: "",
+														   appealId: nil,
+														   userFirstName: profile.firstName,
+														   userLastName: profile.lastName,
+														   userPhoto: profile.photo)
+
+					vc.viewModel.toChatWithLawyer?.onNext(newConversation)
+				}
 			}).disposed(by: disposeBag)
 	}
 

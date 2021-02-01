@@ -9,7 +9,7 @@
 import RxSwift
 
 final class ConversationsListModuleFactory {
-	static func createModule(toChatWithLawyer: PublishSubject<Int>?) -> NavigationController {
+	static func createModule(toChatWithLawyer: PublishSubject<ChatConversation>?) -> NavigationController {
 		let router = ConversationsListRouter()
 		let viewModel = ConversationsListViewModel(router: router,
 												   toChatWithLawyer: toChatWithLawyer)

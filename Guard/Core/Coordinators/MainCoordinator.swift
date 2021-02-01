@@ -81,11 +81,11 @@ final class MainCoordinator: BaseCoordinator {
 			})
 			.disposed(by: disposeBag)
 
-		let toChatWithLawyer = PublishSubject<Int>()
+		let toChatWithLawyer = PublishSubject<ChatConversation>()
 
 		tabBarController.viewControllers = [
 			// lawyers list
-			LawyersListModuleFactory.createModule(toChatWithLawyer: toChatWithLawyer),
+			LawyersListModuleFactory.createModule(),
 			// client appeals list
 			ClientAppealsListModuleFactory.createModule(),
 			// conversations list
@@ -106,11 +106,13 @@ final class MainCoordinator: BaseCoordinator {
 			})
 			.disposed(by: disposeBag)
 
+		let toChatWithLawyer = PublishSubject<ChatConversation>()
+
 		tabBarController.viewControllers = [
 			// appeals list
 			AppealsListModuleFactory.createModule(),
 			// conversations list
-			ConversationsListModuleFactory.createModule(toChatWithLawyer: nil),
+			ConversationsListModuleFactory.createModule(toChatWithLawyer: toChatWithLawyer),
 			// lawyer profile
 			LawyerProfileModuleFactory.createModule(toAuthSubject: toAuthSubject)
 		]

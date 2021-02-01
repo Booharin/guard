@@ -111,7 +111,7 @@ final class ChatViewController<modelType: ChatViewModel>:
 		tableView.estimatedRowHeight = 80
 		tableView.separatorStyle = .none
 		tableView.delegate = self
-		tableView.contentInset = UIEdgeInsets(top: 0,
+		tableView.contentInset = UIEdgeInsets(top: 30,
 											  left: 0,
 											  bottom: 20,
 											  right: 0)

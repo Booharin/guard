@@ -50,7 +50,7 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 			)
 			.responseJSON { response in
 				#if DEBUG
-				print(response)
+				//print(response)
 				#endif
 
 				// handle http status

@@ -19,6 +19,7 @@ protocol AppealFromListViewControllerProtocol: ViewControllerProtocol {
 	var profileImageView: UIImageView { get }
 	var profileNameLabel: UILabel { get }
 	var loadingView: UIActivityIndicatorView { get }
+	var tabBarViewController: UITabBarController? { get }
 }
 
 final class AppealFromListViewController<modelType: AppealFromListViewModel>:
@@ -42,6 +43,9 @@ final class AppealFromListViewController<modelType: AppealFromListViewModel>:
 								   backgroundColor: Colors.greenColor)
 	var navController: UINavigationController? {
 		self.navigationController
+	}
+	var tabBarViewController: UITabBarController? {
+		self.tabBarController
 	}
 	var loadingView = UIActivityIndicatorView(style: .medium)
 

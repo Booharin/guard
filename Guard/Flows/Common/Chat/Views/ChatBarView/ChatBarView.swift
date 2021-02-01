@@ -14,6 +14,7 @@ protocol ChatBarViewProtocol: UIView {
 	var sendSubject: PublishSubject<String> { get }
 	var attachSubject: PublishSubject<Any> { get }
 	var textViewChangeHeight: PublishSubject<CGFloat> { get }
+	func clearMessageTextView()
 }
 
 final class ChatBarView: UIView, ChatBarViewProtocol {
@@ -116,6 +117,10 @@ final class ChatBarView: UIView, ChatBarViewProtocol {
 			$0.bottom.equalToSuperview().offset(-40)
 			$0.top.equalToSuperview().offset(30)
 		}
+	}
+
+	func clearMessageTextView() {
+		messageTextView.text = ""
 	}
 }
 

@@ -19,7 +19,6 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	private var router: LawyerListRouterProtocol
 	private var selectedIssues = [Int]()
 	private var currentCity: CityModel?
-	private let toChatWithLawyer: PublishSubject<Int>
 
 	private var cities: [String] {
 		return di.localStorageService.getRussianCities().map { $0.title }
@@ -37,10 +36,8 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	private var toLawyerSubject: PublishSubject<UserProfile>?
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, UserProfile>]>?
 
-	init(router: LawyerListRouterProtocol,
-		 toChatWithLawyer: PublishSubject<Int>) {
+	init(router: LawyerListRouterProtocol) {
 		self.router = router
-		self.toChatWithLawyer = toChatWithLawyer
 	}
 
 	func viewDidSet() {
@@ -48,8 +45,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		toLawyerSubject?
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { profile in
-				self.router.passToLawyer(with: profile,
-										 toChatWithLawyer: self.toChatWithLawyer)
+				self.router.passToLawyer(with: profile)
 			})
 			.disposed(by: disposeBag)
 		// table view data source

@@ -15,7 +15,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 	var view: ChatViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
-	private let chatConversation: ChatConversation
+	private var chatConversation: ChatConversation
 	private var messages = [ChatMessage]()
 	typealias Dependencies =
 		HasNotificationService &
@@ -23,9 +23,17 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		HasLocalStorageService &
 		HasChatNetworkService
 	lazy var di: Dependencies = DI.dependencies
+
 	var messagesListSubject: PublishSubject<Any>?
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ChatMessage>]>?
+	private let createConversationSubject = PublishSubject<Any>()
+	private let createConversationByAppealSubject = PublishSubject<Any>()
+	private var messageForSending: String?
+
 	var imageForSending: Data?
+	private var currentProfile: UserProfile? {
+		di.localStorageService.getCurrenClientProfile()
+	}
 
 	init(chatConversation: ChatConversation) {
 		self.chatConversation = chatConversation
@@ -75,7 +83,9 @@ final class ChatViewModel: ViewModel, HasDependencies {
 				})
 			})
 			.subscribe(onNext: { [weak self] _ in
-				//
+				if let appealId = self?.chatConversation.appealId {
+					print(appealId)
+				}
 			}).disposed(by: disposeBag)
 
 		// title
@@ -131,23 +141,17 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		//MARK: - Send message
 		view.chatBarView.sendSubject
 			.subscribe(onNext: { [unowned self] text in
-				let dict: [String: Any] = [
-					"senderName": self.di.localStorageService.getCurrenClientProfile()?.firstName ?? "Name",
-					"content": text,
-					"senderId": self.di.localStorageService.getCurrenClientProfile()?.id ?? 0
-				]
-				do {
-					let jsonData = try JSONSerialization.data(withJSONObject: dict,
-															  options: .prettyPrinted)
-					guard let jSONText = String(data: jsonData, encoding: .utf8) else { return }
+				// if new conversation need to create
+				if chatConversation.id == -1 {
+					self.messageForSending = text
 
-					self.di.socketStompService.sendMessage(with: jSONText,
-														   to: "/app/chat/\(chatConversation.id)/\(chatConversation.userId)/sendMessage",
-														   receiptId: "",
-														   headers: ["content-type": "application/json"])
-					messagesListSubject?.onNext(())
-				} catch {
-					print(error.localizedDescription)
+					if chatConversation.appealId == nil {
+						self.createConversationSubject.onNext(())
+					} else {
+						self.createConversationByAppealSubject.onNext(())
+					}
+				} else {
+					self.sendMessage(with: text)
 				}
 			}).disposed(by: disposeBag)
 
@@ -221,6 +225,99 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			selector: #selector(updateMessages),
 			name: NSNotification.Name(rawValue: Constants.NotificationKeys.updateMessages),
 			object: nil)
+		
+		// MARK: - Create conversation (client create)
+		createConversationSubject
+			.asObservable()
+			.do(onNext: { _ in
+				self.view.loadingView.startAnimating()
+			})
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.createConversation(lawyerId: self.chatConversation.userId,
+										clientId: currentProfile?.id ?? 0)
+			}
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.getConversations(with: currentProfile?.id ?? 0,
+									  isLawyer: false)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stopAnimating()
+				switch result {
+					case .success(let conversations):
+						conversations.forEach { chat in
+							if chat.userId == self?.chatConversation.userId {
+								self?.chatConversation = chat
+								self?.sendMessage(with: self?.messageForSending ?? "")
+							}
+						}
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		// MARK: - Create conversation by appeal (lawyer create)
+		createConversationByAppealSubject
+			.asObservable()
+			.do(onNext: { _ in
+				self.view.loadingView.startAnimating()
+			})
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.createConversationByAppeal(lawyerId: currentProfile?.id ?? 0,
+												clientId: self.chatConversation.userId,
+												appealId: self.chatConversation.appealId ?? 0)
+			}
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.getConversations(with: currentProfile?.id ?? 0,
+									  isLawyer: true)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stopAnimating()
+				switch result {
+				case .success(let conversations):
+					conversations.forEach { chat in
+						// update conversation after saving
+						if chat.userId == self?.chatConversation.userId {
+							self?.chatConversation = chat
+							self?.sendMessage(with: self?.messageForSending ?? "")
+						}
+					}
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+	}
+
+	private func sendMessage(with text: String) {
+		let dict: [String: Any] = [
+			"senderName": self.di.localStorageService.getCurrenClientProfile()?.firstName ?? "Name",
+			"content": text,
+			"senderId": self.di.localStorageService.getCurrenClientProfile()?.id ?? 0
+		]
+		do {
+			let jsonData = try JSONSerialization.data(withJSONObject: dict,
+													  options: .prettyPrinted)
+			guard let jSONText = String(data: jsonData, encoding: .utf8) else { return }
+
+			self.di.socketStompService.sendMessage(with: jSONText,
+												   to: "/app/chat/\(chatConversation.id)/\(chatConversation.userId)/sendMessage",
+												   receiptId: "",
+												   headers: ["content-type": "application/json"])
+			self.view.chatBarView.clearMessageTextView()
+			self.view.loadingView.startAnimating()
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+				self.messagesListSubject?.onNext(())
+			}
+		} catch {
+			print(error.localizedDescription)
+		}
 	}
 
 	// MARK: - Scroll table view to bottom

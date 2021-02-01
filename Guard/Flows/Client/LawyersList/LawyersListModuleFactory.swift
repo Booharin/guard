@@ -10,10 +10,9 @@ import Foundation
 import RxSwift
 
 final class LawyersListModuleFactory {
-	static func createModule(toChatWithLawyer: PublishSubject<Int>) -> NavigationController {
+	static func createModule() -> NavigationController {
 		let router = LawyersListRouter()
-		let viewModel = LawyersListViewModel(router: router,
-											 toChatWithLawyer: toChatWithLawyer)
+		let viewModel = LawyersListViewModel(router: router)
 		let controller = NavigationController(rootViewController: LawyersListViewController(viewModel: viewModel))
 		router.navigationController = controller
 		return controller

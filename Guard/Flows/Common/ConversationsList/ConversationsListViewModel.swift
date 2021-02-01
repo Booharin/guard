@@ -17,10 +17,13 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 
 	var conversationsListSubject: PublishSubject<Any>?
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ChatConversation>]>?
-	private var toChatWithLawyer: PublishSubject<Int>?
+	var toChatWithLawyer: PublishSubject<ChatConversation>?
 
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
+	private var currentProfile: UserProfile? {
+		di.localStorageService.getCurrenClientProfile()
+	}
 
 	typealias Dependencies =
 		HasLocalStorageService &
@@ -28,7 +31,7 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 	lazy var di: Dependencies = DI.dependencies
 
 	init(router: ConversationsListRouterProtocol,
-		 toChatWithLawyer: PublishSubject<Int>?) {
+		 toChatWithLawyer: PublishSubject<ChatConversation>?) {
 		self.router = router
 		self.toChatWithLawyer = toChatWithLawyer
 	}
@@ -48,28 +51,24 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 					.items(dataSource: dataSource))
 			.disposed(by: disposeBag)
 
-		//TODO: - finish up when chat deleting will be ready
 		view.tableView.rx.itemDeleted
 			.asObservable()
-//			.filter { [unowned self] indexPath in
-//				indexPath.row < appeals.count
-//			}
-//			.flatMap { [unowned self] indexPath in
-//				self.di.appealsNetworkService.deleteAppeal(id: appeals[indexPath.row].id)
-//			}
-//			.flatMap { [unowned self] _ in
-//				self.di.appealsNetworkService.getClientAppeals(by: di.localStorageService.getCurrenClientProfile()?.id ?? 0)
-//			}
+			.filter { [unowned self] indexPath in
+				indexPath.row < conversations.count
+			}
+			.flatMap { [unowned self] indexPath in
+				self.di.chatNetworkService.deleteConversation(conversationId: conversations[indexPath.row].id)
+			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-//				self?.view.loadingView.stopAnimating()
-//				switch result {
-//					case .success(let appeals):
-//						self?.update(with: appeals)
-//					case .failure(let error):
-//						//TODO: - обработать ошибку
-//						print(error.localizedDescription)
-//				}
+				self?.view.loadingView.stopAnimating()
+				switch result {
+					case .success:
+						self?.conversationsListSubject?.onNext(())
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
 			}).disposed(by: disposeBag)
 
 		// greeting
@@ -95,8 +94,8 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 			.asObservable()
 			.flatMap { [unowned self] _ in
 				self.di.chatNetworkService
-					.getConversations(with: di.localStorageService.getCurrenClientProfile()?.id ?? 0,
-									  isLawyer: di.localStorageService.getCurrenClientProfile()?.userRole == .lawyer ? true : false)
+					.getConversations(with: currentProfile?.id ?? 0,
+									  isLawyer: currentProfile?.userRole == .lawyer ? true : false)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
@@ -115,11 +114,22 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 		toChatWithLawyer?
 			.asObservable()
 			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] lawyerId in
-				self?.conversations.forEach { conversation in
-					if conversation.userId == lawyerId {
-						self?.router.toChatSubject.onNext(conversation)
+			.subscribe(onNext: { [weak self] chatConversation in
+				// check if conversation exist
+				var nextConversation: ChatConversation?
+				self?.conversations.forEach {
+					if $0.userId == chatConversation.userId {
+						nextConversation = $0
 					}
+				}
+
+				// if not exist - create conversation
+				if nextConversation == nil {
+					self?.router.toChatSubject.onNext(chatConversation)
+
+					// if exist go to this conversation
+				} else if let newConversation = nextConversation {
+					self?.router.toChatSubject.onNext(newConversation)
 				}
 			}).disposed(by: disposeBag)
 

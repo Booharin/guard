@@ -159,7 +159,6 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 				self.di.clientNetworkService
 					.getSettings(profileId: self.clientProfile?.id ?? 0)
 			}
-			//.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stopAnimating()
 				switch result {
@@ -171,6 +170,33 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 				case .failure(let error):
 					//TODO: - обработать ошибку
 					print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		// MARK: - ChatButton
+		view.chatButton.isHidden = true
+		view.chatButton
+			.rx
+			.tap
+			.subscribe(onNext: { [weak self] _ in
+				self?.view.tabBarViewController?.selectedIndex = 1
+
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					guard
+						let navigationController = self?.view.tabBarViewController?.viewControllers?[1] as? UINavigationController,
+						let vc = navigationController.viewControllers.first as? ConversationsListViewController,
+						let profile = self?.clientProfile else { return }
+
+					let newConversation = ChatConversation(id: -1,
+														   dateCreated: "",
+														   userId: profile.id,
+														   lastMessage: "",
+														   appealId: self?.appeal.id ?? 0,
+														   userFirstName: profile.firstName,
+														   userLastName: profile.lastName,
+														   userPhoto: profile.photo)
+
+					vc.viewModel.toChatWithLawyer?.onNext(newConversation)
 				}
 			}).disposed(by: disposeBag)
 

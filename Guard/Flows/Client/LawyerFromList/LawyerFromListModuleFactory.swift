@@ -12,12 +12,10 @@ import UIKit
 
 final class LawyerFromListModuleFactory {
 	static func createModule(with lawyer: UserProfile,
-							 navController: UINavigationController?,
-							 toChatWithLawyer: PublishSubject<Int>) -> UIViewController {
+							 navController: UINavigationController?) -> UIViewController {
 		let router = LawyerFromListRouter()
 		let viewModel = LawyerFromListViewModel(lawyerProfile: lawyer,
-												router: router,
-												toChatWithLawyer: toChatWithLawyer)
+												router: router)
 		let controller = LawyerFromListViewController(viewModel: viewModel)
 		router.navigationController = navController
 		return controller
