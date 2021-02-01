@@ -27,6 +27,7 @@ final class LawyerFromListViewModel:
 	var lawyerImageSubject: PublishSubject<Any>?
 	private let chatWithLawyerSubject = PublishSubject<Any>()
 	private let settingsLawyerSubject = PublishSubject<Any>()
+	private let toChatWithLawyer: PublishSubject<Int>
 
 	private let lawyerProfile: UserProfile
 	private var lawyerSettings: SettingsModel?
@@ -36,10 +37,12 @@ final class LawyerFromListViewModel:
 	private var disposeBag = DisposeBag()
 
 	init(lawyerProfile: UserProfile,
-		 router: LawyerFromListRouterProtocol) {
+		 router: LawyerFromListRouterProtocol,
+		 toChatWithLawyer: PublishSubject<Int>) {
 		self.lawyerProfile = lawyerProfile
 		self.lawyerSettings = lawyerProfile.settings
 		self.router = router
+		self.toChatWithLawyer = toChatWithLawyer
 	}
 
 	func viewDidSet() {
@@ -176,7 +179,14 @@ final class LawyerFromListViewModel:
 				}
 			}).disposed(by: disposeBag)
 
-		self.view.chatWithLawyerButton.isHidden = true
+		view.chatWithLawyerButton.isHidden = true
+		view.chatWithLawyerButton
+			.rx
+			.tap
+			.subscribe(onNext: { [weak self] _ in
+				self?.view.tabBarViewController?.selectedIndex = 2
+				self?.chatWithLawyerSubject.onNext(self?.lawyerProfile.id ?? 0)
+			}).disposed(by: disposeBag)
 	}
 
 	func updateProfile() {

@@ -88,7 +88,7 @@ final class ChatNetworkService: ChatNetworkServiceInterface, HasDependencies {
 			)
 			.responseJSON { response in
 				#if DEBUG
-				print(response)
+				//print(response)
 				#endif
 
 				// handle http status

@@ -16,11 +16,14 @@ protocol ChatViewControllerProtocol: ViewControllerProtocol {
 	var tableView: UITableView { get }
 	var chatBarView: ChatBarViewProtocol { get }
 	var loadingView: UIActivityIndicatorView { get }
+	func takePhotoFromGallery()
 }
 
 final class ChatViewController<modelType: ChatViewModel>:
 	UIViewController,
 	UITableViewDelegate,
+	UIImagePickerControllerDelegate,
+	UINavigationControllerDelegate,
 	ChatViewControllerProtocol {
 
 	var backButtonView = BackButtonView()
@@ -35,6 +38,7 @@ final class ChatViewController<modelType: ChatViewModel>:
 	}
 	var viewModel: modelType
 	var loadingView = UIActivityIndicatorView(style: .medium)
+	private var imagePicker = UIImagePickerController()
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
@@ -107,6 +111,10 @@ final class ChatViewController<modelType: ChatViewModel>:
 		tableView.estimatedRowHeight = 80
 		tableView.separatorStyle = .none
 		tableView.delegate = self
+		tableView.contentInset = UIEdgeInsets(top: 0,
+											  left: 0,
+											  bottom: 20,
+											  right: 0)
 		view.addSubview(tableView)
 		tableView.snp.makeConstraints {
 			$0.leading.trailing.equalToSuperview()
@@ -176,5 +184,32 @@ final class ChatViewController<modelType: ChatViewModel>:
 		let view = UIView()
 		view.layer.insertSublayer(gradientLAyer, at: 0)
 		return view
+	}
+
+	// MARK: - Take photo from gallery
+	func takePhotoFromGallery() {
+		imagePicker.delegate = self
+		imagePicker.sourceType = .savedPhotosAlbum
+		imagePicker.allowsEditing = true
+		
+		present(imagePicker, animated: true)
+	}
+	
+	func imagePickerController(_ picker: UIImagePickerController,
+							   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+		if let pickedImage = info[.editedImage] as? UIImage {
+
+			guard let jpegData = pickedImage.jpegData(compressionQuality: 0.5) else { return }
+			let imgData = Data(jpegData)
+			viewModel.imageForSending = imgData
+
+			let kbImageSize = Double(imgData.count) / 1000.0
+			if kbImageSize >= 1000 {
+				guard let jpegData = pickedImage.jpegData(compressionQuality: 0.25) else { return }
+				let imgData = Data(jpegData)
+				viewModel.imageForSending = imgData
+			}
+		}
+		self.dismiss(animated: true)
 	}
 }

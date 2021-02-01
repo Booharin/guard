@@ -6,10 +6,13 @@
 //  Copyright © 2020 ds. All rights reserved.
 //
 
+import RxSwift
+
 final class ConversationsListModuleFactory {
-	static func createModule() -> NavigationController {
+	static func createModule(toChatWithLawyer: PublishSubject<Int>?) -> NavigationController {
 		let router = ConversationsListRouter()
-		let viewModel = ConversationsListViewModel(router: router)
+		let viewModel = ConversationsListViewModel(router: router,
+												   toChatWithLawyer: toChatWithLawyer)
 		let controller = NavigationController(rootViewController:
 			ConversationsListViewController(viewModel: viewModel)
 		)

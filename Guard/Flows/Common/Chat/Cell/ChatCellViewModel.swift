@@ -30,7 +30,11 @@ class ChatCellViewModel: ViewModel, HasDependencies {
 		// message
 		view.messageLabel.font = SFUIDisplay.regular.of(size: 15)
 		view.messageLabel.textColor = Colors.mainTextColor
-		view.messageLabel.text = chatMessage.content
+		if chatMessage.content.count > 1000 {
+			view.messageLabel.text = "Файл"
+		} else {
+			view.messageLabel.text = chatMessage.content
+		}
 		view.messageLabel.numberOfLines = 0
 
 		// date

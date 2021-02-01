@@ -77,47 +77,40 @@ final class MainCoordinator: BaseCoordinator {
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { _ in
 				self.toAuth()
-				self.onFinishFlow?()
+				//self.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)
-		
+
+		let toChatWithLawyer = PublishSubject<Int>()
+
 		tabBarController.viewControllers = [
 			// lawyers list
-			LawyersListModuleFactory.createModule(),
+			LawyersListModuleFactory.createModule(toChatWithLawyer: toChatWithLawyer),
 			// client appeals list
 			ClientAppealsListModuleFactory.createModule(),
 			// conversations list
-			ConversationsListModuleFactory.createModule(),
+			ConversationsListModuleFactory.createModule(toChatWithLawyer: toChatWithLawyer),
 			// client profile
 			ClientProfileModuleFactory.createModule(toAuthSubject: toAuthSubject)
 		]
 	}
 	
 	private func setLawyerControllers() {
-		// to lawyer issue
-		let toClientSubject = PublishSubject<UserProfile>()
-		toClientSubject
-			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { _ in
-				//
-			})
-			.disposed(by: disposeBag)
 		// to auth
 		let toAuthSubject = PublishSubject<Any>()
 		toAuthSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { _ in
 				self.toAuth()
-				self.onFinishFlow?()
+				//self.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)
-		
+
 		tabBarController.viewControllers = [
 			// appeals list
 			AppealsListModuleFactory.createModule(),
 			// conversations list
-			ConversationsListModuleFactory.createModule(),
-			// TODO: - Set to lawyer profile
+			ConversationsListModuleFactory.createModule(toChatWithLawyer: nil),
 			// lawyer profile
 			LawyerProfileModuleFactory.createModule(toAuthSubject: toAuthSubject)
 		]

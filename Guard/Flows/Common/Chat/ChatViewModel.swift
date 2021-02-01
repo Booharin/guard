@@ -25,6 +25,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 	lazy var di: Dependencies = DI.dependencies
 	var messagesListSubject: PublishSubject<Any>?
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ChatMessage>]>?
+	var imageForSending: Data?
 
 	init(chatConversation: ChatConversation) {
 		self.chatConversation = chatConversation
@@ -141,7 +142,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 					guard let jSONText = String(data: jsonData, encoding: .utf8) else { return }
 
 					self.di.socketStompService.sendMessage(with: jSONText,
-														   to: "/app/chat/6/27/sendMessage",
+														   to: "/app/chat/\(chatConversation.id)/\(chatConversation.userId)/sendMessage",
 														   receiptId: "",
 														   headers: ["content-type": "application/json"])
 					messagesListSubject?.onNext(())
@@ -152,13 +153,37 @@ final class ChatViewModel: ViewModel, HasDependencies {
 
 		//MARK: - Send data
 		view.chatBarView.attachSubject
-			.subscribe(onNext: { [weak self] text in
-				guard let data = #imageLiteral(resourceName: "attach_button_icn").jpegData(compressionQuality: 0.5) else { return }
+			.subscribe(onNext: { [weak self] _ in
+				guard let imageData = self?.imageForSending else {
+					self?.view.takePhotoFromGallery()
+					return
+				}
+				let strBase64 = imageData.base64EncodedString()
 
-				self?.di.socketStompService.sendData(with: data,
-													 to: "/chat/6/27/Анатолий/26/sendPhotoMessage",
-													 receiptId: "",
-													 headers: ["content-type": "multipart/form-data"])
+				let dict: [String: Any] = [
+					"senderName": self?.di.localStorageService.getCurrenClientProfile()?.firstName ?? "Name",
+					"content": strBase64,
+					"senderId": self?.di.localStorageService.getCurrenClientProfile()?.id ?? 0
+				]
+				do {
+					let jsonData = try JSONSerialization.data(withJSONObject: dict,
+															  options: .prettyPrinted)
+					guard let jSONText = String(data: jsonData, encoding: .utf8) else { return }
+					
+					let path =
+						"""
+						/app/chat/\(self?.chatConversation.id ?? 0)/\(self?.chatConversation.userId ?? 0)/sendPhotoMessage
+						"""
+									
+					self?.di.socketStompService.sendMessage(with: jSONText,
+															to: path,
+															receiptId: "",
+															headers: ["content-type": "application/json"])
+					self?.imageForSending = nil
+					self?.messagesListSubject?.onNext(())
+				} catch {
+					print(error.localizedDescription)
+				}
 				self?.messagesListSubject?.onNext(())
 			}).disposed(by: disposeBag)
 
@@ -190,6 +215,12 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [weak self] _ in
 				self?.messagesListSubject?.onNext(())
 			}).disposed(by: disposeBag)
+
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(updateMessages),
+			name: NSNotification.Name(rawValue: Constants.NotificationKeys.updateMessages),
+			object: nil)
 	}
 
 	// MARK: - Scroll table view to bottom
@@ -228,6 +259,10 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		} else {
 			self.view.tableView.isScrollEnabled = true
 		}
+	}
+
+	@objc private func updateMessages() {
+		messagesListSubject?.onNext(())
 	}
 
 	func removeBindings() {}

@@ -46,7 +46,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 
 	func viewDidSet() {
 		currentCities = di.localStorageService.getCurrenClientProfile()?.cityCode ?? []
-		currentIssueCodes = [123, 321]//userProfile.issueCodes ?? [] //[123, 321]
+		currentIssueCodes = userProfile.issueCodes ?? [] //[123, 321]
 		// back button
 		view.backButton.setImage(#imageLiteral(resourceName: "icn_back_arrow"), for: .normal)
 		view.backButton.rx

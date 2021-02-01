@@ -28,6 +28,7 @@ protocol LawyerFromListViewControllerProtcol: class, ViewControllerProtocol {
 	var reviewsNegativeLabel: UILabel { get }
 	var ratingLabel: UILabel { get }
 	var chatWithLawyerButton: ConfirmButton { get }
+	var tabBarViewController: UITabBarController? { get }
 }
 
 final class LawyerFromListViewController<modelType: LawyerFromListViewModel>:
@@ -56,6 +57,9 @@ final class LawyerFromListViewController<modelType: LawyerFromListViewModel>:
 	var viewModel: modelType
 	var navController: UINavigationController? {
 		self.navigationController
+	}
+	var tabBarViewController: UITabBarController? {
+		self.tabBarController
 	}
 
 	init(viewModel: modelType) {

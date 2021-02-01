@@ -32,7 +32,7 @@ final class ConversationsListRouter: BaseRouter, ConversationsListRouterProtocol
         })
         .disposed(by: disposeBag)
 	}
-	
+
 	private func toChat(with conversation: ChatConversation) {
 		let chatViewController = ChatViewController(viewModel: ChatViewModel(chatConversation: conversation))
 		chatViewController.hidesBottomBarWhenPushed = true

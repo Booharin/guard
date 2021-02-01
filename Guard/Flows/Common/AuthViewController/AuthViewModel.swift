@@ -272,6 +272,7 @@ final class AuthViewModel: ViewModel,
 				switch result {
 					case .success(let userRole):
 						DispatchQueue.global().async {
+							self?.di.socketStompService.disconnect()
 							self?.di.socketStompService.connectSocketStomp()
 						}
 						self?.toMainSubject?.onNext(userRole)

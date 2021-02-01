@@ -14,8 +14,11 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 	var view: ConversationsListViewControllerProtocol!
 	let router: ConversationsListRouterProtocol
 	private var conversations = [ChatConversation]()
+
 	var conversationsListSubject: PublishSubject<Any>?
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ChatConversation>]>?
+	private var toChatWithLawyer: PublishSubject<Int>?
+
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
 
@@ -24,8 +27,10 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 		HasChatNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
-	init(router: ConversationsListRouterProtocol) {
+	init(router: ConversationsListRouterProtocol,
+		 toChatWithLawyer: PublishSubject<Int>?) {
 		self.router = router
+		self.toChatWithLawyer = toChatWithLawyer
 	}
 
 	func viewDidSet() {
@@ -106,6 +111,23 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 
 		view.loadingView.startAnimating()
+
+		toChatWithLawyer?
+			.asObservable()
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] lawyerId in
+				self?.conversations.forEach { conversation in
+					if conversation.userId == lawyerId {
+						self?.router.toChatSubject.onNext(conversation)
+					}
+				}
+			}).disposed(by: disposeBag)
+
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(updateConversations),
+			name: NSNotification.Name(rawValue: Constants.NotificationKeys.updateMessages),
+			object: nil)
 	}
 
 	private func update(with conversations: [ChatConversation]) {
@@ -121,6 +143,10 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 		} else {
 			self.view.tableView.isScrollEnabled = true
 		}
+	}
+
+	@objc private func updateConversations() {
+		conversationsListSubject?.onNext(())
 	}
 
 	func removeBindings() {}

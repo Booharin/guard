@@ -19,5 +19,6 @@ enum Constants {
 	}
 	enum NotificationKeys {
 		static let logout = "profile_logout"
+		static let updateMessages = "update_messages"
 	}
 }

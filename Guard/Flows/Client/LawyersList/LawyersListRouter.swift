@@ -7,16 +7,20 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol LawyerListRouterProtocol {
-	func passToLawyer(with userProfile: UserProfile)
+	func passToLawyer(with userProfile: UserProfile,
+					  toChatWithLawyer: PublishSubject<Int>)
 }
 
 final class LawyersListRouter: BaseRouter, LawyerListRouterProtocol {
 
-	func passToLawyer(with userProfile: UserProfile) {
+	func passToLawyer(with userProfile: UserProfile,
+					  toChatWithLawyer: PublishSubject<Int>) {
 		let controller = LawyerFromListModuleFactory.createModule(with: userProfile,
-																  navController: navigationController)
+																  navController: navigationController,
+																  toChatWithLawyer: toChatWithLawyer)
 		navigationController?.pushViewController(controller, animated: true)
 	}
 }
