@@ -222,7 +222,7 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 			.reduce([], +)
 			.forEach { issueType in
 				print(issueType.title)
-				print(issueType.subIssueCode ?? 0)
+				print(issueType.subIssueCode)
 				let label = IssueLabel(labelColor: Colors.issueLabelColor,
 									   subIssueCode: issueType.subIssueCode ?? 0,
 									   isSelectable: true)

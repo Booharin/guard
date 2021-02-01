@@ -235,7 +235,7 @@ final class LawyerFromListViewModel:
 		view.phoneLabel.text = lawyerProfile.phoneNumber
 
 		//MARK: - Update containerView with issues
-		updateIssuesContainerView(with: lawyerProfile.issueTypes?.map { $0.issueCode } ?? [])
+		updateIssuesContainerView(with: lawyerProfile.subIssueTypes?.compactMap { $0.subIssueCode } ?? [])
 
 		updateVisability()
 	}

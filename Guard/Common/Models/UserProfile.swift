@@ -20,7 +20,7 @@ struct UserProfile: Codable {
 	var averageRate: Double?
 	var role: String
 	var reviewList: [UserReview]?
-	var issueTypes: [IssueType]?
+	var subIssueTypes: [IssueType]?
 	var issueCodes: [Int]?
 	var fullName: String {
 		return "\(firstName ?? "") \(lastName ?? "")"

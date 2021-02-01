@@ -134,14 +134,25 @@ extension SocketStompService: SwiftStompDelegate {
 						   destination: String,
 						   headers: [String : String]) {
 		if let message = message as? String {
+			#if DEBUG
 			print("Message with id `\(messageId)` received at destination `\(destination)`:\n\(message)")
-			di.notificationService.showLocalNotification(with: messageId,
-														 message: message)
+			#endif
+
+			guard
+				let messageDict = convertStringToDictionary(text: message),
+				let senderName = messageDict[Constants.ChatMessageKeys.senderName] as? String,
+				let content = messageDict[Constants.ChatMessageKeys.content] as? String else { return }
+
+			di.notificationService.showLocalNotification(with: senderName,
+														 message: content)
 			incomingMessageSubject.onNext(())
 		} else if let message = message as? Data {
 			print("Data message with id `\(messageId)` and binary length `\(message.count)` received at destination `\(destination)`")
-			di.notificationService.showLocalNotification(with: messageId,
-														 message: "data received")
+			guard
+				let messageDict = convertDataToDictionary(data: message),
+				let senderName = messageDict[Constants.ChatMessageKeys.senderName] as? String else { return }
+			di.notificationService.showLocalNotification(with: senderName,
+														 message: "Файл")
 		}
 	}
 
@@ -166,5 +177,24 @@ extension SocketStompService: SwiftStompDelegate {
 
 	func onSocketEvent(eventName: String, description: String) {
 		print("Socket event occured: \(eventName) => \(description)")
+	}
+
+	private func convertStringToDictionary(text: String) -> [String: Any]? {
+		if let data = text.data(using: .utf8) {
+			do {
+				return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+			} catch {
+				print(error.localizedDescription)
+			}
+		}
+		return nil
+	}
+
+	private func convertDataToDictionary(data: Data) -> [String: Any]? {
+		do {
+			return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+		} catch {
+			return nil
+		}
 	}
 }

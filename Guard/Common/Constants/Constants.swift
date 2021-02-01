@@ -21,4 +21,8 @@ enum Constants {
 		static let logout = "profile_logout"
 		static let updateMessages = "update_messages"
 	}
+	enum ChatMessageKeys {
+		static let senderName = "senderName"
+		static let content = "content"
+	}
 }

@@ -46,7 +46,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 
 	func viewDidSet() {
 		currentCities = di.localStorageService.getCurrenClientProfile()?.cityCode ?? []
-		currentIssueCodes = userProfile.issueCodes ?? [] //[123, 321]
+		currentIssueCodes = userProfile.issueCodes ?? []
 		// back button
 		view.backButton.setImage(#imageLiteral(resourceName: "icn_back_arrow"), for: .normal)
 		view.backButton.rx
@@ -230,19 +230,19 @@ final class EditLawyerProfileViewModel: ViewModel {
 		editLawyerSubject = PublishSubject<UserProfile>()
 		editLawyerSubject?
 			.asObservable()
-//			.filter { _ in
-//				// check if all edit views removed
-//				let issueViewsArray = self.view.issuesContainerView.subviews.compactMap { $0 as? EditIssueView }
-//				if issueViewsArray.isEmpty {
-//					self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
-//												   message: "edit_lawyer.empty_issues.title".localized,
-//												   okButtonTitle: "alert.yes".localized.uppercased()) { _ in }
-//					self.view.loadingView.stopAnimating()
-//					return false
-//				} else {
-//					return true
-//				}
-//			}
+			.filter { _ in
+				// check if all edit views removed
+				let issueViewsArray = self.view.issuesContainerView.subviews.compactMap { $0 as? EditIssueView }
+				if issueViewsArray.isEmpty {
+					self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
+												   message: "edit_lawyer.empty_issues.title".localized,
+												   okButtonTitle: "alert.yes".localized.uppercased()) { _ in }
+					self.view.loadingView.stopAnimating()
+					return false
+				} else {
+					return true
+				}
+			}
 			.flatMap { [unowned self] profile in
 				self.di.lawyersNetworkService.editLawyer(profile: profile,
 														 email: view.emailTextField.text ?? "",
@@ -283,9 +283,8 @@ final class EditLawyerProfileViewModel: ViewModel {
 			.asObservable()
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] issueType in
-				if let subIssueCode = issueType.subIssueCode,
-				   !(self?.currentIssueCodes.contains(subIssueCode) ?? false) {
-					self?.currentIssueCodes.append(subIssueCode)
+				if !(self?.currentIssueCodes.contains(issueType.subIssueCode ?? 0) ?? false) {
+					self?.currentIssueCodes.append(issueType.subIssueCode ?? 0)
 				}
 				print(issueType)
 				self?.view.navController?.viewControllers.forEach {

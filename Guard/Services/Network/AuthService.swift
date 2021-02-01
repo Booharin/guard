@@ -75,7 +75,7 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 							self.di.keyChainService.save(user.phoneNumber ?? "", for: Constants.KeyChainKeys.phoneNumber)
 
 							// MARK: - Save issue codes
-							user.issueCodes = user.issueTypes?.map { $0.issueCode }
+							user.issueCodes = user.subIssueTypes?.compactMap { $0.subIssueCode }
 
 							self.di.localStorageService.saveProfile(user)
 							if let reviews = user.reviewList {
