@@ -66,7 +66,11 @@ class AppealsListViewController<modelType: AppealsListViewModel>:
 		self.navigationItem.setHidesBackButton(true, animated:false)
 
 		loadingView.startAnimating()
-		viewModel.appealsListSubject?.onNext(())
+		if viewModel.selectedIssues.isEmpty {
+			viewModel.appealsListSubject?.onNext(())
+		} else {
+			viewModel.updateWithSelectedIssues()
+		}
 	}
 
 	func setNavigationBar() {

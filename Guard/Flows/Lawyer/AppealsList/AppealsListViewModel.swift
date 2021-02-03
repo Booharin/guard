@@ -33,7 +33,7 @@ final class AppealsListViewModel:
 	private let disposeBag = DisposeBag()
 	var appealsListSubject: PublishSubject<Any>?
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ClientAppeal>]>?
-	private var selectedIssues = [Int]()
+	var selectedIssues = [Int]()
 	private var currentCityTitle = ""
 
 	init(router: AppealsListRouterProtocol) {
@@ -158,6 +158,10 @@ final class AppealsListViewModel:
 		} else {
 			self.view.tableView.isScrollEnabled = true
 		}
+	}
+
+	func updateWithSelectedIssues() {
+		di.filterViewService.selectedIssuesSubject.onNext(selectedIssues)
 	}
 
 	func removeBindings() {}

@@ -64,6 +64,13 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 		
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
+
+		loadingView.startAnimating()
+		if viewModel.selectedIssues.isEmpty {
+			viewModel.lawyersListSubject?.onNext(())
+		} else {
+			viewModel.updateWithSelectedIssues()
+		}
 	}
 
 	func setNavigationBar() {

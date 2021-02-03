@@ -10,13 +10,22 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-struct ConversationCellViewModel: ViewModel {
+final class ConversationCellViewModel:
+	ViewModel,
+	HasDependencies {
+
 	var view: ConversationCellProtocol!
-	private var disposeBag = DisposeBag()
 	let animateDuration = 0.15
 	let chatConversation: ChatConversation
+
+	typealias Dependencies = HasClientNetworkService
+	lazy var di: Dependencies = DI.dependencies
+
 	let toChat: PublishSubject<ChatConversation>
+	private let lawyerImageSubject = PublishSubject<Any>()
 	let tapSubject = PublishSubject<Any>()
+
+	private let disposeBag = DisposeBag()
 
 	init(chatConversation: ChatConversation, toChat: PublishSubject<ChatConversation>) {
 		self.chatConversation = chatConversation
@@ -39,7 +48,10 @@ struct ConversationCellViewModel: ViewModel {
 				self.toChat.onNext(self.chatConversation)
 			}).disposed(by: disposeBag)
 
-		view.avatarImageView.image = #imageLiteral(resourceName: "tab_profile_icn")
+		view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn").withRenderingMode(.alwaysTemplate)
+		view.avatarImageView.tintColor = Colors.lightGreyColor
+		view.avatarImageView.layer.cornerRadius = 21
+		view.avatarImageView.clipsToBounds = true
 
 		view.nameTitleLabel.text = chatConversation.fullName
 		view.nameTitleLabel.font = SFUIDisplay.regular.of(size: 16)
@@ -56,6 +68,22 @@ struct ConversationCellViewModel: ViewModel {
 		view.timeLabel.font = SFUIDisplay.light.of(size: 10)
 		view.timeLabel.textColor = Colors.mainTextColor
 		view.timeLabel.text = Date.getCorrectDate(from: chatConversation.dateCreated, format: "HH:mm")
+
+		lawyerImageSubject
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.clientNetworkService.getPhoto(profileId: chatConversation.userId)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				switch result {
+					case .success(let data):
+						self?.view.avatarImageView.image = UIImage(data: data)
+					case .failure(let error):
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+		lawyerImageSubject.onNext(())
 	}
 	func removeBindings() {}
 }

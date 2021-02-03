@@ -15,9 +15,9 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	var view: LawyersListViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
-	private var lawyersListSubject: PublishSubject<Any>?
+	var lawyersListSubject: PublishSubject<Any>?
 	private var router: LawyerListRouterProtocol
-	private var selectedIssues = [Int]()
+	var selectedIssues = [Int]()
 	private var currentCity: CityModel?
 
 	private var cities: [String] {
@@ -155,9 +155,6 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 						print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
-
-		view.loadingView.startAnimating()
-		lawyersListSubject?.onNext(())
 	}
 
 	private func update(with lawyers: [UserProfile]) {
@@ -171,6 +168,10 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		} else {
 			self.view.tableView.isScrollEnabled = true
 		}
+	}
+
+	func updateWithSelectedIssues() {
+		di.filterViewService.selectedIssuesSubject.onNext(selectedIssues)
 	}
 
 	func removeBindings() {}

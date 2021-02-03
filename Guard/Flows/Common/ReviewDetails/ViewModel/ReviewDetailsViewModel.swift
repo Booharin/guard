@@ -17,13 +17,11 @@ final class ReviewDetailsViewModel: ViewModel, HasDependencies {
 	private var review: UserReview?
 	private var senderId: Int?
 	private var receiverId: Int?
-
-	private let profileSubject = PublishSubject<Any>()
+	private var senderName: String?
 
 	typealias Dependencies =
 		HasLocalStorageService &
 		HasAppealsNetworkService &
-		HasLawyersNetworkService &
 		HasClientNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
@@ -31,6 +29,7 @@ final class ReviewDetailsViewModel: ViewModel, HasDependencies {
 		self.review = reviewDetails.review
 		self.senderId = reviewDetails.senderId
 		self.receiverId = reviewDetails.receiverId
+		self.senderName = reviewDetails.senderName
 	}
 
 	func viewDidSet() {
@@ -94,27 +93,9 @@ final class ReviewDetailsViewModel: ViewModel, HasDependencies {
 			view.descriptionTextView.font = SFUIDisplay.regular.of(size: 16)
 		}
 
-		profileSubject
-			.asObservable()
-			.do(onNext: { [unowned self] _ in
-				self.view.loadingView.startAnimating()
-			})
-			.flatMap { [unowned self] _ in
-				self.di.lawyersNetworkService.getLawyer(by: review?.senderId ?? 0)
-			}
-			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
-				switch result {
-				case .success(let profile):
-					self?.view.reviewerName.isHidden = false
-					self?.view.reviewerName.text = profile.firstName
-				case .failure(let error):
-					//TODO: - обработать ошибку
-					print(error.localizedDescription)
-				}
-			}).disposed(by: disposeBag)
 		if review != nil {
-			profileSubject.onNext(())
+			view.reviewerName.isHidden = false
+			view.reviewerName.text = senderName
 		}
 
 		// send button

@@ -10,13 +10,22 @@ import RxSwift
 import RxCocoa
 import UIKit
 
-struct LawyerCellViewModel: ViewModel {
+final class LawyerCellViewModel:
+	ViewModel,
+	HasDependencies {
+
+	typealias Dependencies = HasClientNetworkService
+	lazy var di: Dependencies = DI.dependencies
+
 	var view: LawyerCellProtocol!
-	private var disposeBag = DisposeBag()
+
 	var toLawyerSubject: PublishSubject<UserProfile>?
+	private let lawyerImageSubject = PublishSubject<Any>()
 	let tapSubject = PublishSubject<Any>()
+
 	let animateDuration = 0.15
 	let lawyer: UserProfile
+	private var disposeBag = DisposeBag()
 
 	init(toLawyerSubject: PublishSubject<UserProfile>?,
 		 lawyer: UserProfile) {
@@ -42,6 +51,8 @@ struct LawyerCellViewModel: ViewModel {
 
 		view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn").withRenderingMode(.alwaysTemplate)
 		view.avatarImageView.tintColor = Colors.lightGreyColor
+		view.avatarImageView.layer.cornerRadius = 21
+		view.avatarImageView.clipsToBounds = true
 
 		view.nameTitle.text = lawyer.fullName
 		view.nameTitle.font = SFUIDisplay.regular.of(size: 16)
@@ -51,6 +62,22 @@ struct LawyerCellViewModel: ViewModel {
 		view.rateLabel.textColor = Colors.mainTextColor
 		guard let rate = lawyer.averageRate else { return }
 		view.rateLabel.text = "\(String(format: "%.1f", rate))"
+
+		lawyerImageSubject
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.clientNetworkService.getPhoto(profileId: lawyer.id)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				switch result {
+					case .success(let data):
+						self?.view.avatarImageView.image = UIImage(data: data)
+					case .failure(let error):
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+		lawyerImageSubject.onNext(())
 	}
 
 	func removeBindings() {}
