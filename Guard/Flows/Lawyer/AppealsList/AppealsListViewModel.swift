@@ -145,6 +145,9 @@ final class AppealsListViewModel:
 						print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
+
+		view.loadingView.startAnimating()
+		appealsListSubject?.onNext(())
 	}
 
 	private func update(with appeals: [ClientAppeal]) {
@@ -158,10 +161,6 @@ final class AppealsListViewModel:
 		} else {
 			self.view.tableView.isScrollEnabled = true
 		}
-	}
-
-	func updateWithSelectedIssues() {
-		di.filterViewService.selectedIssuesSubject.onNext(selectedIssues)
 	}
 
 	func removeBindings() {}

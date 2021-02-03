@@ -25,11 +25,14 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 	private var issueTitle: String?
 	private var clientProfile: UserProfile?
 	private let isFromChat: Bool
+	private let router: AppealFromListRouterProtocol
 
 	init(appeal: ClientAppeal,
-		 isFromChat: Bool = false) {
+		 isFromChat: Bool = false,
+		 router: AppealFromListRouterProtocol) {
 		self.appeal = appeal
 		self.isFromChat = isFromChat
+		self.router = router
 	}
 
 	func viewDidSet() {
@@ -108,9 +111,9 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 					})
 				})
 				guard let profile = self.clientProfile else { return }
-				let controller = ClientFromAppealModuleFactory.createModule(clientProfile: profile,
-																			navController: self.view.navController)
-				self.view.navController?.pushViewController(controller, animated: true)
+
+				self.router.passageToClientProfile(profile: profile)
+
 			}).disposed(by: disposeBag)
 
 		view.profileNameLabel.font = SFUIDisplay.regular.of(size: 15)

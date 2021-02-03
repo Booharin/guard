@@ -17,7 +17,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	private var disposeBag = DisposeBag()
 	var lawyersListSubject: PublishSubject<Any>?
 	private var router: LawyerListRouterProtocol
-	var selectedIssues = [Int]()
+	private var selectedIssues = [Int]()
 	private var currentCity: CityModel?
 
 	private var cities: [String] {
@@ -134,9 +134,6 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 				}
 			}
 		}
-//		if view.titleLabel.text?.isEmpty ?? true {
-//			view.titleLabel.text = cities.first ?? "Москва"
-//		}
 
 		lawyersListSubject = PublishSubject<Any>()
 		lawyersListSubject?
@@ -155,6 +152,9 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 						print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
+		
+		view.loadingView.startAnimating()
+		lawyersListSubject?.onNext(())
 	}
 
 	private func update(with lawyers: [UserProfile]) {
@@ -168,10 +168,6 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		} else {
 			self.view.tableView.isScrollEnabled = true
 		}
-	}
-
-	func updateWithSelectedIssues() {
-		di.filterViewService.selectedIssuesSubject.onNext(selectedIssues)
 	}
 
 	func removeBindings() {}

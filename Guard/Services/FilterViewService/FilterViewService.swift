@@ -78,10 +78,7 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 					self.currentOffset + translation.y > 120,
 					self.currentOffset + translation.y < 300 else { return }
 
-				self.currentOffset += translation.y 
-//				filterView.snp.updateConstraints {
-//					$0.bottom.equalTo(window.snp.bottom).offset(self.currentOffset)
-//				}
+				self.currentOffset += translation.y
 				UIView.animate(withDuration: 0.3) {
 					self.filterView?.frame.origin.y = self.currentOffset
 				}
@@ -93,7 +90,7 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 			.when(.ended)
 			.asTranslation()
 			.subscribe(onNext: { [weak self] translation, velocity in
-				print("Translation=\(translation), velocity=\(velocity)")
+				//print("Translation=\(translation), velocity=\(velocity)")
 				guard
 					translation.y > 100,
 					let self = self else { return }
@@ -221,8 +218,6 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 			.compactMap { $0.subIssueTypeList }
 			.reduce([], +)
 			.forEach { issueType in
-				print(issueType.title)
-				print(issueType.subIssueCode)
 				let label = IssueLabel(labelColor: Colors.issueLabelColor,
 									   subIssueCode: issueType.subIssueCode ?? 0,
 									   isSelectable: true)
