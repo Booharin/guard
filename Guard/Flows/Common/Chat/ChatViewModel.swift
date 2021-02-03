@@ -21,7 +21,8 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		HasNotificationService &
 		HasSocketStompService &
 		HasLocalStorageService &
-		HasChatNetworkService
+		HasChatNetworkService &
+		HasAppealsNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
 	var messagesListSubject: PublishSubject<Any>?
@@ -33,6 +34,18 @@ final class ChatViewModel: ViewModel, HasDependencies {
 	var imageForSending: Data?
 	private var currentProfile: UserProfile? {
 		di.localStorageService.getCurrenClientProfile()
+	}
+
+	var clientIdForGettingAppeal: Int? {
+		if let role = currentProfile?.userRole {
+			if role == .lawyer {
+				return chatConversation.userId
+			} else {
+				return currentProfile?.id
+			}
+		} else {
+			return nil
+		}
 	}
 
 	init(chatConversation: ChatConversation) {
@@ -82,10 +95,32 @@ final class ChatViewModel: ViewModel, HasDependencies {
 					})
 				})
 			})
-			.subscribe(onNext: { [weak self] _ in
-				if let appealId = self?.chatConversation.appealId {
-					print(appealId)
-				}
+			// TODO: - Add receiving appeal by id
+			
+//			.filter { _ in
+//				if self.chatConversation.appealId == nil {
+//					return false
+//				} else {
+//					return true
+//				}
+//			}
+//			.flatMap { [unowned self] _ in
+//				self.di.appealsNetworkService.getClientAppeals(by: self.clientIdForGettingAppeal ?? 0)
+//			}
+			.subscribe(onNext: { [weak self] result in
+//				self?.view.loadingView.stopAnimating()
+//				switch result {
+//					case .success(let appeals):
+//						let clientAppeals = appeals.filter { $0.id == self?.chatConversation.appealId }
+//						if !clientAppeals.isEmpty,
+//						   let appeal = clientAppeals.first {
+//							let toAppealCreatingController = AppealFromListViewController(viewModel: AppealFromListViewModel(appeal: appeal, isFromChat: true))
+//							self?.view.navController?.pushViewController(toAppealCreatingController, animated: true)
+//						}
+//					case .failure(let error):
+//						//TODO: - обработать ошибку
+//						print(error.localizedDescription)
+//				}
 			}).disposed(by: disposeBag)
 
 		// title

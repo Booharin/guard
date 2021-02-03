@@ -153,6 +153,7 @@ final class AppealViewModel: ViewModel, HasDependencies {
 				switch result {
 				case .success:
 					self?.isEditingSubject.onNext(false)
+					self?.view.navController?.popViewController(animated: true)
 				case .failure(let error):
 					//TODO: - обработать ошибку
 					print(error.localizedDescription)

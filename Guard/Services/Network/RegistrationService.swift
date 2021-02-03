@@ -51,36 +51,6 @@ final class RegistrationService: RegistrationServiceInterface, HasDependencies {
 						self.di.keyChainService.save(email, for: Constants.KeyChainKeys.email)
 						self.di.keyChainService.save(password, for: Constants.KeyChainKeys.password)
 						observer.onNext(.success(()))
-//						guard let data = response.data else {
-//							observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
-//							return
-//						}
-//						do {
-//							let authResponce = try JSONDecoder().decode(AuthResponse.self, from: data)
-//							guard
-//								let token = authResponce.token,
-//								let user = authResponce.user else {
-//								observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
-//									return
-//							}
-//							#if DEBUG
-//							print(token)
-//							#endif
-//
-//							self.di.keyChainService.save(token, for: Constants.KeyChainKeys.token)
-//							self.di.keyChainService.save(email, for: Constants.KeyChainKeys.email)
-//							self.di.keyChainService.save(password, for: Constants.KeyChainKeys.password)
-//							self.di.keyChainService.save(user.phoneNumber ?? "", for: Constants.KeyChainKeys.phoneNumber)
-//							self.di.localStorageService.saveProfile(user)
-//
-//							observer.onNext(.success(user.userRole))
-//							observer.onCompleted()
-//						} catch {
-//							#if DEBUG
-//							print(error)
-//							#endif
-//							observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
-//						}
 					case .failure:
 						observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
 					}

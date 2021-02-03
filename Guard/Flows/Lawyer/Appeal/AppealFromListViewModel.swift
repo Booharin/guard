@@ -24,9 +24,12 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 	lazy var di: Dependencies = DI.dependencies
 	private var issueTitle: String?
 	private var clientProfile: UserProfile?
+	private let isFromChat: Bool
 
-	init(appeal: ClientAppeal) {
+	init(appeal: ClientAppeal,
+		 isFromChat: Bool = false) {
 		self.appeal = appeal
+		self.isFromChat = isFromChat
 	}
 
 	func viewDidSet() {
@@ -163,7 +166,8 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 				self?.view.loadingView.stopAnimating()
 				switch result {
 				case .success(let settings):
-					if settings.isChatEnabled == true {
+					if settings.isChatEnabled == true,
+					   self?.isFromChat == false {
 						self?.view.chatButton.isHidden = false
 					}
 					self?.clientProfile?.settings = settings

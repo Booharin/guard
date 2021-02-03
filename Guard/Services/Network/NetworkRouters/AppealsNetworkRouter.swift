@@ -29,7 +29,7 @@ struct AppealsNetworkRouter {
 	func createAppeal(title: String,
 					  appealDescription: String,
 					  clientId: Int,
-					  issueCode: Int,
+					  subIssueCode: Int,
 					  cityCode: Int,
 					  token: String?) -> URLRequestConvertible {
 		do {
@@ -37,14 +37,14 @@ struct AppealsNetworkRouter {
 									title: title,
 									appealDescription: appealDescription,
 									clientId: clientId,
-									issueCode: issueCode,
+									subIssueCode: subIssueCode,
 									cityCode: cityCode).asJSONURLRequest(with: token)
 		} catch {
 			return CreateAppeal(environment: environment,
 								title: title,
 								appealDescription: appealDescription,
 								clientId: clientId,
-								issueCode: issueCode,
+								subIssueCode: subIssueCode,
 								cityCode: cityCode)
 		}
 	}
@@ -61,7 +61,7 @@ struct AppealsNetworkRouter {
 								  appealDescription: appealDescription,
 								  date: appeal.dateCreated,
 								  clientId: appeal.clientId,
-								  issueCode: appeal.subIssueCode,
+								  subIssueCode: appeal.subIssueCode,
 								  cityCode: cityCode).asJSONURLRequest(with: token)
 		} catch {
 			return EditAppeal(environment: environment,
@@ -70,7 +70,7 @@ struct AppealsNetworkRouter {
 							  appealDescription: appealDescription,
 							  date: appeal.dateCreated,
 							  clientId: appeal.clientId,
-							  issueCode: appeal.subIssueCode,
+							  subIssueCode: appeal.subIssueCode,
 							  cityCode: cityCode)
 		}
 	}
@@ -158,20 +158,20 @@ extension AppealsNetworkRouter {
 		let title: String
 		let appealDescription: String
 		let clientId: Int
-		let issueCode: Int
+		let subIssueCode: Int
 		let cityCode: Int
 
 		init(environment: Environment,
 			 title: String,
 			 appealDescription: String,
 			 clientId: Int,
-			 issueCode: Int,
+			 subIssueCode: Int,
 			 cityCode: Int) {
 			self.environment = environment
 			self.title = title
 			self.appealDescription = appealDescription
 			self.clientId = clientId
-			self.issueCode = issueCode
+			self.subIssueCode = subIssueCode
 			self.cityCode = cityCode
 		}
 
@@ -187,7 +187,7 @@ extension AppealsNetworkRouter {
 				"appealDescription": appealDescription,
 				"dateCreated": Date.getCurrentDate(),
 				"clientId": clientId,
-				"issueCode": issueCode,
+				"subIssueCode": subIssueCode,
 				"cityCode": cityCode,
 				"isLawyerChoosed": false
 			]
@@ -202,7 +202,7 @@ extension AppealsNetworkRouter {
 		let appealDescription: String
 		let date: String
 		let clientId: Int
-		let issueCode: Int
+		let subIssueCode: Int
 		let cityCode: Int
 
 		init(environment: Environment,
@@ -211,7 +211,7 @@ extension AppealsNetworkRouter {
 			 appealDescription: String,
 			 date: String,
 			 clientId: Int,
-			 issueCode: Int,
+			 subIssueCode: Int,
 			 cityCode: Int) {
 			self.environment = environment
 			self.id = id
@@ -219,7 +219,7 @@ extension AppealsNetworkRouter {
 			self.appealDescription = appealDescription
 			self.date = date
 			self.clientId = clientId
-			self.issueCode = issueCode
+			self.subIssueCode = subIssueCode
 			self.cityCode = cityCode
 		}
 
@@ -236,7 +236,7 @@ extension AppealsNetworkRouter {
 				"appealDescription": appealDescription,
 				"dateCreated": date,
 				"clientId": clientId,
-				"issueCode": issueCode,
+				"subIssueCode": subIssueCode,
 				"cityCode": cityCode,
 				"isLawyerChoosed": false
 			]

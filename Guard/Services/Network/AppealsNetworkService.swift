@@ -19,7 +19,7 @@ protocol AppealsNetworkServiceInterface {
 	func createAppeal(title: String,
 					  appealDescription: String,
 					  clientId: Int,
-					  issueCode: Int,
+					  subIssueCode: Int,
 					  cityCode: Int) -> Observable<Result<Any, AFError>>
 	func editAppeal(title: String,
 					appealDescription: String,
@@ -93,14 +93,14 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 	func createAppeal(title: String,
 					  appealDescription: String,
 					  clientId: Int,
-					  issueCode: Int,
+					  subIssueCode: Int,
 					  cityCode: Int) -> Observable<Result<Any, AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.createAppeal(title: title,
 										 appealDescription: appealDescription,
 										 clientId: clientId,
-										 issueCode: issueCode,
+										 subIssueCode: subIssueCode,
 										 cityCode: cityCode,
 										 token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
 			)

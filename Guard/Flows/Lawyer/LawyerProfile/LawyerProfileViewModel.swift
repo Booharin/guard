@@ -187,7 +187,7 @@ final class LawyerProfileViewModel:
 		view.phoneLabel.text = self.di.keyChainService.getValue(for: Constants.KeyChainKeys.phoneNumber)
 
 		//MARK: - Update containerView with issues
-		updateIssuesContainerView(with: lawyerProfile?.issueCodes ?? [])
+		updateIssuesContainerView(with: lawyerProfile?.subIssueCodes ?? [])
 
 		updateVisability()
 	}

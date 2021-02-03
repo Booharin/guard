@@ -34,8 +34,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 		HasClientNetworkService &
 		HasLocalStorageService &
 		HasCommonDataNetworkService &
-		HasLawyersNetworkService &
-		HasAlertService
+		HasLawyersNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
 	init(userProfile: UserProfile,
@@ -46,7 +45,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 
 	func viewDidSet() {
 		currentCities = di.localStorageService.getCurrenClientProfile()?.cityCode ?? []
-		currentIssueCodes = userProfile.issueCodes ?? []
+		currentIssueCodes = userProfile.subIssueCodes ?? []
 		// back button
 		view.backButton.setImage(#imageLiteral(resourceName: "icn_back_arrow"), for: .normal)
 		view.backButton.rx
@@ -92,7 +91,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 						userProfile.cityCode = currentCities
 
 						// set issue codes
-						userProfile.issueCodes = currentIssueCodes
+						userProfile.subIssueCodes = currentIssueCodes
 
 						self.editLawyerSubject?.onNext(userProfile)
 					}
@@ -234,10 +233,12 @@ final class EditLawyerProfileViewModel: ViewModel {
 				// check if all edit views removed
 				let issueViewsArray = self.view.issuesContainerView.subviews.compactMap { $0 as? EditIssueView }
 				if issueViewsArray.isEmpty {
-					self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
-												   message: "edit_lawyer.empty_issues.title".localized,
-												   okButtonTitle: "alert.yes".localized.uppercased()) { _ in }
-					self.view.loadingView.stopAnimating()
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+						self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
+													   message: "edit_lawyer.empty_issues.title".localized,
+													   okButtonTitle: "alert.yes".localized.uppercased()) { _ in }
+						self.view.loadingView.stopAnimating()
+					}
 					return false
 				} else {
 					return true
@@ -251,8 +252,17 @@ final class EditLawyerProfileViewModel: ViewModel {
 			.filter { result in
 				switch result {
 				case .success:
-					return true
+					self.saveProfile()
+					// check is photo edited
+					if self.editImageData == nil {
+						self.view.loadingView.stopAnimating()
+						self.view.navController?.popViewController(animated: true)
+						return false
+					} else {
+						return true
+					}
 				default:
+					self.view.loadingView.stopAnimating()
 					return false
 				}
 			}
@@ -265,13 +275,6 @@ final class EditLawyerProfileViewModel: ViewModel {
 				self?.view.loadingView.stopAnimating()
 				switch result {
 				case .success:
-					if let profile = self?.userProfile {
-						self?.di.localStorageService.saveProfile(profile)
-					}
-					self?.di.keyChainService.save(self?.view.emailTextField.text ?? "",
-												  for: Constants.KeyChainKeys.email)
-					self?.di.keyChainService.save(self?.view.phoneTextField.text ?? "",
-												  for: Constants.KeyChainKeys.phoneNumber)
 					self?.view.navController?.popViewController(animated: true)
 				case .failure(let error):
 					//TODO: - обработать ошибку
@@ -293,6 +296,15 @@ final class EditLawyerProfileViewModel: ViewModel {
 					}
 				}
 			}).disposed(by: disposeBag)
+	}
+
+	// MARK: - Save profile
+	private func saveProfile() {
+		di.localStorageService.saveProfile(userProfile)
+		di.keyChainService.save(view.emailTextField.text ?? "",
+								for: Constants.KeyChainKeys.email)
+		di.keyChainService.save(view.phoneTextField.text ?? "",
+								for: Constants.KeyChainKeys.phoneNumber)
 	}
 
 	private func updateIssuesContainerView(with issues: [Int]) {
@@ -421,7 +433,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 				
 			}
 
-		//MARK: - Add Issue button if only one line with issues
+		// MARK: - Add Issue button if only one line with issues
 		if addIssueButton == nil,
 		   let firstEditView = currentEditIssueViews.first,
 		   let lastEditView = currentEditIssueViews.last {
@@ -439,6 +451,21 @@ final class EditLawyerProfileViewModel: ViewModel {
 				$0.height.equalTo(23)
 				$0.leading.equalTo(lastEditView.snp.trailing).offset(10)
 				$0.centerY.equalTo(lastEditView.snp.centerY)
+			}
+
+			subscribeAddButton()
+		}
+
+		// MARK: - Add Issue button if no issues here
+		if addIssueButton == nil,
+		   currentEditIssueViews.isEmpty {
+			addIssueButton = AddIssueButton()
+			guard let addIssueButton = addIssueButton else { return }
+			view.scrollView.addSubview(addIssueButton)
+			addIssueButton.snp.makeConstraints {
+				$0.width.equalTo(26)
+				$0.height.equalTo(23)
+				$0.center.equalTo(view.issuesContainerView.snp.center)
 			}
 
 			subscribeAddButton()
@@ -467,7 +494,8 @@ final class EditLawyerProfileViewModel: ViewModel {
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.router.passToSelectIssue(selectIssueSubject: self.selectIssueSubject)
+				self.router.passToSelectIssue(selectIssueSubject: self.selectIssueSubject,
+											  lawyerFirstName: userProfile.firstName)
 			}).disposed(by: disposeBag)
 
 	}

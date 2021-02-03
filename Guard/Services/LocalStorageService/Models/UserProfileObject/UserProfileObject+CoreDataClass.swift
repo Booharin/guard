@@ -2,8 +2,8 @@
 //  UserProfileObject+CoreDataClass.swift
 //  Guard
 //
-//  Created by Alexandr Bukharin on 08.12.2020.
-//  Copyright © 2020 ds. All rights reserved.
+//  Created by Alexandr Bukharin on 02.02.2021.
+//  Copyright © 2021 ds. All rights reserved.
 //
 //
 

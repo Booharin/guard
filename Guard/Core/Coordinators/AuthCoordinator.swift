@@ -50,6 +50,7 @@ final class AuthCoordinator: BaseCoordinator {
 			})
 			.disposed(by: disposeBag)
 
+		// to auth
 		let viewModel = AuthViewModel(toMainSubject: toMainSubject,
 									  toChooseSubject: toChooseSubject,
 									  toForgotPasswordSubject: toForgotPasswordSubject)

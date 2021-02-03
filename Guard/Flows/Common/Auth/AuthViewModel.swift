@@ -210,34 +210,29 @@ final class AuthViewModel: ViewModel,
 			.disposed(by: disposeBag)
 
 		authenticateTapped()
-		
-//		let socketService = SocketService(environment: EnvironmentImp())
-//		socketService.connectSockets()
 
-		DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-//			self.di.socketStompService.subscribe(to: "1")
-//			self.di.socketStompService.sendMessage(with: "Greeting",
-//												   to: "1",
-//												   receiptId: "27",
-//												   headers: ["content-type": "application/json"])
-//			do {
-//				let params: [String: Any] = [
-//					"chatId": 1,
-//					"senderId": 25,
-//					"recipientId": 3 ,
-//					"senderName": "Danila",
-//					"recipientName": "cool_lawyer",
-//					"content": "hi_test"
-//				]
-//				let requestData = try JSONSerialization.data(withJSONObject: params,
-//															 options: JSONSerialization.WritingOptions())
-//				let message = String(data: requestData, encoding: String.Encoding.utf8) ?? ""
-//				self.di.socketService.sendMessage(message)
-//			} catch {
-//				print("Invalid message data")
-//			}
-		})
+		//isCodeBelongsToRCM(code: "3879820524405")
 	}
+	
+//	let minCodeLenght: Int = 11
+//
+//	let validSubstrings = ["54862199924", "54862199934", "54862199954",
+//						   "54862199964", "54862199994", "54862198884"]
+//
+//	func isCodeBelongsToRCM(code: String) -> Bool {
+//		guard code.count > minCodeLenght else { return false }
+//		let start = code.index(code.startIndex, offsetBy: 0)
+//		print(code[start])
+//		// 11 - длина валидной подстроки
+//		let end = code.index(code.startIndex, offsetBy: validSubstrings.first?.count ?? minCodeLenght)
+//		print(code[end])
+//		let range = start..<end
+//		let subStr = code[range]
+//		print(start)
+//		print(end)
+//		print(String(subStr))
+//		return validSubstrings.contains(String(subStr))
+	//}
 
 	// MARK: - Login flow
 	private func loginUser() {

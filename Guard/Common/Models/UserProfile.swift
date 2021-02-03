@@ -21,7 +21,7 @@ struct UserProfile: Codable {
 	var role: String
 	var reviewList: [UserReview]?
 	var subIssueTypes: [IssueType]?
-	var issueCodes: [Int]?
+	var subIssueCodes: [Int]?
 	var fullName: String {
 		return "\(firstName ?? "") \(lastName ?? "")"
 	}
@@ -41,6 +41,6 @@ struct UserProfile: Codable {
 		self.dateCreated = userProfileObject.dateCreated ?? ""
 		self.averageRate = userProfileObject.averageRate
 		self.role = userProfileObject.role ?? ""
-		self.issueCodes = userProfileObject.issueTypes
+		self.subIssueCodes = userProfileObject.subIssueCodes ?? []
 	}
 }

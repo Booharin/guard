@@ -10,15 +10,16 @@ import RxSwift
 
 protocol EditProfileRouterProtocol {
 	var view: EditLawyerProfileViewControllerProtocol? { get set }
-	func passToSelectIssue(selectIssueSubject: PublishSubject<IssueType>)
+	func passToSelectIssue(selectIssueSubject: PublishSubject<IssueType>, lawyerFirstName: String?)
 }
 
 final class EditProfileRouter: BaseRouter, EditProfileRouterProtocol {
 	weak var view: EditLawyerProfileViewControllerProtocol?
 
-	func passToSelectIssue(selectIssueSubject: PublishSubject<IssueType>) {
+	func passToSelectIssue(selectIssueSubject: PublishSubject<IssueType>, lawyerFirstName: String?) {
 		let controller = SelectIssueViewController(viewModel: SelectIssueViewModel(toMainSubject: selectIssueSubject,
-																				   userRole: .lawyer))
+																				   userRole: .lawyer,
+																				   lawyerFirstName: lawyerFirstName))
 		view?.navController?.pushViewController(controller, animated: true)
 	}
 }

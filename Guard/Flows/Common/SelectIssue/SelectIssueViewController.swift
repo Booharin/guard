@@ -33,15 +33,19 @@ final class SelectIssueViewController<modelType: SelectIssueViewModel>: UIViewCo
 	var viewModel: SelectIssueViewModel
 	private var gradientView: UIView?
 	private var issues: [String]?
-	
+
 	private var isToMain: Bool {
 		if viewModel.toMainSubject == nil {
 			return false
 		} else {
-			return true
+			if viewModel.lawyerFirstName == nil {
+				return true
+			} else {
+				return false
+			}
 		}
 	}
-	
+
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
@@ -64,13 +68,17 @@ final class SelectIssueViewController<modelType: SelectIssueViewModel>: UIViewCo
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated: false)
 		
-		if isToMain {
-			
-		} else {
+		if !isToMain {
 			let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
 			self.navigationItem.leftBarButtonItem = leftBarButtonItem
 			
 			self.navigationItem.titleView = titleView
+		}
+
+		// check if this controller with subcategories
+		if viewModel.issueTypes?.first?.subIssueTypeList == nil {
+			let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
+			self.navigationItem.leftBarButtonItem = leftBarButtonItem
 		}
 	}
 	

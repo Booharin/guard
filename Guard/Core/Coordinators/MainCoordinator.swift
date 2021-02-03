@@ -31,12 +31,6 @@ final class MainCoordinator: BaseCoordinator {
 	init(userRole: UserRole, issueType: IssueType? = nil) {
 		self.userRole = userRole
 		super.init()
-
-		NotificationCenter.default.addObserver(
-			self,
-			selector: #selector(toAuth),
-			name: NSNotification.Name(rawValue: Constants.NotificationKeys.logout),
-			object: nil)
 	}
 
 	override func start() {
@@ -118,7 +112,7 @@ final class MainCoordinator: BaseCoordinator {
 		]
 	}
 
-	@objc private func toAuth() {
+	private func toAuth() {
 		let coordinator = AuthCoordinator()
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)

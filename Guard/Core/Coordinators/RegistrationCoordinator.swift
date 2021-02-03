@@ -9,21 +9,34 @@
 import UIKit
 import RxSwift
 
-final class RegistrationCoordinator: BaseCoordinator {
-	
+final class RegistrationCoordinator:
+	BaseCoordinator,
+	HasDependencies {
+
+	typealias Dependencies =
+		HasKeyChainService &
+		HasLocalStorageService &
+		HasLawyersNetworkService &
+		HasKeyChainService
+	lazy var di: Dependencies = DI.dependencies
+
+	var userProfile: UserProfile?
+
+	private var lawyerEditSubject = PublishSubject<UserProfile>()
+
 	var rootController: NavigationController?
 	var onFinishFlow: (() -> Void)?
 	private let userRole: UserRole
 	private var disposeBag = DisposeBag()
-	
+
 	init(userRole: UserRole) {
 		self.userRole = userRole
 	}
-	
+
 	override func start() {
 		showRegistrationModule()
 	}
-	
+
 	private func showRegistrationModule() {
 		// to select issue
 		let toSelectIssueSubject = PublishSubject<Any>()
@@ -41,7 +54,7 @@ final class RegistrationCoordinator: BaseCoordinator {
 				self?.toAuth()
 			})
 			.disposed(by: disposeBag)
-		
+
 		let registrationViewModel = RegistrationViewModel(toSelectIssueSubject: toSelectIssueSubject,
 														  toAuthSubject: toAuthSubject,
 														  userRole: self.userRole)
@@ -50,7 +63,7 @@ final class RegistrationCoordinator: BaseCoordinator {
 		guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }
 		navVC.pushViewController(controller, animated: true)
 	}
-	
+
 	private func toMain(issueType: IssueType) {
 		let coordinator = MainCoordinator(userRole: userRole,
 										  issueType: issueType)
@@ -61,7 +74,7 @@ final class RegistrationCoordinator: BaseCoordinator {
 		addDependency(coordinator)
 		coordinator.start()
 	}
-	
+
 	private func toAuth() {
 		let coordinator = AuthCoordinator()
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
@@ -70,17 +83,45 @@ final class RegistrationCoordinator: BaseCoordinator {
 		addDependency(coordinator)
 		coordinator.start()
 	}
-	
+
 	private func toSelectIssue() {
 		// to main
 		let toMainSubject = PublishSubject<IssueType>()
 		toMainSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { issueType in
+
+				// save issue type for new lawyer
+				if var profile = self.userProfile,
+				   let subIssueCode = issueType.subIssueCode,
+				   profile.userRole == .lawyer {
+
+					profile.subIssueCodes = [subIssueCode]
+					profile.email = ""
+					profile.phoneNumber = ""
+					self.di.localStorageService.saveProfile(profile)
+					self.lawyerEditSubject.onNext(profile)
+				}
+
 				self.toMain(issueType: issueType)
 				self.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)
+
+		userProfile = di.localStorageService.getCurrenClientProfile()
+
+		lawyerEditSubject
+			.asObservable()
+			.flatMap { [unowned self] profile in
+				self.di.lawyersNetworkService
+					.editLawyer(profile: profile,
+								email: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.email) ?? "",
+								phone: "")
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { _ in
+
+			}).disposed(by: disposeBag)
 
 		let controller = SelectIssueViewController(viewModel: SelectIssueViewModel(toMainSubject: toMainSubject,
 																				   userRole: userRole))

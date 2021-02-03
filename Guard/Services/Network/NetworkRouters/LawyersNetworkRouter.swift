@@ -168,7 +168,7 @@ extension LawyersNetworkRouter {
 		var photo: String?
 		let cityCode: [Int]
 		let countryCode: [Int]
-		let issueCodes: [Int]
+		let subIssueCodes: [Int]
 
 		init(environment: Environment,
 			 lawyerProfile: UserProfile,
@@ -184,7 +184,7 @@ extension LawyersNetworkRouter {
 			self.photo = lawyerProfile.photo
 			self.cityCode = lawyerProfile.cityCode ?? []
 			self.countryCode = lawyerProfile.countryCode ?? []
-			self.issueCodes = lawyerProfile.issueCodes ?? []
+			self.subIssueCodes = lawyerProfile.subIssueCodes ?? []
 		}
 
 		var baseUrl: URL {
@@ -203,7 +203,7 @@ extension LawyersNetworkRouter {
 				"photo": photo,
 				"cityCode": cityCode,
 				"countryCode": countryCode,
-				"subIssueCodes": issueCodes
+				"subIssueCodes": subIssueCodes
 			]
 		}
 	}

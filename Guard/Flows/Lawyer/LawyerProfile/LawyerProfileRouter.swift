@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import Foundation
 
 protocol LawyerProfileRouterProtocol {
 	var toSettingsSubject: PublishSubject<Any> { get }

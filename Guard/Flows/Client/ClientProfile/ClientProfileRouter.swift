@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import Foundation
 
 protocol ClientProfileRouterProtocol {
 	var toSettingsSubject: PublishSubject<Any> { get }

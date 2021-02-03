@@ -106,8 +106,6 @@
 		525BFA74250A0723005393B1 /* Date+TimeStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525BFA73250A0723005393B1 /* Date+TimeStamp.swift */; };
 		52614F84257F6B5A0087962B /* LawyersNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52614F83257F6B5A0087962B /* LawyersNetworkService.swift */; };
 		52614F88257F6EFB0087962B /* LawyersNetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52614F87257F6EFB0087962B /* LawyersNetworkRouter.swift */; };
-		52614F96257FED6B0087962B /* UserProfileObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52614F94257FED6B0087962B /* UserProfileObject+CoreDataClass.swift */; };
-		52614F97257FED6B0087962B /* UserProfileObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52614F95257FED6B0087962B /* UserProfileObject+CoreDataProperties.swift */; };
 		526AC48325738D260041B571 /* UITextField+Autofill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AC48225738D260041B571 /* UITextField+Autofill.swift */; };
 		526DDD0725724C7600CF68F7 /* RegistrationNetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DDD0625724C7600CF68F7 /* RegistrationNetworkRouter.swift */; };
 		526DDD0925724DEB00CF68F7 /* RegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DDD0825724DEB00CF68F7 /* RegistrationService.swift */; };
@@ -116,6 +114,8 @@
 		52740F77250F40D1001D86FF /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52740F76250F40D1001D86FF /* ChatViewModel.swift */; };
 		52760C4A2501731C00080152 /* LawyersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52760C492501731C00080152 /* LawyersListViewController.swift */; };
 		52760C4C2501736600080152 /* LawyersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52760C4B2501736600080152 /* LawyersListViewModel.swift */; };
+		527867C525C9594F001CAA11 /* UserProfileObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527867C325C9594F001CAA11 /* UserProfileObject+CoreDataClass.swift */; };
+		527867C625C9594F001CAA11 /* UserProfileObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527867C425C9594F001CAA11 /* UserProfileObject+CoreDataProperties.swift */; };
 		527880D22508141800EB2B9B /* sf-ui-display-medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 527880D0250812B200EB2B9B /* sf-ui-display-medium.ttf */; };
 		527880D32508141B00EB2B9B /* sf-ui-display-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 527880D12508130700EB2B9B /* sf-ui-display-bold.ttf */; };
 		527A7F1D25B07E2800709947 /* ClientNetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527A7F1C25B07E2800709947 /* ClientNetworkRouter.swift */; };
@@ -365,8 +365,6 @@
 		525BFA73250A0723005393B1 /* Date+TimeStamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeStamp.swift"; sourceTree = "<group>"; };
 		52614F83257F6B5A0087962B /* LawyersNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersNetworkService.swift; sourceTree = "<group>"; };
 		52614F87257F6EFB0087962B /* LawyersNetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersNetworkRouter.swift; sourceTree = "<group>"; };
-		52614F94257FED6B0087962B /* UserProfileObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataClass.swift"; sourceTree = "<group>"; };
-		52614F95257FED6B0087962B /* UserProfileObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		526AC48225738D260041B571 /* UITextField+Autofill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Autofill.swift"; sourceTree = "<group>"; };
 		526DDD0625724C7600CF68F7 /* RegistrationNetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationNetworkRouter.swift; sourceTree = "<group>"; };
 		526DDD0825724DEB00CF68F7 /* RegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationService.swift; sourceTree = "<group>"; };
@@ -375,6 +373,8 @@
 		52740F76250F40D1001D86FF /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		52760C492501731C00080152 /* LawyersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListViewController.swift; sourceTree = "<group>"; };
 		52760C4B2501736600080152 /* LawyersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListViewModel.swift; sourceTree = "<group>"; };
+		527867C325C9594F001CAA11 /* UserProfileObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataClass.swift"; sourceTree = "<group>"; };
+		527867C425C9594F001CAA11 /* UserProfileObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		527880D0250812B200EB2B9B /* sf-ui-display-medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sf-ui-display-medium.ttf"; sourceTree = "<group>"; };
 		527880D12508130700EB2B9B /* sf-ui-display-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sf-ui-display-bold.ttf"; sourceTree = "<group>"; };
 		527A7F1C25B07E2800709947 /* ClientNetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientNetworkRouter.swift; sourceTree = "<group>"; };
@@ -995,13 +995,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5251AFA824A2821A00467E84 /* AuthViewController */ = {
+		5251AFA824A2821A00467E84 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
 				5251AFA924A2823200467E84 /* AuthViewController.swift */,
 				52EB81C424B9E820003285BC /* AuthViewModel.swift */,
 			);
-			path = AuthViewController;
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		5251AFAB24A2825000467E84 /* Common */ = {
@@ -1172,7 +1172,7 @@
 				5210399524C4D612004560FD /* SelectIssue */,
 				52483BAE24A279760003A56A /* Launch */,
 				52EB81BE24B9DD5B003285BC /* Registration */,
-				5251AFA824A2821A00467E84 /* AuthViewController */,
+				5251AFA824A2821A00467E84 /* Auth */,
 				5253753424B84D5700CC729C /* Choose */,
 				52212F8124FFDCE0003FA67E /* ForgotPassword */,
 				52B654B2251B3022003D2465 /* Settings */,
@@ -1253,8 +1253,8 @@
 		52A00F74256590670099D961 /* UserProfileObject */ = {
 			isa = PBXGroup;
 			children = (
-				52614F94257FED6B0087962B /* UserProfileObject+CoreDataClass.swift */,
-				52614F95257FED6B0087962B /* UserProfileObject+CoreDataProperties.swift */,
+				527867C325C9594F001CAA11 /* UserProfileObject+CoreDataClass.swift */,
+				527867C425C9594F001CAA11 /* UserProfileObject+CoreDataProperties.swift */,
 			);
 			path = UserProfileObject;
 			sourceTree = "<group>";
@@ -1557,6 +1557,7 @@
 				52483B8E24A2774E0003A56A /* Frameworks */,
 				52483B8F24A2774E0003A56A /* Resources */,
 				52B1EE4025A46A290088B8AF /* Embed Frameworks */,
+				527867C225C88D4B001CAA11 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1624,6 +1625,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		527867C225C88D4B001CAA11 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Differentiator.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/KeychainSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Reachability.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxBlocking.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxDataSources.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxGesture.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxRelay.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxTest.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Starscream.framework",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		52483B8D24A2774E0003A56A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1640,6 +1674,7 @@
 				52B2685E25110F3F00111864 /* ChatMessage.swift in Sources */,
 				52614F84257F6B5A0087962B /* LawyersNetworkService.swift in Sources */,
 				523C8CD52562705B006DECAB /* EnvironmentImp.swift in Sources */,
+				527867C625C9594F001CAA11 /* UserProfileObject+CoreDataProperties.swift in Sources */,
 				523AEAF9251E4F8E00F1E607 /* SwitcherCellViewModel.swift in Sources */,
 				52926BFA25C2A159008C671B /* ClientAppealObject+CoreDataClass.swift in Sources */,
 				52ADE3C8258FCFB600F0B067 /* CityObject+CoreDataProperties.swift in Sources */,
@@ -1670,7 +1705,6 @@
 				52926BFB25C2A159008C671B /* ClientAppealObject+CoreDataProperties.swift in Sources */,
 				522272C42504BF6C0029A4E2 /* FilterButtonView.swift in Sources */,
 				52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */,
-				52614F97257FED6B0087962B /* UserProfileObject+CoreDataProperties.swift in Sources */,
 				525BFA6B250A0279005393B1 /* ClientAppealDataSource.swift in Sources */,
 				5251AFB024A2829200467E84 /* Colors.swift in Sources */,
 				52FFF4A5250B85D100957356 /* ClientAppealsListRouter.swift in Sources */,
@@ -1719,7 +1753,6 @@
 				52A271C02508F9AC0050FB60 /* ClientAppealCellViewModel.swift in Sources */,
 				52C4DBD125C144B200CDC148 /* ReviewsListDataSource.swift in Sources */,
 				5210838825C1BF5700CFA016 /* LawyerFromListModuleFactory.swift in Sources */,
-				52614F96257FED6B0087962B /* UserProfileObject+CoreDataClass.swift in Sources */,
 				5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */,
 				52C4DBCC25C07BB800CDC148 /* ReviewsListViewModel.swift in Sources */,
 				52507E2D25861DFF00C8B213 /* CountryModel.swift in Sources */,
@@ -1780,6 +1813,7 @@
 				5210837F25C1882300CFA016 /* ReviewDetails.swift in Sources */,
 				523C8CDE2562728A006DECAB /* RequestRouter.swift in Sources */,
 				522272E42504C9470029A4E2 /* GuardDataModel.xcdatamodeld in Sources */,
+				527867C525C9594F001CAA11 /* UserProfileObject+CoreDataClass.swift in Sources */,
 				52EB81C024B9DD72003285BC /* RegistrationViewController.swift in Sources */,
 				523C8CD325626FF8006DECAB /* Environment.swift in Sources */,
 				523C8CE8256289E8006DECAB /* UserProfile.swift in Sources */,
@@ -1969,6 +2003,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;

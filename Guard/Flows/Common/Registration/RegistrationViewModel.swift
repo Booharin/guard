@@ -23,7 +23,11 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		HasAuthService &
 		HasKeyChainService
 	lazy var di: Dependencies = DI.dependencies
-	
+
+	private var lawyerProfile: UserProfile? {
+		return di.localStorageService.getCurrenClientProfile()
+	}
+
 	var logoTopOffset: CGFloat {
 		switch UIScreen.displayClass {
 		case .iPhone8, .iPhoneX:
@@ -121,7 +125,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
 		// TODO: - change when added city choosing
-		view.cityTextField.text = "Moscow"
+		view.cityTextField.text = "Москва"
 		view.cityTextField.isEnabled = false
 
 		// alert label
@@ -366,6 +370,10 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 					print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
+//			.subscribe(onNext: { [weak self] _ in
+//				self?.view.loadingView.stopAnimating()
+//				self?.toSelectIssueSubject?.onNext(())
+//			}).disposed(by: disposeBag)
 	}
 	
 	private func keyboardHeight() -> Observable<CGFloat> {

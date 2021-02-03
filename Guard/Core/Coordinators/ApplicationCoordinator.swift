@@ -15,6 +15,16 @@ final class ApplicationCoordinator: BaseCoordinator, HasDependencies {
 		HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
 	private var disposeBag = DisposeBag()
+	
+	override init() {
+		super.init()
+
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(toAuth),
+			name: NSNotification.Name(rawValue: Constants.NotificationKeys.logout),
+			object: nil)
+	}
 
 	override func start() {
 		getCommonData()
@@ -35,7 +45,7 @@ final class ApplicationCoordinator: BaseCoordinator, HasDependencies {
 		coordinator.start()
 	}
 
-	private func toAuth() {
+	@objc private func toAuth() {
 		let coordinator = AuthCoordinator()
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)
