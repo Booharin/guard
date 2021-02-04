@@ -2,7 +2,7 @@
 //  ClientAppealObject+CoreDataClass.swift
 //  Guard
 //
-//  Created by Alexandr Bukharin on 28.01.2021.
+//  Created by Alexandr Bukharin on 04.02.2021.
 //  Copyright © 2021 ds. All rights reserved.
 //
 //

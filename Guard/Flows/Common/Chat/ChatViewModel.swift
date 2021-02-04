@@ -17,6 +17,8 @@ final class ChatViewModel: ViewModel, HasDependencies {
 	private var disposeBag = DisposeBag()
 	private var chatConversation: ChatConversation
 	private var messages = [ChatMessage]()
+	private let router: ChatRouterProtocol
+
 	typealias Dependencies =
 		HasNotificationService &
 		HasSocketStompService &
@@ -36,20 +38,10 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		di.localStorageService.getCurrenClientProfile()
 	}
 
-	var clientIdForGettingAppeal: Int? {
-		if let role = currentProfile?.userRole {
-			if role == .lawyer {
-				return chatConversation.userId
-			} else {
-				return currentProfile?.id
-			}
-		} else {
-			return nil
-		}
-	}
-
-	init(chatConversation: ChatConversation) {
+	init(chatConversation: ChatConversation,
+		 router: ChatRouterProtocol) {
 		self.chatConversation = chatConversation
+		self.router = router
 	}
 
 	func viewDidSet() {
@@ -95,32 +87,25 @@ final class ChatViewModel: ViewModel, HasDependencies {
 					})
 				})
 			})
-			// TODO: - Add receiving appeal by id
-			
-//			.filter { _ in
-//				if self.chatConversation.appealId == nil {
-//					return false
-//				} else {
-//					return true
-//				}
-//			}
-//			.flatMap { [unowned self] _ in
-//				self.di.appealsNetworkService.getClientAppeals(by: self.clientIdForGettingAppeal ?? 0)
-//			}
+			.filter { _ in
+				if self.chatConversation.appealId == nil {
+					return false
+				} else {
+					return true
+				}
+			}
+			.flatMap { [unowned self] _ in
+				self.di.appealsNetworkService.getAppeal(by: self.chatConversation.appealId ?? 0)
+			}
 			.subscribe(onNext: { [weak self] result in
-//				self?.view.loadingView.stopAnimating()
-//				switch result {
-//					case .success(let appeals):
-//						let clientAppeals = appeals.filter { $0.id == self?.chatConversation.appealId }
-//						if !clientAppeals.isEmpty,
-//						   let appeal = clientAppeals.first {
-//							let toAppealCreatingController = AppealFromListViewController(viewModel: AppealFromListViewModel(appeal: appeal, isFromChat: true))
-//							self?.view.navController?.pushViewController(toAppealCreatingController, animated: true)
-//						}
-//					case .failure(let error):
-//						//TODO: - обработать ошибку
-//						print(error.localizedDescription)
-//				}
+				self?.view.loadingView.stopAnimating()
+				switch result {
+					case .success(let appeal):
+						self?.router.passageToAppealDescription(appeal: appeal)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
 			}).disposed(by: disposeBag)
 
 		// title
@@ -193,37 +178,45 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		//MARK: - Send data
 		view.chatBarView.attachSubject
 			.subscribe(onNext: { [weak self] _ in
-				guard let imageData = self?.imageForSending else {
-					self?.view.takePhotoFromGallery()
+				guard let self = self else { return }
+				guard let imageData = self.imageForSending else {
+					self.view.takePhotoFromGallery()
 					return
 				}
-				let strBase64 = imageData.base64EncodedString()
+				//app/chat/{roomId}/{recieverId}/{senderName}/{senderId}/sendPhotoMessageCheck
 
-				let dict: [String: Any] = [
-					"senderName": self?.di.localStorageService.getCurrenClientProfile()?.firstName ?? "Name",
-					"content": strBase64,
-					"senderId": self?.di.localStorageService.getCurrenClientProfile()?.id ?? 0
-				]
-				do {
-					let jsonData = try JSONSerialization.data(withJSONObject: dict,
-															  options: .prettyPrinted)
-					guard let jSONText = String(data: jsonData, encoding: .utf8) else { return }
-					
-					let path =
-						"""
-						/app/chat/\(self?.chatConversation.id ?? 0)/\(self?.chatConversation.userId ?? 0)/sendPhotoMessage
-						"""
-									
-					self?.di.socketStompService.sendMessage(with: jSONText,
-															to: path,
-															receiptId: "",
-															headers: ["content-type": "application/json"])
-					self?.imageForSending = nil
-					self?.messagesListSubject?.onNext(())
-				} catch {
-					print(error.localizedDescription)
-				}
-				self?.messagesListSubject?.onNext(())
+				let path = "/app/chat/\(self.chatConversation.id)/\(self.chatConversation.userId)/\(self.currentProfile?.firstName ?? "Sender")/\(self.currentProfile?.id ?? 0)/sendPhotoMessageCheck"
+				self.di.socketStompService.sendData(with: imageData,
+													to: path,
+													receiptId: "",
+													headers: ["content-type": "application/json"])
+//				let strBase64 = imageData.base64EncodedString()
+//
+//				let dict: [String: Any] = [
+//					"senderName": self?.di.localStorageService.getCurrenClientProfile()?.firstName ?? "Name",
+//					"content": strBase64,
+//					"senderId": self?.di.localStorageService.getCurrenClientProfile()?.id ?? 0
+//				]
+//				do {
+//					let jsonData = try JSONSerialization.data(withJSONObject: dict,
+//															  options: .prettyPrinted)
+//					guard let jSONText = String(data: jsonData, encoding: .utf8) else { return }
+//
+//					let path =
+//						"""
+//						/app/chat/\(self?.chatConversation.id ?? 0)/\(self?.chatConversation.userId ?? 0)/sendPhotoMessage
+//						"""
+//
+//					self?.di.socketStompService.sendMessage(with: jSONText,
+//															to: path,
+//															receiptId: "",
+//															headers: ["content-type": "application/json"])
+					self.imageForSending = nil
+					self.messagesListSubject?.onNext(())
+//				} catch {
+//					print(error.localizedDescription)
+//				}
+//				self?.messagesListSubject?.onNext(())
 			}).disposed(by: disposeBag)
 
 		messagesListSubject = PublishSubject<Any>()
@@ -260,7 +253,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			selector: #selector(updateMessages),
 			name: NSNotification.Name(rawValue: Constants.NotificationKeys.updateMessages),
 			object: nil)
-		
+
 		// MARK: - Create conversation (client create)
 		createConversationSubject
 			.asObservable()

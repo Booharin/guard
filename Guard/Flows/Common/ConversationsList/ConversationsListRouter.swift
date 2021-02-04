@@ -34,7 +34,10 @@ final class ConversationsListRouter: BaseRouter, ConversationsListRouterProtocol
 	}
 
 	private func toChat(with conversation: ChatConversation) {
-		let chatViewController = ChatViewController(viewModel: ChatViewModel(chatConversation: conversation))
+		let router = ChatRouter()
+		router.navigationController = navigationController
+		let chatViewController = ChatViewController(viewModel: ChatViewModel(chatConversation: conversation,
+																			 router: router))
 		chatViewController.hidesBottomBarWhenPushed = true
 
 		self.navigationController?.pushViewController(chatViewController, animated: true)

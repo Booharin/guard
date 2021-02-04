@@ -47,11 +47,13 @@ final class SocketStompService: SocketStompServiceInterface, HasDependencies {
 		socketStomp = SwiftStomp(host: environment.socketUrl)
 		socketStomp.enableLogging = true
 		socketStomp.delegate = self
+		socketStomp.autoReconnect = true
 	}
 
 	func connectSocketStomp() {
-		socketStomp.connect()
-		checkForInternetConnection()
+		socketStomp.connect(autoReconnect: true)
+		checkSocketConnection()
+		//checkForInternetConnection()
 	}
 
 	func disconnect() {
@@ -102,6 +104,12 @@ final class SocketStompService: SocketStompServiceInterface, HasDependencies {
 			}
 		})
 	}
+
+	private func checkSocketConnection() {
+		Timer.scheduledTimer(withTimeInterval: 40, repeats: true, block: { _ in
+			print(self.socketStomp.ping())
+		})
+	}
 }
 
 extension SocketStompService: SwiftStompDelegate {
@@ -123,9 +131,9 @@ extension SocketStompService: SwiftStompDelegate {
 		} else if disconnectType == .fromStomp {
 			print("Client disconnected from stomp but socket is still connected!")
 		}
-		DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-			self.socketStomp.connect(autoReconnect: true)
-		}
+//		DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+//			self.socketStomp.connect(autoReconnect: true)
+//		}
 	}
 
 	func onMessageReceived(swiftStomp: SwiftStomp,

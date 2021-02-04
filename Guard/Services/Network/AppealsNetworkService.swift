@@ -30,6 +30,8 @@ protocol AppealsNetworkServiceInterface {
 	func getAppeals(by issueCode: [Int],
 					city: String) -> Observable<Result<[ClientAppeal], AFError>>
 	func getClient(by appealId: Int) -> Observable<Result<UserProfile, AFError>>
+
+	func getAppeal(by appealId: Int) -> Observable<Result<ClientAppeal, AFError>>
 }
 
 final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependencies {
@@ -346,6 +348,54 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 					do {
 						let profile = try JSONDecoder().decode(UserProfile.self, from: data)
 						observer.onNext(.success(profile))
+						observer.onCompleted()
+					} catch {
+						#if DEBUG
+						print(error)
+						#endif
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+					}
+				case .failure:
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func getAppeal(by appealId: Int) -> Observable<Result<ClientAppeal, AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.getAppeal(by: appealId,
+									  token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.responseJSON { response in
+				#if DEBUG
+				print(response)
+				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
+				switch response.result {
+				case .success:
+					guard let data = response.data else {
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+						return
+					}
+					do {
+						let appeal = try JSONDecoder().decode(ClientAppeal.self, from: data)
+						observer.onNext(.success(appeal))
 						observer.onCompleted()
 					} catch {
 						#if DEBUG

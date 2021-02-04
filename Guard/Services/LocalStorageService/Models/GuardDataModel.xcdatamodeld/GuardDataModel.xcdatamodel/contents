@@ -8,6 +8,7 @@
     </entity>
     <entity name="ClientAppealObject" representedClassName="ClientAppealObject" syncable="YES">
         <attribute name="appealDescription" attributeType="String"/>
+        <attribute name="cityCode" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="cityTitle" optional="YES" attributeType="String"/>
         <attribute name="clientId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="dateCreated" optional="YES" attributeType="String"/>
@@ -44,7 +45,7 @@
     </entity>
     <elements>
         <element name="CityObject" positionX="-54" positionY="171" width="128" height="103"/>
-        <element name="ClientAppealObject" positionX="-63" positionY="27" width="128" height="163"/>
+        <element name="ClientAppealObject" positionX="-63" positionY="27" width="128" height="178"/>
         <element name="ReviewObject" positionX="-54" positionY="171" width="128" height="133"/>
         <element name="SettingsObject" positionX="-54" positionY="171" width="128" height="103"/>
         <element name="UserProfileObject" positionX="-45" positionY="162" width="128" height="193"/>

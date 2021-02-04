@@ -266,10 +266,10 @@ final class AuthViewModel: ViewModel,
 				self?.view.loadingView.stopAnimating()
 				switch result {
 					case .success(let userRole):
-						DispatchQueue.global().async {
-							self?.di.socketStompService.disconnect()
-							self?.di.socketStompService.connectSocketStomp()
-						}
+//						DispatchQueue.global().async {
+//							self?.di.socketStompService.disconnect()
+//							self?.di.socketStompService.connectSocketStomp()
+//						}
 						self?.toMainSubject?.onNext(userRole)
 					case .failure(let error):
 						//TODO: - обработать ошибку

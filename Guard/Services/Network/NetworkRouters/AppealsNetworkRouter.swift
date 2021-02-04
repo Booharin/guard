@@ -124,6 +124,16 @@ struct AppealsNetworkRouter {
 									appealId: appealId)
 		}
 	}
+
+	func getAppeal(by id: Int, token: String?) -> URLRequestConvertible {
+		do {
+			return try GetAppeal(environment: environment,
+								 appealId: id).asURLDefaultRequest(with: token)
+		} catch {
+			return GetAppeal(environment: environment,
+							 appealId: id)
+		}
+	}
 }
 
 extension AppealsNetworkRouter {
@@ -338,6 +348,30 @@ extension AppealsNetworkRouter {
 
 		var method: HTTPMethod = .get
 		var path = ApiMethods.clientByAppealId
+		var parameters: Parameters {
+			return [
+				"appealId": appealId
+			]
+		}
+	}
+
+	private struct GetAppeal: RequestRouter {
+
+		let environment: Environment
+		let appealId: Int
+
+		init(environment: Environment,
+			 appealId: Int) {
+			self.environment = environment
+			self.appealId = appealId
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .get
+		var path = ApiMethods.getAppeal
 		var parameters: Parameters {
 			return [
 				"appealId": appealId

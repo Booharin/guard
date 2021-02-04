@@ -253,6 +253,14 @@ public extension SwiftStomp {
         
         self.sendFrame(frame: StompFrame(name: .abort, headers: headers))
     }
+
+	func ping() {
+		socket.write(ping: Data("".utf8)) {
+			#if DEBUG
+			print("------------- ping ------------")
+			#endif
+		}
+	}
 }
 
 /// Helper functions
@@ -420,9 +428,9 @@ extension SwiftStomp : WebSocketDelegate {
             stompLog(type: .info, message: "Socket: Disconnected: \(reason) with code: \(code)")
             
             self.delegate?.onDisconnect(swiftStomp: self, disconnectType: .fromSocket)
-			DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-				self.connect()
-			})
+//			DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+//				self.connect()
+//			})
         case .text(let string):
             stompLog(type: .info, message: "Socket: Received text")
             
@@ -454,22 +462,22 @@ extension SwiftStomp : WebSocketDelegate {
             
             self.delegate?.onSocketEvent(eventName: "cancelled", description: "Socket cancelled")
 
-            if self.autoReconnect{
-				DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-					self.connect()
-				})
-            }
+//            if self.autoReconnect{
+//				DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+//					self.connect()
+//				})
+//            }
         case .error(let error):
             self.status = .socketDisconnected
             
             stompLog(type: .socketError, message: "Socket: Error: \(error.debugDescription)")
             self.delegate?.onError(swiftStomp: self, briefDescription: "Socket Error", fullDescription: error?.localizedDescription, receiptId: nil, type: .fromSocket)
             
-			if self.autoReconnect{
-				DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-					self.connect()
-				})
-			}
+//			if self.autoReconnect{
+//				DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+//					self.connect()
+//				})
+//			}
         }
     }
     
