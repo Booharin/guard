@@ -210,29 +210,7 @@ final class AuthViewModel: ViewModel,
 			.disposed(by: disposeBag)
 
 		authenticateTapped()
-
-		//isCodeBelongsToRCM(code: "3879820524405")
 	}
-	
-//	let minCodeLenght: Int = 11
-//
-//	let validSubstrings = ["54862199924", "54862199934", "54862199954",
-//						   "54862199964", "54862199994", "54862198884"]
-//
-//	func isCodeBelongsToRCM(code: String) -> Bool {
-//		guard code.count > minCodeLenght else { return false }
-//		let start = code.index(code.startIndex, offsetBy: 0)
-//		print(code[start])
-//		// 11 - длина валидной подстроки
-//		let end = code.index(code.startIndex, offsetBy: validSubstrings.first?.count ?? minCodeLenght)
-//		print(code[end])
-//		let range = start..<end
-//		let subStr = code[range]
-//		print(start)
-//		print(end)
-//		print(String(subStr))
-//		return validSubstrings.contains(String(subStr))
-	//}
 
 	// MARK: - Login flow
 	private func loginUser() {
@@ -266,10 +244,10 @@ final class AuthViewModel: ViewModel,
 				self?.view.loadingView.stopAnimating()
 				switch result {
 					case .success(let userRole):
-//						DispatchQueue.global().async {
-//							self?.di.socketStompService.disconnect()
-//							self?.di.socketStompService.connectSocketStomp()
-//						}
+						DispatchQueue.global().async {
+							self?.di.socketStompService.disconnect()
+							self?.di.socketStompService.connectSocketStomp()
+						}
 						self?.toMainSubject?.onNext(userRole)
 					case .failure(let error):
 						//TODO: - обработать ошибку

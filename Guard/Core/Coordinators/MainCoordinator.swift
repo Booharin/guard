@@ -14,6 +14,7 @@ final class MainCoordinator: BaseCoordinator {
 	var rootController: UINavigationController?
 	var onFinishFlow: (() -> Void)?
 	private let userRole: UserRole
+	private var issueType: IssueType?
 	private let tabBarController = TabBarController()
 	private var disposeBag = DisposeBag()
 
@@ -30,6 +31,7 @@ final class MainCoordinator: BaseCoordinator {
 
 	init(userRole: UserRole, issueType: IssueType? = nil) {
 		self.userRole = userRole
+		self.issueType = issueType
 		super.init()
 	}
 
@@ -79,7 +81,7 @@ final class MainCoordinator: BaseCoordinator {
 
 		tabBarController.viewControllers = [
 			// lawyers list
-			LawyersListModuleFactory.createModule(),
+			LawyersListModuleFactory.createModule(issueType: issueType),
 			// client appeals list
 			ClientAppealsListModuleFactory.createModule(),
 			// conversations list

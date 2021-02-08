@@ -46,7 +46,7 @@ class ClientAppealCell: UITableViewCell, ClientAppealCellProtocol {
 		// appeal ImageView
 		containerView.addSubview(appealImageView)
 		appealImageView.snp.makeConstraints {
-			$0.width.height.equalTo(52)
+			$0.width.height.equalTo(42)
 			$0.leading.equalToSuperview().offset(35)
 			$0.top.equalToSuperview().offset(14)
 			$0.bottom.equalToSuperview().offset(-14)
@@ -55,7 +55,7 @@ class ClientAppealCell: UITableViewCell, ClientAppealCellProtocol {
 		containerView.addSubview(titleLabel)
 		titleLabel.snp.makeConstraints {
 			$0.leading.equalTo(appealImageView.snp.trailing).offset(13)
-			$0.top.equalToSuperview().offset(20)
+			$0.top.equalToSuperview().offset(15)
 			$0.trailing.equalToSuperview().offset(-93)
 			$0.height.equalTo(19)
 		}

@@ -14,7 +14,7 @@ struct ClientAppealDataSource {
 	
 	static func dataSource(toAppealDescriptionSubject: PublishSubject<ClientAppeal>) -> DataSource<SectionModel<String, ClientAppeal>> {
 		return .init(configureCell: { dataSource, tableView, indexPath, clientAppeal -> UITableViewCell in
-			
+
 			let cell = ClientAppealCell()
 			cell.viewModel = ClientAppealCellViewModel(clientAppeal: clientAppeal,
 													   toAppealDescriptionSubject: toAppealDescriptionSubject)

@@ -178,18 +178,22 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		//MARK: - Send data
 		view.chatBarView.attachSubject
 			.subscribe(onNext: { [weak self] _ in
-				guard let self = self else { return }
-				guard let imageData = self.imageForSending else {
-					self.view.takePhotoFromGallery()
-					return
-				}
-				//app/chat/{roomId}/{recieverId}/{senderName}/{senderId}/sendPhotoMessageCheck
-
-				let path = "/app/chat/\(self.chatConversation.id)/\(self.chatConversation.userId)/\(self.currentProfile?.firstName ?? "Sender")/\(self.currentProfile?.id ?? 0)/sendPhotoMessageCheck"
-				self.di.socketStompService.sendData(with: imageData,
-													to: path,
-													receiptId: "",
-													headers: ["content-type": "application/json"])
+//				guard let self = self else { return }
+//				guard let imageData = self.imageForSending else {
+//					self.view.takePhotoFromGallery()
+//					return
+//				}
+//
+//				let path = "/app/chat/\(self.chatConversation.id)/\(self.chatConversation.userId)/\(self.currentProfile?.firstName ?? "Sender")/\(self.currentProfile?.id ?? 0)/sendPhotoMessageCheck"
+//				self.di.socketStompService.sendData(with: imageData,
+//													to: path,
+//													receiptId: "",
+//													headers: ["content-type": "application/json"])
+//				self.imageForSending = nil
+//				self.messagesListSubject?.onNext(())
+				
+				
+///////////////////////////////////////////////////////////////---------------------------------------------------
 //				let strBase64 = imageData.base64EncodedString()
 //
 //				let dict: [String: Any] = [
@@ -211,8 +215,8 @@ final class ChatViewModel: ViewModel, HasDependencies {
 //															to: path,
 //															receiptId: "",
 //															headers: ["content-type": "application/json"])
-					self.imageForSending = nil
-					self.messagesListSubject?.onNext(())
+//					self.imageForSending = nil
+//					self.messagesListSubject?.onNext(())
 //				} catch {
 //					print(error.localizedDescription)
 //				}

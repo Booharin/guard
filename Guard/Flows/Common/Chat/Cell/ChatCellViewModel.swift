@@ -21,7 +21,7 @@ class ChatCellViewModel: ViewModel, HasDependencies {
 	init(chatMessage: ChatMessage) {
 		self.chatMessage = chatMessage
 	}
-	
+
 	func viewDidSet() {
 		// bubble
 		view.bubbleView.clipsToBounds = true

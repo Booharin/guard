@@ -15,10 +15,14 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	var view: LawyersListViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
-	var lawyersListSubject: PublishSubject<Any>?
+
+	private var lawyersListSubject: PublishSubject<Any>?
+	private var updateLayersListSubject: PublishSubject<Int>?
+
 	private var router: LawyerListRouterProtocol
 	private var selectedIssues = [Int]()
 	private var currentCity: CityModel?
+	private var issueType: IssueType?
 
 	private var cities: [String] {
 		return di.localStorageService.getRussianCities().map { $0.title }
@@ -36,8 +40,10 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	private var toLawyerSubject: PublishSubject<UserProfile>?
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, UserProfile>]>?
 
-	init(router: LawyerListRouterProtocol) {
+	init(router: LawyerListRouterProtocol,
+		 issueType: IssueType?) {
 		self.router = router
+		self.issueType = issueType
 	}
 
 	func viewDidSet() {
@@ -152,9 +158,36 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 						print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
-		
+
 		view.loadingView.startAnimating()
-		lawyersListSubject?.onNext(())
+
+		// MARK: - Check if issue type selected from client registration
+		if issueType == nil {
+			lawyersListSubject?.onNext(())
+		} else if let subIssueCode = issueType?.subIssueCode {
+			self.selectedIssues = [subIssueCode]
+
+			updateLayersListSubject = PublishSubject<Int>()
+			updateLayersListSubject?
+				.asObservable()
+				.flatMap { [unowned self] subIssueCode in
+					self.di.lawyersNetworkService.getLawyers(by: [subIssueCode],
+															 city: currentCity?.title ?? "")
+				}
+				.observeOn(MainScheduler.instance)
+				.subscribe(onNext: { [weak self] result in
+					self?.view.loadingView.stopAnimating()
+					switch result {
+					case .success(let lawyers):
+						self?.update(with: lawyers)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+					}
+				})
+				.disposed(by: disposeBag)
+			updateLayersListSubject?.onNext(subIssueCode)
+		}
 	}
 
 	private func update(with lawyers: [UserProfile]) {
