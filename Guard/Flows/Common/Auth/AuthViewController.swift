@@ -21,7 +21,7 @@ protocol AuthViewControllerProtocol: class, ViewControllerProtocol {
 	var faceIDButton: ConfirmButton { get }
 	var forgetPasswordLabel: UILabel { get }
 	var alertLabel: UILabel { get }
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 }
 /// Controller for auth screen
 final class AuthViewController<modelType: ViewModel>: UIViewController,
@@ -42,7 +42,7 @@ AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtoco
 									 cornerRadius: 20,
 									 image: #imageLiteral(resourceName: "icn_face_id").withRenderingMode(.alwaysTemplate))
 	var forgetPasswordLabel = UILabel()
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 	var alertLabel = UILabel()
 	
 	var viewModel: modelType
@@ -125,10 +125,9 @@ AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtoco
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
-			$0.centerX.equalToSuperview()
-			$0.centerY.equalToSuperview().offset(-90)
+			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 		// registration button
 		view.addSubview(registrationButton)

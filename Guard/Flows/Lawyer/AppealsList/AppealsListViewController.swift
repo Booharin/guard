@@ -13,7 +13,7 @@ protocol AppealsListViewControllerProtocol: class, ViewControllerProtocol {
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 	var selectedIssues: [Int] { get set }
 	var emptyAppealsLabel: UILabel { get }
 	func showActionSheet(with cities: [String])
@@ -30,7 +30,7 @@ class AppealsListViewController<modelType: AppealsListViewModel>:
 	var titleView = UIView()
 	var titleLabel = UILabel()
 	var tableView = UITableView()
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 	var selectedIssues = [Int]()
 	var navController: UINavigationController? {
 		self.navigationController
@@ -119,9 +119,9 @@ class AppealsListViewController<modelType: AppealsListViewModel>:
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
 			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 		// empty appeals label
 		view.addSubview(emptyAppealsLabel)

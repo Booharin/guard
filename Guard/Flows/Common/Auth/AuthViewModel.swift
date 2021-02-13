@@ -228,7 +228,7 @@ final class AuthViewModel: ViewModel,
 			.withLatestFrom(credentials)
 			.filter { [unowned self] credentials in
 				if credentials.0.isValidEmail {
-					self.view.loadingView.startAnimating()
+					self.view.loadingView.play()
 					return true
 				} else {
 					self.turnWarnings(with: "auth.alert.uncorrect_email.title".localized)
@@ -241,7 +241,7 @@ final class AuthViewModel: ViewModel,
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success(let userRole):
 						DispatchQueue.global().async {

@@ -14,7 +14,7 @@ protocol ReviewsListViewControllerProtocol: ViewControllerProtocol {
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 }
 
 class ReviewsListViewController<modelType: ReviewsListViewModel>:
@@ -28,7 +28,7 @@ class ReviewsListViewController<modelType: ReviewsListViewModel>:
 	var titleLabel = UILabel()
 	var tableView = UITableView()
 	private var gradientView: UIView?
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 	var navController: UINavigationController? {
 		self.navigationController
 	}
@@ -101,9 +101,9 @@ class ReviewsListViewController<modelType: ReviewsListViewModel>:
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
 			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 	}
 

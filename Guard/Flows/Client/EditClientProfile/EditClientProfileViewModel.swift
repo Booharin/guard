@@ -72,7 +72,7 @@ final class EditClientProfileViewModel: ViewModel, HasDependencies {
 											   okButtonTitle: "alert.yes".localized.uppercased(),
 											   cancelButtonTitle: "alert.no".localized.uppercased()) { result in
 					if result {
-						self.view.loadingView.startAnimating()
+						self.view.loadingView.play()
 
 						userProfile.firstName = view.nameTextField.text
 						userProfile.lastName = view.surnameTextField.text
@@ -234,7 +234,7 @@ final class EditClientProfileViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success:
 						if let profile = self?.userProfile {

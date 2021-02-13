@@ -17,7 +17,7 @@ protocol ReviewDetailsViewControllerProtocol: ViewControllerProtocol {
 	var reviewerName: UILabel { get }
 	var descriptionTextView: UITextView { get }
 	var createReviewButton: ConfirmButton { get }
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 }
 
 final class ReviewDetailsViewController<modelType: ReviewDetailsViewModel>:
@@ -34,7 +34,7 @@ final class ReviewDetailsViewController<modelType: ReviewDetailsViewModel>:
 	var descriptionTextView = UITextView()
 	var createReviewButton = ConfirmButton(title: "new_review.create_button.titile".localized.uppercased())
 
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 	var navController: UINavigationController? {
 		self.navigationController
 	}
@@ -135,9 +135,9 @@ final class ReviewDetailsViewController<modelType: ReviewDetailsViewModel>:
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
-			$0.center.equalTo(view.snp.center)
+			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 	}
 

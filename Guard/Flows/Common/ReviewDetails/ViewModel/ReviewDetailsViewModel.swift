@@ -106,7 +106,7 @@ final class ReviewDetailsViewModel: ViewModel, HasDependencies {
 			.tap
 			.do(onNext: { [unowned self] _ in
 				self.view.createReviewButton.animateBackground()
-				self.view.loadingView.startAnimating()
+				self.view.loadingView.play()
 			})
 			.flatMap { [unowned self] _ in
 				self.di.clientNetworkService.reviewUpload(reviewDescription: self.view.descriptionTextView.text,
@@ -115,7 +115,7 @@ final class ReviewDetailsViewModel: ViewModel, HasDependencies {
 														  receiverId: self.receiverId ?? 0)
 			}
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 				case .success:
 					self?.view.navController?.popToRootViewController(animated: true)

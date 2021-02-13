@@ -24,7 +24,7 @@ protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
 	var skipButton: SkipButton { get }
 	var alreadyRegisteredLabel: UILabel { get }
 	
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 }
 
 import UIKit
@@ -55,7 +55,7 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 								font: Saira.light.of(size: 15))
 	var alreadyRegisteredLabel = UILabel()
 
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 	
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
@@ -178,10 +178,11 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		}
 		// loading view
 		scrollView.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
-			$0.centerX.equalTo(scrollView.snp.centerX)
-			$0.top.equalTo(scrollView.snp.top).offset(100)
+			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
+//			$0.centerX.equalTo(scrollView.snp.centerX)
+//			$0.top.equalTo(scrollView.snp.top).offset(100)
 		}
 	}
 }

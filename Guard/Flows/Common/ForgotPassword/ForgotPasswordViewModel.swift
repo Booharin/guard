@@ -65,7 +65,7 @@ final class ForgotPasswordViewModel:
 			.tap
 			.do(onNext: { [unowned self] _ in
 				self.view.sendButton.animateBackground()
-				self.view.loadingView.startAnimating()
+				self.view.loadingView.play()
 			})
 			.subscribe(onNext: { [unowned self] _ in
 				if sendPasswordSubject == nil {
@@ -176,7 +176,7 @@ final class ForgotPasswordViewModel:
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 				case .success:
 					self?.view.navController?.popViewController(animated: true)

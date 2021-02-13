@@ -104,9 +104,9 @@ final class SettingsViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [weak self] isShow in
 				switch isShow {
 				case true:
-					self?.view.loadingView.startAnimating()
+					self?.view.loadingView.play()
 				case false:
-					self?.view.loadingView.stopAnimating()
+					self?.view.loadingView.stop()
 				}
 			}).disposed(by: disposeBag)
 
@@ -115,7 +115,7 @@ final class SettingsViewModel: ViewModel, HasDependencies {
 			.flatMap ({ _ -> Observable<Bool> in
 				if let settings = self.di.localStorageService.getSettings(for: self.clientProfile?.id ?? 0) {
 					self.update(with: settings)
-					self.view.loadingView.stopAnimating()
+					self.view.loadingView.stop()
 					return .just(false)
 				} else {
 					return .just(true)
@@ -131,7 +131,7 @@ final class SettingsViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success(let settings):
 						self?.update(with: settings)
@@ -141,7 +141,7 @@ final class SettingsViewModel: ViewModel, HasDependencies {
 				}
 			}).disposed(by: disposeBag)
 
-		view.loadingView.startAnimating()
+		view.loadingView.play()
 		settingsListSubject?.onNext(())
 	}
 

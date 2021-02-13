@@ -15,7 +15,7 @@ protocol ClientAppealsListViewControllerProtocol {
 	var tableView: UITableView { get }
 	var greetingLabel: UILabel { get }
 	var greetingDescriptionLabel: UILabel { get }
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 }
 
 final class ClientAppealsListViewController<modelType: ClientAppealsListViewModel>: UIViewController,
@@ -27,7 +27,7 @@ final class ClientAppealsListViewController<modelType: ClientAppealsListViewMode
 	var tableView = UITableView(frame: .zero, style: .grouped)
 	var greetingLabel = UILabel()
 	var greetingDescriptionLabel = UILabel()
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 	private var gradientView: UIView?
 	
 	var viewModel: modelType
@@ -58,7 +58,7 @@ final class ClientAppealsListViewController<modelType: ClientAppealsListViewMode
 		navigationController?.navigationBar.isTranslucent = true
 		self.navigationItem.setHidesBackButton(true, animated:false)
 
-		loadingView.startAnimating()
+		loadingView.play()
 		viewModel.appealsListSubject?.onNext(())
 	}
 
@@ -83,9 +83,9 @@ final class ClientAppealsListViewController<modelType: ClientAppealsListViewMode
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
 			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 	}
 

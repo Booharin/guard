@@ -84,7 +84,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 
 		di.filterViewService.selectedIssuesSubject
 			.do(onNext: { [weak self] _ in
-				self?.view.loadingView.startAnimating()
+				self?.view.loadingView.play()
 			})
 			.do(onNext: { [weak self] issues in
 				// save selected issues
@@ -96,7 +96,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success(let lawyers):
 						self?.update(with: lawyers)
@@ -157,7 +157,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success(let lawyers):
 						self?.update(with: lawyers)
@@ -167,7 +167,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 				}
 			}).disposed(by: disposeBag)
 
-		view.loadingView.startAnimating()
+		view.loadingView.play()
 
 		// MARK: - Check if issue type selected from client registration
 		if issueType == nil {
@@ -184,7 +184,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 				}
 				.observeOn(MainScheduler.instance)
 				.subscribe(onNext: { [weak self] result in
-					self?.view.loadingView.stopAnimating()
+					self?.view.loadingView.stop()
 					switch result {
 					case .success(let lawyers):
 						self?.update(with: lawyers)

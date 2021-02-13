@@ -113,7 +113,7 @@ final class ReviewsListViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success(let profile):
 						self?.update(with: profile.reviewList ?? [])

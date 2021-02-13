@@ -82,7 +82,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 											   okButtonTitle: "alert.yes".localized.uppercased(),
 											   cancelButtonTitle: "alert.no".localized.uppercased()) { result in
 					if result {
-						self.view.loadingView.startAnimating()
+						self.view.loadingView.play()
 
 						userProfile.firstName = view.nameTextField.text
 						userProfile.lastName = view.surnameTextField.text
@@ -237,7 +237,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 						self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
 													   message: "edit_lawyer.empty_issues.title".localized,
 													   okButtonTitle: "alert.yes".localized.uppercased()) { _ in }
-						self.view.loadingView.stopAnimating()
+						self.view.loadingView.stop()
 					}
 					return false
 				} else {
@@ -255,14 +255,14 @@ final class EditLawyerProfileViewModel: ViewModel {
 					self.saveProfile()
 					// check is photo edited
 					if self.editImageData == nil {
-						self.view.loadingView.stopAnimating()
+						self.view.loadingView.stop()
 						self.view.navController?.popViewController(animated: true)
 						return false
 					} else {
 						return true
 					}
 				default:
-					self.view.loadingView.stopAnimating()
+					self.view.loadingView.stop()
 					return false
 				}
 			}
@@ -272,7 +272,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 				case .success:
 					self?.view.navController?.popViewController(animated: true)

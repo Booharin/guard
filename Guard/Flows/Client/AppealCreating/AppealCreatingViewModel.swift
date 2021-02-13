@@ -91,7 +91,7 @@ final class AppealCreatingViewModel: ViewModel, HasDependencies {
 			.tap
 			.do(onNext: { [unowned self] _ in
 				self.view.createAppealButton.animateBackground()
-				self.view.loadingView.startAnimating()
+				self.view.loadingView.play()
 			})
 			.flatMap { [unowned self] _ in
 				self.di.appealsNetworkService
@@ -102,7 +102,7 @@ final class AppealCreatingViewModel: ViewModel, HasDependencies {
 								  cityCode: self.di.localStorageService.getCurrenClientProfile()?.cityCode?.first ?? 99)
 			}
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 				case .success:
 					self?.view.navController?.popToRootViewController(animated: true)

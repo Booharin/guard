@@ -18,7 +18,7 @@ protocol AppealFromListViewControllerProtocol: ViewControllerProtocol {
 	var profileView: UIView { get }
 	var profileImageView: UIImageView { get }
 	var profileNameLabel: UILabel { get }
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 	var tabBarViewController: UITabBarController? { get }
 }
 
@@ -47,7 +47,7 @@ final class AppealFromListViewController<modelType: AppealFromListViewModel>:
 	var tabBarViewController: UITabBarController? {
 		self.tabBarController
 	}
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
@@ -147,9 +147,9 @@ final class AppealFromListViewController<modelType: AppealFromListViewModel>:
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
-			$0.center.equalTo(view.snp.center)
+			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 	}
 }

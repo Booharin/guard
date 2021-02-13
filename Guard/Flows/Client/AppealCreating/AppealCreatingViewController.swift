@@ -17,7 +17,7 @@ protocol AppealCreatingViewControllerProtocol: class, ViewControllerProtocol {
 	var titleTextField: TextField { get }
 	var descriptionTextView: UITextView { get }
 	var createAppealButton: ConfirmButton { get }
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 }
 
 final class AppealCreatingViewController<modelType: AppealCreatingViewModel>:
@@ -36,7 +36,7 @@ final class AppealCreatingViewController<modelType: AppealCreatingViewModel>:
 	var navController: UINavigationController? {
 		return self.navigationController
 	}
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 	var viewModel: modelType
 
 	init(viewModel: modelType) {
@@ -132,9 +132,9 @@ final class AppealCreatingViewController<modelType: AppealCreatingViewModel>:
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
-			$0.center.equalTo(view.snp.center)
+			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 	}
 

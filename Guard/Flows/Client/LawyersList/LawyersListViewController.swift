@@ -13,7 +13,7 @@ protocol LawyersListViewControllerProtocol: class, ViewControllerProtocol {
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 	var selectedIssues: [Int] { get set }
 	var emptyLawyersLabel: UILabel { get }
 	func showActionSheet(with cities: [String])
@@ -30,7 +30,7 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 	var titleView = UIView()
 	var titleLabel = UILabel()
 	var tableView = UITableView()
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 	var selectedIssues = [Int]()
 	var navController: UINavigationController? {
 		self.navigationController
@@ -118,9 +118,9 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
 			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 		// empty lawyers label
 		view.addSubview(emptyLawyersLabel)
@@ -134,7 +134,7 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 	func scrollViewWillEndDragging(_ scrollView: UIScrollView,
 								   withVelocity velocity: CGPoint,
 								   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-		
+
 		if(velocity.y > 0) {
 			// add gradient view
 			gradientView = createGradentView()

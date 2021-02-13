@@ -56,7 +56,7 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success(let appeals):
 						self?.update(with: appeals)
@@ -110,7 +110,7 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success(let appeals):
 						self?.update(with: appeals)

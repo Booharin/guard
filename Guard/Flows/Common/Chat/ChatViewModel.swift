@@ -100,7 +100,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 				self.di.appealsNetworkService.getAppeal(by: self.chatConversation.appealId ?? 0)
 			}
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success(let appeal):
 						self?.router.passageToAppealDescription(appeal: appeal)
@@ -250,7 +250,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success(let messages):
 						self?.update(with: messages)
@@ -260,7 +260,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 				}
 			}).disposed(by: disposeBag)
 
-		view.loadingView.startAnimating()
+		view.loadingView.play()
 
 		//MARK: - incoming message
 		di.socketStompService.incomingMessageSubject
@@ -280,7 +280,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		createConversationSubject
 			.asObservable()
 			.do(onNext: { _ in
-				self.view.loadingView.startAnimating()
+				self.view.loadingView.play()
 			})
 			.flatMap { [unowned self] _ in
 				self.di.chatNetworkService
@@ -294,7 +294,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success(let conversations):
 						conversations.forEach { chat in
@@ -313,7 +313,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		createConversationByAppealSubject
 			.asObservable()
 			.do(onNext: { _ in
-				self.view.loadingView.startAnimating()
+				self.view.loadingView.play()
 			})
 			.flatMap { [unowned self] _ in
 				self.di.chatNetworkService
@@ -328,7 +328,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 				case .success(let conversations):
 					conversations.forEach { chat in
@@ -348,14 +348,14 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		profileByIdSubject
 			.asObservable()
 			.do(onNext: { _ in
-				self.view.loadingView.startAnimating()
+				self.view.loadingView.play()
 			})
 			.flatMap { [unowned self] profileId in
 				self.di.lawyersNetworkService.getLawyer(by: profileId)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 				case .success(let profile):
 					if profile.userRole == .lawyer {
@@ -387,7 +387,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 												   receiptId: "",
 												   headers: ["content-type": "application/json"])
 			self.view.chatBarView.clearMessageTextView()
-			self.view.loadingView.startAnimating()
+			self.view.loadingView.play()
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 				self.messagesListSubject?.onNext(())
 			}

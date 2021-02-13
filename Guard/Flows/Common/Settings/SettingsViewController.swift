@@ -15,7 +15,7 @@ protocol SettingsViewControllerProtocol: ViewControllerProtocol {
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
 	func showActionSheet(toAuthSubject: PublishSubject<Any>)
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 }
 
 class SettingsViewController<modelType: SettingsViewModel>:
@@ -31,7 +31,7 @@ class SettingsViewController<modelType: SettingsViewModel>:
 	var navController: UINavigationController? {
 		self.navigationController
 	}
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 
 	var viewModel: modelType
 
@@ -99,9 +99,9 @@ class SettingsViewController<modelType: SettingsViewModel>:
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
 			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 	}
 

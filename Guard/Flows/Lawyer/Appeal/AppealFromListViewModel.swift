@@ -125,7 +125,7 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 		clientProfileSubject
 			.asObservable()
 			.do(onNext: { [unowned self] _ in
-				self.view.loadingView.startAnimating()
+				self.view.loadingView.play()
 			})
 			.flatMap { [unowned self] _ in
 				self.di.appealsNetworkService.getClient(by: appeal.id)
@@ -138,7 +138,7 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 						self?.view.profileView.isHidden = false
 						return .just(profile)
 					case .failure:
-						self?.view.loadingView.stopAnimating()
+						self?.view.loadingView.stop()
 						return .just(nil)
 				}
 			})
@@ -157,7 +157,7 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 					return .just(true)
 				case .failure(let error):
 					print(error.localizedDescription)
-					self?.view.loadingView.stopAnimating()
+					self?.view.loadingView.stop()
 					return .just(false)
 				}
 			})
@@ -166,7 +166,7 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 					.getSettings(profileId: self.clientProfile?.id ?? 0)
 			}
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 				case .success(let settings):
 					if settings.isChatEnabled == true,

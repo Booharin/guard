@@ -21,7 +21,7 @@ protocol EditClientProfileViewControllerProtocol: ViewControllerProtocol {
 	var emailTextField: EditTextField { get }
 	var countrySelectView: SelectButtonView { get }
 	var citySelectView: SelectButtonView { get }
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 	func showActionSheet(with titles: [String], completion: @escaping (String) -> Void)
 	func takePhotoFromGallery()
 }
@@ -50,7 +50,7 @@ final class EditClientProfileViewController<modelType: EditClientProfileViewMode
 	var countrySelectView = SelectButtonView()
 	var citySelectView = SelectButtonView()
 	private var imagePicker = UIImagePickerController()
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 
 	var viewModel: modelType
 
@@ -195,9 +195,9 @@ final class EditClientProfileViewController<modelType: EditClientProfileViewMode
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
 			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 	}
 	

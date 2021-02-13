@@ -70,7 +70,7 @@ final class AppealsListViewModel:
 
 		di.filterViewService.selectedIssuesSubject
 			.do(onNext: { [weak self] _ in
-				self?.view.loadingView.startAnimating()
+				self?.view.loadingView.play()
 			})
 			.do(onNext: { [weak self] issues in
 				// save selected issues
@@ -82,7 +82,7 @@ final class AppealsListViewModel:
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success(let lawyers):
 						self?.update(with: lawyers)
@@ -144,7 +144,7 @@ final class AppealsListViewModel:
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success(let appeals):
 						self?.update(with: appeals)
@@ -154,7 +154,7 @@ final class AppealsListViewModel:
 				}
 			}).disposed(by: disposeBag)
 
-		view.loadingView.startAnimating()
+		view.loadingView.play()
 		appealsListSubject?.onNext(())
 	}
 

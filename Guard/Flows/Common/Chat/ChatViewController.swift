@@ -15,7 +15,7 @@ protocol ChatViewControllerProtocol: ViewControllerProtocol {
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
 	var chatBarView: ChatBarViewProtocol { get }
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 	func takePhotoFromGallery()
 }
 
@@ -37,7 +37,7 @@ final class ChatViewController<modelType: ChatViewModel>:
 		self.navigationController
 	}
 	var viewModel: modelType
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 	private var imagePicker = UIImagePickerController()
 
 	init(viewModel: modelType) {
@@ -123,9 +123,9 @@ final class ChatViewController<modelType: ChatViewModel>:
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
 			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 	}
 

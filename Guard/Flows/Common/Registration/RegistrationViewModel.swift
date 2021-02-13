@@ -148,7 +148,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				if registrationSubject == nil {
 					self.registerUser()
 				}
-				self.view.loadingView.startAnimating()
+				self.view.loadingView.play()
 				self.registrationSubject?.onNext(())
 			}).disposed(by: disposeBag)
 
@@ -322,7 +322,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				switch credentials.1 {
 				case let s where s.count < 8:
 					self.turnWarnings(with: "registration.alert.password_too_short.title".localized)
-					self.view.loadingView.stopAnimating()
+					self.view.loadingView.stop()
 					return false
 				default: break
 				}
@@ -336,7 +336,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				if self.view.alertLabel.text?.isEmpty ?? true {
 					return true
 				} else {
-					self.view.loadingView.stopAnimating()
+					self.view.loadingView.stop()
 					return false
 				}
 			}
@@ -351,7 +351,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				case .success:
 					return true
 				case .failure:
-					self.view.loadingView.stopAnimating()
+					self.view.loadingView.stop()
 					return false
 				}
 			}
@@ -362,7 +362,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 				case .success:
 					self?.toSelectIssueSubject?.onNext(())

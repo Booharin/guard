@@ -61,7 +61,7 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success:
 						self?.conversationsListSubject?.onNext(())
@@ -99,7 +99,7 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 					case .success(let conversations):
 						self?.update(with: conversations)
@@ -109,7 +109,7 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 				}
 			}).disposed(by: disposeBag)
 
-		view.loadingView.startAnimating()
+		view.loadingView.play()
 
 		toChatWithLawyer?
 			.asObservable()

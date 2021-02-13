@@ -11,7 +11,7 @@ import UIKit
 
 final class LottieAnimationView: UIView {
 	private let animationView = AnimationView()
-	private let animation = Animation.named("hooji9nu", subdirectory: "LottieAnimations")
+	private let animation = Animation.named("ifegughi", subdirectory: "LottieAnimations")
 
 	init() {
 		super.init(frame: .zero)
@@ -23,6 +23,7 @@ final class LottieAnimationView: UIView {
 		animationView.animation = animation
 		animationView.contentMode = .scaleAspectFit
 		animationView.loopMode = .loop
+		isHidden = true
 	}
 
 	required init?(coder: NSCoder) {
@@ -30,10 +31,12 @@ final class LottieAnimationView: UIView {
 	}
 
 	func play() {
+		isHidden = false
 		animationView.play()
 	}
 
 	func stop() {
+		isHidden = true
 		animationView.stop()
 	}
 }

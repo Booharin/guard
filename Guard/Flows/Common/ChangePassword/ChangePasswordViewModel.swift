@@ -125,7 +125,7 @@ final class ChangePasswordViewModel: ViewModel, HasDependencies {
 					self.turnWarnings(with: "registration.alert.password_too_short.title".localized.localized)
 					return false
 				} else {
-					self.view.loadingView.startAnimating()
+					self.view.loadingView.play()
 					return true
 				}
 			}
@@ -136,7 +136,7 @@ final class ChangePasswordViewModel: ViewModel, HasDependencies {
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stopAnimating()
+				self?.view.loadingView.stop()
 				switch result {
 				case .success:
 					self?.view.navController?.popViewController(animated: true)

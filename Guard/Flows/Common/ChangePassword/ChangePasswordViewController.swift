@@ -16,7 +16,7 @@ protocol ChangePasswordViewControllerProtocol: ViewControllerProtocol {
 	var oldPasswordTextField: TextField { get }
 	var newPasswordTextField: TextField { get }
 	var saveButton: ConfirmButton { get }
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 }
 
 final class ChangePasswordViewController<modelType: ChangePasswordViewModel>:
@@ -33,7 +33,7 @@ final class ChangePasswordViewController<modelType: ChangePasswordViewModel>:
 	var navController: UINavigationController? {
 		self.navigationController
 	}
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 
 	var viewModel: modelType
 
@@ -121,9 +121,9 @@ final class ChangePasswordViewController<modelType: ChangePasswordViewModel>:
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
 			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 	}
 }

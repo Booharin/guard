@@ -18,7 +18,7 @@ protocol AppealViewControllerProtocol: ViewControllerProtocol {
 	var issueTypeLabel: UILabel { get }
 	var descriptionTextView: UITextView { get }
 	var lawyerSelectedButton: ConfirmButton { get }
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 	func showActionSheet()
 }
 
@@ -50,7 +50,7 @@ final class AppealViewController<modelType: AppealViewModel>:
 	var navController: UINavigationController? {
 		self.navigationController
 	}
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
@@ -124,9 +124,9 @@ final class AppealViewController<modelType: AppealViewModel>:
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
-			$0.center.equalTo(view.snp.center)
+			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 	}
 

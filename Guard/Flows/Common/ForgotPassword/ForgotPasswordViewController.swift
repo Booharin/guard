@@ -18,7 +18,7 @@ protocol ForgotPasswordViewControllerProtocol: class, ViewControllerProtocol {
 	var alertLabel: UILabel { get }
 	var sendButton: ConfirmButton { get }
 	var backButtonView: BackButtonView { get }
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 }
 
 final class ForgotPasswordViewController<modelType: ViewModel>: UIViewController,
@@ -40,7 +40,7 @@ ForgotPasswordViewControllerProtocol where modelType.ViewType == ForgotPasswordV
 		return self.navigationController
 	}
 
-	var loadingView = UIActivityIndicatorView(style: .medium)
+	var loadingView = LottieAnimationView()
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
@@ -128,9 +128,9 @@ ForgotPasswordViewControllerProtocol where modelType.ViewType == ForgotPasswordV
 		}
 		// loading view
 		view.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
-			$0.center.equalTo(view.snp.center)
+			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 	}
 }
