@@ -68,6 +68,9 @@
 //CITIES
 "cities.moscow" = "Москва";
 
+//LAWYERS
+"lawyers.empty.title" = "По выбранному вами направлению\nпока нет юристов";
+
 //ALERT
 "alert.cancel" = "Отмена";
 "alert.yes" = "да";
@@ -79,6 +82,7 @@
 //APPEALS
 "appeals.greeting.title" = "Привет";
 "appeals.greeting.description" = "Все ваши обращения здесь";
+"appeals.empty.title" = "По выбранному вами направлению\nпока нет обращений";
 
 //APPEAL
 "appeal.lawyerSelectedButton.title" = "Назначен юрист";

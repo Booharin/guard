@@ -313,48 +313,48 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		registrationSubject?
 			.asObservable()
 			.withLatestFrom(credentials)
-//			.filter { [unowned self] credentials in
-//
-//				if !credentials.0.isValidEmail {
-//					self.turnWarnings(with: "auth.alert.uncorrect_email.title".localized)
-//				}
-//
-//				switch credentials.1 {
-//				case let s where s.count < 8:
-//					self.turnWarnings(with: "registration.alert.password_too_short.title".localized)
-//					self.view.loadingView.stopAnimating()
-//					return false
-//				default: break
-//				}
-//
-//				switch credentials.2 {
-//				case let s where s != credentials.1:
-//					self.turnWarnings(with: "registration.alert.passwords_different.title".localized)
-//				default: break
-//				}
-//
-//				if self.view.alertLabel.text?.isEmpty ?? true {
-//					return true
-//				} else {
-//					self.view.loadingView.stopAnimating()
-//					return false
-//				}
-//			}
-//			.flatMap { [unowned self] credentials in
-//				self.di.registrationService.signUp(email: credentials.0,
-//												   password: credentials.1,
-//												   city: credentials.3,
-//												   userRole: self.userRole)
-//			}
-//			.filter { result in
-//				switch result {
-//				case .success:
-//					return true
-//				case .failure:
-//					self.view.loadingView.stopAnimating()
-//					return false
-//				}
-//			}
+			.filter { [unowned self] credentials in
+
+				if !credentials.0.isValidEmail {
+					self.turnWarnings(with: "auth.alert.uncorrect_email.title".localized)
+				}
+
+				switch credentials.1 {
+				case let s where s.count < 8:
+					self.turnWarnings(with: "registration.alert.password_too_short.title".localized)
+					self.view.loadingView.stopAnimating()
+					return false
+				default: break
+				}
+
+				switch credentials.2 {
+				case let s where s != credentials.1:
+					self.turnWarnings(with: "registration.alert.passwords_different.title".localized)
+				default: break
+				}
+
+				if self.view.alertLabel.text?.isEmpty ?? true {
+					return true
+				} else {
+					self.view.loadingView.stopAnimating()
+					return false
+				}
+			}
+			.flatMap { [unowned self] credentials in
+				self.di.registrationService.signUp(email: credentials.0,
+												   password: credentials.1,
+												   city: credentials.3,
+												   userRole: self.userRole)
+			}
+			.filter { result in
+				switch result {
+				case .success:
+					return true
+				case .failure:
+					self.view.loadingView.stopAnimating()
+					return false
+				}
+			}
 			.map { _ in }
 			.flatMap {
 				self.di.authService.signIn(email: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.email) ?? "",
@@ -371,10 +371,6 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 					print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
-//			.subscribe(onNext: { [weak self] _ in
-//				self?.view.loadingView.stopAnimating()
-//				self?.toSelectIssueSubject?.onNext(())
-//			}).disposed(by: disposeBag)
 	}
 	
 	private func keyboardHeight() -> Observable<CGFloat> {

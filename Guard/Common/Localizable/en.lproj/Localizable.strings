@@ -68,6 +68,9 @@
 //CITIES
 "cities.moscow" = "Moscow";
 
+//LAWYERS
+"lawyers.empty.title" = "There are no lawyers in your chosen area yet";
+
 //ALERT
 "alert.cancel" = "Cancel";
 "alert.yes" = "yes";
@@ -79,6 +82,7 @@
 //APPEALS
 "appeals.greeting.title" = "Hi";
 "appeals.greeting.description" = "All your appeals is here";
+"appeals.empty.title" = "There are no appeals in your chosen area yet";
 
 //APPEAL
 "appeal.lawyerSelectedButton.title" = "lawyer selected";

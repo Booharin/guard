@@ -15,6 +15,7 @@ protocol AppealsListViewControllerProtocol: class, ViewControllerProtocol {
 	var tableView: UITableView { get }
 	var loadingView: UIActivityIndicatorView { get }
 	var selectedIssues: [Int] { get set }
+	var emptyAppealsLabel: UILabel { get }
 	func showActionSheet(with cities: [String])
 }
 
@@ -39,7 +40,7 @@ class AppealsListViewController<modelType: AppealsListViewModel>:
 		return UIScreen.main.bounds.height
 	}
 
-	private var lawyers: [UserProfile]?
+	var emptyAppealsLabel = UILabel()
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
@@ -121,6 +122,13 @@ class AppealsListViewController<modelType: AppealsListViewModel>:
 		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
 			$0.center.equalToSuperview()
+		}
+		// empty appeals label
+		view.addSubview(emptyAppealsLabel)
+		emptyAppealsLabel.snp.makeConstraints {
+			$0.centerY.equalToSuperview()
+			$0.leading.equalToSuperview().offset(35)
+			$0.trailing.equalToSuperview().offset(-35)
 		}
 	}
 

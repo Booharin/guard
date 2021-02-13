@@ -78,7 +78,7 @@ final class AppealsListViewModel:
 			})
 			.flatMap { [unowned self] issues in
 				self.di.appealsNetworkService.getAppeals(by: issues,
-														 city: self.view.titleLabel.text ?? "")
+														 city: self.currentCityTitle)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
@@ -128,6 +128,14 @@ final class AppealsListViewModel:
 			}
 		}
 
+		// empty appeals label
+		view.emptyAppealsLabel.isHidden = true
+		view.emptyAppealsLabel.textAlignment = .center
+		view.emptyAppealsLabel.numberOfLines = 0
+		view.emptyAppealsLabel.font = Saira.regular.of(size: 16)
+		view.emptyAppealsLabel.textColor = Colors.subtitleColor
+		view.emptyAppealsLabel.text = "appeals.empty.title".localized
+
 		appealsListSubject = PublishSubject<Any>()
 		appealsListSubject?
 			.asObservable()
@@ -155,6 +163,12 @@ final class AppealsListViewModel:
 		let section = SectionModel<String, ClientAppeal>(model: "",
 														items: appeals)
 		dataSourceSubject?.onNext([section])
+
+		if appeals.isEmpty {
+			view.emptyAppealsLabel.isHidden = false
+		} else {
+			view.emptyAppealsLabel.isHidden = true
+		}
 
 		if self.view.tableView.contentSize.height + 200 < self.view.tableView.frame.height {
 			self.view.tableView.isScrollEnabled = false

@@ -15,6 +15,7 @@ protocol LawyersListViewControllerProtocol: class, ViewControllerProtocol {
 	var tableView: UITableView { get }
 	var loadingView: UIActivityIndicatorView { get }
 	var selectedIssues: [Int] { get set }
+	var emptyLawyersLabel: UILabel { get }
 	func showActionSheet(with cities: [String])
 }
 
@@ -38,8 +39,7 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 	private var filterViewHeight: CGFloat {
 		return UIScreen.main.bounds.height
 	}
-
-	private var lawyers: [UserProfile]?
+	var emptyLawyersLabel = UILabel()
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
@@ -121,6 +121,13 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
 			$0.center.equalToSuperview()
+		}
+		// empty lawyers label
+		view.addSubview(emptyLawyersLabel)
+		emptyLawyersLabel.snp.makeConstraints {
+			$0.centerY.equalToSuperview()
+			$0.leading.equalToSuperview().offset(35)
+			$0.trailing.equalToSuperview().offset(-35)
 		}
 	}
 	

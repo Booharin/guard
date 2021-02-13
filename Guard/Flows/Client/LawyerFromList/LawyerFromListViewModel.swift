@@ -30,15 +30,18 @@ final class LawyerFromListViewModel:
 
 	private let lawyerProfile: UserProfile
 	private var lawyerSettings: SettingsModel?
+	private let isFromChat: Bool
 
 	private var positiveReviewsCount = 0
 	private var negativeReviewsCount = 0
 	private var disposeBag = DisposeBag()
 
 	init(lawyerProfile: UserProfile,
+		 isFromChat: Bool,
 		 router: LawyerFromListRouterProtocol) {
 		self.lawyerProfile = lawyerProfile
 		self.lawyerSettings = lawyerProfile.settings
+		self.isFromChat = isFromChat
 		self.router = router
 	}
 
@@ -244,7 +247,9 @@ final class LawyerFromListViewModel:
 		guard let settings = lawyerSettings else { return }
 		view.emailLabel.isHidden = !settings.isEmailVisible
 		view.phoneLabel.isHidden = !settings.isPhoneVisible
-		view.chatWithLawyerButton.isHidden = !settings.isChatEnabled
+		if isFromChat == false {
+			view.chatWithLawyerButton.isHidden = !settings.isChatEnabled
+		}
 	}
 
 	private func updateIssuesContainerView(with issues: [Int]) {

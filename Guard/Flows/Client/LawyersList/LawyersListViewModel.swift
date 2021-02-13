@@ -141,6 +141,14 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 			}
 		}
 
+		// empty lawyers label
+		view.emptyLawyersLabel.isHidden = true
+		view.emptyLawyersLabel.textAlignment = .center
+		view.emptyLawyersLabel.numberOfLines = 0
+		view.emptyLawyersLabel.font = Saira.regular.of(size: 16)
+		view.emptyLawyersLabel.textColor = Colors.subtitleColor
+		view.emptyLawyersLabel.text = "lawyers.empty.title".localized
+
 		lawyersListSubject = PublishSubject<Any>()
 		lawyersListSubject?
 			.asObservable()
@@ -195,6 +203,12 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		let section = SectionModel<String, UserProfile>(model: "",
 														items: lawyers)
 		dataSourceSubject?.onNext([section])
+
+		if lawyers.isEmpty {
+			view.emptyLawyersLabel.isHidden = false
+		} else {
+			view.emptyLawyersLabel.isHidden = true
+		}
 
 		if self.view.tableView.contentSize.height + 100 < self.view.tableView.frame.height {
 			self.view.tableView.isScrollEnabled = false

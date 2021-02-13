@@ -24,13 +24,15 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		HasSocketStompService &
 		HasLocalStorageService &
 		HasChatNetworkService &
-		HasAppealsNetworkService
+		HasAppealsNetworkService &
+		HasLawyersNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
 	var messagesListSubject: PublishSubject<Any>?
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ChatMessage>]>?
 	private let createConversationSubject = PublishSubject<Any>()
 	private let createConversationByAppealSubject = PublishSubject<Any>()
+	private let profileByIdSubject = PublishSubject<Int>()
 	private var messageForSending: String?
 
 	var imageForSending: Data?
@@ -112,6 +114,22 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		view.titleLabel.font = SFUIDisplay.bold.of(size: 15)
 		view.titleLabel.textColor = Colors.mainTextColor
 		view.titleLabel.text = chatConversation.fullName
+		view.titleLabel
+			.rx
+			.tapGesture()
+			.when(.recognized)
+			.do(onNext: { [unowned self] _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.titleLabel.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.titleLabel.alpha = 1
+					})
+				})
+			})
+			.subscribe(onNext: { [weak self] _ in
+				self?.profileByIdSubject.onNext(self?.chatConversation.userId ?? 0)
+			}).disposed(by: disposeBag)
 
 		// swipe to go back
 		view.view
@@ -320,6 +338,32 @@ final class ChatViewModel: ViewModel, HasDependencies {
 							self?.sendMessage(with: self?.messageForSending ?? "")
 						}
 					}
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		// MARK: - Geting profile by id
+		profileByIdSubject
+			.asObservable()
+			.do(onNext: { _ in
+				self.view.loadingView.startAnimating()
+			})
+			.flatMap { [unowned self] profileId in
+				self.di.lawyersNetworkService.getLawyer(by: profileId)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stopAnimating()
+				switch result {
+				case .success(let profile):
+					if profile.userRole == .lawyer {
+						self?.router.passageToLawyer(with: profile)
+					} else {
+						self?.router.passageToClientProfile(with: profile)
+					}
+					print(profile)
 				case .failure(let error):
 					//TODO: - обработать ошибку
 					print(error.localizedDescription)

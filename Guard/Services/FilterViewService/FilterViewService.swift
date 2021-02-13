@@ -204,6 +204,8 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 		let containerWidth = screenWidth - 75
 		var topOffset = 0
 		var currentLineWidth: CGFloat = 0
+		var currentLineOffset: CGFloat = 0
+
 		filterView?.addSubview(containerView)
 		containerView.snp.makeConstraints {
 			$0.top.equalToSuperview().offset(151)
@@ -230,9 +232,11 @@ final class FilterViewService: FilterViewServiceInterface, HasDependencies {
 				containerView.addSubview(label)
 				label.snp.makeConstraints {
 					if currentLineWidth + labelWidth + 10 < containerWidth {
-						$0.leading.equalToSuperview().offset(currentLineWidth == 0 ? 0 : currentLineWidth + 10)
+						currentLineOffset += 10
+						$0.leading.equalToSuperview().offset(currentLineWidth == 0 ? 0 : currentLineWidth + currentLineOffset)
 						currentLineWidth += labelWidth
 					} else {
+						currentLineOffset = 0
 						$0.leading.equalToSuperview()
 						topOffset += (10 + Int(labelHeight))
 						currentLineWidth = labelWidth

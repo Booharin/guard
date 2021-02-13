@@ -148,7 +148,7 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 															 items: self.conversations)
 		dataSourceSubject?.onNext([section])
 		
-		if self.view.tableView.contentSize.height + 200 < self.view.tableView.frame.height {
+		if self.view.tableView.contentSize.height + 300 < self.view.tableView.frame.height {
 			self.view.tableView.isScrollEnabled = false
 		} else {
 			self.view.tableView.isScrollEnabled = true
