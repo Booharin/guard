@@ -52,6 +52,9 @@
 		5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69324C761C3000BEE13 /* TableViewItem.swift */; };
 		5222B69624C761D6000BEE13 /* TableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69524C761D6000BEE13 /* TableViewSection.swift */; };
 		52337F212598F264009D8297 /* IssueLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52337F202598F264009D8297 /* IssueLabel.swift */; };
+		5233F27D25D7FD000018748C /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5233F27C25D7FD000018748C /* Lottie.framework */; };
+		5233F27E25D7FD000018748C /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5233F27C25D7FD000018748C /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5233F28125D7FD650018748C /* LottieAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5233F28025D7FD650018748C /* LottieAnimationView.swift */; };
 		5235F287250CB6EA00639FC4 /* AppealCreatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235F286250CB6EA00639FC4 /* AppealCreatingViewController.swift */; };
 		5235F289250CB7A400639FC4 /* AppealCreatingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235F288250CB7A400639FC4 /* AppealCreatingViewModel.swift */; };
 		523AEAF1251E464B00F1E607 /* LogoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523AEAF0251E464B00F1E607 /* LogoutCell.swift */; };
@@ -101,6 +104,7 @@
 		52524E6124FED0E30078AA62 /* SkipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52524E6024FED0E30078AA62 /* SkipButton.swift */; };
 		5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753024B84CFC00CC729C /* ChooseCoordinator.swift */; };
 		5253753324B84D5200CC729C /* ChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253753224B84D5200CC729C /* ChooseViewController.swift */; };
+		52593D2D25D800CD00D6140E /* LottieAnimations in Resources */ = {isa = PBXBuildFile; fileRef = 52593D2C25D800CD00D6140E /* LottieAnimations */; };
 		525BFA6925097405005393B1 /* sf-ui-display-light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 525BFA6825097402005393B1 /* sf-ui-display-light.ttf */; };
 		525BFA6B250A0279005393B1 /* ClientAppealDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525BFA6A250A0279005393B1 /* ClientAppealDataSource.swift */; };
 		525BFA74250A0723005393B1 /* Date+TimeStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525BFA73250A0723005393B1 /* Date+TimeStamp.swift */; };
@@ -244,6 +248,7 @@
 				52B1EE5025A46A390088B8AF /* RxSwift.framework in Embed Frameworks */,
 				52B1EE4C25A46A350088B8AF /* RxGesture.framework in Embed Frameworks */,
 				52B1EE5425A46A3E0088B8AF /* Starscream.framework in Embed Frameworks */,
+				5233F27E25D7FD000018748C /* Lottie.framework in Embed Frameworks */,
 				52B1EE3F25A46A290088B8AF /* Alamofire.framework in Embed Frameworks */,
 				52B1EE4E25A46A370088B8AF /* RxRelay.framework in Embed Frameworks */,
 				52B1EE4A25A46A330088B8AF /* RxDataSources.framework in Embed Frameworks */,
@@ -308,6 +313,8 @@
 		5222B69524C761D6000BEE13 /* TableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSection.swift; sourceTree = "<group>"; };
 		5222DBFC25B482FF00BA4929 /* Guard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Guard.entitlements; sourceTree = "<group>"; };
 		52337F202598F264009D8297 /* IssueLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueLabel.swift; sourceTree = "<group>"; };
+		5233F27C25D7FD000018748C /* Lottie.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = Carthage/Build/iOS/Lottie.framework; sourceTree = "<group>"; };
+		5233F28025D7FD650018748C /* LottieAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimationView.swift; sourceTree = "<group>"; };
 		5235F286250CB6EA00639FC4 /* AppealCreatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealCreatingViewController.swift; sourceTree = "<group>"; };
 		5235F288250CB7A400639FC4 /* AppealCreatingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealCreatingViewModel.swift; sourceTree = "<group>"; };
 		523A67BD24C2C6FA0008E8AF /* RxDataSources.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxDataSources.framework; path = Carthage/Build/iOS/RxDataSources.framework; sourceTree = "<group>"; };
@@ -361,6 +368,7 @@
 		52524E6024FED0E30078AA62 /* SkipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkipButton.swift; sourceTree = "<group>"; };
 		5253753024B84CFC00CC729C /* ChooseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseCoordinator.swift; sourceTree = "<group>"; };
 		5253753224B84D5200CC729C /* ChooseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewController.swift; sourceTree = "<group>"; };
+		52593D2C25D800CD00D6140E /* LottieAnimations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = LottieAnimations; sourceTree = "<group>"; };
 		52597DC424BB8FC9005A922F /* RxGesture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxGesture.framework; path = Carthage/Build/iOS/RxGesture.framework; sourceTree = "<group>"; };
 		525BFA6825097402005393B1 /* sf-ui-display-light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sf-ui-display-light.ttf"; sourceTree = "<group>"; };
 		525BFA6A250A0279005393B1 /* ClientAppealDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealDataSource.swift; sourceTree = "<group>"; };
@@ -487,6 +495,7 @@
 				52B1EE4925A46A330088B8AF /* RxDataSources.framework in Frameworks */,
 				52B1EE4325A46A2D0088B8AF /* KeychainSwift.framework in Frameworks */,
 				52B1EE5325A46A3E0088B8AF /* Starscream.framework in Frameworks */,
+				5233F27D25D7FD000018748C /* Lottie.framework in Frameworks */,
 				52B1EE3E25A46A290088B8AF /* Alamofire.framework in Frameworks */,
 				52B1EE4F25A46A390088B8AF /* RxSwift.framework in Frameworks */,
 				52B1EE4725A46A310088B8AF /* RxCocoa.framework in Frameworks */,
@@ -713,6 +722,7 @@
 		522E5BE424A37C2F00879741 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5233F27F25D7FD2D0018748C /* LottieAnimationView */,
 				52BCC3B225C182C90020F9F3 /* StackView */,
 				52524E5F24FECF5E0078AA62 /* Buttons */,
 				5251AFB524A2851200467E84 /* NavigationController */,
@@ -730,6 +740,14 @@
 				52337F202598F264009D8297 /* IssueLabel.swift */,
 			);
 			path = Label;
+			sourceTree = "<group>";
+		};
+		5233F27F25D7FD2D0018748C /* LottieAnimationView */ = {
+			isa = PBXGroup;
+			children = (
+				5233F28025D7FD650018748C /* LottieAnimationView.swift */,
+			);
+			path = LottieAnimationView;
 			sourceTree = "<group>";
 		};
 		5235F285250CB6C600639FC4 /* AppealCreating */ = {
@@ -885,7 +903,6 @@
 				52483BAD24A279470003A56A /* Services */,
 				5251AFAD24A2826C00467E84 /* Utils */,
 				5251AFAB24A2825000467E84 /* Common */,
-				52483BAA24A279160003A56A /* SupportingFiles */,
 			);
 			path = Guard;
 			sourceTree = "<group>";
@@ -910,6 +927,7 @@
 		52483BAA24A279160003A56A /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				52593D2C25D800CD00D6140E /* LottieAnimations */,
 				521E64A524F846A800FF96ED /* Fonts */,
 				521E64BD24F8F77900FF96ED /* Info.plist */,
 				52483B9D24A2774F0003A56A /* Assets.xcassets */,
@@ -984,6 +1002,7 @@
 		5251AFA024A281F100467E84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5233F27C25D7FD000018748C /* Lottie.framework */,
 				527E4D46258F53EC00744A40 /* Reachability.framework */,
 				52ADFD3C256A5959008F98C4 /* Starscream.framework */,
 				52ADFD39256A5931008F98C4 /* KeychainSwift.framework */,
@@ -1017,6 +1036,7 @@
 				522E5BE424A37C2F00879741 /* Views */,
 				5251AFC024A28FA400467E84 /* Extensions */,
 				5251AFAC24A2825B00467E84 /* Constants */,
+				52483BAA24A279160003A56A /* SupportingFiles */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1619,6 +1639,7 @@
 				52A271B22508E4970050FB60 /* Saira-SemiBold.ttf in Resources */,
 				52483B9E24A2774F0003A56A /* Assets.xcassets in Resources */,
 				527880D32508141B00EB2B9B /* sf-ui-display-bold.ttf in Resources */,
+				52593D2D25D800CD00D6140E /* LottieAnimations in Resources */,
 				521E64C524F8FB6A00FF96ED /* LaunchScreen.storyboard in Resources */,
 				521E64B224F849CC00FF96ED /* Saira-Regular.ttf in Resources */,
 				521E64AA24F8480600FF96ED /* sf-ui-display-regular.ttf in Resources */,
@@ -1652,6 +1673,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Starscream.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Lottie.framework",
 			);
 			outputFileListPaths = (
 			);
@@ -1805,6 +1827,7 @@
 				5222B68624C75609000BEE13 /* UITableViewCell+Identifier.swift in Sources */,
 				52AF28E62506145D00287A8F /* LawyerCell.swift in Sources */,
 				52C4DBD425C1460D00CDC148 /* ReviewCell.swift in Sources */,
+				5233F28125D7FD650018748C /* LottieAnimationView.swift in Sources */,
 				52A271BE2508F94A0050FB60 /* ClientAppealCell.swift in Sources */,
 				52B5042B25AEE30E00C2D0E3 /* ChatNetworkRouter.swift in Sources */,
 				523C8CD9256271C2006DECAB /* AuthService.swift in Sources */,
