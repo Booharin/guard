@@ -15,45 +15,53 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 	var view: LawyersListViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
-    
-    private let userProfileDict: [String : Any] = [
-        "userType": "lawyer",
-        "email": "some@bk.ru",
-        "firstName": "Alex",
-        "lastName": "Vardanyan",
-        "city": "Moscow",
-        "rate": 4.4
-    ]
-    
-    private let cities = [
-        "cities.moscow".localized
-    ]
-    
-    var lawyers = [UserProfile]()
+
+	private var lawyersListSubject: PublishSubject<Any>?
+	private var updateLayersListSubject: PublishSubject<Int>?
+
+	private var router: LawyerListRouterProtocol
+	private var selectedIssues = [Int]()
+	private var currentCity: CityModel?
+	private var issueType: IssueType?
+
+	private var cities: [String] {
+		return di.localStorageService.getRussianCities().map { $0.title }
+	}
+
+	var lawyers = [UserProfile]()
 
 	typealias Dependencies =
-	HasLocationService &
-	HasLocalStorageService
+		HasLocationService &
+		HasLocalStorageService &
+		HasLawyersNetworkService &
+		HasFilterViewService
 	lazy var di: Dependencies = DI.dependencies
-	
-	let toLawyerSubject: PublishSubject<UserProfile>
 
-	init(toLawyerSubject: PublishSubject<UserProfile>) {
-		self.toLawyerSubject = toLawyerSubject
+	private var toLawyerSubject: PublishSubject<UserProfile>?
+	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, UserProfile>]>?
+
+	init(router: LawyerListRouterProtocol,
+		 issueType: IssueType?) {
+		self.router = router
+		self.issueType = issueType
 	}
 
 	func viewDidSet() {
-
-        getLawyersFromProfiles()
-
+		toLawyerSubject = PublishSubject<UserProfile>()
+		toLawyerSubject?
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { profile in
+				self.router.passToLawyer(with: profile)
+			})
+			.disposed(by: disposeBag)
 		// table view data source
 		let section = SectionModel<String, UserProfile>(model: "",
 														items: lawyers)
-		let items = BehaviorSubject<[SectionModel]>(value: [section])
-		items
+		dataSourceSubject = BehaviorSubject<[SectionModel]>(value: [section])
+		dataSourceSubject?
 			.bind(to: view.tableView
-				.rx
-				.items(dataSource: LawyersListDataSource.dataSource(toLawyerSubject: toLawyerSubject)))
+					.rx
+					.items(dataSource: LawyersListDataSource.dataSource(toLawyerSubject: toLawyerSubject)))
 			.disposed(by: disposeBag)
 
 		// back button
@@ -70,10 +78,35 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 					})
 				})
 			})
-			.subscribe(onNext: { _ in
-				//
+			.subscribe(onNext: { [unowned self] _ in
+				self.di.filterViewService.showFilterView(with: selectedIssues)
 			}).disposed(by: disposeBag)
-		
+
+		di.filterViewService.selectedIssuesSubject
+			.do(onNext: { [weak self] _ in
+				self?.view.loadingView.play()
+			})
+			.do(onNext: { [weak self] issues in
+				// save selected issues
+				self?.selectedIssues = issues
+			})
+			.flatMap { [unowned self] issues in
+				self.di.lawyersNetworkService.getLawyers(by: issues,
+														 city: currentCity?.title ?? "")
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stop()
+				switch result {
+					case .success(let lawyers):
+						self?.update(with: lawyers)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			})
+			.disposed(by: disposeBag)
+
 		// back button
 		view.titleView
 			.rx
@@ -87,61 +120,102 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 						self.view.titleView.alpha = 1
 					})
 				})
-                self.view.showActionSheet(with: self.cities)
+				self.view.showActionSheet(with: self.cities)
 			})
 			.subscribe(onNext: { _ in
 				//
 			}).disposed(by: disposeBag)
-		
+
 		view.titleLabel.font = Saira.semiBold.of(size: 16)
 		view.titleLabel.textColor = Colors.mainTextColor
-		if let profile = di.localStorageService.getProfile() {
-			view.titleLabel.text = "\(profile.city)"
+		if let profile = di.localStorageService.getCurrenClientProfile() {
+			di.localStorageService.getRussianCities().forEach() { city in
+				if city.cityCode == profile.cityCode?.first {
+					if let locale = Locale.current.languageCode, locale == "ru" {
+						view.titleLabel.text = city.title
+					} else {
+						view.titleLabel.text = city.titleEn
+					}
+					currentCity = city
+				}
+			}
+		}
+
+		// empty lawyers label
+		view.emptyLawyersLabel.isHidden = true
+		view.emptyLawyersLabel.textAlignment = .center
+		view.emptyLawyersLabel.numberOfLines = 0
+		view.emptyLawyersLabel.font = Saira.regular.of(size: 16)
+		view.emptyLawyersLabel.textColor = Colors.subtitleColor
+		view.emptyLawyersLabel.text = "lawyers.empty.title".localized
+
+		lawyersListSubject = PublishSubject<Any>()
+		lawyersListSubject?
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.lawyersNetworkService.getAllLawyers(from: currentCity?.title ?? "")
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stop()
+				switch result {
+					case .success(let lawyers):
+						self?.update(with: lawyers)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		view.loadingView.play()
+
+		// MARK: - Check if issue type selected from client registration
+		if issueType == nil {
+			lawyersListSubject?.onNext(())
+		} else if let subIssueCode = issueType?.subIssueCode {
+			self.selectedIssues = [subIssueCode]
+
+			updateLayersListSubject = PublishSubject<Int>()
+			updateLayersListSubject?
+				.asObservable()
+				.flatMap { [unowned self] subIssueCode in
+					self.di.lawyersNetworkService.getLawyers(by: [subIssueCode],
+															 city: currentCity?.title ?? "")
+				}
+				.observeOn(MainScheduler.instance)
+				.subscribe(onNext: { [weak self] result in
+					self?.view.loadingView.stop()
+					switch result {
+					case .success(let lawyers):
+						self?.update(with: lawyers)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+					}
+				})
+				.disposed(by: disposeBag)
+			updateLayersListSubject?.onNext(subIssueCode)
 		}
 	}
-	
-	func update(with lawyers: [UserProfile]) {
+
+	private func update(with lawyers: [UserProfile]) {
 		self.lawyers = lawyers
-		DispatchQueue.main.async {
-			self.view.tableView.reloadData()
+		let section = SectionModel<String, UserProfile>(model: "",
+														items: lawyers)
+		dataSourceSubject?.onNext([section])
+
+		if lawyers.isEmpty {
+			view.emptyLawyersLabel.isHidden = false
+		} else {
+			view.emptyLawyersLabel.isHidden = true
 		}
-		
-		if self.view.tableView.contentSize.height < self.view.tableView.frame.height {
-            self.view.tableView.isScrollEnabled = false
+
+		if self.view.tableView.contentSize.height + 100 < self.view.tableView.frame.height {
+			self.view.tableView.isScrollEnabled = false
 		} else {
 			self.view.tableView.isScrollEnabled = true
 		}
 	}
-    
-    private func getLawyersFromProfiles() {
-        let userProfilesArray = [
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict,
-            userProfileDict
-        ]
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: userProfilesArray,
-                                                      options: .prettyPrinted)
-            let profilesResponse = try JSONDecoder().decode([UserProfile].self, from: jsonData)
-            self.update(with: profilesResponse)
-        } catch {
-            #if DEBUG
-            print(error)
-            #endif
-        }
-    }
-	
+
 	func removeBindings() {}
 }

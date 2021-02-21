@@ -20,7 +20,7 @@ final class AuthCoordinator: BaseCoordinator {
 	
 	private func showLoginModule() {
 		// to main
-		let toMainSubject = PublishSubject<UserType>()
+		let toMainSubject = PublishSubject<UserRole>()
 		toMainSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [unowned self] in
@@ -28,6 +28,7 @@ final class AuthCoordinator: BaseCoordinator {
 				self.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)
+
 		// to registration
 		let toChooseSubject = PublishSubject<Any>()
 		toChooseSubject
@@ -37,6 +38,7 @@ final class AuthCoordinator: BaseCoordinator {
 				self.onFinishFlow?()
 			})
 			.disposed(by: disposeBag)
+
 		// forgot password
 		let toForgotPasswordSubject = PublishSubject<Any>()
 		toForgotPasswordSubject
@@ -47,12 +49,13 @@ final class AuthCoordinator: BaseCoordinator {
 				navVC.pushViewController(forgotController, animated: true)
 			})
 			.disposed(by: disposeBag)
-		
+
+		// to auth
 		let viewModel = AuthViewModel(toMainSubject: toMainSubject,
 									  toChooseSubject: toChooseSubject,
 									  toForgotPasswordSubject: toForgotPasswordSubject)
 		let controller = AuthViewController(viewModel: viewModel)
-		
+
 		if let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController {
 			navVC.pushViewController(controller, animated: true)
 		} else {
@@ -61,9 +64,9 @@ final class AuthCoordinator: BaseCoordinator {
 			self.rootController = rootController
 		}
 	}
-	
-	private func toMain(_ userType: UserType) {
-		let coordinator = MainCoordinator(userType: userType)
+
+	private func toMain(_ userRole: UserRole) {
+		let coordinator = MainCoordinator(userRole: userRole)
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)
 			self?.start()
@@ -71,7 +74,7 @@ final class AuthCoordinator: BaseCoordinator {
 		addDependency(coordinator)
 		coordinator.start()
 	}
-	
+
 	private func toChoose() {
 		let coordinator = ChooseCoordinator()
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in

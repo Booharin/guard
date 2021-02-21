@@ -11,29 +11,51 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-final class ChatViewModel: ViewModel {
+final class ChatViewModel: ViewModel, HasDependencies {
 	var view: ChatViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
-	private let chatConversation: ChatConversation
+	private var chatConversation: ChatConversation
 	private var messages = [ChatMessage]()
-	
-	init(chatConversation: ChatConversation) {
-        self.chatConversation = chatConversation
-    }
-	
-	func viewDidSet() {
-		getMessagesFromServer()
+	private let router: ChatRouterProtocol
 
+	typealias Dependencies =
+		HasNotificationService &
+		HasSocketStompService &
+		HasLocalStorageService &
+		HasChatNetworkService &
+		HasAppealsNetworkService &
+		HasLawyersNetworkService
+	lazy var di: Dependencies = DI.dependencies
+
+	var messagesListSubject: PublishSubject<Any>?
+	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ChatMessage>]>?
+	private let createConversationSubject = PublishSubject<Any>()
+	private let createConversationByAppealSubject = PublishSubject<Any>()
+	private let profileByIdSubject = PublishSubject<Int>()
+	private var messageForSending: String?
+
+	var imageForSending: Data?
+	private var currentProfile: UserProfile? {
+		di.localStorageService.getCurrenClientProfile()
+	}
+
+	init(chatConversation: ChatConversation,
+		 router: ChatRouterProtocol) {
+		self.chatConversation = chatConversation
+		self.router = router
+	}
+
+	func viewDidSet() {
 		// table view data source
 		let section = SectionModel<String, ChatMessage>(model: "",
 														items: messages)
-        let items = BehaviorSubject<[SectionModel]>(value: [section])
-        items
-            .bind(to: view.tableView
-                .rx
-                .items(dataSource: ChatDataSource.dataSource()))
-            .disposed(by: disposeBag)
+		dataSourceSubject = BehaviorSubject<[SectionModel]>(value: [section])
+		dataSourceSubject?
+			.bind(to: view.tableView
+					.rx
+					.items(dataSource: ChatDataSource.dataSource()))
+			.disposed(by: disposeBag)
 
 		// back button
 		view.backButtonView
@@ -52,7 +74,7 @@ final class ChatViewModel: ViewModel {
 			.subscribe(onNext: { [weak self] _ in
 				self?.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
-		
+
 		// appeal button
 		view.appealButtonView
 			.rx
@@ -67,15 +89,48 @@ final class ChatViewModel: ViewModel {
 					})
 				})
 			})
-			.subscribe(onNext: { [weak self] _ in
-				//
+			.filter { _ in
+				if self.chatConversation.appealId == nil {
+					return false
+				} else {
+					return true
+				}
+			}
+			.flatMap { [unowned self] _ in
+				self.di.appealsNetworkService.getAppeal(by: self.chatConversation.appealId ?? 0)
+			}
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stop()
+				switch result {
+					case .success(let appeal):
+						self?.router.passageToAppealDescription(appeal: appeal)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
 			}).disposed(by: disposeBag)
-		
+
 		// title
 		view.titleLabel.font = SFUIDisplay.bold.of(size: 15)
 		view.titleLabel.textColor = Colors.mainTextColor
-		view.titleLabel.text = chatConversation.companion.fullName
-		
+		view.titleLabel.text = chatConversation.fullName
+		view.titleLabel
+			.rx
+			.tapGesture()
+			.when(.recognized)
+			.do(onNext: { [unowned self] _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.titleLabel.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.titleLabel.alpha = 1
+					})
+				})
+			})
+			.subscribe(onNext: { [weak self] _ in
+				self?.profileByIdSubject.onNext(self?.chatConversation.userId ?? 0)
+			}).disposed(by: disposeBag)
+
 		// swipe to go back
 		view.view
 			.rx
@@ -84,7 +139,7 @@ final class ChatViewModel: ViewModel {
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
-		
+
 		// MARK: - Check keyboard showing
 		keyboardHeight()
 			.observeOn(MainScheduler.instance)
@@ -108,14 +163,245 @@ final class ChatViewModel: ViewModel {
 				}
 			})
 			.disposed(by: disposeBag)
+
+		view.chatBarView
+			.textViewChangeHeight
+			.subscribe(onNext: { [unowned self] height in
+				guard height < 200 else { return }
+				self.view.chatBarView.snp.updateConstraints {
+					$0.height.equalTo(height)
+				}
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.view.layoutIfNeeded()
+				})
+			}).disposed(by: disposeBag)
+
+		//MARK: - Send message
+		view.chatBarView.sendSubject
+			.subscribe(onNext: { [unowned self] text in
+				// if new conversation need to create
+				if chatConversation.id == -1 {
+					self.messageForSending = text
+
+					if chatConversation.appealId == nil {
+						self.createConversationSubject.onNext(())
+					} else {
+						self.createConversationByAppealSubject.onNext(())
+					}
+				} else {
+					self.sendMessage(with: text)
+				}
+			}).disposed(by: disposeBag)
+
+		//MARK: - Send data
+		view.chatBarView.attachSubject
+			.subscribe(onNext: { [weak self] _ in
+//				guard let self = self else { return }
+//				guard let imageData = self.imageForSending else {
+//					self.view.takePhotoFromGallery()
+//					return
+//				}
+//
+//				let path = "/app/chat/\(self.chatConversation.id)/\(self.chatConversation.userId)/\(self.currentProfile?.firstName ?? "Sender")/\(self.currentProfile?.id ?? 0)/sendPhotoMessageCheck"
+//				self.di.socketStompService.sendData(with: imageData,
+//													to: path,
+//													receiptId: "",
+//													headers: ["content-type": "application/json"])
+//				self.imageForSending = nil
+//				self.messagesListSubject?.onNext(())
+				
+				
+///////////////////////////////////////////////////////////////---------------------------------------------------
+//				let strBase64 = imageData.base64EncodedString()
+//
+//				let dict: [String: Any] = [
+//					"senderName": self?.di.localStorageService.getCurrenClientProfile()?.firstName ?? "Name",
+//					"content": strBase64,
+//					"senderId": self?.di.localStorageService.getCurrenClientProfile()?.id ?? 0
+//				]
+//				do {
+//					let jsonData = try JSONSerialization.data(withJSONObject: dict,
+//															  options: .prettyPrinted)
+//					guard let jSONText = String(data: jsonData, encoding: .utf8) else { return }
+//
+//					let path =
+//						"""
+//						/app/chat/\(self?.chatConversation.id ?? 0)/\(self?.chatConversation.userId ?? 0)/sendPhotoMessage
+//						"""
+//
+//					self?.di.socketStompService.sendMessage(with: jSONText,
+//															to: path,
+//															receiptId: "",
+//															headers: ["content-type": "application/json"])
+//					self.imageForSending = nil
+//					self.messagesListSubject?.onNext(())
+//				} catch {
+//					print(error.localizedDescription)
+//				}
+//				self?.messagesListSubject?.onNext(())
+			}).disposed(by: disposeBag)
+
+		messagesListSubject = PublishSubject<Any>()
+		messagesListSubject?
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.getMessages(with: chatConversation.id)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stop()
+				switch result {
+					case .success(let messages):
+						self?.update(with: messages)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		view.loadingView.play()
+
+		//MARK: - incoming message
+		di.socketStompService.incomingMessageSubject
+			.asObservable()
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] _ in
+				self?.messagesListSubject?.onNext(())
+			}).disposed(by: disposeBag)
+
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(updateMessages),
+			name: NSNotification.Name(rawValue: Constants.NotificationKeys.updateMessages),
+			object: nil)
+
+		// MARK: - Create conversation (client create)
+		createConversationSubject
+			.asObservable()
+			.do(onNext: { _ in
+				self.view.loadingView.play()
+			})
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.createConversation(lawyerId: self.chatConversation.userId,
+										clientId: currentProfile?.id ?? 0)
+			}
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.getConversations(with: currentProfile?.id ?? 0,
+									  isLawyer: false)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stop()
+				switch result {
+					case .success(let conversations):
+						conversations.forEach { chat in
+							if chat.userId == self?.chatConversation.userId {
+								self?.chatConversation = chat
+								self?.sendMessage(with: self?.messageForSending ?? "")
+							}
+						}
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		// MARK: - Create conversation by appeal (lawyer create)
+		createConversationByAppealSubject
+			.asObservable()
+			.do(onNext: { _ in
+				self.view.loadingView.play()
+			})
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.createConversationByAppeal(lawyerId: currentProfile?.id ?? 0,
+												clientId: self.chatConversation.userId,
+												appealId: self.chatConversation.appealId ?? 0)
+			}
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.getConversations(with: currentProfile?.id ?? 0,
+									  isLawyer: true)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stop()
+				switch result {
+				case .success(let conversations):
+					conversations.forEach { chat in
+						// update conversation after saving
+						if chat.userId == self?.chatConversation.userId {
+							self?.chatConversation = chat
+							self?.sendMessage(with: self?.messageForSending ?? "")
+						}
+					}
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		// MARK: - Geting profile by id
+		profileByIdSubject
+			.asObservable()
+			.do(onNext: { _ in
+				self.view.loadingView.play()
+			})
+			.flatMap { [unowned self] profileId in
+				self.di.lawyersNetworkService.getLawyer(by: profileId)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stop()
+				switch result {
+				case .success(let profile):
+					if profile.userRole == .lawyer {
+						self?.router.passageToLawyer(with: profile)
+					} else {
+						self?.router.passageToClientProfile(with: profile)
+					}
+					print(profile)
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+	}
+
+	private func sendMessage(with text: String) {
+		let dict: [String: Any] = [
+			"senderName": self.di.localStorageService.getCurrenClientProfile()?.firstName ?? "Name",
+			"content": text,
+			"senderId": self.di.localStorageService.getCurrenClientProfile()?.id ?? 0
+		]
+		do {
+			let jsonData = try JSONSerialization.data(withJSONObject: dict,
+													  options: .prettyPrinted)
+			guard let jSONText = String(data: jsonData, encoding: .utf8) else { return }
+
+			self.di.socketStompService.sendMessage(with: jSONText,
+												   to: "/app/chat/\(chatConversation.id)/\(chatConversation.userId)/sendMessage",
+												   receiptId: "",
+												   headers: ["content-type": "application/json"])
+			self.view.chatBarView.clearMessageTextView()
+			self.view.loadingView.play()
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+				self.messagesListSubject?.onNext(())
+			}
+		} catch {
+			print(error.localizedDescription)
+		}
 	}
 
 	// MARK: - Scroll table view to bottom
 	func scrollToBottom() {
-        let indexPath = IndexPath(row: messages.count-1, section: 0)
-        guard indexPath.row >= 0 else { return }
+		let indexPath = IndexPath(row: messages.count-1, section: 0)
+		guard indexPath.row >= 0 else { return }
 		self.view.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
-    }
+	}
 
 	private func keyboardHeight() -> Observable<CGFloat> {
 		return Observable
@@ -123,59 +409,34 @@ final class ChatViewModel: ViewModel {
 				NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
 					.map { notification -> CGFloat in
 						(notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0
-				},
+					},
 				NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
 					.map { _ -> CGFloat in
 						0
-				}
+					}
 			])
 			.merge()
 	}
-	
-	private func getMessagesFromServer() {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: messagesArray,
-                                                      options: .prettyPrinted)
-            let messagesResponse = try JSONDecoder().decode([ChatMessage].self, from: jsonData)
-            self.messages = messagesResponse
-			self.view.updateTableView()
-        } catch {
-            #if DEBUG
-            print(error)
-            #endif
-        }
-    }
+
+	private func update(with messages: [ChatMessage]) {
+		self.messages = messages.sorted {
+			$0.dateCreated < $1.dateCreated
+		}
+		let section = SectionModel<String, ChatMessage>(model: "",
+														items: self.messages)
+		dataSourceSubject?.onNext([section])
+		scrollToBottom()
+
+		if self.view.tableView.contentSize.height + 200 < self.view.tableView.frame.height {
+			self.view.tableView.isScrollEnabled = false
+		} else {
+			self.view.tableView.isScrollEnabled = true
+		}
+	}
+
+	@objc private func updateMessages() {
+		messagesListSubject?.onNext(())
+	}
 
 	func removeBindings() {}
-	
-	private let messagesArray = [
-        ["dateCreated": 1599719845.0,
-        "text": "Да мне тоже похуй, если честно!",
-        "conversationId": 1,
-		"eventOwner": "incoming"],
-		["dateCreated": 1600279290.0,
-        "text": "Да и нахуй мне нужны такие ваши услуги!",
-        "conversationId": 1,
-		"eventOwner": "outgoing"],
-		["dateCreated": 1600279290.0,
-        "text": "Надоело всё, не можете у моей жены штаны вернуть, а они мне дороги!",
-        "conversationId": 1,
-		"eventOwner": "outgoing"],
-		["dateCreated": 1600279289.0,
-        "text": "Делаю, всё что могу, она их не отдает, говорит, что еще собака ваша на них рожала",
-        "conversationId": 1,
-		"eventOwner": "incoming"],
-		["dateCreated": 1600279288.0,
-        "text": "Думаете легко с ней общаться постоянно?",
-        "conversationId": 1,
-		"eventOwner": "incoming"],
-		["dateCreated": 1600279287.0,
-        "text": "Ну как продвигается?",
-        "conversationId": 1,
-		"eventOwner": "outgoing"],
-		["dateCreated": 1600279287.0,
-        "text": "Добрый день",
-        "conversationId": 1,
-		"eventOwner": "outgoing"]
-    ]
 }

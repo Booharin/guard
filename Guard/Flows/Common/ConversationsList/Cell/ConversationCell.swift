@@ -38,7 +38,7 @@ final class ConversationCell: UITableViewCell, ConversationCellProtocol {
 	}
 	
 	private func addViews() {
-		addSubview(containerView)
+		contentView.addSubview(containerView)
 		containerView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
 		}

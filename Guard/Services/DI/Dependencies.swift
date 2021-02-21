@@ -9,29 +9,65 @@
 import Foundation
 
 protocol HasDependencies: class {
-    associatedtype Dependencies
-    
-    var di: Dependencies { get set }
+	associatedtype Dependencies
+	
+	var di: Dependencies { get set }
 }
 
 struct Dependencies:
-    HasLocationService,
-	HasLocalStorageService {
+	HasLocationService,
+	HasLocalStorageService,
+	HasAlertService,
+	HasFilterViewService,
+	HasAuthService,
+	HasRegistrationService,
+	HasLawyersNetworkService,
+	HasAppealsNetworkService,
+	HasCommonDataNetworkService,
+	HasChatNetworkService,
+	HasClientNetworkService,
+	HasSocketStompService,
+	HasKeyChainService,
+	HasNotificationService {
 	
-    var locationService: LocationServiceInterface
+	var locationService: LocationServiceInterface
 	var localStorageService: LocalStorageServiceInterface
+	var alertService: AlertServiceInterface
+	var filterViewService: FilterViewServiceInterface
+	var authService: AuthServiceInterface
+	var registrationService: RegistrationServiceInterface
+	var lawyersNetworkService: LawyersNetworkServiceInterface
+	var appealsNetworkService: AppealsNetworkServiceInterface
+	var commonDataNetworkService: CommonDataNetworkServiceInterface
+	var chatNetworkService: ChatNetworkServiceInterface
+	var clientNetworkService: ClientNetworkServiceInterface
+	var socketStompService: SocketStompServiceInterface
+	var keyChainService: KeyChainServiceInterface
+	var notificationService: NotificationServiceInterface
 }
 
 enum DI {
-    static var dependencies: Dependencies!
+	static var dependencies: Dependencies!
 }
 
 class AppDIContainer {
-    
-    func createAppDependencies(launchOptions: [AnyHashable: Any]) -> Dependencies {
-        
+	
+	func createAppDependencies(launchOptions: [AnyHashable: Any]) -> Dependencies {
+
 		let d = Dependencies(locationService: LocationSerice(),
-							 localStorageService: LocalStorageService())
-        return d
-    }
+							 localStorageService: LocalStorageService(),
+							 alertService: AlertService(),
+							 filterViewService: FilterViewService(),
+							 authService: AuthService(),
+							 registrationService: RegistrationService(),
+							 lawyersNetworkService: LawyersNetworkService(),
+							 appealsNetworkService: AppealsNetworkService(),
+							 commonDataNetworkService: CommonDataNetworkService(),
+							 chatNetworkService: ChatNetworkService(),
+							 clientNetworkService: ClientNetworkService(),
+							 socketStompService: SocketStompService(environment: EnvironmentImp()),
+							 keyChainService: KeyChainService(),
+							 notificationService: NotificationService())
+		return d
+	}
 }

@@ -21,10 +21,10 @@ protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
 	
 	var enterButton: ConfirmButton { get }
 	var backButtonView: BackButtonView { get }
-	var skipButtonView: SkipButtonView { get }
+	var skipButton: SkipButton { get }
 	var alreadyRegisteredLabel: UILabel { get }
 	
-	var loadingView: UIActivityIndicatorView { get }
+	var loadingView: LottieAnimationView { get }
 }
 
 import UIKit
@@ -48,13 +48,14 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 	var confirmationPasswordTextField = TextField()
 	var cityTextField = TextField()
 	var alertLabel = UILabel()
-	
+
 	var enterButton = ConfirmButton(title: "registration.sign_up.title".localized.uppercased())
 	var backButtonView = BackButtonView()
-	var skipButtonView = SkipButtonView()
+	var skipButton = SkipButton(title: "registration.skip.title".localized,
+								font: Saira.light.of(size: 15))
 	var alreadyRegisteredLabel = UILabel()
-	
-	var loadingView = UIActivityIndicatorView(style: .medium)
+
+	var loadingView = LottieAnimationView()
 	
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
@@ -78,14 +79,15 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		super.viewWillAppear(animated)
 		
 		navigationController?.isNavigationBarHidden = false
+		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
 		self.navigationItem.setHidesBackButton(true, animated:false)
 	}
 	
 	func setNavigationBar() {
 		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
-		let rightBarButtonItem = UIBarButtonItem(customView: skipButtonView)
+		//let rightBarButtonItem = UIBarButtonItem(customView: skipButton)
 		self.navigationItem.leftBarButtonItem = leftBarButtonItem
-		self.navigationItem.rightBarButtonItem = rightBarButtonItem
+		//self.navigationItem.rightBarButtonItem = rightBarButtonItem
 	}
 	
 	private func addViews() {
@@ -176,9 +178,11 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		}
 		// loading view
 		scrollView.addSubview(loadingView)
-		loadingView.hidesWhenStopped = true
 		loadingView.snp.makeConstraints {
-			$0.center.equalTo(scrollView.snp.center)
+			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
+//			$0.centerX.equalTo(scrollView.snp.centerX)
+//			$0.top.equalTo(scrollView.snp.top).offset(100)
 		}
 	}
 }

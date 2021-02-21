@@ -53,6 +53,11 @@
 //ISSUE
 "client.issue.header.title" = "Hi, there!";
 "client.issue.header.subtitle" = "What’s happend?";
+"client.issue.header.subcategory.title" = "Select a subcategory";
+"client.issue.header.subcategory.subtitle" = "or leave the general section";
+
+"lawyer.issue.header.title" = "Hi, there!";
+"lawyer.issue.header.subtitle" = "Your field?";
 
 "client.issue.drugs" = "Drugs";
 "client.issue.divorce" = "Divorce";
@@ -63,17 +68,38 @@
 //CITIES
 "cities.moscow" = "Moscow";
 
+//LAWYERS
+"lawyers.empty.title" = "There are no lawyers in your chosen area yet";
+
 //ALERT
 "alert.cancel" = "Cancel";
+"alert.yes" = "yes";
+"alert.no" = "no";
+"alert.ok" = "ok";
+"alert.warning.title" = "Warning";
+"alert.login.message" = "Wrong login or password";
 
 //APPEALS
 "appeals.greeting.title" = "Hi";
 "appeals.greeting.description" = "All your appeals is here";
+"appeals.empty.title" = "There are no appeals in your chosen area yet";
+
+//APPEAL
+"appeal.lawyerSelectedButton.title" = "lawyer selected";
+"appeal.edit.title" = "Edit";
+"appeal.saveButton.title" = "Save";
+"appeal.cancelButton.title" = "Cancel";
+"appeal.chatButton.titile" = "Chat";
+
+//FILTER
+"filter.title" = "Filters";
+"filter.byIssue" = "By work area:";
 
 //NEW_APPEL
 "new_appeal.title" = "New appeal creation";
 "new_appeal.header.title" = "Step 1 / 2";
 "new_appeal.header.subtitle" = "What’s happend?";
+"new_appeal.header.subcategory.subtitle" = "Select a subcategory or leave the general section";
 "new_appeal.subtitle.title" = "Step 2 / 2";
 "new_appeal.button.title" = "Create appeal";
 "new_appeal.title.textfield.placeholder" = "Title";
@@ -84,3 +110,45 @@
 "chat.greeting.description" = "All your conversations is here";
 "chat.placeholder" = "Message";
 
+//PROFILE
+"profile.action_sheet.settings" = "Settings";
+"profile.action_sheet.edit" = "Edit";
+"profile.action_sheet.cancel" = "Cancel";
+"profile.reviews" = "Reviews";
+"profile.rating" = "Rating";
+"profile.chat.button.titile" = "Chat";
+
+//EDIT_PROFILE
+"edit_profile.name.placeholder" = "Name";
+"edit_profile.surname.placeholder" = "Surname";
+"edit_profile.phone.placeholder" = "Phone";
+"edit_profile.email.placeholder" = "Email";
+"edit_profile.alert.title" = "Approval";
+"edit_profile.alert.message" = "Are you sure you want to change your profile information?";
+"edit_lawyer.empty_issues.title" = "You need at least one spcialization";
+"edit_lawyer.remove_issue.title" = "Are you sure you want to delete a specialization?";
+
+//SETTINGS
+"settings.title" = "Settings";
+"settings.visibility.title" = "Visibility";
+"settings.visibility.phone" = "Show phone";
+"settings.visibility.mail" = "Show email";
+"settings.visibility.chat" = "Enable chat";
+//CHANGE_PASSWORD
+"settings.change_password.title" = "Change password";
+"change_password.title" = "Password changing";
+"change_password.save_password.title" = "Save";
+"change_password.old_password.title" = "Old password";
+"change_password.new_password.title" = "New password";
+"change_password.oldPassword.error.title" = "Invalid old password";
+
+"settings.other.title" = "Other settings";
+"logout.title" = "Logout";
+"logout.alert.ok" = "Ok";
+"logout.alert.title" = "Caution";
+"logout.alert.message" = "Are you sure you want to log out of your profile?";
+//REVIEWS
+"reviews.title" = "Feedbacks";
+"new_review.title" = "Feedback";
+"new_review.textview.placeholder" = "Description";
+"new_review.create_button.titile" = "Save";

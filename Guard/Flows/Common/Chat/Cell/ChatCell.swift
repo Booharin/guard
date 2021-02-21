@@ -15,24 +15,23 @@ protocol ChatCellProtocol {
 	var dateLabel: UILabel { get }
 }
 
-final class ChatCell: UITableViewCell, ChatCellProtocol {
+final class ChatCell:
+	UITableViewCell,
+	ChatCellProtocol,
+	HasDependencies {
+
+	typealias Dependencies = HasLocalStorageService
+	lazy var di: Dependencies = DI.dependencies
+
 	var containerView = UIView()
 	var bubbleView = UIView()
 	var messageLabel = UILabel()
 	var dateLabel = UILabel()
 	var viewModel: ChatCellViewModel! {
 		didSet {
-			switch viewModel.chatMessage.messageType {
-			case .incoming:
-				// bubble
-				bubbleView.snp.makeConstraints {
-					$0.leading.equalToSuperview().offset(35)
-				}
-				// date
-				dateLabel.snp.makeConstraints {
-					$0.leading.equalTo(bubbleView.snp.leading).offset(2)
-				}
-			case .outgoing:
+			switch viewModel.chatMessage.senderId {
+			// outgoing
+			case di.localStorageService.getCurrenClientProfile()?.id ?? 0:
 				// bubble
 				bubbleView.snp.makeConstraints {
 					$0.trailing.equalToSuperview().offset(-35)
@@ -40,6 +39,16 @@ final class ChatCell: UITableViewCell, ChatCellProtocol {
 				// date
 				dateLabel.snp.makeConstraints {
 					$0.trailing.equalTo(bubbleView.snp.trailing).offset(-2)
+				}
+			// incoming
+			default:
+				// bubble
+				bubbleView.snp.makeConstraints {
+					$0.leading.equalToSuperview().offset(35)
+				}
+				// date
+				dateLabel.snp.makeConstraints {
+					$0.leading.equalTo(bubbleView.snp.leading).offset(2)
 				}
 			}
 		}

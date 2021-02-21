@@ -15,11 +15,16 @@ protocol ChatViewControllerProtocol: ViewControllerProtocol {
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
 	var chatBarView: ChatBarViewProtocol { get }
-	func updateTableView()
+	var loadingView: LottieAnimationView { get }
+	func takePhotoFromGallery()
 }
 
-final class ChatViewController<modelType: ChatViewModel>: UIViewController, UITableViewDelegate,
-ChatViewControllerProtocol where modelType.ViewType == ChatViewControllerProtocol {
+final class ChatViewController<modelType: ChatViewModel>:
+	UIViewController,
+	UITableViewDelegate,
+	UIImagePickerControllerDelegate,
+	UINavigationControllerDelegate,
+	ChatViewControllerProtocol {
 
 	var backButtonView = BackButtonView()
 	var appealButtonView = AppealButtonView()
@@ -32,38 +37,42 @@ ChatViewControllerProtocol where modelType.ViewType == ChatViewControllerProtoco
 		self.navigationController
 	}
 	var viewModel: modelType
+	var loadingView = LottieAnimationView()
+	private var imagePicker = UIImagePickerController()
 
 	init(viewModel: modelType) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
+		self.viewModel = viewModel
+		super.init(nibName: nil, bundle: nil)
+	}
 
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
 		self.viewModel.assosiateView(self)
 		view.backgroundColor = Colors.whiteColor
 		addViews()
 		setNavigationBar()
-    }
-	
+	}
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
+
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
+
+		viewModel.messagesListSubject?.onNext(())
 	}
-	
+
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-
+		
 		navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
 	}
-	
+
 	private func setNavigationBar() {
 		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
 		self.navigationItem.leftBarButtonItem = leftBarButtonItem
@@ -71,7 +80,7 @@ ChatViewControllerProtocol where modelType.ViewType == ChatViewControllerProtoco
 		self.navigationItem.rightBarButtonItem = rightBarButtonItem
 		self.navigationItem.titleView = titleView
 	}
-	
+
 	private func addViews() {
 		// title view
 		titleView.addSubview(titleLabel)
@@ -84,7 +93,7 @@ ChatViewControllerProtocol where modelType.ViewType == ChatViewControllerProtoco
 			$0.width.equalTo(titleLabel.snp.width).offset(46)
 			$0.height.equalTo(40)
 		}
-		
+
 		// chat bar
 		view.addSubview(chatBarView)
 		chatBarView.snp.makeConstraints {
@@ -92,7 +101,7 @@ ChatViewControllerProtocol where modelType.ViewType == ChatViewControllerProtoco
 			$0.bottom.equalToSuperview()
 			$0.height.equalTo(106)
 		}
-		
+
 		// table view
 		tableView.register(SelectIssueTableViewCell.self,
 						   forCellReuseIdentifier: SelectIssueTableViewCell.reuseIdentifier)
@@ -102,79 +111,105 @@ ChatViewControllerProtocol where modelType.ViewType == ChatViewControllerProtoco
 		tableView.estimatedRowHeight = 80
 		tableView.separatorStyle = .none
 		tableView.delegate = self
+		tableView.contentInset = UIEdgeInsets(top: 30,
+											  left: 0,
+											  bottom: 20,
+											  right: 0)
 		view.addSubview(tableView)
 		tableView.snp.makeConstraints {
-			$0.leading.trailing.top.equalToSuperview()
+			$0.leading.trailing.equalToSuperview()
+			$0.top.equalToSuperview().offset(10)
 			$0.bottom.equalTo(chatBarView.snp.top)
 		}
+		// loading view
+		view.addSubview(loadingView)
+		loadingView.snp.makeConstraints {
+			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
+		}
+	}
+
+	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		let headerView = UIView()
+		headerView.snp.makeConstraints {
+			$0.height.equalTo(40)
+			$0.width.equalTo(UIScreen.main.bounds.width)
+		}
+		return headerView
+	}
+
+	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+		return 40
+	}
+
+	func scrollViewWillEndDragging(_ scrollView: UIScrollView,
+								   withVelocity velocity: CGPoint,
+								   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+		if(velocity.y > 0) {
+			// add gradient view
+			gradientView = createGradentView()
+			guard let gradientView = gradientView else { return }
+			view.addSubview(gradientView)
+			gradientView.snp.makeConstraints {
+				$0.top.leading.trailing.equalToSuperview()
+				$0.height.equalTo(50)
+			}
+			
+			// hide nav bar
+			UIView.animate(withDuration: 0.3, animations: {
+				self.navigationController?.setNavigationBarHidden(true, animated: true)
+			})
+		} else {
+			// remove gradient view
+			gradientView?.removeFromSuperview()
+			gradientView = nil
+			
+			// remove nav bar
+			UIView.animate(withDuration: 0.3, animations: {
+				self.navigationController?.setNavigationBarHidden(false, animated: true)
+			})
+		}
+	}
+
+	private func createGradentView() -> UIView {
+		let gradientLAyer = CAGradientLayer()
+		gradientLAyer.colors = [
+			Colors.whiteColor.cgColor,
+			Colors.whiteColor.withAlphaComponent(0).cgColor
+		]
+		gradientLAyer.locations = [0.0, 1.0]
+		gradientLAyer.frame = CGRect(x: 0,
+									 y: 0,
+									 width: UIScreen.main.bounds.width, height: 50)
+		let view = UIView()
+		view.layer.insertSublayer(gradientLAyer, at: 0)
+		return view
+	}
+
+	// MARK: - Take photo from gallery
+	func takePhotoFromGallery() {
+		imagePicker.delegate = self
+		imagePicker.sourceType = .savedPhotosAlbum
+		imagePicker.allowsEditing = true
+		
+		present(imagePicker, animated: true)
 	}
 	
-	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.snp.makeConstraints {
-            $0.height.equalTo(40)
-            $0.width.equalTo(UIScreen.main.bounds.width)
-        }
-		return headerView
-    }
-	
-	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
-    }
-	
-	func scrollViewWillEndDragging(_ scrollView: UIScrollView,
-                                   withVelocity velocity: CGPoint,
-                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if(velocity.y > 0) {
-            // add gradient view
-            gradientView = createGradentView()
-            guard let gradientView = gradientView else { return }
-            view.addSubview(gradientView)
-            gradientView.snp.makeConstraints {
-                $0.top.leading.trailing.equalToSuperview()
-                $0.height.equalTo(50)
-            }
+	func imagePickerController(_ picker: UIImagePickerController,
+							   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+		if let pickedImage = info[.editedImage] as? UIImage {
 
-            // hide nav bar
-            UIView.animate(withDuration: 0.3, animations: {
-                self.navigationController?.setNavigationBarHidden(true, animated: true)
-            })
-        } else {
-            // remove gradient view
-            gradientView?.removeFromSuperview()
-            gradientView = nil
+			guard let jpegData = pickedImage.jpegData(compressionQuality: 0.5) else { return }
+			let imgData = Data(jpegData)
+			viewModel.imageForSending = imgData
 
-            // remove nav bar
-            UIView.animate(withDuration: 0.3, animations: {
-                self.navigationController?.setNavigationBarHidden(false, animated: true)
-            })
-        }
-    }
-    
-    private func createGradentView() -> UIView {
-        let gradientLAyer = CAGradientLayer()
-        gradientLAyer.colors = [
-            Colors.whiteColor.cgColor,
-            Colors.whiteColor.withAlphaComponent(0).cgColor
-        ]
-        gradientLAyer.locations = [0.0, 1.0]
-        gradientLAyer.frame = CGRect(x: 0,
-                                     y: 0,
-                                     width: UIScreen.main.bounds.width, height: 50)
-        let view = UIView()
-        view.layer.insertSublayer(gradientLAyer, at: 0)
-        return view
-    }
-	
-	func updateTableView() {
-		DispatchQueue.main.async {
-			self.tableView.reloadData()
+			let kbImageSize = Double(imgData.count) / 1000.0
+			if kbImageSize >= 1000 {
+				guard let jpegData = pickedImage.jpegData(compressionQuality: 0.25) else { return }
+				let imgData = Data(jpegData)
+				viewModel.imageForSending = imgData
+			}
 		}
-
-		if tableView.contentSize.height <= tableView.frame.height {
-            tableView.isScrollEnabled = false
-		} else {
-			tableView.isScrollEnabled = true
-		}
+		self.dismiss(animated: true)
 	}
 }

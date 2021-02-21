@@ -2,8 +2,8 @@
 //  ClientAppealObject+CoreDataClass.swift
 //  Guard
 //
-//  Created by Alexandr Bukharin on 10.09.2020.
-//  Copyright © 2020 ds. All rights reserved.
+//  Created by Alexandr Bukharin on 04.02.2021.
+//  Copyright © 2021 ds. All rights reserved.
 //
 //
 

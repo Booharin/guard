@@ -4,6 +4,8 @@
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your location for define the city</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access for taking profile image</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>We use Face ID for authorization</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -58,5 +60,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 </dict>
 </plist>

@@ -11,6 +11,7 @@ import UIKit
 protocol SelectIssueTableViewCellProtocol {
 	var containerView: UIView { get }
 	var issueTitle: UILabel { get }
+	var issuesubtitle: UILabel { get }
 	var issueImageView: UIImageView { get }
 }
 
@@ -18,6 +19,7 @@ class SelectIssueTableViewCell: UITableViewCell, SelectIssueTableViewCellProtoco
 	
 	var containerView = UIView()
 	var issueTitle = UILabel()
+	var issuesubtitle = UILabel()
 	var issueImageView = UIImageView()
 	
 	var viewModel: SelectIssueCellViewModel!
@@ -34,7 +36,7 @@ class SelectIssueTableViewCell: UITableViewCell, SelectIssueTableViewCellProtoco
 	}
 	
 	private func addViews() {
-		addSubview(containerView)
+		contentView.addSubview(containerView)
 		containerView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
 		}
@@ -42,9 +44,15 @@ class SelectIssueTableViewCell: UITableViewCell, SelectIssueTableViewCellProtoco
 		issueTitle.snp.makeConstraints() {
 			$0.leading.equalToSuperview().offset(117)
 			$0.trailing.equalToSuperview().offset(-50)
-			$0.height.equalTo(20)
-			$0.top.equalToSuperview().offset(31)
-			$0.bottom.equalToSuperview().offset(-31)
+			$0.top.equalToSuperview().offset(14)
+		}
+		containerView.addSubview(issuesubtitle)
+		issuesubtitle.snp.makeConstraints() {
+			$0.leading.equalToSuperview().offset(117)
+			$0.trailing.equalToSuperview().offset(-50)
+			$0.height.greaterThanOrEqualTo(14)
+			$0.top.equalTo(issueTitle.snp.bottom).offset(6)
+			$0.bottom.equalToSuperview().offset(-16)
 		}
 		containerView.addSubview(issueImageView)
 		issueImageView.snp.makeConstraints() {

@@ -15,13 +15,19 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	private let animationDuration = 0.15
 	var registrationSubject: PublishSubject<Any>?
 	private var disposeBag = DisposeBag()
-	private let userType: UserType
-	
+	private let userRole: UserRole
+
 	typealias Dependencies =
-	HasLocationService &
-	HasLocalStorageService
+		HasLocalStorageService &
+		HasRegistrationService &
+		HasAuthService &
+		HasKeyChainService
 	lazy var di: Dependencies = DI.dependencies
-	
+
+	private var lawyerProfile: UserProfile? {
+		return di.localStorageService.getCurrenClientProfile()
+	}
+
 	var logoTopOffset: CGFloat {
 		switch UIScreen.displayClass {
 		case .iPhone8, .iPhoneX:
@@ -32,7 +38,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			return 0
 		}
 	}
-	
+
 	var logoSubtitleOffset: CGFloat {
 		switch UIScreen.displayClass {
 		case .iPhone11ProMax:
@@ -42,7 +48,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		default: return 15
 		}
 	}
-	
+
 	var logoTitleOffset: CGFloat {
 		switch UIScreen.displayClass {
 		case .iPhone11ProMax:
@@ -52,30 +58,30 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		default: return 0
 		}
 	}
-	
+
 	private var currentKeyboardHeight: CGFloat = 0
-	
+
 	let toSelectIssueSubject: PublishSubject<Any>?
 	let toAuthSubject: PublishSubject<Any>?
-	
+
 	init(toSelectIssueSubject: PublishSubject<Any>? = nil,
 		 toAuthSubject: PublishSubject<Any>? = nil,
-		 userType: UserType) {
+		 userRole: UserRole) {
 		self.toSelectIssueSubject = toSelectIssueSubject
 		self.toAuthSubject = toAuthSubject
-		self.userType = userType
+		self.userRole = userRole
 	}
-	
+
 	func viewDidSet() {
 		// logo
 		view.logoTitleLabel.font = Saira.bold.of(size: 30)
 		view.logoTitleLabel.textColor = Colors.mainTextColor
 		view.logoTitleLabel.text = "registration.logo.title".localized.uppercased()
-		
+
 		view.logoSubtitleLabel.font = SFUIDisplay.regular.of(size: 14)
 		view.logoSubtitleLabel.textColor = Colors.mainTextColor
 		view.logoSubtitleLabel.text = "registration.logo.subtitle".localized
-		
+
 		// login
 		view.loginTextField.keyboardType = .emailAddress
 		view.loginTextField.autocapitalizationType = .none
@@ -86,27 +92,29 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [unowned self] _ in
 				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
-		
+
 		// password
-		view.passwordTextField.isSecureTextEntry = true
 		view.passwordTextField.configure(placeholderText: "registration.password.placeholder".localized)
+		view.passwordTextField.isSecureTextEntry = true
+		view.passwordTextField.disableAutoFill()
 		view.passwordTextField
 			.rx
 			.text
 			.subscribe(onNext: { [unowned self] _ in
 				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
-		
+
 		// confirmation password
 		view.confirmationPasswordTextField.configure(placeholderText: "registration.confirm_password.placeholder".localized)
 		view.confirmationPasswordTextField.isSecureTextEntry = true
+		view.confirmationPasswordTextField.disableAutoFill()
 		view.confirmationPasswordTextField
 			.rx
 			.text
 			.subscribe(onNext: { [unowned self] _ in
 				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
-		
+
 		//city
 		view.cityTextField.configure(placeholderText: "registration.city.placeholder".localized,
 									 isSeparatorHidden: true)
@@ -116,15 +124,18 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [unowned self] _ in
 				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
-		
+		// TODO: - change when added city choosing
+		view.cityTextField.text = "Москва"
+		view.cityTextField.isEnabled = false
+
 		// alert label
 		view.alertLabel.numberOfLines = 2
 		view.alertLabel.textColor = Colors.warningColor
 		view.alertLabel.textAlignment = .center
 		view.alertLabel.font = SFUIDisplay.regular.of(size: 15)
-		
+
 		// MARK: - Buttons
-		
+
 		// enter button
 		view.enterButton.isEnabled = false
 		view.enterButton
@@ -134,10 +145,13 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				self.view.enterButton.animateBackground()
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.registerUser()
+				if registrationSubject == nil {
+					self.registerUser()
+				}
+				self.view.loadingView.play()
 				self.registrationSubject?.onNext(())
 			}).disposed(by: disposeBag)
-		
+
 		// back button
 		view.backButtonView
 			.rx
@@ -155,25 +169,25 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [weak self] _ in
 				self?.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
-		
+
 		// skip button
-		view.skipButtonView
+		view.skipButton
 			.rx
 			.tapGesture()
 			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
 				UIView.animate(withDuration: self.animationDuration, animations: {
-					self.view.skipButtonView.alpha = 0.5
+					self.view.skipButton.alpha = 0.5
 				}, completion: { _ in
 					UIView.animate(withDuration: self.animationDuration, animations: {
-						self.view.skipButtonView.alpha = 1
+						self.view.skipButton.alpha = 1
 					})
 				})
 			})
 			.subscribe(onNext: { [weak self] _ in
 				self?.toSelectIssueSubject?.onNext(())
 			}).disposed(by: disposeBag)
-		
+
 		// already registered button
 		view.alreadyRegisteredLabel.text = "registration.already_registered.title".localized
 		view.alreadyRegisteredLabel.font = Saira.light.of(size: 12)
@@ -195,7 +209,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [weak self] _ in
 				self?.toAuthSubject?.onNext(())
 			}).disposed(by: disposeBag)
-		
+
 		// MARK: - Check keyboard showing
 		keyboardHeight()
 			.observeOn(MainScheduler.instance)
@@ -248,7 +262,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				}
 			})
 			.disposed(by: disposeBag)
-		
+
 		// swipe to go back
 		view.view
 			.rx
@@ -257,10 +271,8 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [unowned self] _ in
 				self.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
-		
-		defineCity()
 	}
-	
+
 	// MARK: - Move enter button up
 	private func pushupButtonUp(with keyboardHeight: CGFloat) {
 		if currentKeyboardHeight == keyboardHeight {
@@ -278,7 +290,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			})
 		}
 	}
-	
+
 	// MARK: - Login flow
 	private func registerUser() {
 		let credentials = Observable.combineLatest(
@@ -297,7 +309,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			)}
 		
 		registrationSubject = PublishSubject<Any>()
-		
+
 		registrationSubject?
 			.asObservable()
 			.withLatestFrom(credentials)
@@ -310,6 +322,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				switch credentials.1 {
 				case let s where s.count < 8:
 					self.turnWarnings(with: "registration.alert.password_too_short.title".localized)
+					self.view.loadingView.stop()
 					return false
 				default: break
 				}
@@ -323,34 +336,41 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				if self.view.alertLabel.text?.isEmpty ?? true {
 					return true
 				} else {
+					self.view.loadingView.stop()
 					return false
 				}
-		}
-		.observeOn(MainScheduler.instance)
-		.subscribe(onNext: { [weak self] _ in
-			self?.view.loadingView.stopAnimating()
-			
-			// mock getting profile from server
-			let userProfileDict: [String : Any] = [
-				"userType": self?.userType.rawValue,
-				"email": self?.view.loginTextField.text ?? "",
-				"firstName": "",
-				"lastName": "",
-				"city": self?.view.cityTextField.text ?? "",
-                "rate": 5.5
-				]
-
-			self?.saveProfileToStorage(dict: userProfileDict)
-			
-			self?.toSelectIssueSubject?.onNext(())
-			},onError:  { [weak self] error in
-				
-				#if DEBUG
-				print(error.localizedDescription)
-				#endif
-				
-				self?.view.loadingView.stopAnimating()
-		}).disposed(by: disposeBag)
+			}
+			.flatMap { [unowned self] credentials in
+				self.di.registrationService.signUp(email: credentials.0,
+												   password: credentials.1,
+												   city: credentials.3,
+												   userRole: self.userRole)
+			}
+			.filter { result in
+				switch result {
+				case .success:
+					return true
+				case .failure:
+					self.view.loadingView.stop()
+					return false
+				}
+			}
+			.map { _ in }
+			.flatMap {
+				self.di.authService.signIn(email: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.email) ?? "",
+										   password: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.password) ?? "")
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stop()
+				switch result {
+				case .success:
+					self?.toSelectIssueSubject?.onNext(())
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
 	}
 	
 	private func keyboardHeight() -> Observable<CGFloat> {
@@ -367,14 +387,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			])
 			.merge()
 	}
-	//MARK: - Define city
-	private func defineCity() {
-		di.locationService.geocode { [weak self] city in
-			guard let city = city else { return }
-			self?.view.cityTextField.text = city
-		}
-	}
-	
+
 	private func checkAreTextFieldsEmpty() {
 		
 		guard
@@ -395,7 +408,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			view.enterButton.backgroundColor = Colors.buttonDisabledColor
 		}
 	}
-	
+
 	private func turnWarnings(with text: String? = nil) {
 		if text == nil {
 			guard
@@ -417,21 +430,6 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			view.cityTextField.textColor = Colors.warningColor
 		}
 	}
-	
-	private func saveProfileToStorage(dict: [String: Any]) {
-		do {
-			let jsonData = try JSONSerialization.data(withJSONObject: dict,
-													  options: .prettyPrinted)
-			let profileResponse = try JSONDecoder().decode(UserProfile.self, from: jsonData)
-			di.localStorageService.saveProfile(profileResponse)
-			UserDefaults.standard.set(true,
-									  forKey: Constants.UserDefaultsKeys.isLogin)
-		} catch {
-			#if DEBUG
-			print(error)
-			#endif
-		}
-	}
-	
+
 	func removeBindings() {}
 }

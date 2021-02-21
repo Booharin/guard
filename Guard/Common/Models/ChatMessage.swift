@@ -6,25 +6,11 @@
 //  Copyright © 2020 ds. All rights reserved.
 //
 
-enum MessageType: String {
-	case incoming = "incoming"
-	case outgoing = "outgoing"
-}
-
 struct ChatMessage: Decodable {
-	let text: String
-	let dateCreated: Double
-	let conversationId: Int
-	let eventOwner: String
-	
-	var messageType: MessageType {
-		switch eventOwner {
-		case "incoming":
-			return .incoming
-		case "outgoing":
-			return .outgoing
-		default:
-			return .outgoing
-		}
-	}
+	let id: Int
+	let chatId: Int
+	let senderId: Int?
+	let content: String
+	let dateCreated: String
+	let senderName: String
 }

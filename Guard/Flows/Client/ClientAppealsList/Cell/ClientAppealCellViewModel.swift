@@ -10,52 +10,86 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-struct ClientAppealCellViewModel: ViewModel {
-    var view: ClientAppealCellProtocol!
-    private var disposeBag = DisposeBag()
-    let toAppealDescriptionSubject: PublishSubject<ClientAppeal>
-    let animateDuration = 0.15
-    let clientAppeal: ClientAppeal
+final class ClientAppealCellViewModel:
+	ViewModel,
+	HasDependencies {
 
-    init(clientAppeal: ClientAppeal, toAppealDescriptionSubject: PublishSubject<ClientAppeal>) {
-        self.clientAppeal = clientAppeal
-        self.toAppealDescriptionSubject = toAppealDescriptionSubject
-    }
+	var view: ClientAppealCellProtocol!
+	private var disposeBag = DisposeBag()
+	let toAppealDescriptionSubject: PublishSubject<ClientAppeal>
+	private var clientImageSubject: PublishSubject<Any>?
+	let tapSubject = PublishSubject<Any>()
+	let animateDuration = 0.15
+	let clientAppeal: ClientAppeal
 
-    func viewDidSet() {
-        view.containerView
-        .rx
-        .tapGesture()
-		.when(.recognized)
-        .subscribe(onNext: { _ in
-            UIView.animate(withDuration: self.animateDuration, animations: {
-                self.view.containerView.backgroundColor = Colors.cellSelectedColor
-            }, completion: { _ in
-                UIView.animate(withDuration: self.animateDuration, animations: {
-                    self.view.containerView.backgroundColor = .clear
-                })
-            })
-            self.toAppealDescriptionSubject.onNext(self.clientAppeal)
-        }).disposed(by: disposeBag)
-        
-        view.appealImageView.image = #imageLiteral(resourceName: "car_accident_icn")
+	typealias Dependencies =
+		HasClientNetworkService &
+		HasLocalStorageService
+	lazy var di: Dependencies = DI.dependencies
 
-        view.titleLabel.text = clientAppeal.title
-        view.titleLabel.font = SFUIDisplay.regular.of(size: 16)
-        view.titleLabel.textColor = Colors.mainTextColor
-        
-        view.descriptionLabel.font = SFUIDisplay.light.of(size: 12)
-        view.descriptionLabel.textColor = Colors.subtitleColor
-        view.descriptionLabel.text = clientAppeal.appealDescription
+	init(clientAppeal: ClientAppeal, toAppealDescriptionSubject: PublishSubject<ClientAppeal>) {
+		self.clientAppeal = clientAppeal
+		self.toAppealDescriptionSubject = toAppealDescriptionSubject
+	}
 
-        view.dateLabel.font = SFUIDisplay.light.of(size: 10)
-        view.dateLabel.textColor = Colors.mainTextColor
-        view.dateLabel.text = Date.getString(with: clientAppeal.dateCreate, format: "dd.MM.yyyy")
+	func viewDidSet() {
+		view.containerView
+			.rx
+			.tapGesture()
+			.when(.recognized)
+			.subscribe(onNext: { _ in
+				UIView.animate(withDuration: self.animateDuration, animations: {
+					self.view.containerView.backgroundColor = Colors.lightBlueColor
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animateDuration, animations: {
+						self.view.containerView.backgroundColor = .clear
+					})
+				})
+				self.toAppealDescriptionSubject.onNext(self.clientAppeal)
+			}).disposed(by: disposeBag)
 
-        view.timeLabel.font = SFUIDisplay.light.of(size: 10)
-        view.timeLabel.textColor = Colors.mainTextColor
-        view.timeLabel.text = Date.getString(with: clientAppeal.dateCreate, format: "HH:mm")
-    }
+		view.appealImageView.image = #imageLiteral(resourceName: "profile_icn").withRenderingMode(.alwaysTemplate)
+		view.appealImageView.tintColor = Colors.lightGreyColor
+		view.appealImageView.layer.cornerRadius = 21
+		view.appealImageView.clipsToBounds = true
 
-    func removeBindings() {}
+		// MARK: - If appeel from lawyers appeals list
+		if di.localStorageService.getCurrenClientProfile()?.userRole == .lawyer {
+			clientImageSubject = PublishSubject<Any>()
+			clientImageSubject?
+				.asObservable()
+				.flatMap { [unowned self] _ in
+					self.di.clientNetworkService.getPhoto(profileId: clientAppeal.clientId)
+				}
+				.observeOn(MainScheduler.instance)
+				.subscribe(onNext: { [weak self] result in
+					switch result {
+						case .success(let data):
+							self?.view.appealImageView.image = UIImage(data: data)
+						case .failure(let error):
+							print(error.localizedDescription)
+					}
+				}).disposed(by: disposeBag)
+		}
+
+		view.titleLabel.text = clientAppeal.title
+		view.titleLabel.font = SFUIDisplay.regular.of(size: 16)
+		view.titleLabel.textColor = Colors.mainTextColor
+
+		view.descriptionLabel.font = SFUIDisplay.light.of(size: 12)
+		view.descriptionLabel.textColor = Colors.subtitleColor
+		view.descriptionLabel.text = clientAppeal.appealDescription
+
+		view.dateLabel.font = SFUIDisplay.light.of(size: 10)
+		view.dateLabel.textColor = Colors.mainTextColor
+		view.dateLabel.text = Date.getCorrectDate(from: clientAppeal.dateCreated, format: "dd.MM.yyyy")
+		
+		view.timeLabel.font = SFUIDisplay.light.of(size: 10)
+		view.timeLabel.textColor = Colors.mainTextColor
+		view.timeLabel.text = Date.getCorrectDate(from: clientAppeal.dateCreated, format: "HH:mm")
+
+		clientImageSubject?.onNext(())
+	}
+	
+	func removeBindings() {}
 }
