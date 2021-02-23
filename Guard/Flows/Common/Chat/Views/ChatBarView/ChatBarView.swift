@@ -87,6 +87,7 @@ final class ChatBarView: UIView, ChatBarViewProtocol {
 				let height = text.height(withConstrainedWidth: UIScreen.main.bounds.width - 180,
 										 font: SFUIDisplay.regular.of(size: 16))
 				guard height != self?.currentMessageViewHeight else { return }
+
 				// claculate needed bar height
 				if height > 36 {
 					self?.textViewChangeHeight.onNext(106 + (height - 26))
@@ -121,6 +122,11 @@ final class ChatBarView: UIView, ChatBarViewProtocol {
 
 	func clearMessageTextView() {
 		messageTextView.text = ""
+		messageTextView.contentInset = UIEdgeInsets(top: -2,
+													left: 10,
+													bottom: 2,
+													right: 10)
+		textViewChangeHeight.onNext(106)
 	}
 }
 
@@ -136,7 +142,7 @@ extension ChatBarView: UITextViewDelegate {
 												 right: 10)
 		}
 	}
-	
+
 	func textViewDidEndEditing(_ textView: UITextView) {
 		if textView.text.isEmpty {
 			textView.text = "chat.placeholder".localized
@@ -148,12 +154,12 @@ extension ChatBarView: UITextViewDelegate {
 												 right: 10)
 		}
 	}
-	
+
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if(text == "\n") {
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
-    }
+		if(text == "\n") {
+			textView.resignFirstResponder()
+			return false
+		}
+		return true
+	}
 }

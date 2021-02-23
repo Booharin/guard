@@ -257,6 +257,7 @@ final class LawyerFromListViewController<modelType: LawyerFromListViewModel>:
 			$0.width.equalTo(142)
 			$0.height.equalTo(49)
 			$0.centerX.equalToSuperview()
+			$0.bottom.equalToSuperview().offset(-50)
 		}
 	}
 }
