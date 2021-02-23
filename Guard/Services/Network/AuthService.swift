@@ -37,63 +37,70 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 
 	func signIn(email: String, password: String) -> Observable<Result<UserRole, AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
-			let requestReference = AF.request(self.router.signIn(email: email, password: password))
-				.responseJSON { response in
-					#if DEBUG
-					print(response)
-					#endif
-					// handle http status
-					if let code = response.response?.statusCode {
-						switch code {
-						case 403:
-							self.di.alertService.showAlert(title: "alert.warning.title".localized,
-														   message: "alert.login.message".localized,
-														   okButtonTitle: "alert.ok".localized.capitalized,
-														   completion: { _ in })
-						default:
-							break
-						}
-					}
 
-					switch response.result {
-					case .success:
-						guard let data = response.data else {
+			let devicetoken = self.di.keyChainService.getValue(for: Constants.KeyChainKeys.deviceToken)
+
+			let requestReference = AF.request(
+				self.router.signIn(email: email,
+								   password: password,
+								   deviceToken: devicetoken ?? "")
+			)
+			.responseJSON { response in
+				#if DEBUG
+				print(response)
+				#endif
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 403:
+						self.di.alertService.showAlert(title: "alert.warning.title".localized,
+													   message: "alert.login.message".localized,
+													   okButtonTitle: "alert.ok".localized.capitalized,
+													   completion: { _ in })
+					default:
+						break
+					}
+				}
+
+				switch response.result {
+				case .success:
+					guard let data = response.data else {
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+						return
+					}
+					do {
+						let authResponce = try JSONDecoder().decode(AuthResponse.self, from: data)
+						guard
+							let token = authResponce.token,
+							var user = authResponce.user else {
 							observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
 							return
 						}
-						do {
-							let authResponce = try JSONDecoder().decode(AuthResponse.self, from: data)
-							guard
-								let token = authResponce.token,
-								var user = authResponce.user else {
-								observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
-									return
-							}
-							self.di.keyChainService.save(token, for: Constants.KeyChainKeys.token)
-							self.di.keyChainService.save(email, for: Constants.KeyChainKeys.email)
-							self.di.keyChainService.save(password, for: Constants.KeyChainKeys.password)
-							self.di.keyChainService.save(user.phoneNumber ?? "", for: Constants.KeyChainKeys.phoneNumber)
+						self.di.keyChainService.save(token, for: Constants.KeyChainKeys.token)
+						self.di.keyChainService.save(email, for: Constants.KeyChainKeys.email)
+						self.di.keyChainService.save(password, for: Constants.KeyChainKeys.password)
+						self.di.keyChainService.save(user.phoneNumber ?? "", for: Constants.KeyChainKeys.phoneNumber)
 
-							// MARK: - Save issue codes
-							user.subIssueCodes = user.subIssueTypes?.compactMap { $0.subIssueCode }
+						// MARK: - Save issue codes
+						user.subIssueCodes = user.subIssueTypes?.compactMap { $0.subIssueCode }
 
-							self.di.localStorageService.saveProfile(user)
-							if let reviews = user.reviewList {
-								self.di.localStorageService.saveReviews(reviews)
-							}
-							UserDefaults.standard.set(true, forKey: Constants.UserDefaultsKeys.isLogin)
-
-							observer.onNext(.success(user.userRole))
-							observer.onCompleted()
-						} catch {
-							#if DEBUG
-							print(error)
-							#endif
-							observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+						self.di.localStorageService.saveProfile(user)
+						if let reviews = user.reviewList {
+							self.di.localStorageService.saveReviews(reviews)
 						}
-					case .failure:
-						observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+						UserDefaults.standard.set(true, forKey: Constants.UserDefaultsKeys.isLogin)
+
+						observer.onNext(.success(user.userRole))
+						observer.onCompleted()
+					} catch {
+						#if DEBUG
+						print(error)
+						#endif
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
 					}
+				case .failure:
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
 			}
 			return Disposables.create(with: {
 				requestReference.cancel()
