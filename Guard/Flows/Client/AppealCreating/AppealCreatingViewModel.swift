@@ -117,12 +117,30 @@ final class AppealCreatingViewModel: ViewModel, HasDependencies {
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [unowned self] keyboardHeight in
 				if keyboardHeight > 0 {
+					// push up keyboard
+					self.view.createAppealButton.snp.updateConstraints {
+						$0.bottom.equalToSuperview().offset(-(keyboardHeight + 10))
+					}
+
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.view.layoutIfNeeded()
+					})
+
 					guard self.view.descriptionTextView.textColor == Colors.mainTextColor else { return }
 					self.view.descriptionTextView.contentInset = UIEdgeInsets(top: 0,
 																			  left: 0,
 																			  bottom: keyboardHeight,
 																			  right: 0)
 				} else {
+					// push down keyboard
+					self.view.createAppealButton.snp.updateConstraints {
+						$0.bottom.equalToSuperview().offset(-30)
+					}
+
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.view.layoutIfNeeded()
+					})
+
 					self.view.descriptionTextView.contentInset = UIEdgeInsets(top: 0,
 																			  left: 0,
 																			  bottom: 0,

@@ -17,18 +17,21 @@ struct AuthNetworkRouter {
 	}
 
 	func signIn(email: String,
-				password: String) -> URLRequestConvertible {
+				password: String,
+				deviceToken: String) -> URLRequestConvertible {
 		do {
 			return try SignIn(environment: environment,
 							  email: email,
-							  password: password).asJSONURLRequest()
+							  password: password,
+							  deviceToken: deviceToken).asJSONURLRequest()
 		} catch {
 			#if DEBUG
 			print("Error JSON URLRequest", error)
 			#endif
 			return SignIn(environment: environment,
 						  email: email,
-						  password: password)
+						  password: password,
+						  deviceToken: deviceToken)
 		}
 	}
 
@@ -70,13 +73,16 @@ extension AuthNetworkRouter {
 
 		let email: String
 		let password: String
+		let deviceToken: String
 
 		init(environment: Environment,
 			 email: String,
-			 password: String) {
+			 password: String,
+			 deviceToken: String) {
 			self.environment = environment
 			self.email = email
 			self.password = password
+			self.deviceToken = deviceToken
 		}
 
 		var baseUrl: URL {
@@ -88,7 +94,8 @@ extension AuthNetworkRouter {
 		var parameters: Parameters {
 			return [
 				"userEmail": email,
-				"userPassword": password
+				"userPassword": password,
+				"tokenDevice": deviceToken
 			]
 		}
 	}
