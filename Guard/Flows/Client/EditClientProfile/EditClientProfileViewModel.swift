@@ -130,6 +130,13 @@ final class EditClientProfileViewModel: ViewModel, HasDependencies {
 			!phone.isEmpty {
 			view.phoneTextField.text = phone
 		}
+		view.phoneTextField
+			.rx
+			.text
+			.subscribe(onNext: { [unowned self] text in
+				self.view.phoneTextField.text = text?.phoneNumberFormat
+			}).disposed(by: disposeBag)
+
 		// email
 		view.emailTextField.keyboardType = .emailAddress
 		view.emailTextField.autocapitalizationType = .none
@@ -223,8 +230,17 @@ final class EditClientProfileViewModel: ViewModel, HasDependencies {
 			.filter { result in
 				switch result {
 				case .success:
-					return true
+					self.saveProfile()
+					// check is photo edited
+					if self.editImageData == nil {
+						self.view.loadingView.stop()
+						self.view.navController?.popViewController(animated: true)
+						return false
+					} else {
+						return true
+					}
 				default:
+					self.view.loadingView.stop()
 					return false
 				}
 			}
@@ -237,19 +253,21 @@ final class EditClientProfileViewModel: ViewModel, HasDependencies {
 				self?.view.loadingView.stop()
 				switch result {
 					case .success:
-						if let profile = self?.userProfile {
-							self?.di.localStorageService.saveProfile(profile)
-						}
-						self?.di.keyChainService.save(self?.view.emailTextField.text ?? "",
-													  for: Constants.KeyChainKeys.email)
-						self?.di.keyChainService.save(self?.view.phoneTextField.text ?? "",
-													  for: Constants.KeyChainKeys.phoneNumber)
 						self?.view.navController?.popViewController(animated: true)
 					case .failure(let error):
 						//TODO: - обработать ошибку
 						print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
+	}
+
+	// MARK: - Save profile
+	private func saveProfile() {
+		di.localStorageService.saveProfile(userProfile)
+		di.keyChainService.save(view.emailTextField.text ?? "",
+								for: Constants.KeyChainKeys.email)
+		di.keyChainService.save(view.phoneTextField.text ?? "",
+								for: Constants.KeyChainKeys.phoneNumber)
 	}
 	
 	func removeBindings() {}

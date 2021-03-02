@@ -18,7 +18,9 @@ final class ConversationCellViewModel:
 	let animateDuration = 0.15
 	let chatConversation: ChatConversation
 
-	typealias Dependencies = HasClientNetworkService
+	typealias Dependencies =
+        HasClientNetworkService &
+        HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
 
 	let toChat: PublishSubject<ChatConversation>
@@ -48,12 +50,42 @@ final class ConversationCellViewModel:
 				self.toChat.onNext(self.chatConversation)
 			}).disposed(by: disposeBag)
 
-		view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn").withRenderingMode(.alwaysTemplate)
-		view.avatarImageView.tintColor = Colors.lightGreyColor
 		view.avatarImageView.layer.cornerRadius = 21
 		view.avatarImageView.clipsToBounds = true
+		view.avatarImageView.layer.borderWidth = 1
+		view.avatarImageView.layer.borderColor = Colors.lightGreyColor.cgColor
 
-		view.nameTitleLabel.text = chatConversation.fullName
+		if let image = self.di.localStorageService.getImage(with: "\(chatConversation.userId)_profile_image.jpeg") {
+			view.avatarImageView.image = image
+		} else {
+			view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn").withRenderingMode(.alwaysTemplate)
+			view.avatarImageView.tintColor = Colors.lightGreyColor
+		}
+
+		// not read messages label
+		view.notReadmessagesNumberLabel.layer.cornerRadius = 8
+		view.notReadmessagesNumberLabel.clipsToBounds = true
+		view.notReadmessagesNumberLabel.font = SFUIDisplay.bold.of(size: 12)
+		view.notReadmessagesNumberLabel.textColor = Colors.whiteColor
+		view.notReadmessagesNumberLabel.backgroundColor = Colors.notReadMessagesBackgroundColor
+		view.notReadmessagesNumberLabel.textAlignment = .center
+		view.notReadmessagesNumberLabel.isHidden = true
+		view.numberMessagesLabel.isHidden = true
+
+		if let notReadNumber = chatConversation.countNotReadMessage,
+		   notReadNumber > 0 {
+			if notReadNumber < 10 {
+				view.notReadmessagesNumberLabel.text = "\(notReadNumber)"
+			} else {
+				view.notReadmessagesNumberLabel.text = "1.."
+				view.notReadmessagesNumberLabel.font = SFUIDisplay.bold.of(size: 11)
+			}
+
+			view.notReadmessagesNumberLabel.isHidden = false
+			view.numberMessagesLabel.isHidden = false
+		}
+
+		view.nameTitleLabel.text = chatConversation.fullName.isEmpty ? "chat.noName".localized : chatConversation.fullName
 		view.nameTitleLabel.font = SFUIDisplay.regular.of(size: 16)
 		view.nameTitleLabel.textColor = Colors.mainTextColor
 
@@ -74,13 +106,17 @@ final class ConversationCellViewModel:
 			.flatMap { [unowned self] _ in
 				self.di.clientNetworkService.getPhoto(profileId: chatConversation.userId)
 			}
-			.observeOn(MainScheduler.instance)
+			//.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
 				switch result {
-					case .success(let data):
-						self?.view.avatarImageView.image = UIImage(data: data)
-					case .failure(let error):
-						print(error.localizedDescription)
+				case .success(let data):
+					self?.view.avatarImageView.image = UIImage(data: data)
+					if let userID = self?.chatConversation.userId {
+						self?.di.localStorageService.saveImage(data: data,
+															   name: "\(userID)_profile_image.jpeg")
+					}
+				case .failure(let error):
+					print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
 		lawyerImageSubject.onNext(())

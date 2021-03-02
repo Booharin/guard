@@ -201,7 +201,8 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 														   appealId: self?.appeal.id ?? 0,
 														   userFirstName: profile.firstName,
 														   userLastName: profile.lastName,
-														   userPhoto: profile.photo)
+														   userPhoto: profile.photo,
+														   countNotReadMessage: nil)
 
 					vc.viewModel.toChatWithLawyer?.onNext(newConversation)
 				}

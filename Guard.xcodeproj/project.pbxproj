@@ -140,6 +140,7 @@
 		52926BF325C1DCE9008C671B /* ClientFromAppealRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF225C1DCE9008C671B /* ClientFromAppealRouter.swift */; };
 		52926BF525C1DD1A008C671B /* ClientFromAppealModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF425C1DD1A008C671B /* ClientFromAppealModuleFactory.swift */; };
 		52926BF725C1F2FD008C671B /* StarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF625C1F2FD008C671B /* StarImageView.swift */; };
+		529C65B325EB83D60052EAB4 /* String+PhoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C65B225EB83D60052EAB4 /* String+PhoneNumber.swift */; };
 		52A271B02508E45A0050FB60 /* Saira-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */; };
 		52A271B22508E4970050FB60 /* Saira-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */; };
 		52A271B52508ED230050FB60 /* ClientAppealsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A271B42508ED230050FB60 /* ClientAppealsListViewController.swift */; };
@@ -406,6 +407,7 @@
 		52926BF225C1DCE9008C671B /* ClientFromAppealRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientFromAppealRouter.swift; sourceTree = "<group>"; };
 		52926BF425C1DD1A008C671B /* ClientFromAppealModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientFromAppealModuleFactory.swift; sourceTree = "<group>"; };
 		52926BF625C1F2FD008C671B /* StarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarImageView.swift; sourceTree = "<group>"; };
+		529C65B225EB83D60052EAB4 /* String+PhoneNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+PhoneNumber.swift"; sourceTree = "<group>"; };
 		52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Medium.ttf"; sourceTree = "<group>"; };
 		52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-SemiBold.ttf"; sourceTree = "<group>"; };
 		52A271B42508ED230050FB60 /* ClientAppealsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListViewController.swift; sourceTree = "<group>"; };
@@ -1551,6 +1553,7 @@
 				52EB81D224B9F245003285BC /* String+withoutExtraSpaces.swift */,
 				52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */,
 				523E62DB2519E00500757FE3 /* String+Size.swift */,
+				529C65B225EB83D60052EAB4 /* String+PhoneNumber.swift */,
 			);
 			path = String;
 			sourceTree = "<group>";
@@ -1828,6 +1831,7 @@
 				52AF28E62506145D00287A8F /* LawyerCell.swift in Sources */,
 				52C4DBD425C1460D00CDC148 /* ReviewCell.swift in Sources */,
 				5233F28125D7FD650018748C /* LottieAnimationView.swift in Sources */,
+				529C65B325EB83D60052EAB4 /* String+PhoneNumber.swift in Sources */,
 				52A271BE2508F94A0050FB60 /* ClientAppealCell.swift in Sources */,
 				52B5042B25AEE30E00C2D0E3 /* ChatNetworkRouter.swift in Sources */,
 				523C8CD9256271C2006DECAB /* AuthService.swift in Sources */,
@@ -2050,7 +2054,7 @@
 				CODE_SIGN_ENTITLEMENTS = Guard/Guard.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 62UUS6482X;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2078,7 +2082,7 @@
 				CODE_SIGN_ENTITLEMENTS = Guard/Guard.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 62UUS6482X;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

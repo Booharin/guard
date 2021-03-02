@@ -15,7 +15,7 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 	let router: ConversationsListRouterProtocol
 	private var conversations = [ChatConversation]()
 
-	var conversationsListSubject: PublishSubject<Any>?
+    let conversationsListSubject = PublishSubject<Any>()
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ChatConversation>]>?
 	var toChatWithLawyer: PublishSubject<ChatConversation>?
 
@@ -34,6 +34,34 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 		 toChatWithLawyer: PublishSubject<ChatConversation>?) {
 		self.router = router
 		self.toChatWithLawyer = toChatWithLawyer
+
+		conversationsListSubject
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.getConversations(with: currentProfile?.id ?? 0,
+									  isLawyer: currentProfile?.userRole == .lawyer ? true : false)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				if let view = self?.view {
+					view.loadingView.stop()
+				}
+
+				switch result {
+					case .success(let conversations):
+						self?.update(with: conversations)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(updateConversations),
+			name: NSNotification.Name(rawValue: Constants.NotificationKeys.updateMessages),
+			object: nil)
 	}
 
 	func viewDidSet() {
@@ -64,7 +92,7 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 				self?.view.loadingView.stop()
 				switch result {
 					case .success:
-						self?.conversationsListSubject?.onNext(())
+						self?.conversationsListSubject.onNext(())
 					case .failure(let error):
 						//TODO: - обработать ошибку
 						print(error.localizedDescription)
@@ -89,26 +117,6 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 		view.greetingDescriptionLabel.textAlignment = .center
 		view.greetingDescriptionLabel.text = "chat.greeting.description".localized
 
-		conversationsListSubject = PublishSubject<Any>()
-		conversationsListSubject?
-			.asObservable()
-			.flatMap { [unowned self] _ in
-				self.di.chatNetworkService
-					.getConversations(with: currentProfile?.id ?? 0,
-									  isLawyer: currentProfile?.userRole == .lawyer ? true : false)
-			}
-			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stop()
-				switch result {
-					case .success(let conversations):
-						self?.update(with: conversations)
-					case .failure(let error):
-						//TODO: - обработать ошибку
-						print(error.localizedDescription)
-				}
-			}).disposed(by: disposeBag)
-
 		view.loadingView.play()
 
 		toChatWithLawyer?
@@ -132,12 +140,6 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 					self?.router.toChatSubject.onNext(newConversation)
 				}
 			}).disposed(by: disposeBag)
-
-		NotificationCenter.default.addObserver(
-			self,
-			selector: #selector(updateConversations),
-			name: NSNotification.Name(rawValue: Constants.NotificationKeys.updateMessages),
-			object: nil)
 	}
 
 	private func update(with conversations: [ChatConversation]) {
@@ -147,16 +149,40 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 		let section = SectionModel<String, ChatConversation>(model: "",
 															 items: self.conversations)
 		dataSourceSubject?.onNext([section])
-		
-		if self.view.tableView.contentSize.height + 300 < self.view.tableView.frame.height {
-			self.view.tableView.isScrollEnabled = false
+
+		if view != nil {
+			if self.view.tableView.contentSize.height + 300 < self.view.tableView.frame.height {
+				self.view.tableView.isScrollEnabled = false
+			} else {
+				self.view.tableView.isScrollEnabled = true
+			}
+		}
+
+		updateNotReadCount()
+	}
+
+	private func updateNotReadCount() {
+		let notReadCount = conversations.compactMap { $0.countNotReadMessage }.reduce(0, +)
+		UserDefaults.standard.setValue(notReadCount,
+									   forKey: Constants.UserDefaultsKeys.notReadCount)
+
+		let keyWindow = UIApplication.shared.windows.filter { $0.isKeyWindow }.first
+
+		guard let navController = keyWindow?.rootViewController as? UINavigationController,
+			  let tabBarViewController = navController.viewControllers.last as? TabBarController,
+			  let tabBarItems = tabBarViewController.tabBar.items else { return }
+
+		if notReadCount > 0 {
+			tabBarItems[tabBarItems.count - 2].badgeValue = "1"
+			UIApplication.shared.applicationIconBadgeNumber = 1
 		} else {
-			self.view.tableView.isScrollEnabled = true
+			tabBarItems[tabBarItems.count - 2].badgeValue = nil
+			UIApplication.shared.applicationIconBadgeNumber = 0
 		}
 	}
 
 	@objc private func updateConversations() {
-		conversationsListSubject?.onNext(())
+		conversationsListSubject.onNext(())
 	}
 
 	func removeBindings() {}

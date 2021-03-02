@@ -78,6 +78,17 @@ struct ChatNetworkRouter {
 							  conversationId: conversationId)
 		}
 	}
+
+	func setMessagesRead(conversationId: Int,
+						 token: String?) -> URLRequestConvertible {
+		do {
+			return try MessagesSetRead(environment: environment,
+									   conversationId: conversationId).asURLDefaultRequest(with: token)
+		} catch {
+			return MessagesSetRead(environment: environment,
+								   conversationId: conversationId)
+		}
+	}
 }
 
 extension ChatNetworkRouter {
@@ -214,6 +225,30 @@ extension ChatNetworkRouter {
 		var parameters: Parameters {
 			return [
 				"conversationId": conversationId
+			]
+		}
+	}
+
+	private struct MessagesSetRead: RequestRouter {
+
+		let environment: Environment
+		let conversationId: Int
+
+		init(environment: Environment,
+			 conversationId: Int) {
+			self.environment = environment
+			self.conversationId = conversationId
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .get
+		var path = ApiMethods.messagesSetRead
+		var parameters: Parameters {
+			return [
+				"chatId": conversationId
 			]
 		}
 	}

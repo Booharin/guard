@@ -17,6 +17,7 @@ protocol NotificationServiceInterface {
 	func registerForRemoteNotification(with application: UIApplication)
 	func showLocalNotification(with title: String, message: String)
 	func saveDeviceToken(_ token: Data)
+	func checkForNotReadMessages()
 }
 
 final class NotificationService:
@@ -77,6 +78,11 @@ final class NotificationService:
 		#endif
 		di.keyChainService.save(deviceTokenString, for: Constants.KeyChainKeys.deviceToken)
 		UIPasteboard.general.string = deviceTokenString
+	}
+
+	func checkForNotReadMessages() {
+		NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.updateMessages),
+										object: nil)
 	}
 }
 

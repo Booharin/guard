@@ -144,6 +144,13 @@ final class EditLawyerProfileViewModel: ViewModel {
 			!phone.isEmpty {
 			view.phoneTextField.text = phone
 		}
+		view.phoneTextField
+			.rx
+			.text
+			.subscribe(onNext: { [unowned self] text in
+				self.view.phoneTextField.text = text?.phoneNumberFormat
+			}).disposed(by: disposeBag)
+
 		// email
 		view.emailTextField.keyboardType = .emailAddress
 		view.emailTextField.autocapitalizationType = .none

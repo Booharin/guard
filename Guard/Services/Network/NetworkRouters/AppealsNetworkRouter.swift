@@ -157,7 +157,9 @@ extension AppealsNetworkRouter {
 		var path = ApiMethods.clientAppeals
 		var parameters: Parameters {
 			return [
-				"id": id
+				"id": id,
+				"page": 0,
+				"pageSize": 1000
 			]
 		}
 	}

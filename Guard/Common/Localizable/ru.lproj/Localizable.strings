@@ -109,6 +109,7 @@
 "chat.greeting.title" = "Привет";
 "chat.greeting.description" = "Все твои переговоры здесь";
 "chat.placeholder" = "Сообщение";
+"chat.noName" = "Без имени";
 
 //PROFILE
 "profile.action_sheet.settings" = "Настройки";
