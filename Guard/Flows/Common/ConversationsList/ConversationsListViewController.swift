@@ -32,9 +32,10 @@ final class ConversationsListViewController<modelType: ConversationsListViewMode
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
+		self.viewModel.conversationsListSubject.onNext(())
 		super.init(nibName: nil, bundle: nil)
 	}
-	
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
@@ -54,7 +55,7 @@ final class ConversationsListViewController<modelType: ConversationsListViewMode
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
 
-		viewModel.conversationsListSubject?.onNext(())
+		viewModel.conversationsListSubject.onNext(())
 	}
 	
 	private func addViews() {

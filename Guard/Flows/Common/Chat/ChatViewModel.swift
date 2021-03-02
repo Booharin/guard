@@ -110,10 +110,13 @@ final class ChatViewModel: ViewModel, HasDependencies {
 				}
 			}).disposed(by: disposeBag)
 
+		// MARK: - if appeal id nil appeal button hidden
+		view.appealButtonView.isHidden = chatConversation.appealId == nil
+
 		// title
 		view.titleLabel.font = SFUIDisplay.bold.of(size: 15)
 		view.titleLabel.textColor = Colors.mainTextColor
-		view.titleLabel.text = chatConversation.fullName
+		view.titleLabel.text = chatConversation.fullName.isEmpty ? "chat.noName".localized : chatConversation.fullName
 		view.titleLabel
 			.rx
 			.tapGesture()
@@ -212,38 +215,49 @@ final class ChatViewModel: ViewModel, HasDependencies {
 				
 				
 ///////////////////////////////////////////////////////////////---------------------------------------------------
-//				let strBase64 = imageData.base64EncodedString()
-//
-//				let dict: [String: Any] = [
-//					"senderName": self?.di.localStorageService.getCurrenClientProfile()?.firstName ?? "Name",
-//					"content": strBase64,
-//					"senderId": self?.di.localStorageService.getCurrenClientProfile()?.id ?? 0
-//				]
-//				do {
-//					let jsonData = try JSONSerialization.data(withJSONObject: dict,
-//															  options: .prettyPrinted)
-//					guard let jSONText = String(data: jsonData, encoding: .utf8) else { return }
-//
-//					let path =
-//						"""
-//						/app/chat/\(self?.chatConversation.id ?? 0)/\(self?.chatConversation.userId ?? 0)/sendPhotoMessage
-//						"""
-//
-//					self?.di.socketStompService.sendMessage(with: jSONText,
-//															to: path,
-//															receiptId: "",
-//															headers: ["content-type": "application/json"])
-//					self.imageForSending = nil
-//					self.messagesListSubject?.onNext(())
-//				} catch {
-//					print(error.localizedDescription)
-//				}
-//				self?.messagesListSubject?.onNext(())
+				guard let self = self else { return }
+				guard let imageData = self.imageForSending else {
+					self.view.takePhotoFromGallery()
+					return
+				}
+				let strBase64 = imageData.base64EncodedString()
+
+				let dict: [String: Any] = [
+					"senderName": self.di.localStorageService.getCurrenClientProfile()?.firstName ?? "Name",
+					"content": "test content",
+					"senderId": self.di.localStorageService.getCurrenClientProfile()?.id ?? 0,
+					"fileName": "test.file",
+					"fileBase64": strBase64
+				]
+				do {
+					let jsonData = try JSONSerialization.data(withJSONObject: dict,
+															  options: .prettyPrinted)
+					guard let jSONText = String(data: jsonData, encoding: .utf8) else { return }
+
+					let path =
+						"""
+						/app/chat/\(self.chatConversation.id)/\(self.chatConversation.userId)/sendMessage
+						"""
+
+					self.di.socketStompService.sendMessage(with: jSONText,
+															to: path,
+															receiptId: "",
+															headers: ["content-type": "application/json"])
+					self.imageForSending = nil
+					self.messagesListSubject?.onNext(())
+				} catch {
+					print(error.localizedDescription)
+				}
+				self.messagesListSubject?.onNext(())
 			}).disposed(by: disposeBag)
 
 		messagesListSubject = PublishSubject<Any>()
 		messagesListSubject?
 			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.setMessagesRead(conversationId: chatConversation.id)
+			}
 			.flatMap { [unowned self] _ in
 				self.di.chatNetworkService
 					.getMessages(with: chatConversation.id)

@@ -199,7 +199,8 @@ final class LawyerFromListViewModel:
 														   appealId: nil,
 														   userFirstName: profile.firstName,
 														   userLastName: profile.lastName,
-														   userPhoto: profile.photo)
+														   userPhoto: profile.photo,
+														   countNotReadMessage: nil)
 
 					vc.viewModel.toChatWithLawyer?.onNext(newConversation)
 				}
