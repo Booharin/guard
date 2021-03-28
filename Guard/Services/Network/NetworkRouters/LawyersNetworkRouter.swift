@@ -97,7 +97,9 @@ extension LawyersNetworkRouter {
 		var path = ApiMethods.getAllLawyers
 		var parameters: Parameters {
 			return [
-				"cityTitle": city
+				"cityTitle": city,
+				"page": 0,
+				"pageSize": 1000
 			]
 		}
 	}
@@ -151,7 +153,9 @@ extension LawyersNetworkRouter {
 				"issueCode": issueCode
 					.map { String($0) }
 					.joined(separator:","),
-				"cityTitle": cityTitle
+				"cityTitle": cityTitle,
+				"page": 0,
+				"pageSize": 1000
 			]
 		}
 	}
