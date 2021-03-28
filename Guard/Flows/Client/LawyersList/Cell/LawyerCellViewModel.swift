@@ -63,7 +63,7 @@ final class LawyerCellViewModel:
 			view.avatarImageView.tintColor = Colors.lightGreyColor
 		}
 
-		view.nameTitle.text = lawyer.fullName
+		view.nameTitle.text = lawyer.fullName.isEmpty ? "chat.noName".localized : lawyer.fullName
 		view.nameTitle.font = SFUIDisplay.regular.of(size: 16)
 		view.nameTitle.textColor = Colors.mainTextColor
 

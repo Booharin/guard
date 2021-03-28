@@ -21,4 +21,5 @@ struct IssueType: Codable {
 	let subIssueCode: Int?
 	var locale: String?
 	let subIssueTypeList: [IssueType]?
+	let image: String?
 }

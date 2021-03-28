@@ -22,12 +22,19 @@ struct UserProfile: Codable {
 	var reviewList: [UserReview]?
 	var subIssueTypes: [IssueType]?
 	var subIssueCodes: [Int]?
+	var complaint: Int?
+
 	var fullName: String {
-		return "\(firstName ?? "") \(lastName ?? "")"
+		guard
+			let firstNameUser = firstName,
+			let lastNameUser = lastName else { return firstName ?? lastName ?? "" }
+		return "\(firstNameUser) \(lastNameUser)"
 	}
+
 	var userRole: UserRole {
 		UserRole(rawValue: role) ?? .client
 	}
+
 	var settings: SettingsModel?
 
 	init(userProfileObject: UserProfileObject) {
@@ -42,5 +49,6 @@ struct UserProfile: Codable {
 		self.averageRate = userProfileObject.averageRate
 		self.role = userProfileObject.role ?? ""
 		self.subIssueCodes = userProfileObject.subIssueCodes ?? []
+		self.complaint = Int(userProfileObject.complaint)
 	}
 }
