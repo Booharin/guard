@@ -51,10 +51,16 @@ struct SelectIssueCellViewModel: ViewModel {
 
 		view.issuesubtitle.text = issueType.subtitle
 		view.issuesubtitle.font = SFUIDisplay.light.of(size: 12)
-		view.issuesubtitle.textColor = Colors.subtitleColor
+		view.issuesubtitle.textColor = Colors.mainTextColor
 		view.issuesubtitle.numberOfLines = 0
 
-		view.issueImageView.image = #imageLiteral(resourceName: "divorce_icn")
+		if issueType.subtitle.isEmpty {
+			view.issuesubtitle.snp.updateConstraints {
+				$0.top.equalTo(self.view.issueTitle.snp.bottom)
+			}
+		}
+
+		view.issueImageView.image = #imageLiteral(resourceName: "issue_icn")
 	}
 
 	func removeBindings() {}

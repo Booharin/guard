@@ -42,23 +42,22 @@ class SelectIssueTableViewCell: UITableViewCell, SelectIssueTableViewCellProtoco
 		}
 		containerView.addSubview(issueTitle)
 		issueTitle.snp.makeConstraints() {
-			$0.leading.equalToSuperview().offset(117)
-			$0.trailing.equalToSuperview().offset(-50)
-			$0.top.equalToSuperview().offset(14)
+			$0.leading.equalToSuperview().offset(77)
+			$0.trailing.equalToSuperview().offset(-36)
+			$0.top.equalToSuperview().offset(5)
 		}
 		containerView.addSubview(issuesubtitle)
 		issuesubtitle.snp.makeConstraints() {
-			$0.leading.equalToSuperview().offset(117)
-			$0.trailing.equalToSuperview().offset(-50)
-			$0.height.greaterThanOrEqualTo(14)
-			$0.top.equalTo(issueTitle.snp.bottom).offset(6)
-			$0.bottom.equalToSuperview().offset(-16)
+			$0.leading.equalToSuperview().offset(77)
+			$0.trailing.equalToSuperview().offset(-36)
+			$0.top.equalTo(issueTitle.snp.bottom).offset(4)
+			$0.bottom.equalToSuperview().offset(-10)
 		}
 		containerView.addSubview(issueImageView)
 		issueImageView.snp.makeConstraints() {
-			$0.leading.equalToSuperview().offset(35)
-			$0.width.height.equalTo(52)
-			$0.centerY.equalToSuperview()
+			$0.leading.equalToSuperview().offset(30)
+			$0.width.height.equalTo(30)
+			$0.top.equalToSuperview().offset(5)
 		}
 	}
 }
