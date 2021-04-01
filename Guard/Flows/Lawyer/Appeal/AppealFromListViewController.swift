@@ -96,7 +96,7 @@ final class AppealFromListViewController<modelType: AppealFromListViewModel>:
 		view.addSubview(issueTypeLabel)
 		issueTypeLabel.snp.makeConstraints {
 			$0.height.equalTo(24)
-			$0.top.equalToSuperview().offset(90)
+			$0.top.equalToSuperview().offset(100)
 			$0.centerX.equalToSuperview()
 			$0.width.lessThanOrEqualTo(300).priority(1000)
 			$0.width.equalTo(issueTypeLabel.intrinsicContentSize.width + 20).priority(900)

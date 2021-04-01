@@ -15,6 +15,7 @@ struct ChatConversation: Codable {
 	let userFirstName: String?
 	let userLastName: String?
 	let userPhoto: String?
+	let countNotReadMessage: Int?
 
 	var fullName: String {
 		guard

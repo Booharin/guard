@@ -2,7 +2,7 @@
 //  UserProfileObject+CoreDataClass.swift
 //  Guard
 //
-//  Created by Alexandr Bukharin on 02.02.2021.
+//  Created by Alexandr Bukharin on 28.03.2021.
 //  Copyright © 2021 ds. All rights reserved.
 //
 //

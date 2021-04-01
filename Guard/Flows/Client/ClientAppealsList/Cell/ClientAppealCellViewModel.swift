@@ -48,10 +48,17 @@ final class ClientAppealCellViewModel:
 				self.toAppealDescriptionSubject.onNext(self.clientAppeal)
 			}).disposed(by: disposeBag)
 
-		view.appealImageView.image = #imageLiteral(resourceName: "profile_icn").withRenderingMode(.alwaysTemplate)
-		view.appealImageView.tintColor = Colors.lightGreyColor
 		view.appealImageView.layer.cornerRadius = 21
 		view.appealImageView.clipsToBounds = true
+		view.appealImageView.layer.borderWidth = 1
+		view.appealImageView.layer.borderColor = Colors.lightGreyColor.cgColor
+
+		if let image = di.localStorageService.getImage(with: "\(clientAppeal.clientId)_profile_image.jpeg") {
+			view.appealImageView.image = image
+		} else {
+			view.appealImageView.image = #imageLiteral(resourceName: "profile_icn").withRenderingMode(.alwaysTemplate)
+			view.appealImageView.tintColor = Colors.lightGreyColor
+		}
 
 		// MARK: - If appeel from lawyers appeals list
 		if di.localStorageService.getCurrenClientProfile()?.userRole == .lawyer {
@@ -61,11 +68,15 @@ final class ClientAppealCellViewModel:
 				.flatMap { [unowned self] _ in
 					self.di.clientNetworkService.getPhoto(profileId: clientAppeal.clientId)
 				}
-				.observeOn(MainScheduler.instance)
+				//.observeOn(MainScheduler.instance)
 				.subscribe(onNext: { [weak self] result in
 					switch result {
 						case .success(let data):
 							self?.view.appealImageView.image = UIImage(data: data)
+							if let userID = self?.clientAppeal.clientId {
+								self?.di.localStorageService.saveImage(data: data,
+																	   name: "\(userID)_profile_image.jpeg")
+							}
 						case .failure(let error):
 							print(error.localizedDescription)
 					}

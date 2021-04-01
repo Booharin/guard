@@ -58,7 +58,7 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 				// handle http status
 				if let code = response.response?.statusCode {
 					switch code {
-					case 403:
+					case 401:
 						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
 														object: nil)
 					default:
@@ -114,7 +114,7 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 				// handle http status
 				if let code = response.response?.statusCode {
 					switch code {
-					case 403:
+					case 401:
 						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
 														object: nil)
 					default:
@@ -158,7 +158,7 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 				// handle http status
 				if let code = response.response?.statusCode {
 					switch code {
-					case 403:
+					case 401:
 						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
 														object: nil)
 					default:
@@ -196,7 +196,7 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 				// handle http status
 				if let code = response.response?.statusCode {
 					switch code {
-					case 403:
+					case 401:
 						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
 														object: nil)
 					default:
@@ -234,7 +234,7 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 				// handle http status
 				if let code = response.response?.statusCode {
 					switch code {
-					case 403:
+					case 401:
 						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
 														object: nil)
 					default:
@@ -283,7 +283,7 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 				// handle http status
 				if let code = response.response?.statusCode {
 					switch code {
-					case 403:
+					case 401:
 						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
 														object: nil)
 					default:
@@ -331,7 +331,7 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 				// handle http status
 				if let code = response.response?.statusCode {
 					switch code {
-					case 403:
+					case 401:
 						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
 														object: nil)
 					default:
@@ -379,7 +379,7 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 				// handle http status
 				if let code = response.response?.statusCode {
 					switch code {
-					case 403:
+					case 401:
 						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
 														object: nil)
 					default:

@@ -31,6 +31,7 @@ enum ApiMethods {
 	static let getConversations = "chat/getconversations"
 	static let getMessages = "chat/getmessages"
 	static let deleteConversation = "chat/deleteconversation"
+	static let messagesSetRead = "chat/setread"
 	// review
 	static let reviewUpload = "review/upload"
 	// common

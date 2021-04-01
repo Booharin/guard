@@ -10,6 +10,7 @@ enum Constants {
 	enum UserDefaultsKeys {
 		static let isLogin = "isLogin"
 		static let selectedIssues = "selected_issues"
+		static let notReadCount = "not_read_count"
 	}
 	enum KeyChainKeys {
 		static let token = "network_token"

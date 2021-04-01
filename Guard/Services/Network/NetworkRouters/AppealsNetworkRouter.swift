@@ -157,7 +157,9 @@ extension AppealsNetworkRouter {
 		var path = ApiMethods.clientAppeals
 		var parameters: Parameters {
 			return [
-				"id": id
+				"id": id,
+				"page": 0,
+				"pageSize": 1000
 			]
 		}
 	}
@@ -296,7 +298,9 @@ extension AppealsNetworkRouter {
 		var path = ApiMethods.allAppeals
 		var parameters: Parameters {
 			return [
-				"cityTitle": cityTitle
+				"cityTitle": cityTitle,
+				"page": 0,
+				"pageSize": 1000
 			]
 		}
 	}
@@ -326,7 +330,9 @@ extension AppealsNetworkRouter {
 				"issueCodeList": issueCode
 					.map { String($0) }
 					.joined(separator:","),
-				"city": cityTitle
+				"city": cityTitle,
+				"page": 0,
+				"pageSize": 1000
 			]
 		}
 	}

@@ -14,7 +14,9 @@ final class LawyerCellViewModel:
 	ViewModel,
 	HasDependencies {
 
-	typealias Dependencies = HasClientNetworkService
+	typealias Dependencies =
+		HasClientNetworkService &
+		HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
 
 	var view: LawyerCellProtocol!
@@ -49,12 +51,19 @@ final class LawyerCellViewModel:
 				self.toLawyerSubject?.onNext(self.lawyer)
 			}).disposed(by: disposeBag)
 
-		view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn").withRenderingMode(.alwaysTemplate)
-		view.avatarImageView.tintColor = Colors.lightGreyColor
 		view.avatarImageView.layer.cornerRadius = 21
 		view.avatarImageView.clipsToBounds = true
+		view.avatarImageView.layer.borderWidth = 1
+		view.avatarImageView.layer.borderColor = Colors.lightGreyColor.cgColor
 
-		view.nameTitle.text = lawyer.fullName
+		if let image = di.localStorageService.getImage(with: "\(lawyer.id)_profile_image.jpeg") {
+			view.avatarImageView.image = image
+		} else {
+			view.avatarImageView.image = #imageLiteral(resourceName: "profile_icn").withRenderingMode(.alwaysTemplate)
+			view.avatarImageView.tintColor = Colors.lightGreyColor
+		}
+
+		view.nameTitle.text = lawyer.fullName.isEmpty ? "chat.noName".localized : lawyer.fullName
 		view.nameTitle.font = SFUIDisplay.regular.of(size: 16)
 		view.nameTitle.textColor = Colors.mainTextColor
 
@@ -68,11 +77,15 @@ final class LawyerCellViewModel:
 			.flatMap { [unowned self] _ in
 				self.di.clientNetworkService.getPhoto(profileId: lawyer.id)
 			}
-			.observeOn(MainScheduler.instance)
+			//.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
 				switch result {
 					case .success(let data):
 						self?.view.avatarImageView.image = UIImage(data: data)
+						if let userID = self?.lawyer.id {
+							self?.di.localStorageService.saveImage(data: data,
+																   name: "\(userID)_profile_image.jpeg")
+						}
 					case .failure(let error):
 						print(error.localizedDescription)
 				}

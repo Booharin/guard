@@ -145,22 +145,16 @@ extension SocketStompService: SwiftStompDelegate {
 			#if DEBUG
 			print("Message with id `\(messageId)` received at destination `\(destination)`:\n\(message)")
 			#endif
-
-			guard
-				let messageDict = convertStringToDictionary(text: message),
-				let senderName = messageDict[Constants.ChatMessageKeys.senderName] as? String,
-				let content = messageDict[Constants.ChatMessageKeys.content] as? String else { return }
-
-			di.notificationService.showLocalNotification(with: senderName,
-														 message: content)
 			incomingMessageSubject.onNext(())
+			NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.updateMessages),
+											object: nil)
 		} else if let message = message as? Data {
+			#if DEBUG
 			print("Data message with id `\(messageId)` and binary length `\(message.count)` received at destination `\(destination)`")
-			guard
-				let messageDict = convertDataToDictionary(data: message),
-				let senderName = messageDict[Constants.ChatMessageKeys.senderName] as? String else { return }
-			di.notificationService.showLocalNotification(with: senderName,
-														 message: "Файл")
+			#endif
+			incomingMessageSubject.onNext(())
+			NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.updateMessages),
+											object: nil)
 		}
 	}
 
