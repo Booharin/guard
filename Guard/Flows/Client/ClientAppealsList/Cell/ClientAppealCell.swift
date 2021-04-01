@@ -65,7 +65,7 @@ class ClientAppealCell: UITableViewCell, ClientAppealCellProtocol {
 			$0.leading.equalTo(appealImageView.snp.trailing).offset(13)
 			$0.top.equalTo(titleLabel.snp.bottom).offset(4)
 			$0.trailing.equalToSuperview().offset(-93)
-			$0.bottom.equalToSuperview().offset(-20)
+			$0.height.equalTo(15)
 		}
 		// date label
 		containerView.addSubview(dateLabel)
