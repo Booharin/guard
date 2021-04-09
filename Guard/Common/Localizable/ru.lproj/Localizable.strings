@@ -107,7 +107,7 @@
 
 //CHAT
 "chat.greeting.title" = "Привет";
-"chat.greeting.description" = "Все твои переговоры здесь";
+"chat.greeting.description" = "Все ваши переговоры здесь";
 "chat.placeholder" = "Сообщение";
 "chat.noName" = "Без имени";
 
@@ -135,6 +135,7 @@
 "settings.visibility.phone" = "Показать телефон";
 "settings.visibility.mail" = "Показать email";
 "settings.visibility.chat" = "Включить чат";
+
 //CHANGE_PASSWORD
 "settings.change_password.title" = "Сменить пароль";
 "change_password.title" = "Смена пароля";
@@ -148,8 +149,14 @@
 "logout.alert.ok" = "Да";
 "logout.alert.title" = "Осторожно";
 "logout.alert.message" = "Вы действительно хотите выйти из профиля?";
+
 //REVIEWS
 "reviews.title" = "Отзывы";
 "new_review.title" = "Отзыв";
 "new_review.textview.placeholder" = "Описание";
 "new_review.create_button.titile" = "Сохранить";
+
+//FILTER
+"filter.title" = "Фильтр";
+"filter.issues.title" = "Выберите направления,\nс которыми вы работаете";
+"filter.search.placeholder.title" = "Поиск по фильтрам";

@@ -11,6 +11,8 @@ import RxSwift
 
 protocol LawyerListRouterProtocol {
 	func passToLawyer(with userProfile: UserProfile)
+	func presentFilterScreenViewController(subIssuesCodes: [Int],
+										   filterIssuesSubject: PublishSubject<[Int]>)
 }
 
 final class LawyersListRouter: BaseRouter, LawyerListRouterProtocol {
@@ -19,5 +21,12 @@ final class LawyersListRouter: BaseRouter, LawyerListRouterProtocol {
 		let controller = LawyerFromListModuleFactory.createModule(with: userProfile,
 																  navController: navigationController)
 		navigationController?.pushViewController(controller, animated: true)
+	}
+
+	func presentFilterScreenViewController(subIssuesCodes: [Int],
+										   filterIssuesSubject: PublishSubject<[Int]>) {
+		let controller = FilterScreenModuleFactory.createModule(subIssuesCodes: subIssuesCodes,
+																selectedIssuesSubject: filterIssuesSubject)
+		navigationController?.present(controller, animated: true)
 	}
 }

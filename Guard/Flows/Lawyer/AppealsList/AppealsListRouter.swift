@@ -11,6 +11,8 @@ import RxCocoa
 
 protocol AppealsListRouterProtocol {
 	var toAppealDescriptionSubject: PublishSubject<ClientAppeal> { get }
+	func presentFilterScreenViewController(subIssuesCodes: [Int],
+										   filterIssuesSubject: PublishSubject<[Int]>)
 }
 
 final class AppealsListRouter: BaseRouter, AppealsListRouterProtocol {
@@ -39,5 +41,12 @@ final class AppealsListRouter: BaseRouter, AppealsListRouterProtocol {
 												router: router)
 		let toAppealCreatingController = AppealFromListViewController(viewModel: viewModel)
 		self.navigationController?.pushViewController(toAppealCreatingController, animated: true)
+	}
+
+	func presentFilterScreenViewController(subIssuesCodes: [Int],
+										   filterIssuesSubject: PublishSubject<[Int]>) {
+		let controller = FilterScreenModuleFactory.createModule(subIssuesCodes: subIssuesCodes,
+																selectedIssuesSubject: filterIssuesSubject)
+		navigationController?.present(controller, animated: true)
 	}
 }

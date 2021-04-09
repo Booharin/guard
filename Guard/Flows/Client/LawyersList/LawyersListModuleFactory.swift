@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RxSwift
 
 final class LawyersListModuleFactory {
 	static func createModule(issueType: IssueType?) -> NavigationController {

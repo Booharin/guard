@@ -51,7 +51,11 @@
 		5222B69124C7616F000BEE13 /* SelectIssueDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69024C7616F000BEE13 /* SelectIssueDataSource.swift */; };
 		5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69324C761C3000BEE13 /* TableViewItem.swift */; };
 		5222B69624C761D6000BEE13 /* TableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5222B69524C761D6000BEE13 /* TableViewSection.swift */; };
+		52260FA22618503500B36041 /* FilterIssuesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52260FA12618503500B36041 /* FilterIssuesCell.swift */; };
+		52260FA42618504600B36041 /* FilterIssuesCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52260FA32618504600B36041 /* FilterIssuesCellViewModel.swift */; };
+		52260FA92618B8D800B36041 /* SelectSubIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52260FA82618B8D800B36041 /* SelectSubIssueView.swift */; };
 		52337F212598F264009D8297 /* IssueLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52337F202598F264009D8297 /* IssueLabel.swift */; };
+		5233EE242619BF3E00897458 /* SubIssueSelected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5233EE232619BF3E00897458 /* SubIssueSelected.swift */; };
 		5233F27D25D7FD000018748C /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5233F27C25D7FD000018748C /* Lottie.framework */; };
 		5233F27E25D7FD000018748C /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5233F27C25D7FD000018748C /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5233F28125D7FD650018748C /* LottieAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5233F28025D7FD650018748C /* LottieAnimationView.swift */; };
@@ -138,6 +142,10 @@
 		52926BF325C1DCE9008C671B /* ClientFromAppealRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF225C1DCE9008C671B /* ClientFromAppealRouter.swift */; };
 		52926BF525C1DD1A008C671B /* ClientFromAppealModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF425C1DD1A008C671B /* ClientFromAppealModuleFactory.swift */; };
 		52926BF725C1F2FD008C671B /* StarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52926BF625C1F2FD008C671B /* StarImageView.swift */; };
+		5299734B26158CB200661229 /* FilterScreenModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5299734A26158CB200661229 /* FilterScreenModuleFactory.swift */; };
+		5299734D26158CD800661229 /* FilterScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5299734C26158CD800661229 /* FilterScreenViewController.swift */; };
+		5299734F26158CEE00661229 /* FilterScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5299734E26158CEE00661229 /* FilterScreenViewModel.swift */; };
+		529973522615922C00661229 /* FilterScreenDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529973512615922C00661229 /* FilterScreenDataSource.swift */; };
 		529C65B325EB83D60052EAB4 /* String+PhoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C65B225EB83D60052EAB4 /* String+PhoneNumber.swift */; };
 		52A271B02508E45A0050FB60 /* Saira-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */; };
 		52A271B22508E4970050FB60 /* Saira-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */; };
@@ -212,7 +220,6 @@
 		52C4DBD125C144B200CDC148 /* ReviewsListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C4DBD025C144B200CDC148 /* ReviewsListDataSource.swift */; };
 		52C4DBD425C1460D00CDC148 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C4DBD325C1460D00CDC148 /* ReviewCell.swift */; };
 		52C4DBD625C1462E00CDC148 /* ReviewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C4DBD525C1462E00CDC148 /* ReviewCellViewModel.swift */; };
-		52D23604259340A400C0E922 /* FilterViewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D23603259340A400C0E922 /* FilterViewService.swift */; };
 		52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */; };
 		52E62F2225322C58007FB1BE /* EditClientProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E62F2125322C58007FB1BE /* EditClientProfileViewController.swift */; };
 		52E62F2425322C69007FB1BE /* EditClientProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E62F2325322C69007FB1BE /* EditClientProfileViewModel.swift */; };
@@ -231,6 +238,9 @@
 		52F0F5712536DA3B00FE2B14 /* AppealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5702536DA3B00FE2B14 /* AppealViewController.swift */; };
 		52F0F5732536DA5900FE2B14 /* AppealViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5722536DA5900FE2B14 /* AppealViewModel.swift */; };
 		52F0F5752536DF5500FE2B14 /* ThreeDotsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F0F5742536DF5500FE2B14 /* ThreeDotsButton.swift */; };
+		52F12E89261F56D900DE9C03 /* TitleButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F12E88261F56D900DE9C03 /* TitleButtonView.swift */; };
+		52F12E8B261F930500DE9C03 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F12E8A261F930500DE9C03 /* SearchTextField.swift */; };
+		52F12E8D2620847600DE9C03 /* String+ContainsIgnoringCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F12E8C2620847600DE9C03 /* String+ContainsIgnoringCase.swift */; };
 		52F749332565A846009CD041 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F749322565A846009CD041 /* KeyChainService.swift */; };
 		52F7493925665F93009CD041 /* UserRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F7493825665F93009CD041 /* UserRole.swift */; };
 		52FFF4A5250B85D100957356 /* ClientAppealsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */; };
@@ -313,7 +323,11 @@
 		5222B69324C761C3000BEE13 /* TableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewItem.swift; sourceTree = "<group>"; };
 		5222B69524C761D6000BEE13 /* TableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSection.swift; sourceTree = "<group>"; };
 		5222DBFC25B482FF00BA4929 /* Guard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Guard.entitlements; sourceTree = "<group>"; };
+		52260FA12618503500B36041 /* FilterIssuesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterIssuesCell.swift; sourceTree = "<group>"; };
+		52260FA32618504600B36041 /* FilterIssuesCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterIssuesCellViewModel.swift; sourceTree = "<group>"; };
+		52260FA82618B8D800B36041 /* SelectSubIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSubIssueView.swift; sourceTree = "<group>"; };
 		52337F202598F264009D8297 /* IssueLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueLabel.swift; sourceTree = "<group>"; };
+		5233EE232619BF3E00897458 /* SubIssueSelected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubIssueSelected.swift; sourceTree = "<group>"; };
 		5233F27C25D7FD000018748C /* Lottie.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = Carthage/Build/iOS/Lottie.framework; sourceTree = "<group>"; };
 		5233F28025D7FD650018748C /* LottieAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimationView.swift; sourceTree = "<group>"; };
 		5235F286250CB6EA00639FC4 /* AppealCreatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealCreatingViewController.swift; sourceTree = "<group>"; };
@@ -405,6 +419,10 @@
 		52926BF225C1DCE9008C671B /* ClientFromAppealRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientFromAppealRouter.swift; sourceTree = "<group>"; };
 		52926BF425C1DD1A008C671B /* ClientFromAppealModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientFromAppealModuleFactory.swift; sourceTree = "<group>"; };
 		52926BF625C1F2FD008C671B /* StarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarImageView.swift; sourceTree = "<group>"; };
+		5299734A26158CB200661229 /* FilterScreenModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterScreenModuleFactory.swift; sourceTree = "<group>"; };
+		5299734C26158CD800661229 /* FilterScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterScreenViewController.swift; sourceTree = "<group>"; };
+		5299734E26158CEE00661229 /* FilterScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterScreenViewModel.swift; sourceTree = "<group>"; };
+		529973512615922C00661229 /* FilterScreenDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterScreenDataSource.swift; sourceTree = "<group>"; };
 		529C65B225EB83D60052EAB4 /* String+PhoneNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+PhoneNumber.swift"; sourceTree = "<group>"; };
 		52A271AF2508E44C0050FB60 /* Saira-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-Medium.ttf"; sourceTree = "<group>"; };
 		52A271B12508E4940050FB60 /* Saira-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Saira-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -459,7 +477,6 @@
 		52C4DBD025C144B200CDC148 /* ReviewsListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsListDataSource.swift; sourceTree = "<group>"; };
 		52C4DBD325C1460D00CDC148 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		52C4DBD525C1462E00CDC148 /* ReviewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCellViewModel.swift; sourceTree = "<group>"; };
-		52D23603259340A400C0E922 /* FilterViewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewService.swift; sourceTree = "<group>"; };
 		52E3D4E224C8AB4200FD67C9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		52E62F2125322C58007FB1BE /* EditClientProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientProfileViewController.swift; sourceTree = "<group>"; };
 		52E62F2325322C69007FB1BE /* EditClientProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientProfileViewModel.swift; sourceTree = "<group>"; };
@@ -481,6 +498,9 @@
 		52F0F5702536DA3B00FE2B14 /* AppealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealViewController.swift; sourceTree = "<group>"; };
 		52F0F5722536DA5900FE2B14 /* AppealViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealViewModel.swift; sourceTree = "<group>"; };
 		52F0F5742536DF5500FE2B14 /* ThreeDotsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDotsButton.swift; sourceTree = "<group>"; };
+		52F12E88261F56D900DE9C03 /* TitleButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleButtonView.swift; sourceTree = "<group>"; };
+		52F12E8A261F930500DE9C03 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
+		52F12E8C2620847600DE9C03 /* String+ContainsIgnoringCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+ContainsIgnoringCase.swift"; sourceTree = "<group>"; };
 		52F749322565A846009CD041 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
 		52F7493825665F93009CD041 /* UserRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRole.swift; sourceTree = "<group>"; };
 		52FFF4A4250B85D100957356 /* ClientAppealsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientAppealsListRouter.swift; sourceTree = "<group>"; };
@@ -721,9 +741,18 @@
 			path = TableView;
 			sourceTree = "<group>";
 		};
+		52260FA72618B8BD00B36041 /* SelectSubIssueView */ = {
+			isa = PBXGroup;
+			children = (
+				52260FA82618B8D800B36041 /* SelectSubIssueView.swift */,
+			);
+			path = SelectSubIssueView;
+			sourceTree = "<group>";
+		};
 		522E5BE424A37C2F00879741 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				52260FA72618B8BD00B36041 /* SelectSubIssueView */,
 				5233F27F25D7FD2D0018748C /* LottieAnimationView */,
 				52BCC3B225C182C90020F9F3 /* StackView */,
 				52524E5F24FECF5E0078AA62 /* Buttons */,
@@ -950,7 +979,6 @@
 		52483BAD24A279470003A56A /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				52D236022593408500C0E922 /* FilterViewService */,
 				527E4D49258FA02000744A40 /* NotificationService */,
 				52F749312565A82D009CD041 /* KeyChainService */,
 				5273744C2563C00000912769 /* SocketService */,
@@ -1073,6 +1101,7 @@
 			children = (
 				5251AFB924A287CB00467E84 /* TextField.swift */,
 				52E62F25253238F8007FB1BE /* EditTextField.swift */,
+				52F12E8A261F930500DE9C03 /* SearchTextField.swift */,
 			);
 			path = TextField;
 			sourceTree = "<group>";
@@ -1110,6 +1139,7 @@
 				52F0F5742536DF5500FE2B14 /* ThreeDotsButton.swift */,
 				52E96FD425BC18F90014F0D0 /* AddIssueButton.swift */,
 				52926BF625C1F2FD008C671B /* StarImageView.swift */,
+				52F12E88261F56D900DE9C03 /* TitleButtonView.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -1137,6 +1167,7 @@
 				52507E2E25861E8300C8B213 /* CityModel.swift */,
 				521EA38525B5795D00B00413 /* SettingsModel.swift */,
 				5210837E25C1882300CFA016 /* ReviewDetails.swift */,
+				5233EE232619BF3E00897458 /* SubIssueSelected.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1192,6 +1223,7 @@
 		52760C4425016BCD00080152 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				5299734926158C5B00661229 /* FilterScreen */,
 				5251AFA824A2821A00467E84 /* Auth */,
 				52EB81BE24B9DD5B003285BC /* Registration */,
 				52C4DBD725C1659C00CDC148 /* ReviewDetails */,
@@ -1275,6 +1307,35 @@
 				52926BF425C1DD1A008C671B /* ClientFromAppealModuleFactory.swift */,
 			);
 			path = ClientFromAppeal;
+			sourceTree = "<group>";
+		};
+		5299734926158C5B00661229 /* FilterScreen */ = {
+			isa = PBXGroup;
+			children = (
+				529973532615928100661229 /* Cell */,
+				529973502615921100661229 /* DataSource */,
+				5299734A26158CB200661229 /* FilterScreenModuleFactory.swift */,
+				5299734C26158CD800661229 /* FilterScreenViewController.swift */,
+				5299734E26158CEE00661229 /* FilterScreenViewModel.swift */,
+			);
+			path = FilterScreen;
+			sourceTree = "<group>";
+		};
+		529973502615921100661229 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				529973512615922C00661229 /* FilterScreenDataSource.swift */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
+		529973532615928100661229 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				52260FA12618503500B36041 /* FilterIssuesCell.swift */,
+				52260FA32618504600B36041 /* FilterIssuesCellViewModel.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		52A00F74256590670099D961 /* UserProfileObject */ = {
@@ -1489,14 +1550,6 @@
 			path = ReviewDetails;
 			sourceTree = "<group>";
 		};
-		52D236022593408500C0E922 /* FilterViewService */ = {
-			isa = PBXGroup;
-			children = (
-				52D23603259340A400C0E922 /* FilterViewService.swift */,
-			);
-			path = FilterViewService;
-			sourceTree = "<group>";
-		};
 		52E3D4E124C8AB0E00FD67C9 /* TabBarController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1554,6 +1607,7 @@
 				52EB81D424B9F2D1003285BC /* String+isvalidEmail.swift */,
 				523E62DB2519E00500757FE3 /* String+Size.swift */,
 				529C65B225EB83D60052EAB4 /* String+PhoneNumber.swift */,
+				52F12E8C2620847600DE9C03 /* String+ContainsIgnoringCase.swift */,
 			);
 			path = String;
 			sourceTree = "<group>";
@@ -1693,9 +1747,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5299734D26158CD800661229 /* FilterScreenViewController.swift in Sources */,
+				52F12E89261F56D900DE9C03 /* TitleButtonView.swift in Sources */,
 				52B2686C251114A100111864 /* ConversationsListRouter.swift in Sources */,
 				52ADE3C7258FCFB600F0B067 /* CityObject+CoreDataClass.swift in Sources */,
 				5222B69624C761D6000BEE13 /* TableViewSection.swift in Sources */,
+				52260FA42618504600B36041 /* FilterIssuesCellViewModel.swift in Sources */,
 				52507E2F25861E8300C8B213 /* CityModel.swift in Sources */,
 				52B26861251111A400111864 /* ConversationsListViewController.swift in Sources */,
 				521681C7251E5A58007B4F6A /* SettingsDataSource.swift in Sources */,
@@ -1734,6 +1791,7 @@
 				52EB81D524B9F2D1003285BC /* String+isvalidEmail.swift in Sources */,
 				525BFA6B250A0279005393B1 /* ClientAppealDataSource.swift in Sources */,
 				5251AFB024A2829200467E84 /* Colors.swift in Sources */,
+				52260FA22618503500B36041 /* FilterIssuesCell.swift in Sources */,
 				52FFF4A5250B85D100957356 /* ClientAppealsListRouter.swift in Sources */,
 				52ADE3BF258FC13600F0B067 /* NetworkConnectivity.swift in Sources */,
 				5235F289250CB7A400639FC4 /* AppealCreatingViewModel.swift in Sources */,
@@ -1742,7 +1800,7 @@
 				5222B68C24C75AB3000BEE13 /* SelectIssueTableViewCell.swift in Sources */,
 				526AC48325738D260041B571 /* UITextField+Autofill.swift in Sources */,
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
-				52D23604259340A400C0E922 /* FilterViewService.swift in Sources */,
+				5233EE242619BF3E00897458 /* SubIssueSelected.swift in Sources */,
 				523CD31625B733CC000E5078 /* LawyerProfileRouter.swift in Sources */,
 				52AFF0FE25BA0AE300D365C2 /* EditLawyerProfileViewModel.swift in Sources */,
 				5283CB712517CA71005DEDA8 /* ClientProfileViewModel.swift in Sources */,
@@ -1752,6 +1810,7 @@
 				523CD30725B6D0F6000E5078 /* AppealsListViewController.swift in Sources */,
 				52F7493925665F93009CD041 /* UserRole.swift in Sources */,
 				523CD30B25B6DB46000E5078 /* AppealsListRouter.swift in Sources */,
+				52F12E8B261F930500DE9C03 /* SearchTextField.swift in Sources */,
 				5222B68E24C75DC2000BEE13 /* SelectIssueCellViewModel.swift in Sources */,
 				5283CB732517CBED005DEDA8 /* ClientProfileModuleFactory.swift in Sources */,
 				52F0F5752536DF5500FE2B14 /* ThreeDotsButton.swift in Sources */,
@@ -1762,7 +1821,9 @@
 				5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */,
 				52A271C22508FA4E0050FB60 /* ClientAppeal.swift in Sources */,
 				52507E312586293C00C8B213 /* CommonDataNetworkRouter.swift in Sources */,
+				52F12E8D2620847600DE9C03 /* String+ContainsIgnoringCase.swift in Sources */,
 				52B2685A25110E1400111864 /* ChatCellViewModel.swift in Sources */,
+				52260FA92618B8D800B36041 /* SelectSubIssueView.swift in Sources */,
 				52C4DBCA25C07BA700CDC148 /* ReviewsListViewController.swift in Sources */,
 				52E62F2425322C69007FB1BE /* EditClientProfileViewModel.swift in Sources */,
 				52BCC3B125C17DF60020F9F3 /* ReviewDetailsViewModel.swift in Sources */,
@@ -1790,7 +1851,9 @@
 				52E62F26253238F8007FB1BE /* EditTextField.swift in Sources */,
 				523C8CE625628946006DECAB /* AuthResponse.swift in Sources */,
 				527867CD25CB13DA001CAA11 /* AppealFromListRouter.swift in Sources */,
+				5299734F26158CEE00661229 /* FilterScreenViewModel.swift in Sources */,
 				52926BF725C1F2FD008C671B /* StarImageView.swift in Sources */,
+				529973522615922C00661229 /* FilterScreenDataSource.swift in Sources */,
 				5210838425C1BF1000CFA016 /* LawyerFromListViewModel.swift in Sources */,
 				5210838625C1BF3300CFA016 /* LawyerFromListRouter.swift in Sources */,
 				52F0F5732536DA5900FE2B14 /* AppealViewModel.swift in Sources */,
@@ -1802,6 +1865,7 @@
 				52B278CA24C0964F001E7295 /* LocationService.swift in Sources */,
 				521E64CF24FBCF0E00FF96ED /* UIScreen+iPhoneType.swift in Sources */,
 				52337F212598F264009D8297 /* IssueLabel.swift in Sources */,
+				5299734B26158CB200661229 /* FilterScreenModuleFactory.swift in Sources */,
 				5283CB6F2517CA5D005DEDA8 /* ClientProfileViewController.swift in Sources */,
 				523AEAF7251E4D8900F1E607 /* SwitcherCell.swift in Sources */,
 				521016DB2581426D002A696E /* AppealsNetworkService.swift in Sources */,
@@ -2054,7 +2118,7 @@
 				CODE_SIGN_ENTITLEMENTS = Guard/Guard.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = 62UUS6482X;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2082,7 +2146,7 @@
 				CODE_SIGN_ENTITLEMENTS = Guard/Guard.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = 62UUS6482X;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

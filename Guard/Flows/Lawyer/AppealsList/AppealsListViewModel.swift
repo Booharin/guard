@@ -19,8 +19,7 @@ final class AppealsListViewModel:
 	typealias Dependencies =
 		HasLocalStorageService &
 		HasKeyChainService &
-		HasAppealsNetworkService &
-		HasFilterViewService
+		HasAppealsNetworkService
 	lazy var di: Dependencies = DI.dependencies
 	var clientProfile: UserProfile? {
 		di.localStorageService.getCurrenClientProfile()
@@ -31,9 +30,12 @@ final class AppealsListViewModel:
 	private var appeals = [ClientAppeal]()
 	private var router: AppealsListRouterProtocol
 	private let disposeBag = DisposeBag()
+
 	var appealsListSubject: PublishSubject<Any>?
+	private let filterIssuesSubject = PublishSubject<[Int]>()
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ClientAppeal>]>?
-	var selectedIssues = [Int]()
+
+	private var selectedSubIssuesCodes = [Int]()
 	private var currentCityTitle = ""
 
 	init(router: AppealsListRouterProtocol) {
@@ -65,33 +67,9 @@ final class AppealsListViewModel:
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.di.filterViewService.showFilterView(with: selectedIssues)
+				self.router.presentFilterScreenViewController(subIssuesCodes: selectedSubIssuesCodes,
+															  filterIssuesSubject: filterIssuesSubject)
 			}).disposed(by: disposeBag)
-
-		di.filterViewService.selectedIssuesSubject
-			.do(onNext: { [weak self] _ in
-				self?.view.loadingView.play()
-			})
-			.do(onNext: { [weak self] issues in
-				// save selected issues
-				self?.selectedIssues = issues
-			})
-			.flatMap { [unowned self] issues in
-				self.di.appealsNetworkService.getAppeals(by: issues,
-														 city: self.currentCityTitle)
-			}
-			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stop()
-				switch result {
-					case .success(let lawyers):
-						self?.update(with: lawyers)
-					case .failure(let error):
-						//TODO: - обработать ошибку
-						print(error.localizedDescription)
-				}
-			})
-			.disposed(by: disposeBag)
 
 		// back button
 		view.titleView
@@ -156,6 +134,31 @@ final class AppealsListViewModel:
 
 		view.loadingView.play()
 		appealsListSubject?.onNext(())
+
+		filterIssuesSubject
+			.do(onNext: { [weak self] _ in
+				self?.view.loadingView.play()
+			})
+			.do(onNext: { [weak self] subIssuesCodes in
+				// save selected issues
+				self?.selectedSubIssuesCodes = subIssuesCodes
+			})
+			.flatMap { [unowned self] subIssuesCodes in
+				self.di.appealsNetworkService.getAppeals(by: subIssuesCodes,
+														 city: self.currentCityTitle)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stop()
+				switch result {
+				case .success(let appeals):
+					self?.update(with: appeals)
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			})
+			.disposed(by: disposeBag)
 	}
 
 	private func update(with appeals: [ClientAppeal]) {
