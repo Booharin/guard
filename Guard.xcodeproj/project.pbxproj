@@ -1223,7 +1223,6 @@
 		52760C4425016BCD00080152 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				5299734926158C5B00661229 /* FilterScreen */,
 				5251AFA824A2821A00467E84 /* Auth */,
 				52EB81BE24B9DD5B003285BC /* Registration */,
 				52C4DBD725C1659C00CDC148 /* ReviewDetails */,
@@ -1236,6 +1235,7 @@
 				52212F8124FFDCE0003FA67E /* ForgotPassword */,
 				52B654B2251B3022003D2465 /* Settings */,
 				521EA39425B5D35300B00413 /* ChangePassword */,
+				5299734926158C5B00661229 /* FilterScreen */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2118,7 +2118,7 @@
 				CODE_SIGN_ENTITLEMENTS = Guard/Guard.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 62UUS6482X;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2146,7 +2146,7 @@
 				CODE_SIGN_ENTITLEMENTS = Guard/Guard.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 62UUS6482X;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

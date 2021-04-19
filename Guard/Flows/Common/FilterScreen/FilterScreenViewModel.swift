@@ -117,6 +117,7 @@ final class FilterScreenViewModel:
 			.tap
 			.subscribe(onNext: { [unowned self] _ in
 				self.selectedIssuesSubject.onNext(subIssuesCodes)
+				self.resetSelectedIssues()
 				self.view.dismiss(animated: true,
 								  completion: nil)
 			}).disposed(by: disposeBag)
@@ -202,12 +203,18 @@ final class FilterScreenViewModel:
 					.items(dataSource: FilterScreenDataSource.dataSource(reloadSubject: reloadSubject,
 																		 markSubIssueSelectedSubject: markSubIssueSelectedSubject)))
 			.disposed(by: disposeBag)
+
+		guard !subIssuesCodes.isEmpty else { return }
+		subIssuesCodes
+			.map { SubIssueSelectedModel(subIssueCode: $0, isSelected: true) }
+			.forEach { markSubIssueSelectedSubject.onNext($0) }
 	}
 
 	private func updateDataSource() {
 		let section = SectionModel<String, IssueType>(
 			model: "",
-			items: selectedIssueTypes == nil ? di.commonDataNetworkService.issueTypes ?? [] : selectedIssueTypes ?? []
+			items: selectedIssueTypes == nil ?
+				di.commonDataNetworkService.issueTypes ?? [] : selectedIssueTypes ?? []
 		)
 		dataSourceSubject?.onNext([section])
 	}
@@ -226,6 +233,7 @@ final class FilterScreenViewModel:
 
 	private func updateIssuesCodes(subIssueSelected: SubIssueSelectedModel) {
 		if subIssueSelected.isSelected == true {
+			guard !subIssuesCodes.contains(subIssueSelected.subIssueCode) else { return }
 			subIssuesCodes.append(subIssueSelected.subIssueCode)
 		} else {
 			guard let index = subIssuesCodes.firstIndex(of: subIssueSelected.subIssueCode) else { return }
@@ -255,6 +263,12 @@ final class FilterScreenViewModel:
 				})
 			})
 		}
+	}
+
+	private func resetSelectedIssues() {
+		di.commonDataNetworkService.getIssueTypes(for: "ru_ru")
+			.subscribe(onNext: { _ in })
+			.disposed(by: disposeBag)
 	}
 
 	func removeBindings() {}

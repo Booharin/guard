@@ -10,10 +10,10 @@ import Foundation
 
 struct EnvironmentImp: Environment {
 	#if DEBUG
-		let baseUrl = URL(string: "http://46.36.222.23:5000/api/v1/")!
-		let socketUrl = URL(string: "ws://46.36.222.23:5000/connect")!
+		let baseUrl = URL(string: "https://guardapi.ru/api/v1/")!
+		let socketUrl = URL(string: "wss://guardapi.ru/connect")!
 	#else
-		let baseUrl = URL(string: "http://46.36.222.23:5000/api/v1/")!
-		let socketUrl = URL(string: "ws://46.36.222.23:5000/connect")!
+		let baseUrl = URL(string: "https://guardapi.ru/api/v1/")!
+		let socketUrl = URL(string: "wss://guardapi.ru/connect")!
 	#endif
 }

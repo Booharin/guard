@@ -16,7 +16,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 	var userProfile: UserProfile
 	private var disposeBag = DisposeBag()
 	private var editLawyerSubject: PublishSubject<UserProfile>?
-	private let selectIssueSubject = PublishSubject<IssueType>()
+	private let selectIssuesSubject = PublishSubject<[Int]>()
 
 	var currentCities = [Int]()
 	//TODO: - Change when countries number increase
@@ -46,6 +46,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 	func viewDidSet() {
 		currentCities = di.localStorageService.getCurrenClientProfile()?.cityCode ?? []
 		currentIssueCodes = userProfile.subIssueCodes ?? []
+
 		// back button
 		view.backButton.setImage(#imageLiteral(resourceName: "icn_back_arrow"), for: .normal)
 		view.backButton.rx
@@ -91,7 +92,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 						userProfile.cityCode = currentCities
 
 						// set issue codes
-						userProfile.subIssueCodes = currentIssueCodes
+						userProfile.subIssueCodes = Array(Set(currentIssueCodes))
 
 						self.editLawyerSubject?.onNext(userProfile)
 					}
@@ -289,19 +290,12 @@ final class EditLawyerProfileViewModel: ViewModel {
 				}
 			}).disposed(by: disposeBag)
 
-		selectIssueSubject
+		selectIssuesSubject
 			.asObservable()
 			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] issueType in
-				if !(self?.currentIssueCodes.contains(issueType.subIssueCode ?? 0) ?? false) {
-					self?.currentIssueCodes.append(issueType.subIssueCode ?? 0)
-				}
-				print(issueType)
-				self?.view.navController?.viewControllers.forEach {
-					if let vc = $0 as? EditLawyerProfileViewController {
-						self?.view.navController?.popToViewController(vc, animated: true)
-					}
-				}
+			.subscribe(onNext: { [weak self] subIssueCodes in
+				self?.currentIssueCodes = subIssueCodes
+				self?.updateIssuesContainerView()
 			}).disposed(by: disposeBag)
 	}
 
@@ -501,8 +495,8 @@ final class EditLawyerProfileViewModel: ViewModel {
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.router.passToSelectIssue(selectIssueSubject: self.selectIssueSubject,
-											  lawyerFirstName: userProfile.firstName)
+				self.router.presentFilterScreenViewController(subIssuesCodes: currentIssueCodes,
+															  filterIssuesSubject: selectIssuesSubject)
 			}).disposed(by: disposeBag)
 
 	}
