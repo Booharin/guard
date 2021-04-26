@@ -43,7 +43,9 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 					.items(dataSource: dataSource))
 			.disposed(by: disposeBag)
 		
-		view.tableView.rx.itemDeleted
+		view.tableView
+			.rx
+			.itemDeleted
 			.asObservable()
 			.filter { [unowned self] indexPath in
 				indexPath.row < appeals.count

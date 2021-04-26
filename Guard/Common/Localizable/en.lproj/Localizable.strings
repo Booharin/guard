@@ -135,6 +135,7 @@
 "settings.visibility.phone" = "Show phone";
 "settings.visibility.mail" = "Show email";
 "settings.visibility.chat" = "Enable chat";
+
 //CHANGE_PASSWORD
 "settings.change_password.title" = "Change password";
 "change_password.title" = "Password changing";
@@ -148,8 +149,14 @@
 "logout.alert.ok" = "Ok";
 "logout.alert.title" = "Caution";
 "logout.alert.message" = "Are you sure you want to log out of your profile?";
+
 //REVIEWS
 "reviews.title" = "Feedbacks";
 "new_review.title" = "Feedback";
 "new_review.textview.placeholder" = "Description";
 "new_review.create_button.titile" = "Save";
+
+//FILTER
+"filter.title" = "Filter";
+"filter.issues.title" = "Select the directions you work with";
+"filter.search.placeholder.title" = "search by filters";

@@ -27,6 +27,11 @@ final class RegistrationCoordinator:
 	var rootController: NavigationController?
 	var onFinishFlow: (() -> Void)?
 	private let userRole: UserRole
+
+	private var navController: NavigationController? {
+		UIApplication.shared.windows.first?.rootViewController as? NavigationController
+	}
+
 	private var disposeBag = DisposeBag()
 
 	init(userRole: UserRole) {
@@ -64,7 +69,7 @@ final class RegistrationCoordinator:
 		navVC.pushViewController(controller, animated: true)
 	}
 
-	private func toMain(issueType: IssueType) {
+	private func toMain(issueType: IssueType? = nil) {
 		let coordinator = MainCoordinator(userRole: userRole,
 										  issueType: issueType)
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
@@ -85,49 +90,69 @@ final class RegistrationCoordinator:
 	}
 
 	private func toSelectIssue() {
-		// to main
-		let toMainSubject = PublishSubject<IssueType>()
-		toMainSubject
-			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { issueType in
-
-				// save issue type for new lawyer
-				if var profile = self.userProfile,
-				   let subIssueCode = issueType.subIssueCode,
-				   profile.userRole == .lawyer {
-
-					profile.subIssueCodes = [subIssueCode]
-					profile.email = ""
-					profile.phoneNumber = ""
-					self.di.localStorageService.saveProfile(profile)
-					self.lawyerEditSubject.onNext(profile)
-				}
-
-				self.toMain(issueType: issueType)
-				self.onFinishFlow?()
-			})
-			.disposed(by: disposeBag)
-
 		userProfile = di.localStorageService.getCurrenClientProfile()
 
-		lawyerEditSubject
-			.asObservable()
-			.flatMap { [unowned self] profile in
-				self.di.lawyersNetworkService
-					.editLawyer(profile: profile,
-								email: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.email) ?? "",
-								phone: "")
-			}
-			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { _ in
+		switch userProfile?.userRole {
+		//MARK: - Lawyer
+		case .lawyer:
+			let filterIssuesSubject = PublishSubject<[Int]>()
+			filterIssuesSubject
+				.observeOn(MainScheduler.instance)
+				.subscribe(onNext: { subIssueCodes in
 
-			}).disposed(by: disposeBag)
+					// save subIssue types for new lawyer
+					if var profile = self.userProfile,
+					   profile.userRole == .lawyer {
 
-		let controller = SelectIssueViewController(viewModel: SelectIssueViewModel(toMainSubject: toMainSubject,
-																				   userRole: userRole))
+						profile.subIssueCodes = subIssueCodes
+						profile.email = ""
+						profile.phoneNumber = ""
+						self.di.localStorageService.saveProfile(profile)
+						self.lawyerEditSubject.onNext(profile)
+					}
 
-		guard let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController else { return }
-		navVC.pushViewController(controller, animated: true)
+					self.toMain()
+					self.onFinishFlow?()
+				})
+				.disposed(by: disposeBag)
+
+			lawyerEditSubject
+				.asObservable()
+				.flatMap { [unowned self] profile in
+					self.di.lawyersNetworkService
+						.editLawyer(profile: profile,
+									email: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.email) ?? "",
+									phone: "")
+				}
+				.observeOn(MainScheduler.instance)
+				.subscribe(onNext: { _ in })
+				.disposed(by: disposeBag)
+
+			let controller = FilterScreenModuleFactory.createModule(filterTitle: "filter.issues.title".localized,
+																	subIssuesCodes: [],
+																	selectedIssuesSubject: filterIssuesSubject)
+			navController?.present(controller, animated: true)
+
+		//MARK: - Client
+		case .client:
+//			let toMainSubject = PublishSubject<IssueType>()
+//			toMainSubject
+//				.observeOn(MainScheduler.instance)
+//				.subscribe(onNext: { issueType in
+//					self.toMain(issueType: issueType)
+//					self.onFinishFlow?()
+//				})
+//				.disposed(by: disposeBag)
+//
+//			let controller = SelectIssueViewController(viewModel: SelectIssueViewModel(toMainSubject: toMainSubject,
+//																					   userRole: userRole))
+//
+//			navController?.pushViewController(controller, animated: true)
+			toMain()
+			onFinishFlow?()
+		default:
+			break
+		}
 	}
 	
 	deinit {

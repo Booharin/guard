@@ -18,9 +18,10 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 
 	private var lawyersListSubject: PublishSubject<Any>?
 	private var updateLayersListSubject: PublishSubject<Int>?
+	private let filterIssuesSubject = PublishSubject<[Int]>()
 
 	private var router: LawyerListRouterProtocol
-	private var selectedIssues = [Int]()
+	private var selectedSubIssuesCodes = [Int]()
 	private var currentCity: CityModel?
 	private var issueType: IssueType?
 
@@ -34,7 +35,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		HasLocationService &
 		HasLocalStorageService &
 		HasLawyersNetworkService &
-		HasFilterViewService
+		HasCommonDataNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
 	private var toLawyerSubject: PublishSubject<UserProfile>?
@@ -64,7 +65,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 					.items(dataSource: LawyersListDataSource.dataSource(toLawyerSubject: toLawyerSubject)))
 			.disposed(by: disposeBag)
 
-		// back button
+		//MARK: - Filter button
 		view.filterButtonView
 			.rx
 			.tapGesture()
@@ -79,33 +80,9 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.di.filterViewService.showFilterView(with: selectedIssues)
+				self.router.presentFilterScreenViewController(subIssuesCodes: selectedSubIssuesCodes,
+															  filterIssuesSubject: filterIssuesSubject)
 			}).disposed(by: disposeBag)
-
-		di.filterViewService.selectedIssuesSubject
-			.do(onNext: { [weak self] _ in
-				self?.view.loadingView.play()
-			})
-			.do(onNext: { [weak self] issues in
-				// save selected issues
-				self?.selectedIssues = issues
-			})
-			.flatMap { [unowned self] issues in
-				self.di.lawyersNetworkService.getLawyers(by: issues,
-														 city: currentCity?.title ?? "")
-			}
-			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stop()
-				switch result {
-					case .success(let lawyers):
-						self?.update(with: lawyers)
-					case .failure(let error):
-						//TODO: - обработать ошибку
-						print(error.localizedDescription)
-				}
-			})
-			.disposed(by: disposeBag)
 
 		// back button
 		view.titleView
@@ -173,7 +150,22 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		if issueType == nil {
 			lawyersListSubject?.onNext(())
 		} else if let subIssueCode = issueType?.subIssueCode {
-			self.selectedIssues = [subIssueCode]
+			self.selectedSubIssuesCodes = [subIssueCode]
+
+			di.commonDataNetworkService.issueTypes?.forEach { issueType in
+				let filteredIssues = issueType.subIssueTypeList?.filter { $0.subIssueCode == subIssueCode }
+				if filteredIssues?.count ?? 0 > 0 {
+					// find subIssue which need to select
+					guard
+						let subIssue = filteredIssues?.first,
+						let indexOfIssue = di.commonDataNetworkService.issueTypes?.firstIndex(of: issueType),
+						let indexOfSubIsse = issueType.subIssueTypeList?.firstIndex(of: subIssue) else { return }
+
+					di.commonDataNetworkService.issueTypes?[indexOfIssue]
+						.selectBy(index: indexOfSubIsse,
+								  on: true)
+				}
+			}
 
 			updateLayersListSubject = PublishSubject<Int>()
 			updateLayersListSubject?
@@ -196,6 +188,31 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 				.disposed(by: disposeBag)
 			updateLayersListSubject?.onNext(subIssueCode)
 		}
+
+		filterIssuesSubject
+			.do(onNext: { [weak self] _ in
+				self?.view.loadingView.play()
+			})
+			.do(onNext: { [weak self] subIssuesCodes in
+				// save selected issues
+				self?.selectedSubIssuesCodes = subIssuesCodes
+			})
+			.flatMap { [unowned self] subIssuesCodes in
+				self.di.lawyersNetworkService.getLawyers(by: subIssuesCodes,
+														 city: currentCity?.title ?? "")
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stop()
+				switch result {
+				case .success(let lawyers):
+					self?.update(with: lawyers)
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			})
+			.disposed(by: disposeBag)
 	}
 
 	private func update(with lawyers: [UserProfile]) {

@@ -24,7 +24,7 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 	UITableViewDelegate,
 	LawyersListViewControllerProtocol {
 
-	var filterButtonView = FilterButtonView()
+	var filterButtonView = FilterButtonView()//TitleButtonView(title: "filter.title".localized)
 	var viewModel: modelType
 
 	var titleView = UIView()

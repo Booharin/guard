@@ -252,7 +252,7 @@ class EditLawyerProfileViewController<modelType: EditLawyerProfileViewModel>:
 		self.view.endEditing(true)
 		return false
 	}
-	
+
 	// MARK: - Take photo from gallery
 	func takePhotoFromGallery() {
 		imagePicker.delegate = self

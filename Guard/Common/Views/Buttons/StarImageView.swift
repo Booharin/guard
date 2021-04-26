@@ -17,14 +17,6 @@ final class StarImageView: UIImageView {
 		super.init(frame: .zero)
 		image = #imageLiteral(resourceName: "empty_star_icn").withRenderingMode(.alwaysTemplate)
 		tintColor = Colors.mainColor
-
-//		self
-//			.rx
-//			.tapGesture()
-//			.when(.recognized)
-//			.subscribe(onNext: { [unowned self] _ in
-//				self.selected(isOn: !self.isSelected)
-//			}).disposed(by: disposeBag)
 	}
 
 	required init?(coder: NSCoder) {
