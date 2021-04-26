@@ -19,10 +19,12 @@ protocol CommonDataNetworkServiceInterface {
 	var subIssueTypes: [IssueType]? { get set }
 	func getCountriesAndCities() -> Observable<Result<[CountryModel], AFError>>
 	func getIssueTypes(for locale: String) -> Observable<Result<[IssueType], AFError>>
+	func resetSelectedIssueTypes()
 }
 
 final class CommonDataNetworkService: CommonDataNetworkServiceInterface {
 	var issueTypes: [IssueType]?
+	var notSelectedIssueTypes: [IssueType]?
 	var subIssueTypes: [IssueType]?
 	private let router: CommonDataNetworkRouter
 	typealias Dependencies =
@@ -86,6 +88,7 @@ final class CommonDataNetworkService: CommonDataNetworkServiceInterface {
 					do {
 						let issueTypes = try JSONDecoder().decode([IssueType].self, from: data)
 						self.issueTypes = issueTypes
+						self.notSelectedIssueTypes = issueTypes
 						self.subIssueTypes = issueTypes.compactMap { $0.subIssueTypeList }.reduce([], +)
 						observer.onNext(.success(issueTypes))
 						observer.onCompleted()
@@ -103,5 +106,9 @@ final class CommonDataNetworkService: CommonDataNetworkServiceInterface {
 				requestReference.cancel()
 			})
 		}
+	}
+
+	func resetSelectedIssueTypes() {
+		issueTypes = notSelectedIssueTypes
 	}
 }

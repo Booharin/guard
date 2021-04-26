@@ -266,9 +266,7 @@ final class FilterScreenViewModel:
 	}
 
 	private func resetSelectedIssues() {
-		di.commonDataNetworkService.getIssueTypes(for: "ru_ru")
-			.subscribe(onNext: { _ in })
-			.disposed(by: disposeBag)
+		di.commonDataNetworkService.resetSelectedIssueTypes()
 	}
 
 	func removeBindings() {}
