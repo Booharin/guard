@@ -17,7 +17,7 @@ protocol EditLawyerProfileViewControllerProtocol: class, ViewControllerProtocol 
 	var nameTextField: EditTextField { get }
 	var surnameTextField: EditTextField { get }
 
-	var issuesContainerView: UIView { get }
+	var issuesStackView: UIStackView { get }
 
 	var phoneTextField: EditTextField { get }
 	var emailTextField: EditTextField { get }
@@ -49,7 +49,7 @@ class EditLawyerProfileViewController<modelType: EditLawyerProfileViewModel>:
 	var nameTextField = EditTextField()
 	var surnameTextField = EditTextField()
 
-	var issuesContainerView = UIView()
+	var issuesStackView = UIStackView()
 
 	var phoneTextField = EditTextField()
 	var emailTextField = EditTextField()
@@ -168,12 +168,11 @@ class EditLawyerProfileViewController<modelType: EditLawyerProfileViewModel>:
 			$0.height.equalTo(48)
 		}
 		// issue container view
-		scrollView.addSubview(issuesContainerView)
-		issuesContainerView.snp.makeConstraints {
+		scrollView.addSubview(issuesStackView)
+		issuesStackView.snp.makeConstraints {
 			$0.top.equalTo(surnameTextField.snp.bottom).offset(12)
 			$0.leading.equalToSuperview().offset(35)
 			$0.trailing.equalToSuperview().offset(-35)
-			$0.height.equalTo(23)
 		}
 		// issue container view separator
 		let separatorView = UIView()
@@ -182,7 +181,7 @@ class EditLawyerProfileViewController<modelType: EditLawyerProfileViewModel>:
 		separatorView.snp.makeConstraints() {
 			$0.width.equalTo(130)
 			$0.centerX.equalToSuperview()
-			$0.top.equalTo(issuesContainerView.snp.bottom).offset(12)
+			$0.top.equalTo(issuesStackView.snp.bottom).offset(12)
 			$0.height.equalTo(1)
 		}
 		// phone
@@ -218,6 +217,7 @@ class EditLawyerProfileViewController<modelType: EditLawyerProfileViewModel>:
 			$0.leading.equalToSuperview().offset(20)
 			$0.trailing.equalToSuperview().offset(-20)
 			$0.height.equalTo(48)
+			$0.bottom.equalToSuperview()
 		}
 		// loading view
 		view.addSubview(loadingView)
