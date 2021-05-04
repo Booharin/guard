@@ -63,7 +63,7 @@ class SettingsViewController<modelType: SettingsViewModel>:
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
-		navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
 	}
 
 	private func setNavigationBar() {

@@ -162,9 +162,9 @@ final class AppealsListViewModel:
 	}
 
 	private func update(with appeals: [ClientAppeal]) {
-		self.appeals = appeals
+		self.appeals = appeals.filter { ($0.lawyerChoosed ?? false) == false }
 		let section = SectionModel<String, ClientAppeal>(model: "",
-														items: appeals)
+														items: self.appeals)
 		dataSourceSubject?.onNext([section])
 
 		if appeals.isEmpty {

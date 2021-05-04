@@ -47,7 +47,7 @@ final class AlertService: AlertServiceInterface {
 	private var dimmView: UIView?
 	private var alertView: UIView?
 	private let animationDuration = 0.15
-	private let alertShowAnimationDuration = 0.25
+	private let alertShowAnimationDuration = 0.15
 	private var disposeBag = DisposeBag()
 
 	var currentWindow: UIWindow? {
@@ -196,7 +196,7 @@ final class AlertService: AlertServiceInterface {
 		}
 		UIView.animate(withDuration: alertShowAnimationDuration,
 					   delay: 0,
-					   options: .curveEaseInOut,
+					   options: .curveEaseOut,
 					   animations: {
 			dimmView.backgroundColor = Colors.blackColor.withAlphaComponent(0.6)
 			window.layoutIfNeeded()

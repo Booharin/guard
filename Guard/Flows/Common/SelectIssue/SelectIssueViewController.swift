@@ -67,13 +67,13 @@ final class SelectIssueViewController<modelType: SelectIssueViewModel>: UIViewCo
 		
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated: false)
-		
-		if !isToMain {
+
+		//if !isToMain {
 			let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
 			self.navigationItem.leftBarButtonItem = leftBarButtonItem
 			
 			self.navigationItem.titleView = titleView
-		}
+		//}
 
 		// check if this controller with subcategories
 		if viewModel.issueTypes?.first?.subIssueTypeList == nil {

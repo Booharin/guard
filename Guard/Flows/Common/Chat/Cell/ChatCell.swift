@@ -11,7 +11,7 @@ import UIKit
 protocol ChatCellProtocol {
 	var containerView: UIView { get }
 	var bubbleView: UIView { get }
-	var messageLabel: UILabel { get }
+	var messageTextView: UITextView { get }
 	var dateLabel: UILabel { get }
 }
 
@@ -25,8 +25,9 @@ final class ChatCell:
 
 	var containerView = UIView()
 	var bubbleView = UIView()
-	var messageLabel = UILabel()
+	var messageTextView = UITextView()
 	var dateLabel = UILabel()
+
 	var viewModel: ChatCellViewModel! {
 		didSet {
 			switch viewModel.chatMessage.senderId {
@@ -35,6 +36,7 @@ final class ChatCell:
 				// bubble
 				bubbleView.snp.makeConstraints {
 					$0.trailing.equalToSuperview().offset(-35)
+					$0.leading.greaterThanOrEqualToSuperview().offset(82)
 				}
 				// date
 				dateLabel.snp.makeConstraints {
@@ -45,6 +47,7 @@ final class ChatCell:
 				// bubble
 				bubbleView.snp.makeConstraints {
 					$0.leading.equalToSuperview().offset(35)
+					$0.trailing.lessThanOrEqualToSuperview().offset(-82)
 				}
 				// date
 				dateLabel.snp.makeConstraints {
@@ -66,33 +69,34 @@ final class ChatCell:
 	
 	private func setupViews() {
 		backgroundColor = .clear
-		
+
 		// container
-		addSubview(containerView)
-        containerView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-		
+		contentView.addSubview(containerView)
+		containerView.snp.makeConstraints {
+			$0.edges.equalToSuperview()
+		}
+
 		// bubble
 		containerView.addSubview(bubbleView)
 		bubbleView.snp.makeConstraints {
-			$0.top.equalToSuperview().offset(8)
-			$0.width.lessThanOrEqualTo(258)
+			$0.top.equalToSuperview().offset(18)
+			//$0.bottom.equalToSuperview().offset(-29)
+			//$0.width.lessThanOrEqualTo(258)
 		}
-		
+
 		// message
-		bubbleView.addSubview(messageLabel)
-		messageLabel.snp.makeConstraints {
+		bubbleView.addSubview(messageTextView)
+		messageTextView.snp.makeConstraints {
 			$0.leading.equalToSuperview().offset(8)
 			$0.trailing.equalToSuperview().offset(-8)
-			$0.top.equalToSuperview().offset(8)
-			$0.bottom.equalToSuperview().offset(-8)
+			$0.top.equalToSuperview()//.offset(8)
+			$0.bottom.equalToSuperview()//.offset(-8)
 		}
-		
+
 		// date
 		containerView.addSubview(dateLabel)
 		dateLabel.snp.makeConstraints {
-			$0.top.equalTo(messageLabel.snp.bottom).offset(12)
+			$0.top.equalTo(bubbleView.snp.bottom).offset(6)
 			$0.bottom.equalToSuperview().offset(-5)
 			$0.height.equalTo(12)
 		}

@@ -87,24 +87,34 @@ class EditLawyerProfileViewController<modelType: EditLawyerProfileViewModel>:
 	}
 
 	private func addViews() {
-		// scroll view
-		view.addSubview(scrollView)
-		scrollView.snp.makeConstraints {
-			$0.edges.equalToSuperview()
+		// top border
+		let topBorderView = UIView()
+		topBorderView.backgroundColor = Colors.whiteColor
+		view.addSubview(topBorderView)
+		topBorderView.snp.makeConstraints {
+			$0.top.equalToSuperview().offset(40)
+			$0.leading.trailing.equalToSuperview()
+			$0.height.equalTo(50)
 		}
 		// back button
-		scrollView.addSubview(backButton)
+		topBorderView.addSubview(backButton)
 		backButton.snp.makeConstraints {
 			$0.width.height.equalTo(50)
 			$0.top.equalToSuperview()
 			$0.leading.equalToSuperview().offset(20)
 		}
 		// confirm button
-		scrollView.addSubview(confirmButton)
+		topBorderView.addSubview(confirmButton)
 		confirmButton.snp.makeConstraints {
 			$0.width.height.equalTo(50)
 			$0.top.equalToSuperview()
 			$0.trailing.equalToSuperview().offset(-20)
+		}
+		// scroll view
+		view.addSubview(scrollView)
+		scrollView.snp.makeConstraints {
+			$0.leading.trailing.bottom.equalToSuperview()
+			$0.top.equalTo(topBorderView.snp.bottom)
 		}
 		// avatar
 		let avatarBackgroundView = UIView()

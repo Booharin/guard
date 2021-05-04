@@ -85,12 +85,14 @@ final class AppealFromListViewModel: ViewModel, HasDependencies {
 		view.descriptionTextView.backgroundColor = Colors.whiteColor
 		view.descriptionTextView.text = appeal.appealDescription
 
+		// issue type label
+		view.issueTypeView.backgroundColor = Colors.warningColor
+		view.issueTypeView.layer.cornerRadius = 12
+		view.issueTypeView.isHidden = issueTitle == nil
+
 		view.issueTypeLabel.font = SFUIDisplay.medium.of(size: 15)
 		view.issueTypeLabel.textColor = Colors.whiteColor
-		view.issueTypeLabel.backgroundColor = Colors.warningColor
-		view.issueTypeLabel.layer.cornerRadius = 12
-		view.issueTypeLabel.clipsToBounds = true
-
+		view.issueTypeLabel.numberOfLines = 0
 		view.issueTypeLabel.isHidden = issueTitle == nil
 		view.issueTypeLabel.text = issueTitle
 		view.issueTypeLabel.textAlignment = .center

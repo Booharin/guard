@@ -39,6 +39,7 @@ final class ChatViewController<modelType: ChatViewModel>:
 	var viewModel: modelType
 	var loadingView = LottieAnimationView()
 	private var imagePicker = UIImagePickerController()
+	var placeholderView: UIView?
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
@@ -56,6 +57,7 @@ final class ChatViewController<modelType: ChatViewModel>:
 		view.backgroundColor = Colors.whiteColor
 		addViews()
 		setNavigationBar()
+		addPlaceholderView()
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -69,8 +71,9 @@ final class ChatViewController<modelType: ChatViewModel>:
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		
+
 		navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+		removePlaceholderView()
 	}
 
 	private func setNavigationBar() {
@@ -103,8 +106,6 @@ final class ChatViewController<modelType: ChatViewModel>:
 		}
 
 		// table view
-		tableView.register(SelectIssueTableViewCell.self,
-						   forCellReuseIdentifier: SelectIssueTableViewCell.reuseIdentifier)
 		tableView.tableFooterView = UIView()
 		tableView.backgroundColor = Colors.whiteColor
 		tableView.rowHeight = UITableView.automaticDimension
@@ -142,50 +143,6 @@ final class ChatViewController<modelType: ChatViewModel>:
 		return 40
 	}
 
-	func scrollViewWillEndDragging(_ scrollView: UIScrollView,
-								   withVelocity velocity: CGPoint,
-								   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-		if(velocity.y > 0) {
-			// add gradient view
-			gradientView = createGradentView()
-			guard let gradientView = gradientView else { return }
-			view.addSubview(gradientView)
-			gradientView.snp.makeConstraints {
-				$0.top.leading.trailing.equalToSuperview()
-				$0.height.equalTo(50)
-			}
-			
-			// hide nav bar
-			UIView.animate(withDuration: 0.3, animations: {
-				self.navigationController?.setNavigationBarHidden(true, animated: true)
-			})
-		} else {
-			// remove gradient view
-			gradientView?.removeFromSuperview()
-			gradientView = nil
-			
-			// remove nav bar
-			UIView.animate(withDuration: 0.3, animations: {
-				self.navigationController?.setNavigationBarHidden(false, animated: true)
-			})
-		}
-	}
-
-	private func createGradentView() -> UIView {
-		let gradientLAyer = CAGradientLayer()
-		gradientLAyer.colors = [
-			Colors.whiteColor.cgColor,
-			Colors.whiteColor.withAlphaComponent(0).cgColor
-		]
-		gradientLAyer.locations = [0.0, 1.0]
-		gradientLAyer.frame = CGRect(x: 0,
-									 y: 0,
-									 width: UIScreen.main.bounds.width, height: 50)
-		let view = UIView()
-		view.layer.insertSublayer(gradientLAyer, at: 0)
-		return view
-	}
-
 	// MARK: - Take photo from gallery
 	func takePhotoFromGallery() {
 		imagePicker.delegate = self
@@ -211,5 +168,26 @@ final class ChatViewController<modelType: ChatViewModel>:
 			}
 		}
 		self.dismiss(animated: true)
+	}
+
+	private func addPlaceholderView() {
+		placeholderView = UIView()
+		guard let placeView = placeholderView else { return }
+		placeView.backgroundColor = Colors.whiteColor
+		view.addSubview(placeView)
+		placeView.snp.makeConstraints {
+			$0.top.leading.trailing.equalToSuperview()
+			switch UIScreen.displayClass {
+			case .iPhone8, .iPhone8Plus:
+				$0.height.equalTo(64)
+			default:
+				$0.height.equalTo(92)
+			}
+		}
+	}
+
+	private func removePlaceholderView() {
+		placeholderView?.removeFromSuperview()
+		placeholderView = nil
 	}
 }

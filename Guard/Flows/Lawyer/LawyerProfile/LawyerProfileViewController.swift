@@ -88,7 +88,7 @@ final class LawyerProfileViewController<modelType: LawyerProfileViewModel>:
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
-		navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
 	}
 
 	private func setNavigationBar() {
@@ -167,7 +167,6 @@ final class LawyerProfileViewController<modelType: LawyerProfileViewModel>:
 			$0.top.equalTo(phoneLabel.snp.bottom).offset(26)
 			$0.leading.equalToSuperview().offset(35)
 			$0.trailing.equalToSuperview().offset(-35)
-			//$0.height.equalTo(23)
 		}
 		// reviews and rating
 		// vertical separator

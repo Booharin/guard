@@ -134,6 +134,20 @@ struct AppealsNetworkRouter {
 							 appealId: id)
 		}
 	}
+
+	func changeAppealStatus(id: Int,
+							status: Bool,
+							token: String?) -> URLRequestConvertible {
+		do {
+			return try ChangeAppealStatus(environment: environment,
+										  appealId: id,
+										  isSelected: status).asURLDefaultRequest(with: token)
+		} catch {
+			return ChangeAppealStatus(environment: environment,
+									  appealId: id,
+									  isSelected: status)
+		}
+	}
 }
 
 extension AppealsNetworkRouter {
@@ -381,6 +395,34 @@ extension AppealsNetworkRouter {
 		var parameters: Parameters {
 			return [
 				"appealId": appealId
+			]
+		}
+	}
+
+	private struct ChangeAppealStatus: RequestRouter {
+
+		let environment: Environment
+		let appealId: Int
+		let isSelected: Bool
+
+		init(environment: Environment,
+			 appealId: Int,
+			 isSelected: Bool) {
+			self.environment = environment
+			self.appealId = appealId
+			self.isSelected = isSelected
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .post
+		var path = ApiMethods.changeAppealStatus
+		var parameters: Parameters {
+			return [
+				"appealId": appealId,
+				"isSelected": isSelected
 			]
 		}
 	}

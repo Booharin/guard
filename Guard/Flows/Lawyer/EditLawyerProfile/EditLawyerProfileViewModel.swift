@@ -375,6 +375,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 				}
 			}
 
+		// if only one line with issues
 		if let lastStackView = lastHorizontalStackView,
 		   isAddButtonAdded == false {
 			createAddButton()
@@ -383,6 +384,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 			isAddButtonAdded = true
 		}
 
+		// if issues empty
 		if issues.isEmpty,
 		   isAddButtonAdded == false {
 			createAddButton()
