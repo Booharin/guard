@@ -55,6 +55,7 @@
 "client.issue.header.subtitle" = "What’s happend?";
 "client.issue.header.subcategory.title" = "Select a subcategory";
 "client.issue.header.subcategory.subtitle" = "or leave the general section";
+"client.issue.header.category.title" = "Select a category";
 
 "lawyer.issue.header.title" = "Hi, there!";
 "lawyer.issue.header.subtitle" = "Your field?";
@@ -86,10 +87,15 @@
 
 //APPEAL
 "appeal.lawyerSelectedButton.title" = "lawyer selected";
+"appeal.lawyerNotSelectedButton.title" = "lawyer not selected";
 "appeal.edit.title" = "Edit";
 "appeal.saveButton.title" = "Save";
 "appeal.cancelButton.title" = "Cancel";
 "appeal.chatButton.titile" = "Chat";
+"appeal.lawyerChoosed" = "Indicate that a lawyer is appointed?";
+"appeal.lawyerChoosed.subtitle" = "Your appeal will not be visible to lawyers";
+"appeal.notChoosed" = "Indicate that no lawyer has been appointed?";
+"appeal.notChoosed.subtitle" = "Your appeal will be visible to lawyers";
 
 //FILTER
 "filter.title" = "Filters";
@@ -104,6 +110,9 @@
 "new_appeal.button.title" = "Create appeal";
 "new_appeal.title.textfield.placeholder" = "Title";
 "new_appeal.textview.placeholder" = "Enter the full description of your problem";
+
+//EDIT_APPEAL
+"edit_appeal.title" = "Edit appeal";
 
 //CHAT
 "chat.greeting.title" = "Hi";

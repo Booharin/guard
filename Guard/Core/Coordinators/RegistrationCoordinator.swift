@@ -135,19 +135,6 @@ final class RegistrationCoordinator:
 
 		//MARK: - Client
 		case .client:
-//			let toMainSubject = PublishSubject<IssueType>()
-//			toMainSubject
-//				.observeOn(MainScheduler.instance)
-//				.subscribe(onNext: { issueType in
-//					self.toMain(issueType: issueType)
-//					self.onFinishFlow?()
-//				})
-//				.disposed(by: disposeBag)
-//
-//			let controller = SelectIssueViewController(viewModel: SelectIssueViewModel(toMainSubject: toMainSubject,
-//																					   userRole: userRole))
-//
-//			navController?.pushViewController(controller, animated: true)
 			toMain()
 			onFinishFlow?()
 		default:

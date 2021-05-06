@@ -19,7 +19,7 @@ protocol LawyerFromListViewControllerProtcol: class, ViewControllerProtocol {
 	var emailLabel: UILabel { get }
 	var phoneLabel: UILabel { get }
 
-	var issuesContainerView: UIView { get }
+	var issuesStackView: UIStackView { get }
 
 	var reviewsView: UIView { get }
 	var reviewsTitleLabel: UILabel { get }
@@ -43,7 +43,7 @@ final class LawyerFromListViewController<modelType: LawyerFromListViewModel>:
 	var emailLabel = UILabel()
 	var phoneLabel = UILabel()
 
-	var issuesContainerView = UIView()
+	var issuesStackView = UIStackView()
 	var reviewsView = UIView()
 
 	var reviewsTitleLabel = UILabel()
@@ -167,12 +167,11 @@ final class LawyerFromListViewController<modelType: LawyerFromListViewModel>:
 			$0.leading.equalToSuperview().offset(20)
 			$0.trailing.equalToSuperview().offset(-20)
 		}
-		scrollView.addSubview(issuesContainerView)
-		issuesContainerView.snp.makeConstraints {
+		scrollView.addSubview(issuesStackView)
+		issuesStackView.snp.makeConstraints {
 			$0.top.equalTo(phoneLabel.snp.bottom).offset(26)
 			$0.leading.equalToSuperview().offset(35)
 			$0.trailing.equalToSuperview().offset(-35)
-			$0.height.equalTo(23)
 		}
 		// reviews and rating
 		// vertical separator
@@ -180,7 +179,7 @@ final class LawyerFromListViewController<modelType: LawyerFromListViewModel>:
 		verticalSeparatorView.backgroundColor = Colors.verticalSeparator
 		scrollView.addSubview(verticalSeparatorView)
 		verticalSeparatorView.snp.makeConstraints {
-			$0.top.equalTo(issuesContainerView.snp.bottom).offset(31)
+			$0.top.equalTo(issuesStackView.snp.bottom).offset(31)
 			$0.centerX.equalToSuperview()
 			$0.height.equalTo(61)
 			$0.width.equalTo(1)

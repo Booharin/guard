@@ -55,6 +55,7 @@
 "client.issue.header.subtitle" = "Что случилось?";
 "client.issue.header.subcategory.title" = "Выбирете подкатегорию";
 "client.issue.header.subcategory.subtitle" = "или оставьте общий раздел";
+"client.issue.header.category.title" = "Выбирете категорию";
 
 "lawyer.issue.header.title" = "Привет!";
 "lawyer.issue.header.subtitle" = "Ваша сфера?";
@@ -85,11 +86,16 @@
 "appeals.empty.title" = "По выбранному вами направлению\nпока нет обращений";
 
 //APPEAL
-"appeal.lawyerSelectedButton.title" = "Назначен юрист";
+"appeal.lawyerSelectedButton.title" = "Назначить юриста";
+"appeal.lawyerNotSelectedButton.title" = "Указать, что юрист не назначен";
 "appeal.edit.title" = "Редактировать";
 "appeal.saveButton.title" = "Сохранить";
 "appeal.cancelButton.title" = "Отмена";
 "appeal.chatButton.titile" = "Чат";
+"appeal.lawyerChoosed" = "Указать, что юрист назначен?";
+"appeal.lawyerChoosed.subtitle" = "Ваше обращение не будет видно юристам";
+"appeal.notChoosed" = "Указать, что юрист не назначен?";
+"appeal.notChoosed.subtitle" = "Ваше обращение будет видно юристам";
 
 //FILTER
 "filter.title" = "Фильтры";
@@ -104,6 +110,9 @@
 "new_appeal.button.title" = "Создать";
 "new_appeal.title.textfield.placeholder" = "Заголовок";
 "new_appeal.textview.placeholder" = "Опишите, что у вас случилось";
+
+//EDIT_APPEAL
+"edit_appeal.title" = "Измение категории";
 
 //CHAT
 "chat.greeting.title" = "Привет";

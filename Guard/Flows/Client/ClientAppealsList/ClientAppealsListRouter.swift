@@ -29,7 +29,7 @@ final class ClientAppealsListRouter: BaseRouter, ClientAppealsListRouterProtocol
 		toAppealDescriptionSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [unowned self] appeal in
-                self.toAppealDescription(appeal)
+				self.toAppealDescription(appeal)
 			})
 			.disposed(by: disposeBag)
 
@@ -42,11 +42,11 @@ final class ClientAppealsListRouter: BaseRouter, ClientAppealsListRouterProtocol
 			.disposed(by: disposeBag)
 	}
 
-    private func toAppealDescription(_ appeal: ClientAppeal) {
-        let toAppealCreatingController = AppealViewController(viewModel: AppealViewModel(appeal: appeal)
-        )
-        self.navigationController?.pushViewController(toAppealCreatingController, animated: true)
-    }
+	private func toAppealDescription(_ appeal: ClientAppeal) {
+		let toAppealCreatingController = AppealViewController(viewModel: AppealViewModel(appeal: appeal)
+		)
+		self.navigationController?.pushViewController(toAppealCreatingController, animated: true)
+	}
 
 	private func toSelectIssue() {
 		let toCreateAppealSubject = PublishSubject<IssueType>()

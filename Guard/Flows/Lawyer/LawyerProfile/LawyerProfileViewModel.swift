@@ -153,6 +153,11 @@ final class LawyerProfileViewModel:
 						print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
+
+		view.issuesStackView.axis = .vertical
+		view.issuesStackView.distribution = .fill
+		view.issuesStackView.alignment = .center
+		view.issuesStackView.spacing = 10
 	}
 
 	func updateProfile() {
@@ -206,13 +211,11 @@ final class LawyerProfileViewModel:
 
 	private func updateIssuesContainerView(with issues: [Int]) {
 		let screenWidth = UIScreen.main.bounds.width
-		let containerWidth = screenWidth - 75
-		var topOffset = 0
+		let containerWidth = screenWidth - 70
 		var currentLineWidth: CGFloat = 0
-		let interLabelOffset: CGFloat = 10
-		var currentLabels = [UILabel]()
+		var lastHorizontalStackView: UIStackView?
 
-		view.issuesContainerView.subviews.forEach {
+		view.issuesStackView.subviews.forEach {
 			$0.removeFromSuperview()
 		}
 
@@ -221,62 +224,44 @@ final class LawyerProfileViewModel:
 			.reduce([], +)
 			.filter { issues.contains($0.subIssueCode ?? 0) }
 			.forEach { issueType in
-				print(issueType.title)
-				print(issueType.issueCode)
 				let label = IssueLabel(labelColor: Colors.issueLabelColor,
-									   subIssueCode: issueType.subIssueCode ?? 0,
-									   isSelectable: false)
+									   subIssueCode: issueType.subIssueCode ?? 0)
 				label.text = issueType.title
-				// calculate correct size of label
-				let labelWidth = issueType.title.width(withConstrainedHeight: 23,
-												font: SFUIDisplay.medium.of(size: 12)) + 20
-				let labelHeight = issueType.title.height(withConstrainedWidth: containerWidth,
-												  font: SFUIDisplay.medium.of(size: 12)) + 9
-				view.issuesContainerView.addSubview(label)
+				let labelWidth = label.intrinsicContentSize.width + 20
+
+				let viewWithLabel = UIView()
+				viewWithLabel.layer.cornerRadius = 11
+				viewWithLabel.backgroundColor = Colors.issueLabelColor
+				viewWithLabel.addSubview(label)
 				label.snp.makeConstraints {
-					if currentLineWidth + labelWidth + 10 < containerWidth {
-						currentLineWidth += labelWidth
-						if currentLabels.last == nil {
-							let correctOffset = labelWidth >= containerWidth ?
-								0 : (containerWidth - labelWidth) / 2
-							$0.leading.equalToSuperview().offset(correctOffset)
-						} else if
-							let firstLabel = currentLabels.first,
-							let lastLabel = currentLabels.last {
-							$0.leading.equalTo(lastLabel.snp.trailing).offset(interLabelOffset)
-							firstLabel.snp.updateConstraints {
-								let correctOffset = currentLineWidth >= containerWidth ?
-									0 : (containerWidth - currentLineWidth) / 2
-								$0.leading.equalToSuperview().offset(correctOffset)
-							}
-						}
-					} else {
-						currentLabels = []
-
-						let correctOffset = labelWidth >= containerWidth ?
-							0 : (containerWidth - labelWidth) / 2
-
-						$0.leading.equalToSuperview().offset(correctOffset)
-						topOffset += (10 + Int(labelHeight))
-						currentLineWidth = labelWidth
-					}
-
-					currentLabels.append(label)
-
-					$0.top.equalToSuperview().offset(topOffset)
-					$0.width.equalTo(labelWidth > containerWidth ? containerWidth : labelWidth)
-					$0.height.equalTo(labelHeight)
+					$0.top.equalToSuperview().offset(5)
+					$0.bottom.equalToSuperview().offset(-5)
+					$0.leading.equalToSuperview().offset(7)
+					$0.trailing.equalToSuperview().offset(-7)
 				}
-				// check if there issues
-				let selectedIssuesSet = Set(issues)
-				if selectedIssuesSet.contains(issueType.subIssueCode ?? 0) {
-					label.selected(isOn: true)
+
+				if let lastStackView = lastHorizontalStackView,
+				   currentLineWidth + labelWidth + 10 < containerWidth {
+					lastStackView.addArrangedSubview(viewWithLabel)
+					currentLineWidth += labelWidth
+				} else {
+					let horizontalStackView = createHorizontalStackView()
+					view.issuesStackView.addArrangedSubview(horizontalStackView)
+					horizontalStackView.addArrangedSubview(viewWithLabel)
+					lastHorizontalStackView = horizontalStackView
+					currentLineWidth = labelWidth
 				}
 			}
+	}
 
-		view.issuesContainerView.snp.updateConstraints {
-			$0.height.equalTo(topOffset + 23)
-		}
+	private func createHorizontalStackView() -> UIStackView {
+		let horizontalStackView = UIStackView()
+		horizontalStackView.axis = .horizontal
+		horizontalStackView.distribution = .fill
+		horizontalStackView.alignment = .center
+		horizontalStackView.spacing = 10
+
+		return horizontalStackView
 	}
 
 	func removeBindings() {}

@@ -116,7 +116,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		// title
 		view.titleLabel.font = SFUIDisplay.bold.of(size: 15)
 		view.titleLabel.textColor = Colors.mainTextColor
-		view.titleLabel.text = chatConversation.fullName.isEmpty ? "chat.noName".localized : chatConversation.fullName
+		view.titleLabel.text = chatConversation.fullName.count <= 1 ? "chat.noName".localized : chatConversation.fullName
 		view.titleLabel
 			.rx
 			.tapGesture()

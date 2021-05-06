@@ -118,6 +118,7 @@ final class SelectIssueViewModel: ViewModel, HasDependencies {
 			}
 		} else {
 			view.headerTitleLabel.font = Saira.light.of(size: 25)
+			view.titleLabel.text = "edit_appeal.title".localized
 			// select header for to subcategories
 			if toSubtypesSubject == nil {
 				view.headerTitleLabel.text = "client.issue.header.subcategory.title".localized
@@ -134,7 +135,9 @@ final class SelectIssueViewModel: ViewModel, HasDependencies {
 						view.headerTitleLabel.text = "lawyer.issue.header.title".localized
 					}
 					view.headerSubtitleLabel.text = "lawyer.issue.header.subtitle".localized
-				default: break
+				default:
+					view.headerTitleLabel.text = "client.issue.header.category.title".localized
+					break
 				}
 			}
 		}
@@ -145,9 +148,7 @@ final class SelectIssueViewModel: ViewModel, HasDependencies {
 			.swipeGesture(.right)
 			.when(.recognized)
 			.subscribe(onNext: { [unowned self] _ in
-				if self.toMainSubject == nil {
-					self.view.navController?.popViewController(animated: true)
-				}
+				self.view.navController?.popViewController(animated: true)
 			}).disposed(by: disposeBag)
 	}
 

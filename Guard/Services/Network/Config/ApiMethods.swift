@@ -25,6 +25,7 @@ enum ApiMethods {
 	static let appealsByIssue = "common/iac"
 	static let clientByAppealId = "common/client"
 	static let getAppeal = "appeal/findAppeal"
+	static let changeAppealStatus = "appeal/status"
 	// chat
 	static let createConversation = "chat/createconversation"
 	static let createConversationByAppeal = "chat/createconversationByAppeal"

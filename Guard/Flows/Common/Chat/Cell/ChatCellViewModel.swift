@@ -26,16 +26,24 @@ class ChatCellViewModel: ViewModel, HasDependencies {
 		// bubble
 		view.bubbleView.clipsToBounds = true
 		view.bubbleView.layer.cornerRadius = 13
+		// message textview
+		view.messageTextView.isEditable = false
+		view.messageTextView.backgroundColor = .clear
+		view.messageTextView.isScrollEnabled = false
+		view.messageTextView.dataDetectorTypes = [
+			.link,
+			.address,
+			.phoneNumber
+		]
 
 		// message
-		view.messageLabel.font = SFUIDisplay.regular.of(size: 15)
-		view.messageLabel.textColor = Colors.mainTextColor
+		view.messageTextView.font = SFUIDisplay.regular.of(size: 15)
+		view.messageTextView.textColor = Colors.mainTextColor
 		if chatMessage.content.count > 1000 {
-			view.messageLabel.text = "Файл"
+			view.messageTextView.text = "Файл"
 		} else {
-			view.messageLabel.text = chatMessage.content
+			view.messageTextView.text = chatMessage.content
 		}
-		view.messageLabel.numberOfLines = 0
 
 		// date
 		view.dateLabel.font = SFUIDisplay.light.of(size: 10)
@@ -49,14 +57,14 @@ class ChatCellViewModel: ViewModel, HasDependencies {
 			view.bubbleView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
 			view.bubbleView.backgroundColor = Colors.outgoingMessageBackground
 			// message
-			view.messageLabel.textAlignment = .right
+			view.messageTextView.textAlignment = .right
 		// incoming
 		default:
 			// bubble
 			view.bubbleView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
 			view.bubbleView.backgroundColor = Colors.incomingMessageBackground
 			// message
-			view.messageLabel.textAlignment = .left
+			view.messageTextView.textAlignment = .left
 		}
 	}
 

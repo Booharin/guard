@@ -31,6 +31,10 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 
 	var lawyers = [UserProfile]()
 
+	private var nextPage = 0
+	private let pageSize = 20
+	private var isAllappealsDownloaded = false
+
 	typealias Dependencies =
 		HasLocationService &
 		HasLocalStorageService &
@@ -63,6 +67,23 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 			.bind(to: view.tableView
 					.rx
 					.items(dataSource: LawyersListDataSource.dataSource(toLawyerSubject: toLawyerSubject)))
+			.disposed(by: disposeBag)
+
+		view.tableView
+			.rx
+			.prefetchRows
+			.filter { _ in
+				self.isAllappealsDownloaded == false
+			}
+			.subscribe(onNext: { [unowned self] rows in
+				if rows.contains([0, 0]) {
+					if self.selectedSubIssuesCodes.isEmpty {
+						self.lawyersListSubject?.onNext(())
+					} else {
+						self.filterIssuesSubject.onNext(self.selectedSubIssuesCodes)
+					}
+				}
+			})
 			.disposed(by: disposeBag)
 
 		//MARK: - Filter button
@@ -130,7 +151,9 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		lawyersListSubject?
 			.asObservable()
 			.flatMap { [unowned self] _ in
-				self.di.lawyersNetworkService.getAllLawyers(from: currentCity?.title ?? "")
+				self.di.lawyersNetworkService.getAllLawyers(from: currentCity?.title ?? "",
+															page: self.nextPage,
+															pageSize: self.pageSize)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
@@ -144,62 +167,23 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 				}
 			}).disposed(by: disposeBag)
 
-		view.loadingView.play()
-
-		// MARK: - Check if issue type selected from client registration
-		if issueType == nil {
-			lawyersListSubject?.onNext(())
-		} else if let subIssueCode = issueType?.subIssueCode {
-			self.selectedSubIssuesCodes = [subIssueCode]
-
-			di.commonDataNetworkService.issueTypes?.forEach { issueType in
-				let filteredIssues = issueType.subIssueTypeList?.filter { $0.subIssueCode == subIssueCode }
-				if filteredIssues?.count ?? 0 > 0 {
-					// find subIssue which need to select
-					guard
-						let subIssue = filteredIssues?.first,
-						let indexOfIssue = di.commonDataNetworkService.issueTypes?.firstIndex(of: issueType),
-						let indexOfSubIsse = issueType.subIssueTypeList?.firstIndex(of: subIssue) else { return }
-
-					di.commonDataNetworkService.issueTypes?[indexOfIssue]
-						.selectBy(index: indexOfSubIsse,
-								  on: true)
-				}
-			}
-
-			updateLayersListSubject = PublishSubject<Int>()
-			updateLayersListSubject?
-				.asObservable()
-				.flatMap { [unowned self] subIssueCode in
-					self.di.lawyersNetworkService.getLawyers(by: [subIssueCode],
-															 city: currentCity?.title ?? "")
-				}
-				.observeOn(MainScheduler.instance)
-				.subscribe(onNext: { [weak self] result in
-					self?.view.loadingView.stop()
-					switch result {
-					case .success(let lawyers):
-						self?.update(with: lawyers)
-					case .failure(let error):
-						//TODO: - обработать ошибку
-						print(error.localizedDescription)
-					}
-				})
-				.disposed(by: disposeBag)
-			updateLayersListSubject?.onNext(subIssueCode)
-		}
-
 		filterIssuesSubject
 			.do(onNext: { [weak self] _ in
 				self?.view.loadingView.play()
 			})
 			.do(onNext: { [weak self] subIssuesCodes in
+				if subIssuesCodes != self?.selectedSubIssuesCodes {
+					self?.nextPage = 0
+					self?.lawyers.removeAll()
+				}
 				// save selected issues
 				self?.selectedSubIssuesCodes = subIssuesCodes
 			})
 			.flatMap { [unowned self] subIssuesCodes in
 				self.di.lawyersNetworkService.getLawyers(by: subIssuesCodes,
-														 city: currentCity?.title ?? "")
+														 city: currentCity?.title ?? "",
+														 page: self.nextPage,
+														 pageSize: self.pageSize)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
@@ -213,15 +197,19 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 				}
 			})
 			.disposed(by: disposeBag)
+
+		view.loadingView.play()
+		lawyersListSubject?.onNext(())
 	}
 
 	private func update(with lawyers: [UserProfile]) {
-		self.lawyers = lawyers
+		self.lawyers.append(contentsOf: lawyers)
 		let section = SectionModel<String, UserProfile>(model: "",
-														items: lawyers)
+														items: self.lawyers)
 		dataSourceSubject?.onNext([section])
 
-		if lawyers.isEmpty {
+		if lawyers.isEmpty,
+		   self.lawyers.isEmpty {
 			view.emptyLawyersLabel.isHidden = false
 		} else {
 			view.emptyLawyersLabel.isHidden = true
@@ -232,6 +220,14 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		} else {
 			self.view.tableView.isScrollEnabled = true
 		}
+
+		if lawyers.isEmpty {
+			isAllappealsDownloaded = true
+		} else {
+			isAllappealsDownloaded = false
+		}
+
+		nextPage += 1
 	}
 
 	func removeBindings() {}

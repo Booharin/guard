@@ -57,7 +57,7 @@ final class AppealCreatingViewModel: ViewModel, HasDependencies {
 		// client issue title
 		view.issueTitleLabel.font = SFUIDisplay.medium.of(size: 15)
 		view.issueTitleLabel.textColor = Colors.warningColor
-		view.issueTitleLabel.numberOfLines = 2
+		view.issueTitleLabel.numberOfLines = 0
 		view.issueTitleLabel.textAlignment = .center
 		view.issueTitleLabel.text = issueType.title
 
