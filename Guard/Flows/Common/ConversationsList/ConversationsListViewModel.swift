@@ -91,8 +91,12 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stop()
 				switch result {
-					case .success:
-						self?.conversationsListSubject.onNext(())
+					case .success(let conversationId):
+						guard let index = self?.conversations.firstIndex(where: { $0.id == conversationId }) else { return }
+						self?.conversations.remove(at: index)
+						let section = SectionModel<String, ChatConversation>(model: "",
+																			 items: self?.conversations ?? [])
+						self?.dataSourceSubject?.onNext([section])
 					case .failure(let error):
 						//TODO: - обработать ошибку
 						print(error.localizedDescription)

@@ -70,7 +70,7 @@ class ClientAppealCell: UITableViewCell, ClientAppealCellProtocol {
 		// date label
 		containerView.addSubview(dateLabel)
 		dateLabel.snp.makeConstraints {
-			$0.top.equalToSuperview().offset(28)
+			$0.top.equalToSuperview().offset(15)
 			$0.trailing.equalToSuperview().offset(-35)
 		}
 		// time label

@@ -15,8 +15,13 @@ protocol HasLawyersNetworkService {
 }
 
 protocol LawyersNetworkServiceInterface {
-	func getAllLawyers(from city: String) -> Observable<Result<[UserProfile], AFError>>
-	func getLawyers(by issueCode: [Int], city: String) -> Observable<Result<[UserProfile], AFError>>
+	func getAllLawyers(from city: String,
+					   page: Int,
+					   pageSize: Int) -> Observable<Result<[UserProfile], AFError>>
+	func getLawyers(by issueCode: [Int],
+					city: String,
+					page: Int,
+					pageSize: Int) -> Observable<Result<[UserProfile], AFError>>
 	func getLawyer(by id: Int) -> Observable<Result<UserProfile, AFError>>
 	func editLawyer(profile: UserProfile,
 					email: String,
@@ -32,10 +37,14 @@ final class LawyersNetworkService: LawyersNetworkServiceInterface, HasDependenci
 		router = LawyersNetworkRouter(environment: EnvironmentImp())
 	}
 
-	func getAllLawyers(from city: String) -> Observable<Result<[UserProfile], AFError>> {
+	func getAllLawyers(from city: String,
+					   page: Int,
+					   pageSize: Int) -> Observable<Result<[UserProfile], AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.getAllLawyers(from: city,
+										  page: page,
+										  pageSize: pageSize,
 										  token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
 			)
 			.responseJSON { response in
@@ -128,11 +137,16 @@ final class LawyersNetworkService: LawyersNetworkServiceInterface, HasDependenci
 		}
 	}
 
-	func getLawyers(by issueCode: [Int], city: String) -> Observable<Result<[UserProfile], AFError>> {
+	func getLawyers(by issueCode: [Int],
+					city: String,
+					page: Int,
+					pageSize: Int) -> Observable<Result<[UserProfile], AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.getLawyers(by: issueCode,
 									   cityTitle: city,
+									   page: page,
+									   pageSize: pageSize,
 									   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
 			)
 			.responseJSON { response in

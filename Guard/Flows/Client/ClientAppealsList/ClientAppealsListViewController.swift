@@ -54,12 +54,7 @@ final class ClientAppealsListViewController<modelType: ClientAppealsListViewMode
 		super.viewWillAppear(animated)
 		
 		navigationController?.isNavigationBarHidden = false
-		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-		navigationController?.navigationBar.isTranslucent = true
 		self.navigationItem.setHidesBackButton(true, animated:false)
-
-		loadingView.play()
-		viewModel.appealsListSubject?.onNext(())
 	}
 
 	func setNavigationBar() {

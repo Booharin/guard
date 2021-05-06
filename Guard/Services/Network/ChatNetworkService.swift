@@ -20,7 +20,7 @@ protocol ChatNetworkServiceInterface {
 	func createConversationByAppeal(lawyerId: Int,
 									clientId: Int,
 									appealId: Int) -> Observable<Result<Any, AFError>>
-	func deleteConversation(conversationId: Int) -> Observable<Result<Any, AFError>>
+	func deleteConversation(conversationId: Int) -> Observable<Result<Int?, AFError>>
 	func getConversations(with profileId: Int,
 						  isLawyer: Bool) -> Observable<Result<[ChatConversation], AFError>>
 	func getMessages(with conversationId: Int) -> Observable<Result<[ChatMessage], AFError>>
@@ -112,7 +112,7 @@ final class ChatNetworkService: ChatNetworkServiceInterface, HasDependencies {
 		}
 	}
 
-	func deleteConversation(conversationId: Int) -> Observable<Result<Any, AFError>> {
+	func deleteConversation(conversationId: Int) -> Observable<Result<Int?, AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.deleteConversation(conversationId: conversationId,
@@ -136,7 +136,7 @@ final class ChatNetworkService: ChatNetworkServiceInterface, HasDependencies {
 
 				switch response.result {
 				case .success:
-					observer.onNext(.success(()))
+					observer.onNext(.success(conversationId))
 				case .failure:
 					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
 				}

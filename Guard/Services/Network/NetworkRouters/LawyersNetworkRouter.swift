@@ -16,13 +16,20 @@ struct LawyersNetworkRouter {
 		self.environment = environment
 	}
 
-	func getAllLawyers(from city: String, token: String?) -> URLRequestConvertible {
+	func getAllLawyers(from city: String,
+					   page: Int,
+					   pageSize: Int,
+					   token: String?) -> URLRequestConvertible {
 		do {
 			return try AllLawyers(environment: environment,
-								  city: city).asURLDefaultRequest(with: token)
+								  city: city,
+								  page: page,
+								  pageSize: pageSize).asURLDefaultRequest(with: token)
 		} catch {
 			return AllLawyers(environment: environment,
-							  city: city)
+							  city: city,
+							  page: page,
+							  pageSize: pageSize)
 		}
 	}
 
@@ -38,20 +45,28 @@ struct LawyersNetworkRouter {
 
 	func getLawyers(by issueCode: [Int],
 					cityTitle: String,
+					page: Int,
+					pageSize: Int,
 					token: String?) -> URLRequestConvertible {
 		do {
 			if issueCode.isEmpty {
 				return try AllLawyers(environment: environment,
-									  city: cityTitle).asURLDefaultRequest(with: token)
+									  city: cityTitle,
+									  page: page,
+									  pageSize: pageSize).asURLDefaultRequest(with: token)
 			} else {
 				return try LawyersByIssue(environment: environment,
 										  issueCode: issueCode,
-										  cityTitle: cityTitle).asURLDefaultRequest(with: token)
+										  cityTitle: cityTitle,
+										  page: page,
+										  pageSize: pageSize).asURLDefaultRequest(with: token)
 			}
 		} catch {
 			return LawyersByIssue(environment: environment,
 								  issueCode: issueCode,
-								  cityTitle: cityTitle)
+								  cityTitle: cityTitle,
+								  page: page,
+								  pageSize: pageSize)
 		}
 	}
 
@@ -82,11 +97,17 @@ extension LawyersNetworkRouter {
 
 		let environment: Environment
 		let city: String
+		let page: Int
+		let pageSize: Int
 
 		init(environment: Environment,
-			 city: String) {
+			 city: String,
+			 page: Int,
+			 pageSize: Int) {
 			self.environment = environment
 			self.city = city
+			self.page = page
+			self.pageSize = pageSize
 		}
 
 		var baseUrl: URL {
@@ -98,8 +119,8 @@ extension LawyersNetworkRouter {
 		var parameters: Parameters {
 			return [
 				"cityTitle": city,
-				"page": 0,
-				"pageSize": 1000
+				"page": page,
+				"pageSize": pageSize
 			]
 		}
 	}
@@ -133,13 +154,19 @@ extension LawyersNetworkRouter {
 		let environment: Environment
 		let issueCode: [Int]
 		let cityTitle: String
+		let page: Int
+		let pageSize: Int
 
 		init(environment: Environment,
 			 issueCode: [Int],
-			 cityTitle: String) {
+			 cityTitle: String,
+			 page: Int,
+			 pageSize: Int) {
 			self.environment = environment
 			self.issueCode = issueCode
 			self.cityTitle = cityTitle
+			self.page = page
+			self.pageSize = pageSize
 		}
 
 		var baseUrl: URL {
@@ -154,8 +181,8 @@ extension LawyersNetworkRouter {
 					.map { String($0) }
 					.joined(separator:","),
 				"cityTitle": cityTitle,
-				"page": 0,
-				"pageSize": 1000
+				"page": page,
+				"pageSize": pageSize
 			]
 		}
 	}

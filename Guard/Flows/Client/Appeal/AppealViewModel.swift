@@ -159,7 +159,8 @@ final class AppealViewModel: ViewModel, HasDependencies {
 		view.lawyerSelectedButton.layer.cornerRadius = 25
 		view.lawyerSelectedButton.setTitle(
 			appeal.lawyerChoosed ?? false ?
-				"appeal.lawyerNotSelectedButton.title".localized.uppercased() : "appeal.lawyerSelectedButton.title".localized.uppercased(),
+				"appeal.lawyerNotSelectedButton.title".localized.uppercased() :
+				"appeal.lawyerSelectedButton.title".localized.uppercased(),
 			for: .normal)
 
 		// save button

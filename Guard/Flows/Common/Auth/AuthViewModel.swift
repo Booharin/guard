@@ -99,7 +99,6 @@ final class AuthViewModel: ViewModel,
 			.subscribe(onNext: { _ in
 				self.checkAreTextFieldsEmpty()
 			}).disposed(by: disposeBag)
-		view.passwordTextField.text = "12345678"
 
 		// registration button
 		view.registrationButton.titleLabel?.adjustsFontSizeToFitWidth = true

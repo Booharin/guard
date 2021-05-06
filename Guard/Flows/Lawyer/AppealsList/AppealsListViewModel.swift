@@ -38,6 +38,10 @@ final class AppealsListViewModel:
 	private var selectedSubIssuesCodes = [Int]()
 	private var currentCityTitle = ""
 
+	private var nextPage = 0
+	private let pageSize = 20
+	private var isAllappealsDownloaded = false
+
 	init(router: AppealsListRouterProtocol) {
 		self.router = router
 	}
@@ -50,6 +54,23 @@ final class AppealsListViewModel:
 			.bind(to: view.tableView
 					.rx
 					.items(dataSource: ClientAppealDataSource.dataSource(toAppealDescriptionSubject: router.toAppealDescriptionSubject)))
+			.disposed(by: disposeBag)
+
+		view.tableView
+			.rx
+			.prefetchRows
+			.filter { _ in
+				self.isAllappealsDownloaded == false
+			}
+			.subscribe(onNext: { [unowned self] rows in
+				if rows.contains([0, 0]) {
+					if self.selectedSubIssuesCodes.isEmpty {
+						self.appealsListSubject?.onNext(())
+					} else {
+						self.filterIssuesSubject.onNext(self.selectedSubIssuesCodes)
+					}
+				}
+			})
 			.disposed(by: disposeBag)
 
 		// back button
@@ -118,7 +139,10 @@ final class AppealsListViewModel:
 		appealsListSubject?
 			.asObservable()
 			.flatMap { [unowned self] _ in
-				self.di.appealsNetworkService.getAppeals(by: self.currentCityTitle)
+				self.di.appealsNetworkService.getAppeals(by: nil,
+														 city: self.currentCityTitle,
+														 page: self.nextPage,
+														 pageSize: self.pageSize)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
@@ -140,12 +164,18 @@ final class AppealsListViewModel:
 				self?.view.loadingView.play()
 			})
 			.do(onNext: { [weak self] subIssuesCodes in
+				if subIssuesCodes != self?.selectedSubIssuesCodes {
+					self?.nextPage = 0
+					self?.appeals.removeAll()
+				}
 				// save selected issues
 				self?.selectedSubIssuesCodes = subIssuesCodes
 			})
 			.flatMap { [unowned self] subIssuesCodes in
 				self.di.appealsNetworkService.getAppeals(by: subIssuesCodes,
-														 city: self.currentCityTitle)
+														 city: self.currentCityTitle,
+														 page: self.nextPage,
+														 pageSize: self.pageSize)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
@@ -162,12 +192,15 @@ final class AppealsListViewModel:
 	}
 
 	private func update(with appeals: [ClientAppeal]) {
-		self.appeals = appeals.filter { ($0.lawyerChoosed ?? false) == false }
+		self.appeals.append(contentsOf:
+								appeals.filter { ($0.lawyerChoosed ?? false) == false }
+		)
 		let section = SectionModel<String, ClientAppeal>(model: "",
 														items: self.appeals)
 		dataSourceSubject?.onNext([section])
 
-		if appeals.isEmpty {
+		if appeals.isEmpty,
+			self.appeals.isEmpty {
 			view.emptyAppealsLabel.isHidden = false
 		} else {
 			view.emptyAppealsLabel.isHidden = true
@@ -178,6 +211,14 @@ final class AppealsListViewModel:
 		} else {
 			self.view.tableView.isScrollEnabled = true
 		}
+
+		if appeals.isEmpty {
+			isAllappealsDownloaded = true
+		} else {
+			isAllappealsDownloaded = false
+		}
+
+		nextPage += 1
 	}
 
 	func removeBindings() {}
