@@ -119,6 +119,7 @@
 "chat.greeting.description" = "All your conversations is here";
 "chat.placeholder" = "Message";
 "chat.noName" = "No name";
+"chat.file" = "File";
 
 //PROFILE
 "profile.action_sheet.settings" = "Settings";

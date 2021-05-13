@@ -22,7 +22,9 @@ protocol ChatNetworkServiceInterface {
 									appealId: Int) -> Observable<Result<Any, AFError>>
 	func deleteConversation(conversationId: Int) -> Observable<Result<Int?, AFError>>
 	func getConversations(with profileId: Int,
-						  isLawyer: Bool) -> Observable<Result<[ChatConversation], AFError>>
+						  isLawyer: Bool,
+						  page: Int,
+						  pageSize: Int) -> Observable<Result<[ChatConversation], AFError>>
 	func getMessages(with conversationId: Int) -> Observable<Result<[ChatMessage], AFError>>
 	func setMessagesRead(conversationId: Int) -> Observable<Result<Any, AFError>>
 }
@@ -148,11 +150,15 @@ final class ChatNetworkService: ChatNetworkServiceInterface, HasDependencies {
 	}
 
 	func getConversations(with profileId: Int,
-						  isLawyer: Bool) -> Observable<Result<[ChatConversation], AFError>> {
+						  isLawyer: Bool,
+						  page: Int,
+						  pageSize: Int) -> Observable<Result<[ChatConversation], AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.getConversations(profileId: profileId,
 											 isLawyer: isLawyer,
+											 page: page,
+											 pageSize: pageSize,
 											 token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
 			)
 			.responseJSON { response in

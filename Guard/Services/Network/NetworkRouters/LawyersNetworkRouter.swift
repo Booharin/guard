@@ -89,6 +89,23 @@ struct LawyersNetworkRouter {
 							  phone: phone)
 		}
 	}
+
+	func getReviews(for receiverId: Int,
+					page: Int,
+					pageSize: Int,
+					token: String?) -> URLRequestConvertible {
+		do {
+			return try GetReviews(environment: environment,
+								  receiverId: receiverId,
+								  page: page,
+								  pageSize: pageSize).asURLDefaultRequest(with: token)
+		} catch {
+			return GetReviews(environment: environment,
+							  receiverId: receiverId,
+							  page: page,
+							  pageSize: pageSize)
+		}
+	}
 }
 
 extension LawyersNetworkRouter {
@@ -235,6 +252,38 @@ extension LawyersNetworkRouter {
 				"cityCode": cityCode,
 				"countryCode": countryCode,
 				"subIssueCodes": subIssueCodes
+			]
+		}
+	}
+
+	private struct GetReviews: RequestRouter {
+
+		let environment: Environment
+		let receiverId: Int
+		let page: Int
+		let pageSize: Int
+
+		init(environment: Environment,
+			 receiverId: Int,
+			 page: Int,
+			 pageSize: Int) {
+			self.environment = environment
+			self.receiverId = receiverId
+			self.page = page
+			self.pageSize = pageSize
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .get
+		var path = ApiMethods.getReviews
+		var parameters: Parameters {
+			return [
+				"receiverId": receiverId,
+				"page": page,
+				"pageSize": pageSize
 			]
 		}
 	}

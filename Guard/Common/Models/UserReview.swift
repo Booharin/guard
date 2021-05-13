@@ -6,7 +6,7 @@
 //  Copyright © 2020 ds. All rights reserved.
 //
 
-struct UserReview: Codable {
+struct UserReview: Codable, Equatable {
 	let reviewDescription: String?
 	let rating: Double
 	let dateCreated: String?

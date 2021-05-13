@@ -18,6 +18,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 	private var chatConversation: ChatConversation
 	private var messages = [ChatMessage]()
 	private let router: ChatRouterProtocol
+	private let updateConversationSubject: PublishSubject<ChatConversation>
 
 	typealias Dependencies =
 		HasNotificationService &
@@ -41,8 +42,10 @@ final class ChatViewModel: ViewModel, HasDependencies {
 	}
 
 	init(chatConversation: ChatConversation,
+		 updateConversationSubject: PublishSubject<ChatConversation>,
 		 router: ChatRouterProtocol) {
 		self.chatConversation = chatConversation
+		self.updateConversationSubject = updateConversationSubject
 		self.router = router
 	}
 
@@ -245,6 +248,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 															headers: ["content-type": "application/json"])
 					self.imageForSending = nil
 					self.messagesListSubject?.onNext(())
+					self.chatConversation.updateLastMessage(with: "chat.file".localized)
 				} catch {
 					print(error.localizedDescription)
 				}
@@ -304,7 +308,9 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			.flatMap { [unowned self] _ in
 				self.di.chatNetworkService
 					.getConversations(with: currentProfile?.id ?? 0,
-									  isLawyer: false)
+									  isLawyer: false,
+									  page: 0,
+									  pageSize: 1000)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
@@ -338,7 +344,9 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			.flatMap { [unowned self] _ in
 				self.di.chatNetworkService
 					.getConversations(with: currentProfile?.id ?? 0,
-									  isLawyer: true)
+									  isLawyer: true,
+									  page: 0,
+									  pageSize: 1000)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
@@ -405,6 +413,8 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 				self.messagesListSubject?.onNext(())
 			}
+			self.chatConversation.updateLastMessage(with: text)
+			self.updateConversationSubject.onNext(self.chatConversation)
 		} catch {
 			print(error.localizedDescription)
 		}

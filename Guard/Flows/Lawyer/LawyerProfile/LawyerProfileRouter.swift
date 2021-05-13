@@ -13,6 +13,7 @@ protocol LawyerProfileRouterProtocol {
 	var toSettingsSubject: PublishSubject<Any> { get }
 	var toEditSubject: PublishSubject<UserProfile> { get }
 	func passageToReviewsList(isMyReviews: Bool,
+							  reviewsUpdateSubject: PublishSubject<Any>,
 							  usertId: Int,
 							  reviews: [UserReview])
 }
@@ -65,13 +66,15 @@ final class LawyerProfileRouter: BaseRouter, LawyerProfileRouterProtocol {
 	}
 
 	func passageToReviewsList(isMyReviews: Bool,
+							  reviewsUpdateSubject: PublishSubject<Any>,
 							  usertId: Int,
 							  reviews: [UserReview]) {
 		let reviewsRouter = ReviewsListRouter()
 		reviewsRouter.navigationController = self.navigationController
 		let reviewsListViewModel = ReviewsListViewModel(router: reviewsRouter,
 														isMyReviews: isMyReviews,
-														userId: usertId,
+														reviewsUpdateSubject: reviewsUpdateSubject,
+														reviewsListSubject: usertId,
 														reviews: reviews)
 		let viewController = ReviewsListViewController(viewModel: reviewsListViewModel)
 		viewController.hidesBottomBarWhenPushed = true

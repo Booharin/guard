@@ -119,6 +119,7 @@
 "chat.greeting.description" = "Все ваши переговоры здесь";
 "chat.placeholder" = "Сообщение";
 "chat.noName" = "Без имени";
+"chat.file" = "Файл";
 
 //PROFILE
 "profile.action_sheet.settings" = "Настройки";

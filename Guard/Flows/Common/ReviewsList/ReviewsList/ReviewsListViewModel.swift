@@ -20,6 +20,11 @@ final class ReviewsListViewModel: ViewModel, HasDependencies {
 	private var reviews = [UserReview]()
 	private var isMyReviews = true
 	private var disposeBag = DisposeBag()
+	private let reviewsUpdateSubject: PublishSubject<Any>
+
+	private var nextPage = 0
+	private let pageSize = 20
+	private var isAllappealsDownloaded = false
 
 	typealias Dependencies =
 		HasLocalStorageService &
@@ -28,10 +33,13 @@ final class ReviewsListViewModel: ViewModel, HasDependencies {
 
 	init(router: ReviewsListRouterProtocol,
 		 isMyReviews: Bool,
+		 reviewsUpdateSubject: PublishSubject<Any>,
+		 reviewsListSubject
 		 userId: Int,
 		 reviews: [UserReview]) {
 		self.router = router
 		self.isMyReviews = isMyReviews
+		self.reviewsUpdateSubject = reviewsUpdateSubject
 		self.userId = userId
 		self.reviews = reviews
 	}
@@ -50,6 +58,20 @@ final class ReviewsListViewModel: ViewModel, HasDependencies {
 					.rx
 					.items(dataSource: dataSource))
 			.disposed(by: disposeBag)
+
+		view.tableView
+			.rx
+			.prefetchRows
+			.filter { _ in
+				self.isAllappealsDownloaded == false
+			}
+			.subscribe(onNext: { [unowned self] rows in
+				if rows.contains([0, 0]) {
+					self.reviewsListSubject?.onNext(())
+				}
+			})
+			.disposed(by: disposeBag)
+
 
 		// title
 		view.titleLabel.font = SFUIDisplay.bold.of(size: 15)
@@ -109,14 +131,16 @@ final class ReviewsListViewModel: ViewModel, HasDependencies {
 		reviewsListSubject?
 			.asObservable()
 			.flatMap { [unowned self] _ in
-				self.di.lawyersNetworkService.getLawyer(by: self.userId)
+				self.di.lawyersNetworkService.getReviews(for: self.userId,
+														 page: 0,
+														 pageSize: 1000)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stop()
 				switch result {
-					case .success(let profile):
-						self?.update(with: profile.reviewList ?? [])
+					case .success(let reviews):
+						self?.update(with: reviews)
 					case .failure(let error):
 						//TODO: - обработать ошибку
 						print(error.localizedDescription)
@@ -130,14 +154,22 @@ final class ReviewsListViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [weak self] _ in
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
 					self?.reviewsListSubject?.onNext(())
+					self?.reviewsUpdateSubject.onNext(())
 				}
 			}).disposed(by: disposeBag)
 	}
 
 	private func update(with reviews: [UserReview]) {
-		self.reviews = reviews.sorted {
-			$0.dateCreated ?? "" < $1.dateCreated ?? ""
-		}
+		self.reviews.append(
+			contentsOf:
+				reviews
+				.filter {
+					!self.reviews.contains($0)
+				}
+				.sorted {
+					$0.dateCreated ?? "" < $1.dateCreated ?? ""
+				}
+		)
 		let section = SectionModel<String, UserReview>(model: "",
 													   items: self.reviews)
 		dataSourceSubject?.onNext([section])
@@ -147,6 +179,14 @@ final class ReviewsListViewModel: ViewModel, HasDependencies {
 		} else {
 			self.view.tableView.isScrollEnabled = true
 		}
+
+		if reviews.isEmpty {
+			isAllappealsDownloaded = true
+		} else {
+			isAllappealsDownloaded = false
+		}
+
+		nextPage += 1
 	}
 
 

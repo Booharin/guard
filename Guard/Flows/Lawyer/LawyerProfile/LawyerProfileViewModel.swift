@@ -19,6 +19,7 @@ final class LawyerProfileViewModel:
 		HasLocalStorageService &
 		HasKeyChainService &
 		HasClientNetworkService &
+		HasLawyersNetworkService &
 		HasCommonDataNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
@@ -31,11 +32,11 @@ final class LawyerProfileViewModel:
 	var lawyerProfile: UserProfile? {
 		di.localStorageService.getCurrenClientProfile()
 	}
-	var lawyerReviews: [UserReview] {
-		di.localStorageService.getReviews()
-	}
 
 	private var lawyerSettings: SettingsModel?
+
+	let reviewsListSubject = PublishSubject<Any>()
+	private var reviews = [UserReview]()
 
 	private var positiveReviewsCount = 0
 	private var negativeReviewsCount = 0
@@ -85,27 +86,19 @@ final class LawyerProfileViewModel:
 			.tapGesture()
 			.when(.recognized)
 			.subscribe(onNext: { [weak self] _ in
+				guard let reviewsListSubject = self?.reviewsListSubject else { return }
 				self?.router.passageToReviewsList(isMyReviews: true,
+												  reviewsUpdateSubject: reviewsListSubject,
 												  usertId: self?.lawyerProfile?.id ?? 0,
-												  reviews: self?.lawyerReviews ?? [])
+												  reviews: self?.reviews ?? [])
 			}).disposed(by: disposeBag)
-
-		lawyerReviews.forEach {
-			if $0.rating > 2 {
-				positiveReviewsCount += 1
-			} else {
-				negativeReviewsCount += 1
-			}
-		}
 
 		// positive review
 		view.reviewsPositiveLabel.textColor = Colors.greenColor
 		view.reviewsPositiveLabel.font = SFUIDisplay.bold.of(size: 18)
-		view.reviewsPositiveLabel.text = "+\(positiveReviewsCount)"
 		// negative review
 		view.reviewsNegativeLabel.textColor = Colors.negativeReview
 		view.reviewsNegativeLabel.font = SFUIDisplay.bold.of(size: 18)
-		view.reviewsNegativeLabel.text = "-\(negativeReviewsCount)"
 		// rating title
 		view.ratingTitleLabel.textColor = Colors.mainTextColor
 		view.ratingTitleLabel.font = SFUIDisplay.light.of(size: 18)
@@ -158,6 +151,37 @@ final class LawyerProfileViewModel:
 		view.issuesStackView.distribution = .fill
 		view.issuesStackView.alignment = .center
 		view.issuesStackView.spacing = 10
+
+		reviewsListSubject
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.lawyersNetworkService.getReviews(for: lawyerProfile?.id ?? 0,
+														 page: 0,
+														 pageSize: 10000)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				switch result {
+				case .success(let reviews):
+					self?.reviews = reviews
+					self?.positiveReviewsCount = 0
+					self?.negativeReviewsCount = 0
+
+					reviews.forEach() {
+						if $0.rating > 2 {
+							self?.positiveReviewsCount += 1
+						} else {
+							self?.negativeReviewsCount += 1
+						}
+					}
+					self?.view.reviewsPositiveLabel.text = "+\(self?.positiveReviewsCount ?? 0)"
+					self?.view.reviewsNegativeLabel.text = "-\(self?.negativeReviewsCount ?? 0)"
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+		reviewsListSubject.onNext(())
 	}
 
 	func updateProfile() {

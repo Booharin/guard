@@ -10,7 +10,7 @@ struct ChatConversation: Codable {
 	let id: Int
 	let dateCreated: String
 	let userId: Int
-	let lastMessage: String
+	var lastMessage: String
 	let appealId: Int?
 	let userFirstName: String?
 	let userLastName: String?
@@ -22,5 +22,9 @@ struct ChatConversation: Codable {
 			let firstName = userFirstName,
 			let lastName = userLastName else { return userFirstName ?? userLastName ?? "" }
 		return "\(firstName) \(lastName)"
+	}
+
+	mutating func updateLastMessage(with text: String) {
+		lastMessage = text
 	}
 }

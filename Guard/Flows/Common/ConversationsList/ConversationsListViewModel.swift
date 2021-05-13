@@ -30,6 +30,10 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 		HasChatNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
+	private var nextPage = 0
+	private let pageSize = 20
+	private var isAllappealsDownloaded = false
+
 	init(router: ConversationsListRouterProtocol,
 		 toChatWithLawyer: PublishSubject<ChatConversation>?) {
 		self.router = router
@@ -40,7 +44,9 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 			.flatMap { [unowned self] _ in
 				self.di.chatNetworkService
 					.getConversations(with: currentProfile?.id ?? 0,
-									  isLawyer: currentProfile?.userRole == .lawyer ? true : false)
+									  isLawyer: currentProfile?.userRole == .lawyer ? true : false,
+									  page: nextPage,
+									  pageSize: pageSize)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
@@ -103,6 +109,19 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 				}
 			}).disposed(by: disposeBag)
 
+		view.tableView
+			.rx
+			.prefetchRows
+			.filter { _ in
+				self.isAllappealsDownloaded == false
+			}
+			.subscribe(onNext: { [unowned self] rows in
+				if rows.contains([0, 0]) {
+					self.conversationsListSubject.onNext(())
+				}
+			})
+			.disposed(by: disposeBag)
+
 		// greeting
 		view.greetingLabel.font = Saira.light.of(size: 25)
 		view.greetingLabel.textColor = Colors.mainTextColor
@@ -144,12 +163,21 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 					self?.router.toChatSubject.onNext(newConversation)
 				}
 			}).disposed(by: disposeBag)
+
+		router.updateConversationSubject
+			.asObservable()
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] chatConversation in
+				if let row = self?.conversations.firstIndex(where: { $0.id == chatConversation.id }) {
+					self?.conversations[row] = chatConversation
+				}
+			}).disposed(by: disposeBag)
 	}
 
 	private func update(with conversations: [ChatConversation]) {
-		self.conversations = conversations.sorted {
+		self.conversations.append(contentsOf: conversations.sorted {
 			$0.dateCreated < $1.dateCreated
-		}
+		})
 		let section = SectionModel<String, ChatConversation>(model: "",
 															 items: self.conversations)
 		dataSourceSubject?.onNext([section])
@@ -161,6 +189,14 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 				self.view.tableView.isScrollEnabled = true
 			}
 		}
+
+		if conversations.isEmpty {
+			isAllappealsDownloaded = true
+		} else {
+			isAllappealsDownloaded = false
+		}
+
+		nextPage += 1
 
 		updateNotReadCount()
 	}

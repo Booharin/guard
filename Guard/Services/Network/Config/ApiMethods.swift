@@ -16,6 +16,7 @@ enum ApiMethods {
 	static let getLawyers = "common/lawyers"
 	static let getAllLawyers = "client/alllawyers"
 	static let getLawyer = "common/lawyer"
+	static let getReviews = "review/getByReceiverId"
 	// appeals
 	static let clientAppeals = "appeal/client"
 	static let createAppeal = "appeal/save"

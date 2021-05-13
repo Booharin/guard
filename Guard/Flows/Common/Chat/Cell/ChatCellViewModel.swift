@@ -39,8 +39,8 @@ class ChatCellViewModel: ViewModel, HasDependencies {
 		// message
 		view.messageTextView.font = SFUIDisplay.regular.of(size: 15)
 		view.messageTextView.textColor = Colors.mainTextColor
-		if chatMessage.content.count > 1000 {
-			view.messageTextView.text = "Файл"
+		if chatMessage.content.count > 10000 {
+			view.messageTextView.text = "chat.file".localized
 		} else {
 			view.messageTextView.text = chatMessage.content
 		}

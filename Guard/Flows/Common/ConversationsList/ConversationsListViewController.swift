@@ -50,8 +50,7 @@ final class ConversationsListViewController<modelType: ConversationsListViewMode
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
-		//navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
 
