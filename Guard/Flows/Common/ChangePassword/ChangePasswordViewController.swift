@@ -62,12 +62,6 @@ final class ChangePasswordViewController<modelType: ChangePasswordViewModel>:
 		self.navigationItem.setHidesBackButton(true, animated:false)
 	}
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-
-		navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-	}
-
 	private func setNavigationBar() {
 		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
 		self.navigationItem.leftBarButtonItem = leftBarButtonItem

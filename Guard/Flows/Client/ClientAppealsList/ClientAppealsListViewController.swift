@@ -52,9 +52,10 @@ final class ClientAppealsListViewController<modelType: ClientAppealsListViewMode
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
+
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
+		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
 	}
 
 	func setNavigationBar() {

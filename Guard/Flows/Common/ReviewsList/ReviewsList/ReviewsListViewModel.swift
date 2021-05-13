@@ -124,6 +124,14 @@ final class ReviewsListViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 
 		update(with: reviews)
+
+		router.reviewCreatedSubject
+			.asObservable()
+			.subscribe(onNext: { [weak self] _ in
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+					self?.reviewsListSubject?.onNext(())
+				}
+			}).disposed(by: disposeBag)
 	}
 
 	private func update(with reviews: [UserReview]) {

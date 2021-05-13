@@ -73,7 +73,7 @@ final class EditClientProfileViewController<modelType: EditClientProfileViewMode
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
+
 		navigationController?.isNavigationBarHidden = true
 		self.navigationItem.setHidesBackButton(true, animated:false)
 	}

@@ -81,12 +81,6 @@ final class ClientProfileViewController<modelType: ClientProfileViewModel>:
 		viewModel.clientImageSubject?.onNext(())
 	}
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		
-		navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-	}
-
 	private func setNavigationBar() {
 		let rightBarButtonItem = UIBarButtonItem(customView: threedotsButton)
 		self.navigationItem.rightBarButtonItem = rightBarButtonItem

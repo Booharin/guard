@@ -19,17 +19,21 @@ final class ReviewDetailsViewModel: ViewModel, HasDependencies {
 	private var receiverId: Int?
 	private var senderName: String?
 
+	private let reviewCreatedSubject: PublishSubject<Any>
+
 	typealias Dependencies =
 		HasLocalStorageService &
 		HasAppealsNetworkService &
 		HasClientNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
-	init(reviewDetails: ReviewDetails) {
+	init(reviewDetails: ReviewDetails,
+		 reviewCreatedSubject: PublishSubject<Any>) {
 		self.review = reviewDetails.review
 		self.senderId = reviewDetails.senderId
 		self.receiverId = reviewDetails.receiverId
 		self.senderName = reviewDetails.senderName
+		self.reviewCreatedSubject = reviewCreatedSubject
 	}
 
 	func viewDidSet() {
@@ -118,7 +122,8 @@ final class ReviewDetailsViewModel: ViewModel, HasDependencies {
 				self?.view.loadingView.stop()
 				switch result {
 				case .success:
-					self?.view.navController?.popToRootViewController(animated: true)
+					self?.reviewCreatedSubject.onNext(())
+					self?.view.navController?.popViewController(animated: true)
 				case .failure(let error):
 					//TODO: - обработать ошибку
 					print(error.localizedDescription)
