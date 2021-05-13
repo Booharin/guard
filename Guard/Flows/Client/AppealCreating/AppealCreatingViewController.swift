@@ -87,7 +87,7 @@ final class AppealCreatingViewController<modelType: AppealCreatingViewModel>:
 		view.addSubview(subtitleLabel)
 		subtitleLabel.snp.makeConstraints {
 			$0.height.equalTo(24)
-			$0.top.equalToSuperview().offset(97)
+			$0.top.equalToSuperview()
 			$0.centerX.equalToSuperview()
 		}
 		view.addSubview(issueTitleLabel)

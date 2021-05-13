@@ -39,7 +39,6 @@ final class ChatViewController<modelType: ChatViewModel>:
 	var viewModel: modelType
 	var loadingView = LottieAnimationView()
 	private var imagePicker = UIImagePickerController()
-	var placeholderView: UIView?
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
@@ -57,7 +56,6 @@ final class ChatViewController<modelType: ChatViewModel>:
 		view.backgroundColor = Colors.whiteColor
 		addViews()
 		setNavigationBar()
-		addPlaceholderView()
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -67,13 +65,6 @@ final class ChatViewController<modelType: ChatViewModel>:
 		self.navigationItem.setHidesBackButton(true, animated:false)
 
 		viewModel.messagesListSubject?.onNext(())
-	}
-
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-
-		navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-		removePlaceholderView()
 	}
 
 	private func setNavigationBar() {
@@ -168,26 +159,5 @@ final class ChatViewController<modelType: ChatViewModel>:
 			}
 		}
 		self.dismiss(animated: true)
-	}
-
-	private func addPlaceholderView() {
-		placeholderView = UIView()
-		guard let placeView = placeholderView else { return }
-		placeView.backgroundColor = Colors.whiteColor
-		view.addSubview(placeView)
-		placeView.snp.makeConstraints {
-			$0.top.leading.trailing.equalToSuperview()
-			switch UIScreen.displayClass {
-			case .iPhone8, .iPhone8Plus:
-				$0.height.equalTo(64)
-			default:
-				$0.height.equalTo(92)
-			}
-		}
-	}
-
-	private func removePlaceholderView() {
-		placeholderView?.removeFromSuperview()
-		placeholderView = nil
 	}
 }

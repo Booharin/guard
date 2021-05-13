@@ -60,12 +60,6 @@ class SettingsViewController<modelType: SettingsViewModel>:
 		self.navigationItem.setHidesBackButton(true, animated:false)
 	}
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		
-		navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-	}
-
 	private func setNavigationBar() {
 		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
 		self.navigationItem.leftBarButtonItem = leftBarButtonItem

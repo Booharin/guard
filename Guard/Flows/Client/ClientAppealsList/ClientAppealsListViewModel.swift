@@ -144,6 +144,18 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 
 		view.loadingView.play()
 		appealsListSubject?.onNext(())
+
+		router.appealCreatedSubject
+			.asObservable()
+			.subscribe(onNext: { [weak self] _ in
+				DispatchQueue.main.asyncAfter(deadline:.now() + 0.5) {
+					self?.appeals.removeAll()
+					self?.isAllappealsDownloaded = false
+					self?.nextPage = 0
+					self?.view.loadingView.play()
+					self?.appealsListSubject?.onNext(())
+				}
+			}).disposed(by: disposeBag)
 	}
 
 	private func update(with appeals: [ClientAppeal]) {

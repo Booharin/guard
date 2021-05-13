@@ -80,10 +80,15 @@ class EditLawyerProfileViewController<modelType: EditLawyerProfileViewModel>:
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
-		navigationController?.isNavigationBarHidden = true
+		navigationController?.setNavigationBarHidden(true, animated: true)
 		self.navigationItem.setHidesBackButton(true, animated:false)
 
 		viewModel.updateIssuesContainerView()
+	}
+
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		self.navigationController?.isNavigationBarHidden = false
 	}
 
 	private func addViews() {

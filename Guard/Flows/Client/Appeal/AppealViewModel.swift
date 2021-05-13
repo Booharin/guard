@@ -38,6 +38,15 @@ final class AppealViewModel: ViewModel, HasDependencies {
 			}
 		}
 
+		// swipe to go back
+		view.view
+			.rx
+			.swipeGesture(.right)
+			.when(.recognized)
+			.subscribe(onNext: { [unowned self] _ in
+				self.view.navController?.popViewController(animated: true)
+			}).disposed(by: disposeBag)
+
 		// back button
 		view.backButtonView
 			.rx

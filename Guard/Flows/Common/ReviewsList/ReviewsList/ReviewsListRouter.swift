@@ -10,10 +10,12 @@ import RxSwift
 
 protocol ReviewsListRouterProtocol {
 	var toReviewSubject: PublishSubject<ReviewDetails> { get }
+	var reviewCreatedSubject: PublishSubject<Any> { get }
 }
 
 final class ReviewsListRouter: BaseRouter, ReviewsListRouterProtocol {
-	var toReviewSubject = PublishSubject<ReviewDetails>()
+	let toReviewSubject = PublishSubject<ReviewDetails>()
+	let reviewCreatedSubject = PublishSubject<Any>()
 	private var disposeBag = DisposeBag()
 
 	override init() {
@@ -32,7 +34,8 @@ final class ReviewsListRouter: BaseRouter, ReviewsListRouterProtocol {
 	}
 	
 	private func toReview(with details: ReviewDetails) {
-		let viewModel = ReviewDetailsViewModel(reviewDetails: details)
+		let viewModel = ReviewDetailsViewModel(reviewDetails: details,
+											   reviewCreatedSubject: self.reviewCreatedSubject)
 		let viewController = ReviewDetailsViewController(viewModel: viewModel)
 		viewController.hidesBottomBarWhenPushed = true
 

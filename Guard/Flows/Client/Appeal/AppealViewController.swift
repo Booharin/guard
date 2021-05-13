@@ -102,7 +102,7 @@ final class AppealViewController<modelType: AppealViewModel>:
 
 		view.addSubview(issueTypeView)
 		issueTypeView.snp.makeConstraints {
-			$0.top.equalToSuperview().offset(100)
+			$0.top.equalToSuperview().offset(10)
 			$0.leading.equalToSuperview().offset(20)
 			$0.trailing.equalToSuperview().offset(-20)
 		}
