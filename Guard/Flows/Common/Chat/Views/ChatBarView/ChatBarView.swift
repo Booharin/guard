@@ -85,7 +85,7 @@ final class ChatBarView: UIView, ChatBarViewProtocol {
 				guard
 					let text = self?.messageTextView.text,
 					!text.isEmpty else { return }
-				let height = text.height(withConstrainedWidth: UIScreen.main.bounds.width - 134, // 180
+				let height = text.height(withConstrainedWidth: UIScreen.main.bounds.width - 140, // 180
 										 font: SFUIDisplay.regular.of(size: 16))
 				guard height != self?.currentMessageViewHeight else { return }
 

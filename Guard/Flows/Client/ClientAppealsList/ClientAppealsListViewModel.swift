@@ -75,8 +75,9 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 				self?.view.loadingView.stop()
 				switch result {
 					case .success(let id):
-						guard let index = self?.appeals.firstIndex(where: { $0.id == id }) else { return }
-						self?.appeals.remove(at: index)
+						if let row = self?.appeals.firstIndex(where: { $0.id == id }) {
+							self?.appeals.remove(at: row)
+						}
 						let section = SectionModel<String, ClientAppeal>(model: "",
 																		 items: self?.appeals ?? [])
 						self?.dataSourceSubject?.onNext([section])

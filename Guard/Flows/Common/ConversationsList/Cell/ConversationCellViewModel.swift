@@ -95,11 +95,13 @@ final class ConversationCellViewModel:
 
 		view.dateLabel.font = SFUIDisplay.light.of(size: 10)
 		view.dateLabel.textColor = Colors.mainTextColor
-		view.dateLabel.text = Date.getCorrectDate(from: chatConversation.dateCreated, format: "dd.MM.yyyy")
+		view.dateLabel.text = Date.getCorrectDate(from: chatConversation.dateLastMessage ?? chatConversation.dateCreated,
+												  format: "dd.MM.yyyy")
 
 		view.timeLabel.font = SFUIDisplay.light.of(size: 10)
 		view.timeLabel.textColor = Colors.mainTextColor
-		view.timeLabel.text = Date.getCorrectDate(from: chatConversation.dateCreated, format: "HH:mm")
+		view.timeLabel.text = Date.getCorrectDate(from: chatConversation.dateLastMessage ?? chatConversation.dateCreated,
+												  format: "HH:mm")
 
 		lawyerImageSubject
 			.asObservable()

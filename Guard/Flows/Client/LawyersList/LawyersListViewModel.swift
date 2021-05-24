@@ -215,11 +215,12 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 			view.emptyLawyersLabel.isHidden = true
 		}
 
-		if self.view.tableView.contentSize.height + 100 < self.view.tableView.frame.height {
+		if self.view.tableView.contentSize.height + 200 < self.view.tableView.frame.height {
 			self.view.tableView.isScrollEnabled = false
 		} else {
 			self.view.tableView.isScrollEnabled = true
 		}
+
 
 		if lawyers.isEmpty {
 			isAllappealsDownloaded = true

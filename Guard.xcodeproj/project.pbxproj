@@ -36,6 +36,8 @@
 		521EA39325B5A76700B00413 /* ChangePasswordCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521EA39225B5A76700B00413 /* ChangePasswordCellViewModel.swift */; };
 		521EA39625B5D38600B00413 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521EA39525B5D38600B00413 /* ChangePasswordViewController.swift */; };
 		521EA39825B5D39700B00413 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521EA39725B5D39700B00413 /* ChangePasswordViewModel.swift */; };
+		5220E4DF265BAFB300FEBDD6 /* MyTrackerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5220E4DE265BAFB300FEBDD6 /* MyTrackerSDK.framework */; };
+		5220E4E0265BAFFE00FEBDD6 /* MyTrackerSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5220E4DE265BAFB300FEBDD6 /* MyTrackerSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5220ED2625B06D8400FDCEB9 /* ReviewObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5220ED2425B06D8400FDCEB9 /* ReviewObject+CoreDataClass.swift */; };
 		5220ED2725B06D8400FDCEB9 /* ReviewObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5220ED2525B06D8400FDCEB9 /* ReviewObject+CoreDataProperties.swift */; };
 		5220ED2A25B0755F00FDCEB9 /* ClientNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5220ED2925B0755F00FDCEB9 /* ClientNetworkService.swift */; };
@@ -171,7 +173,6 @@
 		52B1EE4125A46A2B0088B8AF /* Differentiator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5222B68724C7594C000BEE13 /* Differentiator.framework */; };
 		52B1EE4225A46A2B0088B8AF /* Differentiator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5222B68724C7594C000BEE13 /* Differentiator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52B1EE4325A46A2D0088B8AF /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52ADFD39256A5931008F98C4 /* KeychainSwift.framework */; };
-		52B1EE4425A46A2D0088B8AF /* KeychainSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52ADFD39256A5931008F98C4 /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52B1EE4525A46A2F0088B8AF /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 527E4D46258F53EC00744A40 /* Reachability.framework */; };
 		52B1EE4625A46A2F0088B8AF /* Reachability.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 527E4D46258F53EC00744A40 /* Reachability.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52B1EE4725A46A310088B8AF /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52EB81C824B9ECDF003285BC /* RxCocoa.framework */; };
@@ -250,11 +251,11 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		52B1EE4025A46A290088B8AF /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				52B1EE4425A46A2D0088B8AF /* KeychainSwift.framework in Embed Frameworks */,
+				5220E4E0265BAFFE00FEBDD6 /* MyTrackerSDK.framework in Embed Frameworks */,
 				52B1EE4225A46A2B0088B8AF /* Differentiator.framework in Embed Frameworks */,
 				52B1EE5025A46A390088B8AF /* RxSwift.framework in Embed Frameworks */,
 				52B1EE4C25A46A350088B8AF /* RxGesture.framework in Embed Frameworks */,
@@ -306,6 +307,7 @@
 		521EA39225B5A76700B00413 /* ChangePasswordCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordCellViewModel.swift; sourceTree = "<group>"; };
 		521EA39525B5D38600B00413 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		521EA39725B5D39700B00413 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
+		5220E4DE265BAFB300FEBDD6 /* MyTrackerSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MyTrackerSDK.framework; sourceTree = "<group>"; };
 		5220ED2425B06D8400FDCEB9 /* ReviewObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReviewObject+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5220ED2525B06D8400FDCEB9 /* ReviewObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReviewObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5220ED2925B0755F00FDCEB9 /* ClientNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientNetworkService.swift; sourceTree = "<group>"; };
@@ -514,6 +516,7 @@
 			files = (
 				52B1EE4125A46A2B0088B8AF /* Differentiator.framework in Frameworks */,
 				52B1EE4525A46A2F0088B8AF /* Reachability.framework in Frameworks */,
+				5220E4DF265BAFB300FEBDD6 /* MyTrackerSDK.framework in Frameworks */,
 				52B1EE4925A46A330088B8AF /* RxDataSources.framework in Frameworks */,
 				52B1EE4325A46A2D0088B8AF /* KeychainSwift.framework in Frameworks */,
 				52B1EE5325A46A3E0088B8AF /* Starscream.framework in Frameworks */,
@@ -641,6 +644,14 @@
 				521EA39725B5D39700B00413 /* ChangePasswordViewModel.swift */,
 			);
 			path = ChangePassword;
+			sourceTree = "<group>";
+		};
+		5220E4D5265BA53300FEBDD6 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				5220E4DE265BAFB300FEBDD6 /* MyTrackerSDK.framework */,
+			);
+			path = Libraries;
 			sourceTree = "<group>";
 		};
 		5220ED2825B06DA200FDCEB9 /* ReviewObject */ = {
@@ -932,6 +943,7 @@
 				52483BA824A278D30003A56A /* Core */,
 				52483BAB24A279340003A56A /* Flows */,
 				52483BAD24A279470003A56A /* Services */,
+				5220E4D5265BA53300FEBDD6 /* Libraries */,
 				5251AFAD24A2826C00467E84 /* Utils */,
 				5251AFAB24A2825000467E84 /* Common */,
 			);
@@ -2123,13 +2135,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Guard/Libraries",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Guard/Base.lproj/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2;
+				MARKETING_VERSION = 2.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ds.Guard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2151,13 +2164,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Guard/Libraries",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Guard/Base.lproj/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2;
+				MARKETING_VERSION = 2.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ds.Guard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
