@@ -27,4 +27,7 @@ enum Constants {
 		static let senderName = "senderName"
 		static let content = "content"
 	}
+	enum MyTracker {
+		static let sdkKey = "77074419708987656351"
+	}
 }

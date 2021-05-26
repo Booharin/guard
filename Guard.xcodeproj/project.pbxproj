@@ -36,8 +36,14 @@
 		521EA39325B5A76700B00413 /* ChangePasswordCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521EA39225B5A76700B00413 /* ChangePasswordCellViewModel.swift */; };
 		521EA39625B5D38600B00413 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521EA39525B5D38600B00413 /* ChangePasswordViewController.swift */; };
 		521EA39825B5D39700B00413 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521EA39725B5D39700B00413 /* ChangePasswordViewModel.swift */; };
-		5220E4DF265BAFB300FEBDD6 /* MyTrackerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5220E4DE265BAFB300FEBDD6 /* MyTrackerSDK.framework */; };
-		5220E4E0265BAFFE00FEBDD6 /* MyTrackerSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5220E4DE265BAFB300FEBDD6 /* MyTrackerSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5220E4E3265BC11800FEBDD6 /* MyTrackerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5220E4E2265BC11800FEBDD6 /* MyTrackerSDK.framework */; };
+		5220E4E8265BC90C00FEBDD6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5220E4E7265BC90C00FEBDD6 /* UIKit.framework */; };
+		5220E4EA265BC91900FEBDD6 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5220E4E9265BC91900FEBDD6 /* AdSupport.framework */; };
+		5220E4EC265BC92600FEBDD6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5220E4EB265BC92600FEBDD6 /* SystemConfiguration.framework */; };
+		5220E4EE265BC92D00FEBDD6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5220E4ED265BC92D00FEBDD6 /* CoreTelephony.framework */; };
+		5220E4F0265BC93500FEBDD6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5220E4EF265BC93500FEBDD6 /* CoreData.framework */; };
+		5220E4F2265BC93C00FEBDD6 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5220E4F1265BC93C00FEBDD6 /* iAd.framework */; };
+		5220E4F4265BC94500FEBDD6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5220E4F3265BC94500FEBDD6 /* StoreKit.framework */; };
 		5220ED2625B06D8400FDCEB9 /* ReviewObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5220ED2425B06D8400FDCEB9 /* ReviewObject+CoreDataClass.swift */; };
 		5220ED2725B06D8400FDCEB9 /* ReviewObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5220ED2525B06D8400FDCEB9 /* ReviewObject+CoreDataProperties.swift */; };
 		5220ED2A25B0755F00FDCEB9 /* ClientNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5220ED2925B0755F00FDCEB9 /* ClientNetworkService.swift */; };
@@ -255,7 +261,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5220E4E0265BAFFE00FEBDD6 /* MyTrackerSDK.framework in Embed Frameworks */,
 				52B1EE4225A46A2B0088B8AF /* Differentiator.framework in Embed Frameworks */,
 				52B1EE5025A46A390088B8AF /* RxSwift.framework in Embed Frameworks */,
 				52B1EE4C25A46A350088B8AF /* RxGesture.framework in Embed Frameworks */,
@@ -307,7 +312,15 @@
 		521EA39225B5A76700B00413 /* ChangePasswordCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordCellViewModel.swift; sourceTree = "<group>"; };
 		521EA39525B5D38600B00413 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		521EA39725B5D39700B00413 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
-		5220E4DE265BAFB300FEBDD6 /* MyTrackerSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MyTrackerSDK.framework; sourceTree = "<group>"; };
+		5220E4E2265BC11800FEBDD6 /* MyTrackerSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MyTrackerSDK.framework; sourceTree = "<group>"; };
+		5220E4E7265BC90C00FEBDD6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		5220E4E9265BC91900FEBDD6 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		5220E4EB265BC92600FEBDD6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		5220E4ED265BC92D00FEBDD6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		5220E4EF265BC93500FEBDD6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		5220E4F1265BC93C00FEBDD6 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		5220E4F3265BC94500FEBDD6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		5220E4F5265BC96B00FEBDD6 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		5220ED2425B06D8400FDCEB9 /* ReviewObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReviewObject+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5220ED2525B06D8400FDCEB9 /* ReviewObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReviewObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5220ED2925B0755F00FDCEB9 /* ClientNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientNetworkService.swift; sourceTree = "<group>"; };
@@ -515,15 +528,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				52B1EE4125A46A2B0088B8AF /* Differentiator.framework in Frameworks */,
+				5220E4F0265BC93500FEBDD6 /* CoreData.framework in Frameworks */,
 				52B1EE4525A46A2F0088B8AF /* Reachability.framework in Frameworks */,
-				5220E4DF265BAFB300FEBDD6 /* MyTrackerSDK.framework in Frameworks */,
+				5220E4E3265BC11800FEBDD6 /* MyTrackerSDK.framework in Frameworks */,
 				52B1EE4925A46A330088B8AF /* RxDataSources.framework in Frameworks */,
+				5220E4F2265BC93C00FEBDD6 /* iAd.framework in Frameworks */,
+				5220E4EE265BC92D00FEBDD6 /* CoreTelephony.framework in Frameworks */,
+				5220E4F4265BC94500FEBDD6 /* StoreKit.framework in Frameworks */,
 				52B1EE4325A46A2D0088B8AF /* KeychainSwift.framework in Frameworks */,
+				5220E4E8265BC90C00FEBDD6 /* UIKit.framework in Frameworks */,
+				5220E4EC265BC92600FEBDD6 /* SystemConfiguration.framework in Frameworks */,
 				52B1EE5325A46A3E0088B8AF /* Starscream.framework in Frameworks */,
 				5233F27D25D7FD000018748C /* Lottie.framework in Frameworks */,
 				52B1EE3E25A46A290088B8AF /* Alamofire.framework in Frameworks */,
 				52B1EE4F25A46A390088B8AF /* RxSwift.framework in Frameworks */,
 				52B1EE4725A46A310088B8AF /* RxCocoa.framework in Frameworks */,
+				5220E4EA265BC91900FEBDD6 /* AdSupport.framework in Frameworks */,
 				52B1EE4B25A46A350088B8AF /* RxGesture.framework in Frameworks */,
 				52B1EE4D25A46A370088B8AF /* RxRelay.framework in Frameworks */,
 				52B1EE5125A46A3C0088B8AF /* SnapKit.framework in Frameworks */,
@@ -649,7 +669,7 @@
 		5220E4D5265BA53300FEBDD6 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5220E4DE265BAFB300FEBDD6 /* MyTrackerSDK.framework */,
+				5220E4E2265BC11800FEBDD6 /* MyTrackerSDK.framework */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
@@ -1044,6 +1064,14 @@
 		5251AFA024A281F100467E84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5220E4F5265BC96B00FEBDD6 /* libz.tbd */,
+				5220E4F3265BC94500FEBDD6 /* StoreKit.framework */,
+				5220E4F1265BC93C00FEBDD6 /* iAd.framework */,
+				5220E4EF265BC93500FEBDD6 /* CoreData.framework */,
+				5220E4ED265BC92D00FEBDD6 /* CoreTelephony.framework */,
+				5220E4EB265BC92600FEBDD6 /* SystemConfiguration.framework */,
+				5220E4E9265BC91900FEBDD6 /* AdSupport.framework */,
+				5220E4E7265BC90C00FEBDD6 /* UIKit.framework */,
 				5233F27C25D7FD000018748C /* Lottie.framework */,
 				527E4D46258F53EC00744A40 /* Reachability.framework */,
 				52ADFD3C256A5959008F98C4 /* Starscream.framework */,
@@ -2000,6 +2028,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2055,6 +2084,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_WORKSPACE = YES;
@@ -2065,6 +2095,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2115,6 +2146,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
@@ -2136,16 +2168,19 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/Guard/Libraries",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Guard/Base.lproj/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.10;
+				MARKETING_VERSION = 2.11;
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ds.Guard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2165,16 +2200,19 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/Guard/Libraries",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Guard/Base.lproj/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.10;
+				MARKETING_VERSION = 2.11;
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ds.Guard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
