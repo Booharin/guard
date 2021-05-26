@@ -6,16 +6,18 @@
 //  Copyright © 2020 ds. All rights reserved.
 //
 
-struct ChatConversation: Codable {
+struct ChatConversation: Codable, Equatable {
 	let id: Int
 	let dateCreated: String
 	let userId: Int
+	var lawyerId: Int?
 	var lastMessage: String
 	let appealId: Int?
 	let userFirstName: String?
 	let userLastName: String?
 	let userPhoto: String?
 	let countNotReadMessage: Int?
+	let dateLastMessage: String?
 
 	var fullName: String {
 		guard

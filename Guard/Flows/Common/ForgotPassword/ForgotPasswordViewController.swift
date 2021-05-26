@@ -78,7 +78,14 @@ ForgotPasswordViewControllerProtocol where modelType.ViewType == ForgotPasswordV
 		view.addSubview(logoImageView)
 		logoImageView.snp.makeConstraints {
 			$0.width.height.equalTo(84)
-			$0.top.equalToSuperview().offset(81)
+
+			switch UIScreen.displayClass {
+			case .iPhone8:
+				$0.top.equalToSuperview().offset(5)
+			default:
+				$0.top.equalToSuperview().offset(41)
+			}
+
 			$0.centerX.equalToSuperview()
 		}
 		// logo title

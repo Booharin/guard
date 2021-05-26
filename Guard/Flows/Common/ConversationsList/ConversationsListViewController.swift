@@ -39,24 +39,24 @@ final class ConversationsListViewController<modelType: ConversationsListViewMode
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+
 		self.viewModel.assosiateView(self)
 		view.backgroundColor = Colors.whiteColor
 		addViews()
 	}
-	
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
 		navigationController?.isNavigationBarHidden = false
 		self.navigationItem.setHidesBackButton(true, animated:false)
 
-		viewModel.conversationsListSubject.onNext(())
+		viewModel.currentConversationsListUpdateSubject.onNext(())
 	}
-	
+
 	private func addViews() {
 		// table view
 		tableView.register(ConversationCell.self,
@@ -78,58 +78,15 @@ final class ConversationsListViewController<modelType: ConversationsListViewMode
 			$0.width.height.equalTo(300)
 		}
 	}
-	
+
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		return createHeaderView()
 	}
-	
+
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 		return 105
 	}
-	
-	func scrollViewWillEndDragging(_ scrollView: UIScrollView,
-								   withVelocity velocity: CGPoint,
-								   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-		
-		if(velocity.y > 0) {
-			// add gradient view
-			gradientView = createGradentView()
-			guard let gradientView = gradientView else { return }
-			view.addSubview(gradientView)
-			gradientView.snp.makeConstraints {
-				$0.top.leading.trailing.equalToSuperview()
-				$0.height.equalTo(50)
-			}
-			// hide nav bar
-			UIView.animate(withDuration: 0.3, animations: {
-				self.navigationController?.setNavigationBarHidden(true, animated: true)
-			})
-		} else {
-			// remove gradient view
-			gradientView?.removeFromSuperview()
-			gradientView = nil
-			// remove nav bar
-			UIView.animate(withDuration: 0.3, animations: {
-				self.navigationController?.setNavigationBarHidden(false, animated: true)
-			})
-		}
-	}
-	
-	private func createGradentView() -> UIView {
-		let gradientLAyer = CAGradientLayer()
-		gradientLAyer.colors = [
-			Colors.whiteColor.cgColor,
-			Colors.whiteColor.withAlphaComponent(0).cgColor
-		]
-		gradientLAyer.locations = [0.0, 1.0]
-		gradientLAyer.frame = CGRect(x: 0,
-									 y: 0,
-									 width: UIScreen.main.bounds.width, height: 50)
-		let view = UIView()
-		view.layer.insertSublayer(gradientLAyer, at: 0)
-		return view
-	}
-	
+
 	private func createHeaderView() -> UIView {
 		let headerView = UIView()
 		headerView.snp.makeConstraints {

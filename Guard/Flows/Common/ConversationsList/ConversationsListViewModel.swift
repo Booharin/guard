@@ -15,7 +15,8 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 	let router: ConversationsListRouterProtocol
 	private var conversations = [ChatConversation]()
 
-    let conversationsListSubject = PublishSubject<Any>()
+	let conversationsListSubject = PublishSubject<Any>()
+	let currentConversationsListUpdateSubject = PublishSubject<Any>()
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ChatConversation>]>?
 	var toChatWithLawyer: PublishSubject<ChatConversation>?
 
@@ -56,6 +57,32 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 
 				switch result {
 					case .success(let conversations):
+						self?.update(with: conversations)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		currentConversationsListUpdateSubject
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.getConversations(with: currentProfile?.id ?? 0,
+									  isLawyer: currentProfile?.userRole == .lawyer ? true : false,
+									  page: 0,
+									  pageSize: self.pageSize)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				if let view = self?.view {
+					view.loadingView.stop()
+				}
+
+				switch result {
+					case .success(let conversations):
+						self?.conversations.removeAll()
+						self?.nextPage = 0
 						self?.update(with: conversations)
 					case .failure(let error):
 						//TODO: - обработать ошибку
@@ -170,14 +197,26 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [weak self] chatConversation in
 				if let row = self?.conversations.firstIndex(where: { $0.id == chatConversation.id }) {
 					self?.conversations[row] = chatConversation
+				} else {
+					self?.currentConversationsListUpdateSubject.onNext(())
 				}
 			}).disposed(by: disposeBag)
 	}
 
 	private func update(with conversations: [ChatConversation]) {
-		self.conversations.append(contentsOf: conversations.sorted {
-			$0.dateCreated < $1.dateCreated
-		})
+		self.conversations.append(
+			contentsOf:
+				conversations
+				.filter {
+					!self.conversations.contains($0)
+				}
+				.sorted {
+					$0.dateLastMessage ?? "" > $1.dateLastMessage ?? ""
+				}
+				.sorted {
+					$0.countNotReadMessage ?? 0 > $1.countNotReadMessage ?? 0
+				}
+		)
 		let section = SectionModel<String, ChatConversation>(model: "",
 															 items: self.conversations)
 		dataSourceSubject?.onNext([section])
@@ -190,13 +229,12 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 			}
 		}
 
-		if conversations.isEmpty {
+		if conversations.count < pageSize {
 			isAllappealsDownloaded = true
 		} else {
+			nextPage += 1
 			isAllappealsDownloaded = false
 		}
-
-		nextPage += 1
 
 		updateNotReadCount()
 	}
@@ -222,7 +260,7 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 	}
 
 	@objc private func updateConversations() {
-		conversationsListSubject.onNext(())
+		currentConversationsListUpdateSubject.onNext(())
 	}
 
 	func removeBindings() {}

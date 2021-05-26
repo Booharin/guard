@@ -253,6 +253,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 					print(error.localizedDescription)
 				}
 				self.messagesListSubject?.onNext(())
+				self.updateConversationSubject.onNext(self.chatConversation)
 			}).disposed(by: disposeBag)
 
 		messagesListSubject = PublishSubject<Any>()
@@ -305,27 +306,16 @@ final class ChatViewModel: ViewModel, HasDependencies {
 					.createConversation(lawyerId: self.chatConversation.userId,
 										clientId: currentProfile?.id ?? 0)
 			}
-			.flatMap { [unowned self] _ in
-				self.di.chatNetworkService
-					.getConversations(with: currentProfile?.id ?? 0,
-									  isLawyer: false,
-									  page: 0,
-									  pageSize: 1000)
-			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stop()
 				switch result {
-					case .success(let conversations):
-						conversations.forEach { chat in
-							if chat.userId == self?.chatConversation.userId {
-								self?.chatConversation = chat
-								self?.sendMessage(with: self?.messageForSending ?? "")
-							}
-						}
-					case .failure(let error):
-						//TODO: - обработать ошибку
-						print(error.localizedDescription)
+				case .success(let conversation):
+					self?.chatConversation = conversation
+					self?.sendMessage(with: self?.messageForSending ?? "")
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
 
@@ -341,25 +331,13 @@ final class ChatViewModel: ViewModel, HasDependencies {
 												clientId: self.chatConversation.userId,
 												appealId: self.chatConversation.appealId ?? 0)
 			}
-			.flatMap { [unowned self] _ in
-				self.di.chatNetworkService
-					.getConversations(with: currentProfile?.id ?? 0,
-									  isLawyer: true,
-									  page: 0,
-									  pageSize: 1000)
-			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stop()
 				switch result {
-				case .success(let conversations):
-					conversations.forEach { chat in
-						// update conversation after saving
-						if chat.userId == self?.chatConversation.userId {
-							self?.chatConversation = chat
-							self?.sendMessage(with: self?.messageForSending ?? "")
-						}
-					}
+				case .success(let conversation):
+					self?.chatConversation = conversation
+					self?.sendMessage(with: self?.messageForSending ?? "")
 				case .failure(let error):
 					//TODO: - обработать ошибку
 					print(error.localizedDescription)

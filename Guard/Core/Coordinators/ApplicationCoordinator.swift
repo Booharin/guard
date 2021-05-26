@@ -15,6 +15,7 @@ final class ApplicationCoordinator: BaseCoordinator, HasDependencies {
 		HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
 	private var disposeBag = DisposeBag()
+	private var isAlreadyPassedtToAuth = false
 	
 	override init() {
 		super.init()
@@ -46,12 +47,19 @@ final class ApplicationCoordinator: BaseCoordinator, HasDependencies {
 	}
 
 	@objc private func toAuth() {
+		guard isAlreadyPassedtToAuth == false else { return }
+		isAlreadyPassedtToAuth = true
+
 		let coordinator = AuthCoordinator()
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)
 		}
 		addDependency(coordinator)
 		coordinator.start()
+
+		DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+			self.isAlreadyPassedtToAuth = false
+		}
 	}
 
 	private func getCommonData() {

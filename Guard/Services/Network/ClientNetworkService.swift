@@ -89,22 +89,40 @@ final class ClientNetworkService: ClientNetworkServiceInterface {
 	func editPhoto(imageData: Data?,
 				   profileId: Int) -> Observable<Result<Any, AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
+			let baseUrlString = EnvironmentImp().baseUrl.description
+			guard
+				let data = imageData,
+				let image = UIImage(data: data),
+				let jpegData = image.jpegData(compressionQuality: 0.5) else {
+				return Disposables.create(with: {
+					AF.request(baseUrlString).cancel()
+				}) }
+
+			var imgData = Data(jpegData)
+
+			let kbImageSize = Double(imgData.count) / 1000.0
+			if kbImageSize >= 1000 {
+				guard let jpegData = image.jpegData(compressionQuality: 0.25) else {
+					return Disposables.create(with: {
+						AF.request(baseUrlString).cancel()
+					})}
+				imgData = Data(jpegData)
+			}
+
 			let headers: HTTPHeaders = [
 				"Content-Type": "multipart/form-data",
 				"Authorization": "Bearer_\(self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token)!)"
 			]
-			let baseUrlString = EnvironmentImp().baseUrl.description
+
 			let urlString = "\(baseUrlString)users/\(profileId)/image/upload"
-			guard
-				let imageData = imageData,
-				let url = URL(string: urlString) else {
+			guard let url = URL(string: urlString) else {
 				return Disposables.create(with: {
 					AF.request(baseUrlString).cancel()
 				})
 			}
 			let requestReference =
 				AF.upload(multipartFormData:{ multipartFormData in
-							multipartFormData.append(imageData,
+							multipartFormData.append(imgData,
 													 withName: "file",
 													 fileName: "\(profileId)_profile_image.jpeg",
 													 mimeType: "image/jpeg")},
@@ -117,7 +135,7 @@ final class ClientNetworkService: ClientNetworkServiceInterface {
 					print(response)
 					#endif
 					if response.data == nil {
-						self.di.localStorageService.saveImage(data: imageData,
+						self.di.localStorageService.saveImage(data: imgData,
 															  name: "\(profileId)_profile_image.jpeg")
 						observer.onNext(.success(()))
 					} else {
