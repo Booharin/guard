@@ -61,8 +61,10 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
+
 		navigationController?.isNavigationBarHidden = false
+		gradientView?.removeFromSuperview()
+		gradientView = nil
 		self.navigationItem.setHidesBackButton(true, animated:false)
 	}
 
@@ -136,17 +138,20 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 								   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 
 		if(velocity.y > 0) {
-			// add gradient view
-			gradientView = createGradentView()
-			guard let gradientView = gradientView else { return }
-			view.addSubview(gradientView)
-			gradientView.snp.makeConstraints {
-				$0.top.leading.trailing.equalToSuperview()
-				$0.height.equalTo(50)
-			}
 			// hide nav bar
 			UIView.animate(withDuration: 0.3, animations: {
 				self.navigationController?.setNavigationBarHidden(true, animated: true)
+			}, completion: { [self] _ in
+				// add gradient view
+				if self.gradientView == nil {
+					self.gradientView = self.createGradentView()
+					guard let gradientView = self.gradientView else { return }
+					view.addSubview(gradientView)
+					gradientView.snp.makeConstraints {
+						$0.top.leading.trailing.equalToSuperview()
+						$0.height.equalTo(50)
+					}
+				}
 			})
 		} else {
 			// remove gradient view
@@ -173,7 +178,7 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 		view.layer.insertSublayer(gradientLAyer, at: 0)
 		return view
 	}
-	
+
 	// MARK: - Show cities action sheet
 	func showActionSheet(with cities: [String]) {
 		let alertController = UIAlertController(title: nil,

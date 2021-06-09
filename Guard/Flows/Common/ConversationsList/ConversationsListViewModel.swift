@@ -210,13 +210,19 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 				.filter {
 					!self.conversations.contains($0)
 				}
-				.sorted {
-					$0.dateLastMessage ?? "" > $1.dateLastMessage ?? ""
-				}
-				.sorted {
-					$0.countNotReadMessage ?? 0 > $1.countNotReadMessage ?? 0
-				}
 		)
+
+		self.conversations = self.conversations
+			.sorted {
+				$0.dateCreated > $1.dateCreated
+			}
+			.sorted {
+				$0.dateLastMessage ?? "" > $1.dateLastMessage ?? $1.dateCreated
+			}
+			.sorted {
+				$0.countNotReadMessage ?? 0 > $1.countNotReadMessage ?? 0
+			}
+
 		let section = SectionModel<String, ChatConversation>(model: "",
 															 items: self.conversations)
 		dataSourceSubject?.onNext([section])

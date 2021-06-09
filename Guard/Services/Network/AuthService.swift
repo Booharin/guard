@@ -9,6 +9,7 @@
 import Alamofire
 import RxSwift
 import KeychainSwift
+import MyTrackerSDK
 
 protocol HasAuthService {
 	var authService: AuthServiceInterface { get set }
@@ -89,6 +90,7 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 							self.di.localStorageService.saveReviews(reviews)
 						}
 						UserDefaults.standard.set(true, forKey: Constants.UserDefaultsKeys.isLogin)
+						MRMyTracker.trackerParams().customUserId = String(user.id)
 
 						observer.onNext(.success(user.userRole))
 						observer.onCompleted()

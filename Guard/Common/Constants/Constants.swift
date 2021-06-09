@@ -11,6 +11,7 @@ enum Constants {
 		static let isLogin = "isLogin"
 		static let selectedIssues = "selected_issues"
 		static let notReadCount = "not_read_count"
+		static let userId = "user_id"
 	}
 	enum KeyChainKeys {
 		static let token = "network_token"
@@ -29,5 +30,9 @@ enum Constants {
 	}
 	enum MyTracker {
 		static let sdkKey = "77074419708987656351"
+
+		enum Events {
+			static let userSentMessageFirstTime = "user_sent_message_first_time"
+		}
 	}
 }
