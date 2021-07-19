@@ -35,4 +35,11 @@ enum Constants {
 			static let userSentMessageFirstTime = "user_sent_message_first_time"
 		}
 	}
+	enum Facebook {
+
+		enum Events {
+			static let userRegisterd = "user_registerd"
+			static let userSentMessageFirstTime = "user_sent_message_first_time"
+		}
+	}
 }
