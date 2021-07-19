@@ -9,6 +9,7 @@
 import RxSwift
 import RxCocoa
 import UIKit
+import Alamofire
 
 final class LawyerCellViewModel:
 	ViewModel,

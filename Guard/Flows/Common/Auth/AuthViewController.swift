@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol AuthViewControllerProtocol: class, ViewControllerProtocol {
+protocol AuthViewControllerProtocol: AnyObject, ViewControllerProtocol {
 	
 	var logoImageView: UIImageView { get }
 	var logoTitleLabel: UILabel { get }

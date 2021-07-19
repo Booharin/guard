@@ -229,7 +229,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 					"senderName": self.di.localStorageService.getCurrenClientProfile()?.firstName ?? "Name",
 					"content": "test content",
 					"senderId": self.di.localStorageService.getCurrenClientProfile()?.id ?? 0,
-					"fileName": "test.file",
+					"fileName": "test.jpg",
 					"fileBase64": strBase64
 				]
 				do {
@@ -243,9 +243,9 @@ final class ChatViewModel: ViewModel, HasDependencies {
 						"""
 
 					self.di.socketStompService.sendMessage(with: jSONText,
-															to: path,
-															receiptId: "",
-															headers: ["content-type": "application/json"])
+														   to: path,
+														   receiptId: "",
+														   headers: ["content-type": "application/json"])
 					self.imageForSending = nil
 					self.messagesListSubject?.onNext(())
 					self.chatConversation.updateLastMessage(with: "chat.file".localized)

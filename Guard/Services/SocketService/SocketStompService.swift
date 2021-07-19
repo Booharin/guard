@@ -8,6 +8,8 @@
 
 import Foundation
 import RxSwift
+import MyTrackerSDK
+import FBSDKCoreKit
 
 protocol HasSocketStompService {
 	var socketStompService: SocketStompServiceInterface { get set }
@@ -40,6 +42,7 @@ final class SocketStompService: SocketStompServiceInterface, HasDependencies {
 		HasLocalStorageService
 	lazy var di: Dependencies = DI.dependencies
 	var incomingMessageSubject = PublishSubject<Any>()
+	private var isPingEnabled = false
 
 	init(environment: Environment) {
 		self.environment = environment
@@ -52,11 +55,16 @@ final class SocketStompService: SocketStompServiceInterface, HasDependencies {
 
 	func connectSocketStomp() {
 		socketStomp.connect(autoReconnect: true)
-		checkSocketConnection()
+		if isPingEnabled == false {
+			checkSocketConnection()
+			isPingEnabled = true
+		}
 		//checkForInternetConnection()
 	}
 
 	func disconnect() {
+		guard let profile = di.localStorageService.getCurrenClientProfile() else { return }
+		unsubscribe(from: "/topic/\(profile.id)")
 		socketStomp.disconnect()
 	}
 
@@ -64,6 +72,8 @@ final class SocketStompService: SocketStompServiceInterface, HasDependencies {
 					 to: String,
 					 receiptId: String?,
 					 headers: [String: String]?) {
+
+		trackSendMessageFirstTime()
 
 		socketStomp.send(body: text,
 						 to: to,
@@ -131,9 +141,6 @@ extension SocketStompService: SwiftStompDelegate {
 		} else if disconnectType == .fromStomp {
 			print("Client disconnected from stomp but socket is still connected!")
 		}
-//		DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-//			self.socketStomp.connect(autoReconnect: true)
-//		}
 	}
 
 	func onMessageReceived(swiftStomp: SwiftStomp,
@@ -197,6 +204,24 @@ extension SocketStompService: SwiftStompDelegate {
 			return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 		} catch {
 			return nil
+		}
+	}
+
+	private func trackSendMessageFirstTime() {
+		let id = UserDefaults.standard.integer(forKey: Constants.UserDefaultsKeys.userId)
+
+		if id == 0 || id != di.localStorageService.getCurrenClientProfile()?.id {
+			let parameters = [
+				"userId": String(id),
+				"isLayer": di.localStorageService.getCurrenClientProfile()?.userRole == .lawyer ? "YES" : "NO",
+			]
+			MRMyTracker.trackEvent(withName: Constants.MyTracker.Events.userSentMessageFirstTime,
+								   eventParams: parameters)
+			AppEvents.logEvent(.init(Constants.Facebook.Events.userSentMessageFirstTime),
+							   parameters: parameters)
+
+			UserDefaults.standard.setValue(di.localStorageService.getCurrenClientProfile()?.id,
+										   forKey: Constants.UserDefaultsKeys.userId)
 		}
 	}
 }

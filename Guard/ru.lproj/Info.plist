@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Ваши данные будут использоваться для показа вам персонализированной рекламы</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Чтобы установить изображение для профиля</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -62,5 +64,18 @@
 	<false/>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb315076093586913</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>315076093586913</string>
+	<key>FacebookDisplayName</key>
+	<string>Guard</string>
 </dict>
 </plist>
