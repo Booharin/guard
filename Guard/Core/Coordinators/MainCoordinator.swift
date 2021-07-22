@@ -72,8 +72,7 @@ final class MainCoordinator: BaseCoordinator {
 		toAuthSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { _ in
-				self.toAuth()
-				//self.onFinishFlow?()
+				self.toChoose()
 			})
 			.disposed(by: disposeBag)
 
@@ -97,8 +96,7 @@ final class MainCoordinator: BaseCoordinator {
 		toAuthSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { _ in
-				self.toAuth()
-				//self.onFinishFlow?()
+				self.toChoose()
 			})
 			.disposed(by: disposeBag)
 
@@ -114,8 +112,8 @@ final class MainCoordinator: BaseCoordinator {
 		]
 	}
 
-	private func toAuth() {
-		let coordinator = AuthCoordinator()
+	private func toChoose() {
+		let coordinator = ChooseCoordinator()
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)
 		}

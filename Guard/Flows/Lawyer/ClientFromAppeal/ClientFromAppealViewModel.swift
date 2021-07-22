@@ -234,7 +234,9 @@ final class ClientFromAppealViewModel: ViewModel, HasDependencies {
 		view.emailLabel.textAlignment = .center
 		view.emailLabel.textColor = Colors.mainTextColor
 		view.emailLabel.font = SFUIDisplay.regular.of(size: 15)
-		view.emailLabel.text = clientProfile.email
+		if clientProfile.isAnonymus == false {
+			view.emailLabel.text = clientProfile.email
+		}
 		// phone label
 		view.phoneLabel.textAlignment = .center
 		view.phoneLabel.textColor = Colors.mainTextColor

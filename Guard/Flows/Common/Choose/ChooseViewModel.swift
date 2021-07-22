@@ -9,11 +9,29 @@
 import RxSwift
 import RxCocoa
 import RxGesture
+import MyTrackerSDK
+import FBSDKCoreKit
+import Alamofire
 
-final class ChooseViewModel: ViewModel {
+final class ChooseViewModel:
+	ViewModel,
+	HasDependencies {
+
+	typealias Dependencies =
+		HasRegistrationService &
+		HasKeyChainService &
+		HasAuthService &
+		HasLocalStorageService
+	lazy var di: Dependencies = DI.dependencies
+
 	var view: ChooseViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
+	let router: ChooseRouter
+
+	init(router: ChooseRouter) {
+		self.router = router
+	}
 
 	func viewDidSet() {
 		// title
@@ -37,7 +55,7 @@ final class ChooseViewModel: ViewModel {
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.view.toRegistration?(.lawyer)
+				self.router.toRegistration?(.lawyer)
 			}).disposed(by: disposeBag)
 
 		// lawyer title
@@ -57,6 +75,8 @@ final class ChooseViewModel: ViewModel {
 			.tapGesture()
 			.when(.recognized)
 			.do(onNext: { [unowned self] _ in
+				self.view.loadingView.play()
+
 				UIView.animate(withDuration: self.animationDuration, animations: {
 					self.view.clientEnterView.alpha = 0.5
 				}, completion: { _ in
@@ -65,8 +85,45 @@ final class ChooseViewModel: ViewModel {
 					})
 				})
 			})
-			.subscribe(onNext: { [unowned self] _ in
-				self.view.toRegistration?(.client)
+			.flatMap ({ _ -> Observable<Result<Any, AFError>> in
+				if self.di.keyChainService.getValue(for: Constants.KeyChainKeys.clientId) == nil {
+					return self.di.registrationService.anonimusSignUp()
+				} else {
+					return self.di.authService.signInById(
+						with: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.clientId) ?? ""
+					)
+				}
+			})
+			.filter { result in
+				switch result {
+				case .success:
+					return true
+				case .failure:
+					self.view.loadingView.stop()
+					return false
+				}
+			}
+			.map { _ in }
+			.flatMap {
+				self.di.authService.signInById(
+					with: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.clientId) ?? ""
+				)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stop()
+
+				let id = "\(self?.di.localStorageService.getCurrenClientProfile()?.id ?? 0)"
+				MRMyTracker.trackRegistrationEvent(id)
+				AppEvents.logEvent(.completedRegistration)
+
+				switch result {
+				case .success:
+					self?.router.toMainWithClient?()
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
 			}).disposed(by: disposeBag)
 
 		// lawyer title

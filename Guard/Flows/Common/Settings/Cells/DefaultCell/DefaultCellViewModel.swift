@@ -1,8 +1,8 @@
 //
-//  ChangePasswordCellViewModel.swift
+//  DefaultCellViewModel.swift
 //  Guard
 //
-//  Created by Alexandr Bukharin on 18.01.2021.
+//  Created by Alexandr Bukharin on 21.07.2021.
 //  Copyright © 2021 ds. All rights reserved.
 //
 
@@ -10,18 +10,21 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-struct ChangePasswordCellViewModel: ViewModel {
-	var view: ChangePasswordCellProtocol!
-	let animateDuration = 0.15
-	let changePasswordSubject: PublishSubject<Any>
+struct DefaultCellViewModel: ViewModel {
+	var view: DefaultCellProtocol!
+	private let animateDuration = 0.15
+	private let title: String
+	private let actionSubject: PublishSubject<Any>
 	private var disposeBag = DisposeBag()
 
-	init(changePasswordSubject: PublishSubject<Any>) {
-		self.changePasswordSubject = changePasswordSubject
+	init(title: String,
+		 actionSubject: PublishSubject<Any>) {
+		self.title = title
+		self.actionSubject = actionSubject
 	}
 
 	func viewDidSet() {
-		view.titleLabel.text = "settings.change_password.title".localized
+		view.titleLabel.text = title
 		view.titleLabel.font = SFUIDisplay.regular.of(size: 16)
 		view.titleLabel.textColor = Colors.mainTextColor
 		
@@ -40,7 +43,7 @@ struct ChangePasswordCellViewModel: ViewModel {
 						self.view.containerView.backgroundColor = .clear
 					})
 				})
-				self.changePasswordSubject.onNext(())
+				self.actionSubject.onNext(())
 			}).disposed(by: disposeBag)
 
 		view.separatorView.backgroundColor = Colors.separatorColor

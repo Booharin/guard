@@ -63,6 +63,22 @@ struct AuthNetworkRouter {
 								  newPassword: newPassword)
 		}
 	}
+
+	func signInById(id: String,
+					deviceToken: String) -> URLRequestConvertible {
+		do {
+			return try SignInWithId(environment: environment,
+									id: id,
+									deviceToken: deviceToken).asJSONURLRequest()
+		} catch {
+			#if DEBUG
+			print("Error JSON URLRequest", error)
+			#endif
+			return  SignInWithId(environment: environment,
+								 id: id,
+								 deviceToken: deviceToken)
+		}
+	}
 }
 
 extension AuthNetworkRouter {
@@ -152,6 +168,35 @@ extension AuthNetworkRouter {
 				"id": id,
 				"oldPassword": oldPassword,
 				"newPassword": newPassword
+			]
+		}
+	}
+
+	private struct SignInWithId: RequestRouter {
+
+		let environment: Environment
+
+		let id: String
+		let deviceToken: String
+
+		init(environment: Environment,
+			 id: String,
+			 deviceToken: String) {
+			self.environment = environment
+			self.id = id
+			self.deviceToken = deviceToken
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .post
+		var path = ApiMethods.loginWithId
+		var parameters: Parameters {
+			return [
+				"userId": id,
+				"tokenDevice": deviceToken
 			]
 		}
 	}

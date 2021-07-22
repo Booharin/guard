@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		520A92D626A7E21A0038108F /* DefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520A92D526A7E21A0038108F /* DefaultCell.swift */; };
+		520A92D826A7E2310038108F /* DefaultCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520A92D726A7E2310038108F /* DefaultCellViewModel.swift */; };
+		520A92DA26A7F74C0038108F /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520A92D926A7F74C0038108F /* LaunchViewController.swift */; };
+		520A92DC26A7F8800038108F /* LaunchLoading.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 520A92DB26A7F8800038108F /* LaunchLoading.storyboard */; };
 		521016DB2581426D002A696E /* AppealsNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521016DA2581426D002A696E /* AppealsNetworkService.swift */; };
 		521016DD258143BF002A696E /* AppealsNetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521016DC258143BF002A696E /* AppealsNetworkRouter.swift */; };
 		521016E725820F55002A696E /* LawyersListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521016E625820F55002A696E /* LawyersListRouter.swift */; };
@@ -19,6 +23,7 @@
 		5210838625C1BF3300CFA016 /* LawyerFromListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210838525C1BF3300CFA016 /* LawyerFromListRouter.swift */; };
 		5210838825C1BF5700CFA016 /* LawyerFromListModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210838725C1BF5700CFA016 /* LawyerFromListModuleFactory.swift */; };
 		5211B9E824BEE0B000D4FA5E /* ChooseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */; };
+		5212680A26A615C100BFBB31 /* ChooseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5212680926A615C100BFBB31 /* ChooseRouter.swift */; };
 		521681C7251E5A58007B4F6A /* SettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521681C6251E5A58007B4F6A /* SettingsDataSource.swift */; };
 		521E649924F8433D00FF96ED /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 521E649B24F8433D00FF96ED /* Localizable.strings */; };
 		521E64AA24F8480600FF96ED /* sf-ui-display-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 521E64A924F8480600FF96ED /* sf-ui-display-regular.ttf */; };
@@ -213,12 +218,12 @@
 		52B278CA24C0964F001E7295 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B278C924C0964F001E7295 /* LocationService.swift */; };
 		52B5042925AEE0C200C2D0E3 /* ChatNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B5042825AEE0C200C2D0E3 /* ChatNetworkService.swift */; };
 		52B5042B25AEE30E00C2D0E3 /* ChatNetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B5042A25AEE30E00C2D0E3 /* ChatNetworkRouter.swift */; };
+		52B565C326AA08EA006A449B /* UserProfileObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B565C126AA08EA006A449B /* UserProfileObject+CoreDataClass.swift */; };
+		52B565C426AA08EA006A449B /* UserProfileObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B565C226AA08EA006A449B /* UserProfileObject+CoreDataProperties.swift */; };
 		52B588D82670D3DB0046EC48 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B588D62670D3CD0046EC48 /* FBAudienceNetwork.framework */; };
 		52B588D92670D3DB0046EC48 /* FBAudienceNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52B588D62670D3CD0046EC48 /* FBAudienceNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52B654B4251B303F003D2465 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B654B3251B303F003D2465 /* SettingsViewController.swift */; };
 		52B654B6251B3063003D2465 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B654B5251B3063003D2465 /* SettingsViewModel.swift */; };
-		52B8A7532610AD790080D750 /* UserProfileObject+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B8A7512610AD790080D750 /* UserProfileObject+CoreDataClass.swift */; };
-		52B8A7542610AD790080D750 /* UserProfileObject+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B8A7522610AD790080D750 /* UserProfileObject+CoreDataProperties.swift */; };
 		52BCC3AD25C17DB30020F9F3 /* ReviewDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BCC3AC25C17DB30020F9F3 /* ReviewDetailsViewController.swift */; };
 		52BCC3B125C17DF60020F9F3 /* ReviewDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BCC3B025C17DF60020F9F3 /* ReviewDetailsViewModel.swift */; };
 		52BCC3B425C182E40020F9F3 /* StarsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BCC3B325C182E40020F9F3 /* StarsStackView.swift */; };
@@ -283,6 +288,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		520A92D526A7E21A0038108F /* DefaultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCell.swift; sourceTree = "<group>"; };
+		520A92D726A7E2310038108F /* DefaultCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCellViewModel.swift; sourceTree = "<group>"; };
+		520A92D926A7F74C0038108F /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		520A92DB26A7F8800038108F /* LaunchLoading.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchLoading.storyboard; sourceTree = "<group>"; };
 		521016DA2581426D002A696E /* AppealsNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealsNetworkService.swift; sourceTree = "<group>"; };
 		521016DC258143BF002A696E /* AppealsNetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppealsNetworkRouter.swift; sourceTree = "<group>"; };
 		521016E625820F55002A696E /* LawyersListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyersListRouter.swift; sourceTree = "<group>"; };
@@ -295,6 +304,7 @@
 		5210838525C1BF3300CFA016 /* LawyerFromListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerFromListRouter.swift; sourceTree = "<group>"; };
 		5210838725C1BF5700CFA016 /* LawyerFromListModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LawyerFromListModuleFactory.swift; sourceTree = "<group>"; };
 		5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseViewModel.swift; sourceTree = "<group>"; };
+		5212680926A615C100BFBB31 /* ChooseRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseRouter.swift; sourceTree = "<group>"; };
 		521681C6251E5A58007B4F6A /* SettingsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDataSource.swift; sourceTree = "<group>"; };
 		521E649A24F8433D00FF96ED /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		521E649C24F8434100FF96ED /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -480,11 +490,11 @@
 		52B278C924C0964F001E7295 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		52B5042825AEE0C200C2D0E3 /* ChatNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNetworkService.swift; sourceTree = "<group>"; };
 		52B5042A25AEE30E00C2D0E3 /* ChatNetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNetworkRouter.swift; sourceTree = "<group>"; };
+		52B565C126AA08EA006A449B /* UserProfileObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataClass.swift"; sourceTree = "<group>"; };
+		52B565C226AA08EA006A449B /* UserProfileObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52B588D62670D3CD0046EC48 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		52B654B3251B303F003D2465 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		52B654B5251B3063003D2465 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
-		52B8A7512610AD790080D750 /* UserProfileObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataClass.swift"; sourceTree = "<group>"; };
-		52B8A7522610AD790080D750 /* UserProfileObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProfileObject+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52BCC3AC25C17DB30020F9F3 /* ReviewDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailsViewController.swift; sourceTree = "<group>"; };
 		52BCC3B025C17DF60020F9F3 /* ReviewDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailsViewModel.swift; sourceTree = "<group>"; };
 		52BCC3B325C182E40020F9F3 /* StarsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarsStackView.swift; sourceTree = "<group>"; };
@@ -560,6 +570,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		520A92D426A7E1C00038108F /* DefaultCell */ = {
+			isa = PBXGroup;
+			children = (
+				520A92D526A7E21A0038108F /* DefaultCell.swift */,
+				520A92D726A7E2310038108F /* DefaultCellViewModel.swift */,
+			);
+			path = DefaultCell;
+			sourceTree = "<group>";
+		};
 		5210399524C4D612004560FD /* SelectIssue */ = {
 			isa = PBXGroup;
 			children = (
@@ -832,6 +851,7 @@
 		523AEAEF251E462100F1E607 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				520A92D426A7E1C00038108F /* DefaultCell */,
 				521EA38F25B5A5E500B00413 /* ChangePassword */,
 				52A4258225221D5500E2FE7B /* HeaderCell */,
 				523AEAF5251E4C6800F1E607 /* Switcher */,
@@ -1036,6 +1056,8 @@
 			isa = PBXGroup;
 			children = (
 				521E64C324F8FB6A00FF96ED /* LaunchScreen.storyboard */,
+				520A92D926A7F74C0038108F /* LaunchViewController.swift */,
+				520A92DB26A7F8800038108F /* LaunchLoading.storyboard */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -1197,6 +1219,7 @@
 			children = (
 				5253753224B84D5200CC729C /* ChooseViewController.swift */,
 				5211B9E724BEE0B000D4FA5E /* ChooseViewModel.swift */,
+				5212680926A615C100BFBB31 /* ChooseRouter.swift */,
 			);
 			path = Choose;
 			sourceTree = "<group>";
@@ -1389,8 +1412,8 @@
 		52A00F74256590670099D961 /* UserProfileObject */ = {
 			isa = PBXGroup;
 			children = (
-				52B8A7512610AD790080D750 /* UserProfileObject+CoreDataClass.swift */,
-				52B8A7522610AD790080D750 /* UserProfileObject+CoreDataProperties.swift */,
+				52B565C126AA08EA006A449B /* UserProfileObject+CoreDataClass.swift */,
+				52B565C226AA08EA006A449B /* UserProfileObject+CoreDataProperties.swift */,
 			);
 			path = UserProfileObject;
 			sourceTree = "<group>";
@@ -1764,6 +1787,7 @@
 				521E64B224F849CC00FF96ED /* Saira-Regular.ttf in Resources */,
 				521E64AA24F8480600FF96ED /* sf-ui-display-regular.ttf in Resources */,
 				52A271B02508E45A0050FB60 /* Saira-Medium.ttf in Resources */,
+				520A92DC26A7F8800038108F /* LaunchLoading.storyboard in Resources */,
 				521E649924F8433D00FF96ED /* Localizable.strings in Resources */,
 				521E64B124F849CC00FF96ED /* Saira-Light.ttf in Resources */,
 				527880D22508141800EB2B9B /* sf-ui-display-medium.ttf in Resources */,
@@ -1838,6 +1862,7 @@
 				521681C7251E5A58007B4F6A /* SettingsDataSource.swift in Sources */,
 				521EA38625B5795D00B00413 /* SettingsModel.swift in Sources */,
 				52EB81C524B9E820003285BC /* AuthViewModel.swift in Sources */,
+				520A92D626A7E21A0038108F /* DefaultCell.swift in Sources */,
 				52B2685E25110F3F00111864 /* ChatMessage.swift in Sources */,
 				52614F84257F6B5A0087962B /* LawyersNetworkService.swift in Sources */,
 				523C8CD52562705B006DECAB /* EnvironmentImp.swift in Sources */,
@@ -1858,6 +1883,7 @@
 				52212F8524FFDD41003FA67E /* ForgotPasswordViewModel.swift in Sources */,
 				52A4258625221DC900E2FE7B /* SettingHeaderCellViewModel.swift in Sources */,
 				5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */,
+				5212680A26A615C100BFBB31 /* ChooseRouter.swift in Sources */,
 				523E62DC2519E00500757FE3 /* String+Size.swift in Sources */,
 				521017022582181F002A696E /* LawyersListModuleFactory.swift in Sources */,
 				52B654B4251B303F003D2465 /* SettingsViewController.swift in Sources */,
@@ -1886,7 +1912,6 @@
 				5283CB712517CA71005DEDA8 /* ClientProfileViewModel.swift in Sources */,
 				523EEEAB251284230007ED2F /* AppealButtonView.swift in Sources */,
 				52B268732511181200111864 /* ConversationsListDataSource.swift in Sources */,
-				52B8A7532610AD790080D750 /* UserProfileObject+CoreDataClass.swift in Sources */,
 				523CD30725B6D0F6000E5078 /* AppealsListViewController.swift in Sources */,
 				52F7493925665F93009CD041 /* UserRole.swift in Sources */,
 				523CD30B25B6DB46000E5078 /* AppealsListRouter.swift in Sources */,
@@ -1903,11 +1928,13 @@
 				52507E312586293C00C8B213 /* CommonDataNetworkRouter.swift in Sources */,
 				52F12E8D2620847600DE9C03 /* String+ContainsIgnoringCase.swift in Sources */,
 				52B2685A25110E1400111864 /* ChatCellViewModel.swift in Sources */,
+				520A92D826A7E2310038108F /* DefaultCellViewModel.swift in Sources */,
 				52260FA92618B8D800B36041 /* SelectSubIssueView.swift in Sources */,
 				52C4DBCA25C07BA700CDC148 /* ReviewsListViewController.swift in Sources */,
 				52E62F2425322C69007FB1BE /* EditClientProfileViewModel.swift in Sources */,
 				52BCC3B125C17DF60020F9F3 /* ReviewDetailsViewModel.swift in Sources */,
 				52B26863251111CA00111864 /* ConversationsListViewModel.swift in Sources */,
+				52B565C326AA08EA006A449B /* UserProfileObject+CoreDataClass.swift in Sources */,
 				522272DD2504C6B20029A4E2 /* LocalStorageService.swift in Sources */,
 				52E96FD725BC86690014F0D0 /* EditProfileRouter.swift in Sources */,
 				527E4D45258F3F7700744A40 /* SocketStompService.swift in Sources */,
@@ -1927,6 +1954,7 @@
 				52C4DBCC25C07BB800CDC148 /* ReviewsListViewModel.swift in Sources */,
 				52507E2D25861DFF00C8B213 /* CountryModel.swift in Sources */,
 				526DDD0925724DEB00CF68F7 /* RegistrationService.swift in Sources */,
+				520A92DA26A7F74C0038108F /* LaunchViewController.swift in Sources */,
 				5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */,
 				52E62F26253238F8007FB1BE /* EditTextField.swift in Sources */,
 				523C8CE625628946006DECAB /* AuthResponse.swift in Sources */,
@@ -1950,7 +1978,6 @@
 				523AEAF7251E4D8900F1E607 /* SwitcherCell.swift in Sources */,
 				521016DB2581426D002A696E /* AppealsNetworkService.swift in Sources */,
 				52212F8324FFDD24003FA67E /* ForgotPasswordViewController.swift in Sources */,
-				52B8A7542610AD790080D750 /* UserProfileObject+CoreDataProperties.swift in Sources */,
 				52926BEF25C1DC67008C671B /* ClientFromAppealViewController.swift in Sources */,
 				521E64B624F84B0200FF96ED /* FontHelper.swift in Sources */,
 				527867CF25CBD7AD001CAA11 /* ChatRouter.swift in Sources */,
@@ -2015,6 +2042,7 @@
 				523CD31225B73150000E5078 /* LawyerProfileViewModel.swift in Sources */,
 				5210399924C4D688004560FD /* SelectIssueViewModel.swift in Sources */,
 				527E4D43258F3AEF00744A40 /* SwiftStomp.swift in Sources */,
+				52B565C426AA08EA006A449B /* UserProfileObject+CoreDataProperties.swift in Sources */,
 				52B2685825110DFB00111864 /* ChatCell.swift in Sources */,
 				52EB81C724B9E882003285BC /* ViewControllerProtocol.swift in Sources */,
 				521016E725820F55002A696E /* LawyersListRouter.swift in Sources */,
@@ -2221,7 +2249,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.20;
+				MARKETING_VERSION = 3.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ds.Guard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2256,7 +2284,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.20;
+				MARKETING_VERSION = 3.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ds.Guard;
 				PRODUCT_NAME = "$(TARGET_NAME)";

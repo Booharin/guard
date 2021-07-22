@@ -12,6 +12,7 @@ struct UserProfile: Codable {
 	var firstName: String?
 	var lastName: String?
 	var email: String?
+	var password: String?
 	var phoneNumber: String?
 	var photo: String?
 	var cityCode: [Int]?
@@ -23,6 +24,7 @@ struct UserProfile: Codable {
 	var subIssueTypes: [IssueType]?
 	var subIssueCodes: [Int]?
 	var complaint: Int?
+	var isAnonymus: Bool?
 
 	var fullName: String {
 		guard
@@ -42,6 +44,7 @@ struct UserProfile: Codable {
 		self.firstName = userProfileObject.firstName ?? ""
 		self.lastName = userProfileObject.lastName ?? ""
 		self.email = nil
+		self.password = nil
 		self.photo = userProfileObject.photo ?? ""
 		self.cityCode = userProfileObject.cityCode ?? []
 		self.countryCode = userProfileObject.countryCode ?? []
@@ -50,5 +53,6 @@ struct UserProfile: Codable {
 		self.role = userProfileObject.role ?? ""
 		self.subIssueCodes = userProfileObject.subIssueCodes ?? []
 		self.complaint = Int(userProfileObject.complaint)
+		self.isAnonymus = userProfileObject.isAnonymus
 	}
 }

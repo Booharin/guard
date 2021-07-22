@@ -16,6 +16,7 @@ enum SettingsCellType {
 						  isSeparatorHidden: Bool,
 						  showLoaderSubject: PublishSubject<Bool>)
 	case changePasswordItem(changePasswordSubject: PublishSubject<Any>)
+	case sendEmailItem(sendEmailSubject: PublishSubject<Any>)
 	case logoutItem(logoutSubject: PublishSubject<Any>)
 }
 
@@ -44,6 +45,12 @@ struct SettingsDataSource {
 			case let .changePasswordItem(changePasswordSubject: changePasswordSubject):
 				let cell = ChangePasswordCell()
 				cell.viewModel = ChangePasswordCellViewModel(changePasswordSubject: changePasswordSubject)
+				cell.viewModel.assosiateView(cell)
+				return cell
+			case let .sendEmailItem(sendEmailSubject: sendEmailSubject):
+				let cell = DefaultCell()
+				cell.viewModel = DefaultCellViewModel(title: "settings.sendEmail.title".localized,
+													  actionSubject: sendEmailSubject)
 				cell.viewModel.assosiateView(cell)
 				return cell
 			case let .logoutItem(logoutSubject):

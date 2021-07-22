@@ -136,6 +136,8 @@
 "edit_profile.email.placeholder" = "Email";
 "edit_profile.alert.title" = "Подтверждение";
 "edit_profile.alert.message" = "Вы действительно хотите изменить данные профиля?";
+
+"edit_profile.alert.emailError.title" = "Некорректный email";
 "edit_lawyer.empty_issues.title" = "Вам нужна как минимум одна специализация";
 "edit_lawyer.remove_issue.title" = "Вы действительно хотите удалить специализацию?";
 
@@ -145,6 +147,7 @@
 "settings.visibility.phone" = "Показать телефон";
 "settings.visibility.mail" = "Показать email";
 "settings.visibility.chat" = "Включить чат";
+"settings.sendEmail.title" = "Написать в поддержку";
 
 //CHANGE_PASSWORD
 "settings.change_password.title" = "Сменить пароль";

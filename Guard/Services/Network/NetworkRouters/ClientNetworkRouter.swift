@@ -148,7 +148,8 @@ extension ClientNetworkRouter {
 				"phoneNumber": phoneNumber,
 				"photo": photo,
 				"cityCode": cityCode,
-				"countryCode": countryCode
+				"countryCode": countryCode,
+				"isAnonymus": email.count == 0 ? true : false
 			]
 		}
 	}

@@ -9,9 +9,11 @@
 enum ApiMethods {
 	// auth
 	static let login = "auth/login"
+	static let loginWithId = "auth/loginClientById"
 	static let forgotPassword = "common/forgot"
 	static let changePassword = "common/change"
 	static let register = "common/register"
+	static let anonymousRegister = "common/anonymousClientRegister"
 	// lawyers
 	static let getLawyers = "common/lawyers"
 	static let getAllLawyers = "client/alllawyers"

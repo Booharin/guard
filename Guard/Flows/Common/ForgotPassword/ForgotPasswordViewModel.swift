@@ -16,7 +16,7 @@ final class ForgotPasswordViewModel:
 	ViewModel,
 	ForgotPasswordViewModelProtocol,
 	HasDependencies {
-	
+
 	typealias Dependencies = HasAuthService
 	lazy var di: Dependencies = DI.dependencies
 
