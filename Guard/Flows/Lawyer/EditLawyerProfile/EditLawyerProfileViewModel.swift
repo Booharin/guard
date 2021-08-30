@@ -237,16 +237,32 @@ final class EditLawyerProfileViewModel: ViewModel {
 		editLawyerSubject = PublishSubject<UserProfile>()
 		editLawyerSubject?
 			.asObservable()
+			.debounce(.milliseconds(200), scheduler: MainScheduler.instance)
+			.filter { _ in
+				if let email = self.view.emailTextField.text,
+				   email.count > 0 {
+					if email.isValidEmail {
+						return true
+					} else {
+						self.view.loadingView.stop()
+						self.di.alertService.showAlert(title: "edit_profile.alert.emailError.title".localized,
+													   message: "",
+													   okButtonTitle: "alert.yes".localized.uppercased(),
+													   completion: { _ in })
+						return false
+					}
+				} else {
+					return true
+				}
+			}
 			.filter { _ in
 				// check if all edit views removed
 				//let issueViewsArray = self.view.issuesStackView.subviews.compactMap { $0 as? EditIssueView }
 				if self.currentIssueCodes.isEmpty {
-					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-						self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
-													   message: "edit_lawyer.empty_issues.title".localized,
-													   okButtonTitle: "alert.yes".localized.uppercased()) { _ in }
-						self.view.loadingView.stop()
-					}
+					self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
+												   message: "edit_lawyer.empty_issues.title".localized,
+												   okButtonTitle: "alert.yes".localized.uppercased()) { _ in }
+					self.view.loadingView.stop()
 					return false
 				} else {
 					return true
@@ -307,8 +323,10 @@ final class EditLawyerProfileViewModel: ViewModel {
 	// MARK: - Save profile
 	private func saveProfile() {
 		di.localStorageService.saveProfile(userProfile)
-		di.keyChainService.save(view.emailTextField.text ?? "",
-								for: Constants.KeyChainKeys.email)
+		if let email = view.emailTextField.text {
+			di.keyChainService.save(email,
+									for: Constants.KeyChainKeys.email)
+		}
 		di.keyChainService.save(view.phoneTextField.text ?? "",
 								for: Constants.KeyChainKeys.phoneNumber)
 	}

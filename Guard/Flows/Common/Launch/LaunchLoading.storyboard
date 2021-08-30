@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="sf-ui-display-regular.ttf">
+            <string>SFUIDisplay-Regular</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Launch View Controller-->
+        <scene sceneID="VuZ-fn-kbh">
+            <objects>
+                <viewController storyboardIdentifier="LaunchViewController" id="1EH-97-l5M" customClass="LaunchViewController" customModule="Guard" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aRg-hO-Aaf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All rights reserved by Guard" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="bYf-uT-mRw">
+                                <rect key="frame" x="0.0" y="861.5" width="414" height="14.5"/>
+                                <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="12"/>
+                                <color key="textColor" red="0.1960784314" green="0.23529411759999999" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_icn" translatesAutoresizingMaskIntoConstraints="NO" id="TRR-R7-xBs">
+                                <rect key="frame" x="141" y="352" width="132" height="132"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="132" id="Jx5-9x-cpB"/>
+                                    <constraint firstAttribute="width" constant="132" id="pD7-ea-iua"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="guard_title" translatesAutoresizingMaskIntoConstraints="NO" id="Ujr-At-5FN">
+                                <rect key="frame" x="138.5" y="496" width="137" height="63"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="137" id="7Bt-c0-6Fb"/>
+                                    <constraint firstAttribute="height" constant="63" id="tCg-OG-7y6"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Legal assistant" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ztJ-9q-y9N">
+                                <rect key="frame" x="149" y="556" width="116" height="21.5"/>
+                                <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="18"/>
+                                <color key="textColor" red="0.22352941179999999" green="0.25490196079999999" blue="0.39607843139999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="rcP-yl-RTe"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="TRR-R7-xBs" firstAttribute="centerX" secondItem="aRg-hO-Aaf" secondAttribute="centerX" id="1f9-ZW-shg"/>
+                            <constraint firstItem="Ujr-At-5FN" firstAttribute="top" secondItem="TRR-R7-xBs" secondAttribute="bottom" constant="12" id="BS8-aX-OYb"/>
+                            <constraint firstItem="ztJ-9q-y9N" firstAttribute="centerX" secondItem="aRg-hO-Aaf" secondAttribute="centerX" id="IAN-my-BZs"/>
+                            <constraint firstItem="bYf-uT-mRw" firstAttribute="leading" secondItem="rcP-yl-RTe" secondAttribute="leading" symbolic="YES" id="ICq-ZE-EcL"/>
+                            <constraint firstItem="Ujr-At-5FN" firstAttribute="centerX" secondItem="aRg-hO-Aaf" secondAttribute="centerX" id="Vhs-nS-UT0"/>
+                            <constraint firstAttribute="bottom" secondItem="bYf-uT-mRw" secondAttribute="bottom" constant="20" id="Yh2-ec-qW0"/>
+                            <constraint firstItem="ztJ-9q-y9N" firstAttribute="top" secondItem="Ujr-At-5FN" secondAttribute="bottom" constant="-3" id="akF-dg-Vjr"/>
+                            <constraint firstItem="rcP-yl-RTe" firstAttribute="centerX" secondItem="bYf-uT-mRw" secondAttribute="centerX" id="jtE-jI-zgs"/>
+                            <constraint firstItem="TRR-R7-xBs" firstAttribute="centerY" secondItem="aRg-hO-Aaf" secondAttribute="centerY" constant="-30" id="k0b-Uj-l9e"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VvD-pM-xOo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="guard_title" width="132.5" height="28.5"/>
+        <image name="logo_icn" width="132" height="132"/>
+    </resources>
+</document>

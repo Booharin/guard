@@ -11,18 +11,23 @@ import UIKit
 final class ChooseCoordinator: BaseCoordinator {
 	var rootController: NavigationController?
 	var onFinishFlow: (() -> Void)?
-	
+
 	override func start() {
 		showChooseModule()
 	}
-	
+
 	private func showChooseModule() {
-		let controller = ChooseViewController(viewModel: ChooseViewModel())
-		
-		controller.toRegistration = { userRole in
+		let router = ChooseRouter()
+		let controller = ChooseViewController(viewModel: ChooseViewModel(router: router))
+
+		router.toRegistration = { userRole in
 			self.toRegistration(userRole)
 		}
-		
+
+		router.toMainWithClient = {
+			self.toMainWithClient()
+		}
+
 		if let navVC = UIApplication.shared.windows.first?.rootViewController as? NavigationController {
 			navVC.pushViewController(controller, animated: true)
 		} else {
@@ -31,12 +36,22 @@ final class ChooseCoordinator: BaseCoordinator {
 			self.rootController = rootController
 		}
 	}
-	
+
 	private func toRegistration(_ userRole: UserRole) {
 		let coordinator = RegistrationCoordinator(userRole: userRole)
 		coordinator.onFinishFlow = { [weak self, weak coordinator] in
 			self?.removeDependency(coordinator)
 			self?.onFinishFlow?()
+		}
+		addDependency(coordinator)
+		coordinator.start()
+	}
+
+	private func toMainWithClient() {
+		let coordinator = MainCoordinator(userRole: .client)
+		coordinator.onFinishFlow = { [weak self, weak coordinator] in
+			self?.removeDependency(coordinator)
+			self?.start()
 		}
 		addDependency(coordinator)
 		coordinator.start()

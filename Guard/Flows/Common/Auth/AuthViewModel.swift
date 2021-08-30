@@ -83,6 +83,7 @@ final class AuthViewModel: ViewModel,
 			.text
 			.subscribe(onNext: { _ in
 				self.checkAreTextFieldsEmpty()
+				self.turnWarnings()
 			}).disposed(by: disposeBag)
 
 		if let email = di.keyChainService.getValue(for: Constants.KeyChainKeys.email) {
@@ -98,6 +99,7 @@ final class AuthViewModel: ViewModel,
 			.text
 			.subscribe(onNext: { _ in
 				self.checkAreTextFieldsEmpty()
+				self.turnWarnings()
 			}).disposed(by: disposeBag)
 
 		// registration button
@@ -319,7 +321,7 @@ final class AuthViewModel: ViewModel,
 			view.enterButton.backgroundColor = Colors.buttonDisabledColor
 		}
 	}
-	
+
 	private func turnWarnings(with text: String? = nil) {
 		if text == nil {
 			guard

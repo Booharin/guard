@@ -141,7 +141,9 @@ final class EditClientProfileViewModel: ViewModel, HasDependencies {
 		view.emailTextField.keyboardType = .emailAddress
 		view.emailTextField.autocapitalizationType = .none
 		view.emailTextField.configure(placeholderText: "edit_profile.email.placeholder".localized)
-		if let email = di.keyChainService.getValue(for: Constants.KeyChainKeys.email) {
+
+		if let email = di.keyChainService.getValue(for: Constants.KeyChainKeys.email),
+		   di.localStorageService.getCurrenClientProfile()?.isAnonymus == false {
 			view.emailTextField.text = email
 		}
 
@@ -222,6 +224,24 @@ final class EditClientProfileViewModel: ViewModel, HasDependencies {
 		editClientSubject = PublishSubject<UserProfile>()
 		editClientSubject?
 			.asObservable()
+			.debounce(.milliseconds(200), scheduler: MainScheduler.instance)
+			.filter { _ in
+				if let email = self.view.emailTextField.text,
+				   email.count > 0 {
+					if email.isValidEmail {
+						return true
+					} else {
+						self.view.loadingView.stop()
+						self.di.alertService.showAlert(title: "edit_profile.alert.emailError.title".localized,
+													   message: "",
+													   okButtonTitle: "alert.yes".localized.uppercased(),
+													   completion: { _ in })
+						return false
+					}
+				} else {
+					return true
+				}
+			}
 			.flatMap { [unowned self] profile in
 				self.di.clientNetworkService.editClient(profile: profile,
 														email: view.emailTextField.text ?? "",
@@ -263,6 +283,9 @@ final class EditClientProfileViewModel: ViewModel, HasDependencies {
 
 	// MARK: - Save profile
 	private func saveProfile() {
+		if view.emailTextField.text?.count ?? 0 > 0 {
+			userProfile.isAnonymus = false
+		}
 		di.localStorageService.saveProfile(userProfile)
 		di.keyChainService.save(view.emailTextField.text ?? "",
 								for: Constants.KeyChainKeys.email)

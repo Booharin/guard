@@ -206,7 +206,9 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 		view.emailLabel.textAlignment = .center
 		view.emailLabel.textColor = Colors.mainTextColor
 		view.emailLabel.font = SFUIDisplay.regular.of(size: 15)
-		view.emailLabel.text = self.di.keyChainService.getValue(for: Constants.KeyChainKeys.email)
+		if di.localStorageService.getCurrenClientProfile()?.isAnonymus == false {
+			view.emailLabel.text = self.di.keyChainService.getValue(for: Constants.KeyChainKeys.email)
+		}
 		// phone label
 		view.phoneLabel.textAlignment = .center
 		view.phoneLabel.textColor = Colors.mainTextColor

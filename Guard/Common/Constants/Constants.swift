@@ -19,6 +19,7 @@ enum Constants {
 		static let password = "password"
 		static let phoneNumber = "phoneNumber"
 		static let deviceToken = "deviceToken"
+		static let clientId = "clientId"
 	}
 	enum NotificationKeys {
 		static let logout = "profile_logout"

@@ -8,11 +8,14 @@
 
 import Foundation
 import RxSwift
+import UIKit
 
 final class ApplicationCoordinator: BaseCoordinator, HasDependencies {
 	typealias Dependencies =
 		HasCommonDataNetworkService &
-		HasLocalStorageService
+		HasLocalStorageService &
+		HasAuthService &
+		HasKeyChainService
 	lazy var di: Dependencies = DI.dependencies
 	private var disposeBag = DisposeBag()
 	private var isAlreadyPassedtToAuth = false
@@ -49,13 +52,33 @@ final class ApplicationCoordinator: BaseCoordinator, HasDependencies {
 	@objc private func toAuth() {
 		guard isAlreadyPassedtToAuth == false else { return }
 		isAlreadyPassedtToAuth = true
+		
+		if di.localStorageService.getCurrenClientProfile()?.userRole == .client {
+			
+			let storyboard = UIStoryboard(name: "LaunchLoading",
+										  bundle: nil)
+			let viewController = storyboard.instantiateViewController(withIdentifier: "LaunchViewController")
+			let rootController = NavigationController(rootViewController: viewController)
+			setAsRoot(rootController)
+			if let controller = viewController as? LaunchViewController {
+				controller.loadingView.play()
+			}
 
-		let coordinator = AuthCoordinator()
-		coordinator.onFinishFlow = { [weak self, weak coordinator] in
-			self?.removeDependency(coordinator)
+			self.di.authService.signInById(
+				with: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.clientId) ?? ""
+			)
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				switch result {
+				case .success(_):
+					self?.toMainWithClient()
+				case .failure(_):
+					self?.toAuthorization()
+				}
+			}).disposed(by: disposeBag)
+		} else {
+			toAuthorization()
 		}
-		addDependency(coordinator)
-		coordinator.start()
 
 		DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
 			self.isAlreadyPassedtToAuth = false
@@ -89,5 +112,24 @@ final class ApplicationCoordinator: BaseCoordinator, HasDependencies {
 					print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
+	}
+
+	private func toMainWithClient() {
+		let coordinator = MainCoordinator(userRole: .client)
+		coordinator.onFinishFlow = { [weak self, weak coordinator] in
+			self?.removeDependency(coordinator)
+			self?.start()
+		}
+		addDependency(coordinator)
+		coordinator.start()
+	}
+
+	private func toAuthorization() {
+		let coordinator = AuthCoordinator()
+		coordinator.onFinishFlow = { [weak self, weak coordinator] in
+			self?.removeDependency(coordinator)
+		}
+		addDependency(coordinator)
+		coordinator.start()
 	}
 }
