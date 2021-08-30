@@ -67,12 +67,6 @@ final class ChatViewController<modelType: ChatViewModel>:
 		viewModel.messagesListSubject?.onNext(())
 	}
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		
-		navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-	}
-
 	private func setNavigationBar() {
 		let leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
 		self.navigationItem.leftBarButtonItem = leftBarButtonItem
@@ -103,8 +97,6 @@ final class ChatViewController<modelType: ChatViewModel>:
 		}
 
 		// table view
-		tableView.register(SelectIssueTableViewCell.self,
-						   forCellReuseIdentifier: SelectIssueTableViewCell.reuseIdentifier)
 		tableView.tableFooterView = UIView()
 		tableView.backgroundColor = Colors.whiteColor
 		tableView.rowHeight = UITableView.automaticDimension
@@ -140,50 +132,6 @@ final class ChatViewController<modelType: ChatViewModel>:
 
 	func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 		return 40
-	}
-
-	func scrollViewWillEndDragging(_ scrollView: UIScrollView,
-								   withVelocity velocity: CGPoint,
-								   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-		if(velocity.y > 0) {
-			// add gradient view
-			gradientView = createGradentView()
-			guard let gradientView = gradientView else { return }
-			view.addSubview(gradientView)
-			gradientView.snp.makeConstraints {
-				$0.top.leading.trailing.equalToSuperview()
-				$0.height.equalTo(50)
-			}
-			
-			// hide nav bar
-			UIView.animate(withDuration: 0.3, animations: {
-				self.navigationController?.setNavigationBarHidden(true, animated: true)
-			})
-		} else {
-			// remove gradient view
-			gradientView?.removeFromSuperview()
-			gradientView = nil
-			
-			// remove nav bar
-			UIView.animate(withDuration: 0.3, animations: {
-				self.navigationController?.setNavigationBarHidden(false, animated: true)
-			})
-		}
-	}
-
-	private func createGradentView() -> UIView {
-		let gradientLAyer = CAGradientLayer()
-		gradientLAyer.colors = [
-			Colors.whiteColor.cgColor,
-			Colors.whiteColor.withAlphaComponent(0).cgColor
-		]
-		gradientLAyer.locations = [0.0, 1.0]
-		gradientLAyer.frame = CGRect(x: 0,
-									 y: 0,
-									 width: UIScreen.main.bounds.width, height: 50)
-		let view = UIView()
-		view.layer.insertSublayer(gradientLAyer, at: 0)
-		return view
 	}
 
 	// MARK: - Take photo from gallery

@@ -50,6 +50,7 @@ final class ChatBarView: UIView, ChatBarViewProtocol {
 			.subscribe(onNext: { [weak self] _ in
 				self?.attachSubject.onNext(())
 			}).disposed(by: disposeBag)
+		attachButton.isHidden = true
 
 		// send button
 		addSubview(sendButton)
@@ -84,7 +85,7 @@ final class ChatBarView: UIView, ChatBarViewProtocol {
 				guard
 					let text = self?.messageTextView.text,
 					!text.isEmpty else { return }
-				let height = text.height(withConstrainedWidth: UIScreen.main.bounds.width - 180,
+				let height = text.height(withConstrainedWidth: UIScreen.main.bounds.width - 140, // 180
 										 font: SFUIDisplay.regular.of(size: 16))
 				guard height != self?.currentMessageViewHeight else { return }
 
@@ -100,7 +101,7 @@ final class ChatBarView: UIView, ChatBarViewProtocol {
 	private func layoutViews() {
 		attachButton.snp.makeConstraints {
 			$0.leading.equalToSuperview().offset(25)
-			$0.width.equalTo(44)
+			$0.width.equalTo(0) // 44
 			$0.height.equalTo(36)
 			$0.bottom.equalToSuperview().offset(-40)
 		}

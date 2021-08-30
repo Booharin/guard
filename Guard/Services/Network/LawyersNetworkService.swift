@@ -15,12 +15,20 @@ protocol HasLawyersNetworkService {
 }
 
 protocol LawyersNetworkServiceInterface {
-	func getAllLawyers(from city: String) -> Observable<Result<[UserProfile], AFError>>
-	func getLawyers(by issueCode: [Int], city: String) -> Observable<Result<[UserProfile], AFError>>
+	func getAllLawyers(from city: String,
+					   page: Int,
+					   pageSize: Int) -> Observable<Result<[UserProfile], AFError>>
+	func getLawyers(by issueCode: [Int],
+					city: String,
+					page: Int,
+					pageSize: Int) -> Observable<Result<[UserProfile], AFError>>
 	func getLawyer(by id: Int) -> Observable<Result<UserProfile, AFError>>
 	func editLawyer(profile: UserProfile,
 					email: String,
 					phone: String) -> Observable<Result<Any, AFError>>
+	func getReviews(for recieverId: Int,
+					page: Int,
+					pageSize: Int) -> Observable<Result<[UserReview], AFError>>
 }
 
 final class LawyersNetworkService: LawyersNetworkServiceInterface, HasDependencies {
@@ -32,10 +40,14 @@ final class LawyersNetworkService: LawyersNetworkServiceInterface, HasDependenci
 		router = LawyersNetworkRouter(environment: EnvironmentImp())
 	}
 
-	func getAllLawyers(from city: String) -> Observable<Result<[UserProfile], AFError>> {
+	func getAllLawyers(from city: String,
+					   page: Int,
+					   pageSize: Int) -> Observable<Result<[UserProfile], AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.getAllLawyers(from: city,
+										  page: page,
+										  pageSize: pageSize,
 										  token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
 			)
 			.responseJSON { response in
@@ -128,11 +140,16 @@ final class LawyersNetworkService: LawyersNetworkServiceInterface, HasDependenci
 		}
 	}
 
-	func getLawyers(by issueCode: [Int], city: String) -> Observable<Result<[UserProfile], AFError>> {
+	func getLawyers(by issueCode: [Int],
+					city: String,
+					page: Int,
+					pageSize: Int) -> Observable<Result<[UserProfile], AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.getLawyers(by: issueCode,
 									   cityTitle: city,
+									   page: page,
+									   pageSize: pageSize,
 									   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
 			)
 			.responseJSON { response in
@@ -218,4 +235,57 @@ final class LawyersNetworkService: LawyersNetworkServiceInterface, HasDependenci
 			})
 		}
 	}
+
+	func getReviews(for recieverId: Int,
+					page: Int,
+					pageSize: Int) -> Observable<Result<[UserReview], AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.getReviews(for: recieverId,
+									   page: page,
+									   pageSize: pageSize,
+									   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.responseJSON { response in
+				#if DEBUG
+				print(response)
+				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 401:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
+				switch response.result {
+				case .success:
+					guard let data = response.data else {
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+						return
+					}
+					do {
+						let reviews = try JSONDecoder().decode([UserReview].self, from: data)
+						observer.onNext(.success(reviews))
+						observer.onCompleted()
+					} catch {
+						#if DEBUG
+						print(error)
+						#endif
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+					}
+				case .failure:
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
 }

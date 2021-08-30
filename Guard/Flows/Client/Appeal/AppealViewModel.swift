@@ -14,13 +14,16 @@ final class AppealViewModel: ViewModel, HasDependencies {
 	var view: AppealViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var disposeBag = DisposeBag()
-	private let appeal: ClientAppeal
+	private var appeal: ClientAppeal
 	typealias Dependencies =
 		HasLocalStorageService &
 		HasAppealsNetworkService &
-		HasCommonDataNetworkService
+		HasCommonDataNetworkService &
+		HasAlertService
 	lazy var di: Dependencies = DI.dependencies
 	var isEditingSubject = PublishSubject<Bool>()
+	private let toCreateAppealSubject = PublishSubject<IssueType>()
+	private let changeStatusSubject = PublishSubject<Bool>()
 	private var issueTitle: String?
 
 	init(appeal: ClientAppeal) {
@@ -34,6 +37,15 @@ final class AppealViewModel: ViewModel, HasDependencies {
 				issueTitle = $0.title
 			}
 		}
+
+		// swipe to go back
+		view.view
+			.rx
+			.swipeGesture(.right)
+			.when(.recognized)
+			.subscribe(onNext: { [unowned self] _ in
+				self.view.navController?.popViewController(animated: true)
+			}).disposed(by: disposeBag)
 
 		// back button
 		view.backButtonView
@@ -117,25 +129,73 @@ final class AppealViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 		view.descriptionTextView.text = appeal.appealDescription
 
+		// issue type label
+		view.issueTypeView.backgroundColor = Colors.warningColor
+		view.issueTypeView.layer.cornerRadius = 12
+		view.issueTypeView.isHidden = issueTitle == nil
+
 		view.issueTypeLabel.font = SFUIDisplay.medium.of(size: 15)
 		view.issueTypeLabel.textColor = Colors.whiteColor
-		view.issueTypeLabel.backgroundColor = Colors.warningColor
-		view.issueTypeLabel.layer.cornerRadius = 12
-		view.issueTypeLabel.clipsToBounds = true
-
+		view.issueTypeLabel.numberOfLines = 0
 		view.issueTypeLabel.isHidden = issueTitle == nil
 		view.issueTypeLabel.text = issueTitle
 		view.issueTypeLabel.textAlignment = .center
 
+		view.issueTypeView
+			.rx
+			.tapGesture()
+			.when(.recognized)
+			.filter { _ in
+				self.view.titleTextField.isUserInteractionEnabled == true
+			}
+			.do(onNext: { [unowned self] _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.issueTypeLabel.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.issueTypeLabel.alpha = 1
+					})
+				})
+			})
+			.subscribe(onNext: { [weak self] _ in
+				let selectIssueController = SelectIssueViewController(viewModel:
+																		SelectIssueViewModel(toMainSubject: self?.toCreateAppealSubject))
+				selectIssueController.hidesBottomBarWhenPushed = true
+				self?.view.navController?.pushViewController(selectIssueController, animated: true)
+			}).disposed(by: disposeBag)
+
 		view.lawyerSelectedButton.backgroundColor = Colors.greenColor
 		view.lawyerSelectedButton.layer.cornerRadius = 25
+		view.lawyerSelectedButton.setTitle(
+			appeal.lawyerChoosed ?? false ?
+				"appeal.lawyerNotSelectedButton.title".localized.uppercased() :
+				"appeal.lawyerSelectedButton.title".localized.uppercased(),
+			for: .normal)
 
 		// save button
 		view.lawyerSelectedButton
 			.rx
 			.tap
 			.filter {
-				self.view.lawyerSelectedButton.titleLabel?.text == "appeal.saveButton.title".localized.uppercased()
+				if self.view.titleTextField.isUserInteractionEnabled == true {
+					return true
+				} else {
+					let alertTitle = self.appeal.lawyerChoosed ?? false ?
+						"appeal.notChoosed".localized : "appeal.lawyerChoosed".localized
+					let alertMessage = self.appeal.lawyerChoosed ?? false ?
+						"appeal.notChoosed.subtitle".localized : "appeal.lawyerChoosed.subtitle".localized
+
+					self.di.alertService.showAlert(title: alertTitle,
+												   message: alertMessage,
+												   okButtonTitle: "alert.yes".localized.uppercased(),
+												   cancelButtonTitle: "alert.no".localized.uppercased()) { result in
+						if result {
+							self.view.loadingView.play()
+							self.changeStatusSubject.onNext(!(self.appeal.lawyerChoosed ?? false))
+						}
+					}
+					return false
+				}
 			}
 			.do(onNext: { [unowned self] _ in
 				self.view.lawyerSelectedButton.animateBackground()
@@ -197,6 +257,45 @@ final class AppealViewModel: ViewModel, HasDependencies {
 				}
 			})
 			.disposed(by: disposeBag)
+
+		toCreateAppealSubject
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [unowned self] issueType in
+				self.appeal.changeSubIssue(with: issueType.subIssueCode ?? 0)
+				self.di.commonDataNetworkService.subIssueTypes?.forEach {
+					if self.appeal.subIssueCode == $0.subIssueCode {
+						self.issueTitle = $0.title
+						self.view.issueTypeLabel.text = issueTitle
+					}
+				}
+				if self.view.navController?.viewControllers.count ?? 0 > 1,
+				   let vc = self.view.navController?.viewControllers[1] {
+					self.view.navController?.popToViewController(vc, animated: true)
+				}
+			})
+			.disposed(by: disposeBag)
+
+		changeStatusSubject
+			.asObservable()
+			.flatMap { [unowned self] status in
+				self.di.appealsNetworkService.changeAppealStatus(with: self.appeal.id,
+																 status: status)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stop()
+				switch result {
+					case .success:
+						self?.appeal.lawyerChoosed(isChoosed: !(self?.appeal.lawyerChoosed ?? false))
+						self?.view.lawyerSelectedButton.setTitle(
+							self?.appeal.lawyerChoosed ?? false ?
+								"appeal.lawyerNotSelectedButton.title".localized.uppercased() : "appeal.lawyerSelectedButton.title".localized.uppercased(),
+							for: .normal)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
 	}
 
 	private func checkAreTextFieldsEmpty() {

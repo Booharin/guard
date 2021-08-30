@@ -37,6 +37,17 @@ struct RegistrationNetworkRouter {
 						  userRole: role)
 		}
 	}
+
+	func anonimusSignUp() -> URLRequestConvertible {
+		do {
+			return try AnonimusSignUp(environment: environment).asURLDefaultRequest()
+		} catch {
+			#if DEBUG
+			print("Error default URLRequest", error)
+			#endif
+			return AnonimusSignUp(environment: environment)
+		}
+	}
 }
 
 extension RegistrationNetworkRouter {
@@ -76,6 +87,30 @@ extension RegistrationNetworkRouter {
 				"role": userRole.rawValue,
 				"issueCode": []
 			]
+		}
+	}
+}
+
+extension RegistrationNetworkRouter {
+
+	private struct AnonimusSignUp: RequestRouter {
+
+		let environment: Environment
+
+		init(environment: Environment) {
+			self.environment = environment
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .get
+
+		var path = ApiMethods.anonymousRegister
+
+		var parameters: Parameters {
+			return [:]
 		}
 	}
 }

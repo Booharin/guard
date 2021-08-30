@@ -24,6 +24,10 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 		HasAppealsNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
+	private var nextPage = 0
+	private let pageSize = 20
+	private var isAllappealsDownloaded = false
+
 	init(router: ClientAppealsListRouterProtocol) {
 		self.router = router
 	}
@@ -42,8 +46,23 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 					.rx
 					.items(dataSource: dataSource))
 			.disposed(by: disposeBag)
+
+		view.tableView
+			.rx
+			.prefetchRows
+			.filter { _ in
+				self.isAllappealsDownloaded == false
+			}
+			.subscribe(onNext: { [unowned self] rows in
+				if rows.contains([0, 0]) {
+					self.appealsListSubject?.onNext(())
+				}
+			})
+			.disposed(by: disposeBag)
 		
-		view.tableView.rx.itemDeleted
+		view.tableView
+			.rx
+			.itemDeleted
 			.asObservable()
 			.filter { [unowned self] indexPath in
 				indexPath.row < appeals.count
@@ -51,15 +70,17 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 			.flatMap { [unowned self] indexPath in
 				self.di.appealsNetworkService.deleteAppeal(id: appeals[indexPath.row].id)
 			}
-			.flatMap { [unowned self] _ in
-				self.di.appealsNetworkService.getClientAppeals(by: di.localStorageService.getCurrenClientProfile()?.id ?? 0)
-			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stop()
 				switch result {
-					case .success(let appeals):
-						self?.update(with: appeals)
+					case .success(let id):
+						if let row = self?.appeals.firstIndex(where: { $0.id == id }) {
+							self?.appeals.remove(at: row)
+						}
+						let section = SectionModel<String, ClientAppeal>(model: "",
+																		 items: self?.appeals ?? [])
+						self?.dataSourceSubject?.onNext([section])
 					case .failure(let error):
 						//TODO: - обработать ошибку
 						print(error.localizedDescription)
@@ -106,7 +127,9 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 		appealsListSubject?
 			.asObservable()
 			.flatMap { [unowned self] _ in
-				self.di.appealsNetworkService.getClientAppeals(by: di.localStorageService.getCurrenClientProfile()?.id ?? 0)
+				self.di.appealsNetworkService.getClientAppeals(by: di.localStorageService.getCurrenClientProfile()?.id ?? 0,
+															   page: self.nextPage,
+															   pageSize: self.pageSize)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
@@ -119,18 +142,41 @@ final class ClientAppealsListViewModel: ViewModel, HasDependencies {
 						print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
+
+		view.loadingView.play()
+		appealsListSubject?.onNext(())
+
+		router.appealCreatedSubject
+			.asObservable()
+			.subscribe(onNext: { [weak self] _ in
+				DispatchQueue.main.asyncAfter(deadline:.now() + 0.5) {
+					self?.appeals.removeAll()
+					self?.isAllappealsDownloaded = false
+					self?.nextPage = 0
+					self?.view.loadingView.play()
+					self?.appealsListSubject?.onNext(())
+				}
+			}).disposed(by: disposeBag)
 	}
 
 	private func update(with appeals: [ClientAppeal]) {
-		self.appeals = appeals
+		self.appeals.append(contentsOf: appeals)
 		let section = SectionModel<String, ClientAppeal>(model: "",
-														items: appeals)
+														 items: self.appeals)
 		dataSourceSubject?.onNext([section])
 
 		if self.view.tableView.contentSize.height + 200 < self.view.tableView.frame.height {
 			self.view.tableView.isScrollEnabled = false
 		} else {
 			self.view.tableView.isScrollEnabled = true
+		}
+
+		if appeals.isEmpty {
+			isAllappealsDownloaded = true
+			nextPage = 0
+		} else {
+			isAllappealsDownloaded = false
+			nextPage += 1
 		}
 	}
 

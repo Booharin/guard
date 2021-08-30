@@ -12,13 +12,15 @@ import RxCocoa
 protocol ClientAppealsListRouterProtocol {
 	var toAppealDescriptionSubject: PublishSubject<ClientAppeal> { get }
 	var toSelectIssueSubject: PublishSubject<Any> { get }
+	var appealCreatedSubject: PublishSubject<Any> { get }
 }
 
 final class ClientAppealsListRouter: BaseRouter, ClientAppealsListRouterProtocol {
 	private var disposeBag = DisposeBag()
-	var toAppealDescriptionSubject = PublishSubject<ClientAppeal>()
-	var toSelectIssueSubject = PublishSubject<Any>()
-	
+	let toAppealDescriptionSubject = PublishSubject<ClientAppeal>()
+	let toSelectIssueSubject = PublishSubject<Any>()
+	let appealCreatedSubject = PublishSubject<Any>()
+
 	override init() {
 		super.init()
 		createTransitions()
@@ -29,7 +31,7 @@ final class ClientAppealsListRouter: BaseRouter, ClientAppealsListRouterProtocol
 		toAppealDescriptionSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [unowned self] appeal in
-                self.toAppealDescription(appeal)
+				self.toAppealDescription(appeal)
 			})
 			.disposed(by: disposeBag)
 
@@ -42,18 +44,18 @@ final class ClientAppealsListRouter: BaseRouter, ClientAppealsListRouterProtocol
 			.disposed(by: disposeBag)
 	}
 
-    private func toAppealDescription(_ appeal: ClientAppeal) {
-        let toAppealCreatingController = AppealViewController(viewModel: AppealViewModel(appeal: appeal)
-        )
-        self.navigationController?.pushViewController(toAppealCreatingController, animated: true)
-    }
+	private func toAppealDescription(_ appeal: ClientAppeal) {
+		let toAppealCreatingController = AppealViewController(viewModel: AppealViewModel(appeal: appeal)
+		)
+		self.navigationController?.pushViewController(toAppealCreatingController, animated: true)
+	}
 
 	private func toSelectIssue() {
 		let toCreateAppealSubject = PublishSubject<IssueType>()
 		toCreateAppealSubject
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [unowned self] issueType in
-				self.toAppealCreating(issueType)
+				self.toAppealCreating(issueType, appealCreatedSubject: self.appealCreatedSubject)
 			})
 			.disposed(by: disposeBag)
 		
@@ -64,9 +66,11 @@ final class ClientAppealsListRouter: BaseRouter, ClientAppealsListRouterProtocol
 		self.navigationController?.pushViewController(selectIssueController, animated: true)
 	}
 
-	private func toAppealCreating(_ issueType: IssueType) {
-		let toAppealCreatingController = AppealCreatingViewController(viewModel:
-																		AppealCreatingViewModel(issueType: issueType)
+	private func toAppealCreating(_ issueType: IssueType,
+								  appealCreatedSubject: PublishSubject<Any>) {
+		let toAppealCreatingController = AppealCreatingViewController(
+			viewModel: AppealCreatingViewModel(issueType: issueType,
+											   appealCreatedSubject: appealCreatedSubject)
 		)
 		self.navigationController?.pushViewController(toAppealCreatingController, animated: true)
 	}

@@ -103,4 +103,20 @@ extension NotificationService: UNUserNotificationCenterDelegate {
 			completionHandler([.alert, .badge, .sound])
 		}
 	}
+	
+	func userNotificationCenter(_ center: UNUserNotificationCenter,
+								didReceive response: UNNotificationResponse,
+								withCompletionHandler completionHandler: @escaping () -> Void) {
+
+		let keyWindow = UIApplication.shared.windows.filter { $0.isKeyWindow }.first
+
+		if let navController = keyWindow?.rootViewController as? UINavigationController,
+		   let tabbarViewController = navController.viewControllers.last as? TabBarController,
+		   let viewControllersCount = tabbarViewController.viewControllers?.count,
+		   tabbarViewController.selectedIndex != viewControllersCount - 2 {
+			tabbarViewController.selectedIndex = viewControllersCount - 2
+		}
+
+		completionHandler()
+	}
 }

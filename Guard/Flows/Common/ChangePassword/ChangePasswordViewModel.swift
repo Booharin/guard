@@ -139,6 +139,8 @@ final class ChangePasswordViewModel: ViewModel, HasDependencies {
 				self?.view.loadingView.stop()
 				switch result {
 				case .success:
+					self?.di.keyChainService.save(self?.view.newPasswordTextField.text ?? "",
+												  for: Constants.KeyChainKeys.password)
 					self?.view.navController?.popViewController(animated: true)
 				case .failure(let error):
 					self?.turnWarnings(with: error.localizedDescription)

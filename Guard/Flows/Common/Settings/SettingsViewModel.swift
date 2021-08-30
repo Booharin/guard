@@ -10,8 +10,13 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxDataSources
+import MessageUI
 
-final class SettingsViewModel: ViewModel, HasDependencies {
+final class SettingsViewModel:
+	NSObject,
+	ViewModel,
+	HasDependencies {
+
 	var view: SettingsViewControllerProtocol!
 	private let animationDuration = 0.15
 	private var userRole: UserRole
@@ -20,6 +25,7 @@ final class SettingsViewModel: ViewModel, HasDependencies {
 	private let logoutSubject: PublishSubject<Any>
 	private let logoutWithAlertSubject = PublishSubject<Any>()
 	private let changePasswordSubject = PublishSubject<Any>()
+	private let sendEmailSubject = PublishSubject<Any>()
 	private var settingsListSubject: PublishSubject<Any>?
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, SettingsCellType>]>?
 	private let showLoaderSubject = PublishSubject<Bool>()
@@ -91,6 +97,19 @@ final class SettingsViewModel: ViewModel, HasDependencies {
 				self?.view.navController?.pushViewController(changePasswordViewController,
 															 animated: true)
 			}).disposed(by: disposeBag)
+		
+		sendEmailSubject
+			.asObservable()
+			.subscribe(onNext: { [weak self] _ in
+				if MFMailComposeViewController.canSendMail() {
+					let mailController = MFMailComposeViewController()
+					mailController.mailComposeDelegate = self
+					mailController.setToRecipients(["info@dsgroup.ltd"])
+					self?.view.present(mailController,
+									   animated: true,
+									   completion: nil)
+				}
+			}).disposed(by: disposeBag)
 
 		logoutWithAlertSubject
 			.observeOn(MainScheduler.instance)
@@ -161,9 +180,16 @@ final class SettingsViewModel: ViewModel, HasDependencies {
 							  isSeparatorHidden: true,
 							  showLoaderSubject: showLoaderSubject),
 			.headerItem(title: "settings.other.title".localized),
-			.changePasswordItem(changePasswordSubject: changePasswordSubject),
+			.sendEmailItem(sendEmailSubject: sendEmailSubject),
 			.logoutItem(logoutSubject: logoutWithAlertSubject)
 		]
+		if di.localStorageService.getCurrenClientProfile()?.userRole == .lawyer {
+			self.settingsCells.insert(
+				.changePasswordItem(changePasswordSubject: changePasswordSubject),
+				at: 5
+			)
+		}
+
 		let section = SectionModel<String, SettingsCellType>(model: "",
 															 items: self.settingsCells)
 		dataSourceSubject?.onNext([section])
@@ -176,4 +202,12 @@ final class SettingsViewModel: ViewModel, HasDependencies {
 	}
 
 	func removeBindings() {}
+}
+
+extension SettingsViewModel: MFMailComposeViewControllerDelegate {
+	func mailComposeController(_ controller: MFMailComposeViewController,
+							   didFinishWith result: MFMailComposeResult,
+							   error: Error?) {
+		controller.dismiss(animated: true)
+	}
 }

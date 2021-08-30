@@ -16,7 +16,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 	var userProfile: UserProfile
 	private var disposeBag = DisposeBag()
 	private var editLawyerSubject: PublishSubject<UserProfile>?
-	private let selectIssueSubject = PublishSubject<IssueType>()
+	private let selectIssuesSubject = PublishSubject<[Int]>()
 
 	var currentCities = [Int]()
 	//TODO: - Change when countries number increase
@@ -46,6 +46,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 	func viewDidSet() {
 		currentCities = di.localStorageService.getCurrenClientProfile()?.cityCode ?? []
 		currentIssueCodes = userProfile.subIssueCodes ?? []
+
 		// back button
 		view.backButton.setImage(#imageLiteral(resourceName: "icn_back_arrow"), for: .normal)
 		view.backButton.rx
@@ -91,7 +92,7 @@ final class EditLawyerProfileViewModel: ViewModel {
 						userProfile.cityCode = currentCities
 
 						// set issue codes
-						userProfile.subIssueCodes = currentIssueCodes
+						userProfile.subIssueCodes = Array(Set(currentIssueCodes))
 
 						self.editLawyerSubject?.onNext(userProfile)
 					}
@@ -236,16 +237,32 @@ final class EditLawyerProfileViewModel: ViewModel {
 		editLawyerSubject = PublishSubject<UserProfile>()
 		editLawyerSubject?
 			.asObservable()
+			.debounce(.milliseconds(200), scheduler: MainScheduler.instance)
+			.filter { _ in
+				if let email = self.view.emailTextField.text,
+				   email.count > 0 {
+					if email.isValidEmail {
+						return true
+					} else {
+						self.view.loadingView.stop()
+						self.di.alertService.showAlert(title: "edit_profile.alert.emailError.title".localized,
+													   message: "",
+													   okButtonTitle: "alert.yes".localized.uppercased(),
+													   completion: { _ in })
+						return false
+					}
+				} else {
+					return true
+				}
+			}
 			.filter { _ in
 				// check if all edit views removed
-				let issueViewsArray = self.view.issuesContainerView.subviews.compactMap { $0 as? EditIssueView }
-				if issueViewsArray.isEmpty {
-					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-						self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
-													   message: "edit_lawyer.empty_issues.title".localized,
-													   okButtonTitle: "alert.yes".localized.uppercased()) { _ in }
-						self.view.loadingView.stop()
-					}
+				//let issueViewsArray = self.view.issuesStackView.subviews.compactMap { $0 as? EditIssueView }
+				if self.currentIssueCodes.isEmpty {
+					self.di.alertService.showAlert(title: "edit_profile.alert.title".localized,
+												   message: "edit_lawyer.empty_issues.title".localized,
+												   okButtonTitle: "alert.yes".localized.uppercased()) { _ in }
+					self.view.loadingView.stop()
 					return false
 				} else {
 					return true
@@ -289,202 +306,133 @@ final class EditLawyerProfileViewModel: ViewModel {
 				}
 			}).disposed(by: disposeBag)
 
-		selectIssueSubject
+		selectIssuesSubject
 			.asObservable()
 			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] issueType in
-				if !(self?.currentIssueCodes.contains(issueType.subIssueCode ?? 0) ?? false) {
-					self?.currentIssueCodes.append(issueType.subIssueCode ?? 0)
-				}
-				print(issueType)
-				self?.view.navController?.viewControllers.forEach {
-					if let vc = $0 as? EditLawyerProfileViewController {
-						self?.view.navController?.popToViewController(vc, animated: true)
-					}
-				}
+			.subscribe(onNext: { [weak self] subIssueCodes in
+				self?.currentIssueCodes = subIssueCodes
+				self?.updateIssuesContainerView()
 			}).disposed(by: disposeBag)
+
+		view.issuesStackView.axis = .vertical
+		view.issuesStackView.distribution = .fill
+		view.issuesStackView.alignment = .center
+		view.issuesStackView.spacing = 10
 	}
 
 	// MARK: - Save profile
 	private func saveProfile() {
 		di.localStorageService.saveProfile(userProfile)
-		di.keyChainService.save(view.emailTextField.text ?? "",
-								for: Constants.KeyChainKeys.email)
+		if let email = view.emailTextField.text {
+			di.keyChainService.save(email,
+									for: Constants.KeyChainKeys.email)
+		}
 		di.keyChainService.save(view.phoneTextField.text ?? "",
 								for: Constants.KeyChainKeys.phoneNumber)
 	}
 
 	private func updateIssuesContainerView(with issues: [Int]) {
 		let screenWidth = UIScreen.main.bounds.width
-		let containerWidth = screenWidth - 75
-		var topOffset = 0
+		let containerWidth = screenWidth - 70
 		var currentLineWidth: CGFloat = 0
-		let interLabelOffset: CGFloat = 10
-		let closeButtonOffset: CGFloat = 17
-		var currentEditIssueViews = [EditIssueView]()
-		var isFirstLine = true
-		let addButtonOffset: CGFloat = 31
+		var lastHorizontalStackView: UIStackView?
+		var isAddButtonAdded = false
 
-		view.issuesContainerView.subviews.forEach {
+		view.issuesStackView.subviews.forEach {
 			$0.removeFromSuperview()
 		}
-		addIssueButton?.removeFromSuperview()
-		addIssueButton = nil
 
 		di.commonDataNetworkService.issueTypes?
 			.compactMap { $0.subIssueTypeList }
 			.reduce([], +)
 			.filter { issues.contains($0.subIssueCode ?? 0) }
 			.forEach { issueType in
-				print(issueType.title)
-				print(issueType.issueCode)
-				let label = IssueLabel(labelColor: Colors.clearColor,
-									   subIssueCode: issueType.subIssueCode ?? 0,
-									   isSelectable: false)
+				let label = IssueLabel(labelColor: Colors.issueLabelColor,
+									   subIssueCode: issueType.subIssueCode ?? 0)
 				label.text = issueType.title
-				// calculate correct size of label
-				let labelWidth = issueType.title.width(withConstrainedHeight: 23,
-												font: SFUIDisplay.medium.of(size: 12)) + 20
-				let editIssueViewWidth = labelWidth + closeButtonOffset
-				let labelHeight = issueType.title.height(withConstrainedWidth: containerWidth,
-												  font: SFUIDisplay.medium.of(size: 12)) + 9
+				let labelWidth = label.intrinsicContentSize.width + 40
 
 				let editIssueView = EditIssueView(editViewColor: Colors.issueLabelColor,
 												  subIssueCode: issueType.subIssueCode ?? 0)
-				view.issuesContainerView.addSubview(editIssueView)
-
-				editIssueView.addSubview(label)
-				editIssueView.snp.makeConstraints {
-					if currentLineWidth + editIssueViewWidth + 10 < containerWidth {
-						currentLineWidth += editIssueViewWidth
-						if currentEditIssueViews.last == nil {
-							let correctOffset = editIssueViewWidth >= containerWidth ?
-								0 : (containerWidth - editIssueViewWidth) / 2
-							$0.leading.equalToSuperview().offset(correctOffset)
-						} else if
-							let firstEditView = currentEditIssueViews.first,
-							let lastEditView = currentEditIssueViews.last {
-							$0.leading.equalTo(lastEditView.snp.trailing).offset(interLabelOffset)
-							firstEditView.snp.updateConstraints {
-								let correctOffset = currentLineWidth >= containerWidth ?
-									0 : (containerWidth - currentLineWidth) / 2
-								$0.leading.equalToSuperview().offset(correctOffset)
-							}
-						}
-					} else {
-
-						if isFirstLine == true,
-						   let firstEditView = currentEditIssueViews.first,
-						   let lastEditView = currentEditIssueViews.last {
-							firstEditView.snp.updateConstraints {
-								let correctOffset = currentLineWidth >= containerWidth ?
-									-addButtonOffset : (containerWidth - (currentLineWidth + addButtonOffset)) / 2
-								$0.leading.equalToSuperview().offset(correctOffset)
-							}
-
-							//MARK: - Add Issue button
-							if addIssueButton == nil {
-								addIssueButton = AddIssueButton()
-								guard let addIssueButton = addIssueButton else { return }
-								view.scrollView.addSubview(addIssueButton)
-								addIssueButton.snp.makeConstraints {
-									$0.width.equalTo(26)
-									$0.height.equalTo(23)
-									$0.leading.equalTo(lastEditView.snp.trailing).offset(10)
-									$0.centerY.equalTo(lastEditView.snp.centerY)
-								}
-								subscribeAddButton()
-							}
-						}
-
-						currentEditIssueViews = []
-
-						let correctOffset = editIssueViewWidth >= containerWidth ?
-							0 : (containerWidth - editIssueViewWidth) / 2
-
-						$0.leading.equalToSuperview().offset(correctOffset)
-						topOffset += (10 + Int(labelHeight))
-						currentLineWidth = editIssueViewWidth
-
-						isFirstLine = false
-					}
-
-					currentEditIssueViews.append(editIssueView)
-
-					$0.top.equalToSuperview().offset(topOffset)
-					$0.width.equalTo(editIssueViewWidth > containerWidth ? containerWidth : editIssueViewWidth)
-					$0.height.equalTo(labelHeight)
-				}
-
-				label.snp.makeConstraints {
-					$0.leading.equalToSuperview()
-					let correctLabelWidth = labelWidth > containerWidth - closeButtonOffset ?
-						containerWidth - closeButtonOffset : labelWidth
-					$0.width.equalTo(correctLabelWidth)
-					$0.height.equalTo(labelHeight)
-					$0.centerY.equalToSuperview().offset(-1)
-				}
-
-				// check if there issues
-				let selectedIssuesSet = Set(issues)
-				if selectedIssuesSet.contains(issueType.subIssueCode ?? 0) {
-					label.selected(isOn: true)
-				}
-
 				editIssueView.editSubject
 					.asObservable()
 					.observeOn(MainScheduler.instance)
 					.subscribe(onNext: { [weak self] code in
 						self?.removeIssue(with: code)
 					}).disposed(by: disposeBag)
-				
+
+				editIssueView.layer.cornerRadius = 11
+				editIssueView.backgroundColor = Colors.issueLabelColor
+				editIssueView.addSubview(label)
+				label.snp.makeConstraints {
+					$0.top.equalToSuperview().offset(5)
+					$0.bottom.equalToSuperview().offset(-5)
+					$0.leading.equalToSuperview().offset(7)
+					$0.trailing.equalToSuperview().offset(-26)
+				}
+
+				if let lastStackView = lastHorizontalStackView,
+				   currentLineWidth + labelWidth + 10 < containerWidth {
+					lastStackView.addArrangedSubview(editIssueView)
+					currentLineWidth += labelWidth
+				} else {
+					// add addButton
+					if let lastStackView = lastHorizontalStackView,
+					   isAddButtonAdded == false {
+						createAddButton()
+						guard let addIssueButton = addIssueButton else { return }
+						lastStackView.addArrangedSubview(addIssueButton)
+						isAddButtonAdded = true
+					}
+
+					let horizontalStackView = createHorizontalStackView()
+					view.issuesStackView.addArrangedSubview(horizontalStackView)
+					horizontalStackView.addArrangedSubview(editIssueView)
+					lastHorizontalStackView = horizontalStackView
+					currentLineWidth = labelWidth
+				}
 			}
 
-		// MARK: - Add Issue button if only one line with issues
-		if addIssueButton == nil,
-		   let firstEditView = currentEditIssueViews.first,
-		   let lastEditView = currentEditIssueViews.last {
-			firstEditView.snp.updateConstraints {
-				let correctOffset = currentLineWidth >= containerWidth ?
-					-addButtonOffset : (containerWidth - (currentLineWidth + addButtonOffset)) / 2
-				$0.leading.equalToSuperview().offset(correctOffset)
-			}
-
-			addIssueButton = AddIssueButton()
+		// if only one line with issues
+		if let lastStackView = lastHorizontalStackView,
+		   isAddButtonAdded == false {
+			createAddButton()
 			guard let addIssueButton = addIssueButton else { return }
-			view.scrollView.addSubview(addIssueButton)
-			addIssueButton.snp.makeConstraints {
-				$0.width.equalTo(26)
-				$0.height.equalTo(23)
-				$0.leading.equalTo(lastEditView.snp.trailing).offset(10)
-				$0.centerY.equalTo(lastEditView.snp.centerY)
-			}
-
-			subscribeAddButton()
+			lastStackView.addArrangedSubview(addIssueButton)
+			isAddButtonAdded = true
 		}
 
-		// MARK: - Add Issue button if no issues here
-		if addIssueButton == nil,
-		   currentEditIssueViews.isEmpty {
-			addIssueButton = AddIssueButton()
+		// if issues empty
+		if issues.isEmpty,
+		   isAddButtonAdded == false {
+			createAddButton()
 			guard let addIssueButton = addIssueButton else { return }
-			view.scrollView.addSubview(addIssueButton)
-			addIssueButton.snp.makeConstraints {
-				$0.width.equalTo(26)
-				$0.height.equalTo(23)
-				$0.center.equalTo(view.issuesContainerView.snp.center)
-			}
-
-			subscribeAddButton()
+			view.issuesStackView.addArrangedSubview(addIssueButton)
+			isAddButtonAdded = true
 		}
+	}
 
-		view.issuesContainerView.snp.updateConstraints {
-			$0.height.equalTo(topOffset + 23)
-		}
+	private func createHorizontalStackView() -> UIStackView {
+		let horizontalStackView = UIStackView()
+		horizontalStackView.axis = .horizontal
+		horizontalStackView.distribution = .fill
+		horizontalStackView.alignment = .center
+		horizontalStackView.spacing = 10
+
+		return horizontalStackView
 	}
 
 	func updateIssuesContainerView() {
 		updateIssuesContainerView(with: currentIssueCodes)
+	}
+
+	private func createAddButton() {
+		addIssueButton = AddIssueButton()
+		addIssueButton?.snp.makeConstraints {
+			$0.width.equalTo(26)
+			$0.height.equalTo(23)
+		}
+		subscribeAddButton()
 	}
 
 	private func subscribeAddButton() {
@@ -501,8 +449,8 @@ final class EditLawyerProfileViewModel: ViewModel {
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.router.passToSelectIssue(selectIssueSubject: self.selectIssueSubject,
-											  lawyerFirstName: userProfile.firstName)
+				self.router.presentFilterScreenViewController(subIssuesCodes: currentIssueCodes,
+															  filterIssuesSubject: selectIssuesSubject)
 			}).disposed(by: disposeBag)
 
 	}

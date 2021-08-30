@@ -12,7 +12,7 @@ struct IssuesResponse: Decodable {
 	let issuesTypes: [IssueType]
 }
 
-struct IssueType: Codable {
+struct IssueType: Codable, Equatable {
 	let title: String
 	var titleEn: String?
 	let subtitle: String
@@ -20,6 +20,17 @@ struct IssueType: Codable {
 	let issueCode: Int
 	let subIssueCode: Int?
 	var locale: String?
-	let subIssueTypeList: [IssueType]?
+	var subIssueTypeList: [IssueType]?
 	let image: String?
+
+	var isSelected: Bool?
+
+	mutating func select(on: Bool) {
+		isSelected = on
+	}
+
+	mutating func selectBy(index: Int,
+						   on: Bool) {
+		subIssueTypeList?[index].select(on: on)
+	}
 }

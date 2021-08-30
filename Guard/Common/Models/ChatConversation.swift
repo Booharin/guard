@@ -6,21 +6,27 @@
 //  Copyright © 2020 ds. All rights reserved.
 //
 
-struct ChatConversation: Codable {
+struct ChatConversation: Codable, Equatable {
 	let id: Int
 	let dateCreated: String
 	let userId: Int
-	let lastMessage: String
+	var lawyerId: Int?
+	var lastMessage: String
 	let appealId: Int?
 	let userFirstName: String?
 	let userLastName: String?
 	let userPhoto: String?
 	let countNotReadMessage: Int?
+	let dateLastMessage: String?
 
 	var fullName: String {
 		guard
 			let firstName = userFirstName,
 			let lastName = userLastName else { return userFirstName ?? userLastName ?? "" }
 		return "\(firstName) \(lastName)"
+	}
+
+	mutating func updateLastMessage(with text: String) {
+		lastMessage = text
 	}
 }

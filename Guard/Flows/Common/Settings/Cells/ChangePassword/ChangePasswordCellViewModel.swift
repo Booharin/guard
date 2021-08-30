@@ -13,7 +13,6 @@ import RxDataSources
 struct ChangePasswordCellViewModel: ViewModel {
 	var view: ChangePasswordCellProtocol!
 	let animateDuration = 0.15
-	let tapSubject = PublishSubject<Any>()
 	let changePasswordSubject: PublishSubject<Any>
 	private var disposeBag = DisposeBag()
 

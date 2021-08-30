@@ -12,6 +12,7 @@ protocol AppealFromListViewControllerProtocol: ViewControllerProtocol {
 	var backButtonView: BackButtonView { get }
 	var titleView: UIView { get }
 	var titleTextField: TextField { get }
+	var issueTypeView: UIView { get }
 	var issueTypeLabel: UILabel { get }
 	var descriptionTextView: UITextView { get }
 	var chatButton: ConfirmButton { get }
@@ -32,6 +33,7 @@ final class AppealFromListViewController<modelType: AppealFromListViewModel>:
 	var backButtonView = BackButtonView()
 	var titleView = UIView()
 	var titleTextField = TextField()
+	var issueTypeView = UIView()
 	var issueTypeLabel = UILabel()
 
 	var profileView = UIView()
@@ -92,20 +94,24 @@ final class AppealFromListViewController<modelType: AppealFromListViewModel>:
 			$0.width.equalTo(titleTextField.snp.width).offset(46)
 			$0.height.equalTo(40)
 		}
-		// issue type
-		view.addSubview(issueTypeLabel)
+		view.addSubview(issueTypeView)
+		issueTypeView.snp.makeConstraints {
+			$0.top.equalToSuperview().offset(10)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
+		}
+		issueTypeView.addSubview(issueTypeLabel)
 		issueTypeLabel.snp.makeConstraints {
-			$0.height.equalTo(24)
-			$0.top.equalToSuperview().offset(100)
-			$0.centerX.equalToSuperview()
-			$0.width.lessThanOrEqualTo(300).priority(1000)
-			$0.width.equalTo(issueTypeLabel.intrinsicContentSize.width + 20).priority(900)
+			$0.top.equalToSuperview().offset(5)
+			$0.bottom.equalToSuperview().offset(-5)
+			$0.leading.equalToSuperview().offset(5)
+			$0.trailing.equalToSuperview().offset(-5)
 		}
 
 		// profile view
 		view.addSubview(profileView)
 		profileView.snp.makeConstraints {
-			$0.top.equalTo(issueTypeLabel.snp.bottom).offset(15)
+			$0.top.equalTo(issueTypeView.snp.bottom).offset(15)
 			$0.height.equalTo(36)
 			$0.width.lessThanOrEqualTo(UIScreen.main.bounds.width - 40)
 			$0.centerX.equalToSuperview()

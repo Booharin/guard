@@ -15,7 +15,8 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 	let router: ConversationsListRouterProtocol
 	private var conversations = [ChatConversation]()
 
-    let conversationsListSubject = PublishSubject<Any>()
+	let conversationsListSubject = PublishSubject<Any>()
+	let currentConversationsListUpdateSubject = PublishSubject<Any>()
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ChatConversation>]>?
 	var toChatWithLawyer: PublishSubject<ChatConversation>?
 
@@ -30,6 +31,10 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 		HasChatNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
+	private var nextPage = 0
+	private let pageSize = 20
+	private var isAllappealsDownloaded = false
+
 	init(router: ConversationsListRouterProtocol,
 		 toChatWithLawyer: PublishSubject<ChatConversation>?) {
 		self.router = router
@@ -40,7 +45,9 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 			.flatMap { [unowned self] _ in
 				self.di.chatNetworkService
 					.getConversations(with: currentProfile?.id ?? 0,
-									  isLawyer: currentProfile?.userRole == .lawyer ? true : false)
+									  isLawyer: currentProfile?.userRole == .lawyer ? true : false,
+									  page: nextPage,
+									  pageSize: pageSize)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
@@ -50,6 +57,32 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 
 				switch result {
 					case .success(let conversations):
+						self?.update(with: conversations)
+					case .failure(let error):
+						//TODO: - обработать ошибку
+						print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+
+		currentConversationsListUpdateSubject
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.chatNetworkService
+					.getConversations(with: currentProfile?.id ?? 0,
+									  isLawyer: currentProfile?.userRole == .lawyer ? true : false,
+									  page: 0,
+									  pageSize: self.pageSize)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				if let view = self?.view {
+					view.loadingView.stop()
+				}
+
+				switch result {
+					case .success(let conversations):
+						self?.conversations.removeAll()
+						self?.nextPage = 0
 						self?.update(with: conversations)
 					case .failure(let error):
 						//TODO: - обработать ошибку
@@ -91,13 +124,30 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stop()
 				switch result {
-					case .success:
-						self?.conversationsListSubject.onNext(())
+					case .success(let conversationId):
+						guard let index = self?.conversations.firstIndex(where: { $0.id == conversationId }) else { return }
+						self?.conversations.remove(at: index)
+						let section = SectionModel<String, ChatConversation>(model: "",
+																			 items: self?.conversations ?? [])
+						self?.dataSourceSubject?.onNext([section])
 					case .failure(let error):
 						//TODO: - обработать ошибку
 						print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
+
+		view.tableView
+			.rx
+			.prefetchRows
+			.filter { _ in
+				self.isAllappealsDownloaded == false
+			}
+			.subscribe(onNext: { [unowned self] rows in
+				if rows.contains([0, 0]) {
+					self.conversationsListSubject.onNext(())
+				}
+			})
+			.disposed(by: disposeBag)
 
 		// greeting
 		view.greetingLabel.font = Saira.light.of(size: 25)
@@ -140,12 +190,39 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 					self?.router.toChatSubject.onNext(newConversation)
 				}
 			}).disposed(by: disposeBag)
+
+		router.updateConversationSubject
+			.asObservable()
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] chatConversation in
+				if let row = self?.conversations.firstIndex(where: { $0.id == chatConversation.id }) {
+					self?.conversations[row] = chatConversation
+				} else {
+					self?.currentConversationsListUpdateSubject.onNext(())
+				}
+			}).disposed(by: disposeBag)
 	}
 
 	private func update(with conversations: [ChatConversation]) {
-		self.conversations = conversations.sorted {
-			$0.dateCreated < $1.dateCreated
-		}
+		self.conversations.append(
+			contentsOf:
+				conversations
+				.filter {
+					!self.conversations.contains($0)
+				}
+		)
+
+		self.conversations = self.conversations
+			.sorted {
+				$0.dateCreated > $1.dateCreated
+			}
+			.sorted {
+				$0.dateLastMessage ?? "" > $1.dateLastMessage ?? $1.dateCreated
+			}
+			.sorted {
+				$0.countNotReadMessage ?? 0 > $1.countNotReadMessage ?? 0
+			}
+
 		let section = SectionModel<String, ChatConversation>(model: "",
 															 items: self.conversations)
 		dataSourceSubject?.onNext([section])
@@ -156,6 +233,13 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 			} else {
 				self.view.tableView.isScrollEnabled = true
 			}
+		}
+
+		if conversations.count < pageSize {
+			isAllappealsDownloaded = true
+		} else {
+			nextPage += 1
+			isAllappealsDownloaded = false
 		}
 
 		updateNotReadCount()
@@ -182,7 +266,7 @@ final class ConversationsListViewModel: ViewModel, HasDependencies {
 	}
 
 	@objc private func updateConversations() {
-		conversationsListSubject.onNext(())
+		currentConversationsListUpdateSubject.onNext(())
 	}
 
 	func removeBindings() {}

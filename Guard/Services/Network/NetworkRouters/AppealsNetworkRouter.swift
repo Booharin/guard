@@ -16,13 +16,20 @@ struct AppealsNetworkRouter {
 		self.environment = environment
 	}
 
-	func getClientAppeals(by id: Int, token: String?) -> URLRequestConvertible {
+	func getClientAppeals(by id: Int,
+						  page: Int,
+						  pageSize: Int,
+						  token: String?) -> URLRequestConvertible {
 		do {
 			return try ClientAppeals(environment: environment,
-									 id: id).asURLDefaultRequest(with: token)
+									 id: id,
+									 page: page,
+									 pageSize: pageSize).asURLDefaultRequest(with: token)
 		} catch {
 			return ClientAppeals(environment: environment,
-								 id: id)
+								 id: id,
+								 page: page,
+								 pageSize: pageSize)
 		}
 	}
 
@@ -85,32 +92,30 @@ struct AppealsNetworkRouter {
 		}
 	}
 
-	func getAppeals(by city: String, token: String?) -> URLRequestConvertible {
-		do {
-			return try AllAppeals(environment: environment,
-								  cityTitle: city).asURLDefaultRequest(with: token)
-		} catch {
-			return AllAppeals(environment: environment,
-							  cityTitle: city)
-		}
-	}
-
-	func getAppeals(by issueCode: [Int],
+	func getAppeals(by issueCodes: [Int]?,
 					cityTitle: String,
+					page: Int,
+					pageSize: Int,
 					token: String?) -> URLRequestConvertible {
 		do {
-			if issueCode.isEmpty {
-				return try AllAppeals(environment: environment,
-									  cityTitle: cityTitle).asURLDefaultRequest(with: token)
-			} else {
+			if let issueCodes = issueCodes,
+			   !issueCodes.isEmpty {
 				return try AppealsByIssue(environment: environment,
-										  issueCode: issueCode,
-										  cityTitle: cityTitle).asURLDefaultRequest(with: token)
+										  issueCodes: issueCodes,
+										  cityTitle: cityTitle,
+										  page: page,
+										  pageSize: pageSize).asURLDefaultRequest(with: token)
+			} else {
+				return try AllAppeals(environment: environment,
+									  cityTitle: cityTitle,
+									  page: page,
+									  pageSize: pageSize).asURLDefaultRequest(with: token)
 			}
 		} catch {
-			return AppealsByIssue(environment: environment,
-								  issueCode: issueCode,
-								  cityTitle: cityTitle)
+			return AllAppeals(environment: environment,
+							  cityTitle: cityTitle,
+							  page: page,
+							  pageSize: pageSize)
 		}
 	}
 
@@ -134,6 +139,20 @@ struct AppealsNetworkRouter {
 							 appealId: id)
 		}
 	}
+
+	func changeAppealStatus(id: Int,
+							status: Bool,
+							token: String?) -> URLRequestConvertible {
+		do {
+			return try ChangeAppealStatus(environment: environment,
+										  appealId: id,
+										  isSelected: status).asURLDefaultRequest(with: token)
+		} catch {
+			return ChangeAppealStatus(environment: environment,
+									  appealId: id,
+									  isSelected: status)
+		}
+	}
 }
 
 extension AppealsNetworkRouter {
@@ -142,11 +161,17 @@ extension AppealsNetworkRouter {
 
 		let environment: Environment
 		let id: Int
+		let page: Int
+		let pageSize: Int
 
 		init(environment: Environment,
-			 id: Int) {
+			 id: Int,
+			 page: Int,
+			 pageSize: Int) {
 			self.environment = environment
 			self.id = id
+			self.page = page
+			self.pageSize = pageSize
 		}
 
 		var baseUrl: URL {
@@ -158,8 +183,8 @@ extension AppealsNetworkRouter {
 		var parameters: Parameters {
 			return [
 				"id": id,
-				"page": 0,
-				"pageSize": 1000
+				"page": page,
+				"pageSize": pageSize
 			]
 		}
 	}
@@ -283,11 +308,17 @@ extension AppealsNetworkRouter {
 
 		let environment: Environment
 		let cityTitle: String
+		let page: Int
+		let pageSize: Int
 
 		init(environment: Environment,
-			 cityTitle: String) {
+			 cityTitle: String,
+			 page: Int,
+			 pageSize: Int) {
 			self.environment = environment
 			self.cityTitle = cityTitle
+			self.page = page
+			self.pageSize = pageSize
 		}
 
 		var baseUrl: URL {
@@ -299,8 +330,8 @@ extension AppealsNetworkRouter {
 		var parameters: Parameters {
 			return [
 				"cityTitle": cityTitle,
-				"page": 0,
-				"pageSize": 1000
+				"page": page,
+				"pageSize": pageSize
 			]
 		}
 	}
@@ -308,15 +339,21 @@ extension AppealsNetworkRouter {
 	private struct AppealsByIssue: RequestRouter {
 
 		let environment: Environment
-		let issueCode: [Int]
+		let issueCodes: [Int]
 		let cityTitle: String
+		let page: Int
+		let pageSize: Int
 
 		init(environment: Environment,
-			 issueCode: [Int],
-			 cityTitle: String) {
+			 issueCodes: [Int],
+			 cityTitle: String,
+			 page: Int,
+			 pageSize: Int) {
 			self.environment = environment
-			self.issueCode = issueCode
+			self.issueCodes = issueCodes
 			self.cityTitle = cityTitle
+			self.page = page
+			self.pageSize = pageSize
 		}
 
 		var baseUrl: URL {
@@ -327,12 +364,12 @@ extension AppealsNetworkRouter {
 		var path = ApiMethods.appealsByIssue
 		var parameters: Parameters {
 			return [
-				"issueCodeList": issueCode
+				"issueCodeList": issueCodes
 					.map { String($0) }
 					.joined(separator:","),
 				"city": cityTitle,
-				"page": 0,
-				"pageSize": 1000
+				"page": page,
+				"pageSize": pageSize
 			]
 		}
 	}
@@ -381,6 +418,34 @@ extension AppealsNetworkRouter {
 		var parameters: Parameters {
 			return [
 				"appealId": appealId
+			]
+		}
+	}
+
+	private struct ChangeAppealStatus: RequestRouter {
+
+		let environment: Environment
+		let appealId: Int
+		let isSelected: Bool
+
+		init(environment: Environment,
+			 appealId: Int,
+			 isSelected: Bool) {
+			self.environment = environment
+			self.appealId = appealId
+			self.isSelected = isSelected
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .post
+		var path = ApiMethods.changeAppealStatus
+		var parameters: Parameters {
+			return [
+				"appealId": appealId,
+				"isSelected": isSelected
 			]
 		}
 	}

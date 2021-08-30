@@ -15,7 +15,9 @@ protocol HasAppealsNetworkService {
 }
 
 protocol AppealsNetworkServiceInterface {
-	func getClientAppeals(by id: Int) -> Observable<Result<[ClientAppeal], AFError>>
+	func getClientAppeals(by id: Int,
+						  page: Int,
+						  pageSize: Int) -> Observable<Result<[ClientAppeal], AFError>>
 	func createAppeal(title: String,
 					  appealDescription: String,
 					  clientId: Int,
@@ -25,13 +27,17 @@ protocol AppealsNetworkServiceInterface {
 					appealDescription: String,
 					appeal: ClientAppeal,
 					cityCode: Int) -> Observable<Result<Any, AFError>>
-	func deleteAppeal(id: Int) -> Observable<Result<Any, AFError>>
-	func getAppeals(by city: String) -> Observable<Result<[ClientAppeal], AFError>>
-	func getAppeals(by issueCode: [Int],
-					city: String) -> Observable<Result<[ClientAppeal], AFError>>
+	func deleteAppeal(id: Int) -> Observable<Result<Int?, AFError>>
+	func getAppeals(by issueCode: [Int]?,
+					city: String,
+					page: Int,
+					pageSize: Int) -> Observable<Result<[ClientAppeal], AFError>>
 	func getClient(by appealId: Int) -> Observable<Result<UserProfile, AFError>>
 
 	func getAppeal(by appealId: Int) -> Observable<Result<ClientAppeal, AFError>>
+
+	func changeAppealStatus(with appealId: Int,
+							status: Bool) -> Observable<Result<Any, AFError>>
 }
 
 final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependencies {
@@ -44,10 +50,14 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 		router = AppealsNetworkRouter(environment: EnvironmentImp())
 	}
 
-	func getClientAppeals(by id: Int) -> Observable<Result<[ClientAppeal], AFError>> {
+	func getClientAppeals(by id: Int,
+						  page: Int,
+						  pageSize: Int) -> Observable<Result<[ClientAppeal], AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.getClientAppeals(by: id,
+											 page: page,
+											 pageSize: pageSize,
 											 token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
 			)
 			.responseJSON { response in
@@ -182,7 +192,7 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 		}
 	}
 
-	func deleteAppeal(id: Int) -> Observable<Result<Any, AFError>> {
+	func deleteAppeal(id: Int) -> Observable<Result<Int?, AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.deleteAppeal(id: id,
@@ -206,7 +216,7 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 
 				switch response.result {
 				case .success:
-					observer.onNext(.success(()))
+					observer.onNext(.success(id))
 				case .failure:
 					#if DEBUG
 					print(response.error?.localizedDescription ?? "")
@@ -220,65 +230,22 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 		}
 	}
 
-	func getAppeals(by city: String) -> Observable<Result<[ClientAppeal], AFError>> {
-		return Observable<Result>.create { (observer) -> Disposable in
-			let requestReference = AF.request(
-				self.router.getAppeals(by: city,
-									   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
-			)
-			.responseJSON { response in
-				#if DEBUG
-				print(response)
-				#endif
-				
-				// handle http status
-				if let code = response.response?.statusCode {
-					switch code {
-					case 401:
-						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
-														object: nil)
-					default:
-						break
-					}
-				}
-
-				switch response.result {
-				case .success:
-					guard let data = response.data else {
-						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
-						return
-					}
-					do {
-						let appeals = try JSONDecoder().decode([ClientAppeal].self, from: data)
-						observer.onNext(.success(appeals))
-						observer.onCompleted()
-					} catch {
-						#if DEBUG
-						print(error)
-						#endif
-						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
-					}
-				case .failure:
-					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
-				}
-			}
-			return Disposables.create(with: {
-				requestReference.cancel()
-			})
-		}
-	}
-
-	func getAppeals(by issueCode: [Int], city: String) -> Observable<Result<[ClientAppeal], AFError>> {
+	func getAppeals(by issueCode: [Int]? = nil,
+					city: String,
+					page: Int,
+					pageSize: Int) -> Observable<Result<[ClientAppeal], AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.getAppeals(by: issueCode,
 									   cityTitle: city,
+									   page: page,
+									   pageSize: pageSize,
 									   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
 			)
 			.responseJSON { response in
-				#if DEBUG
-				print(response)
-				#endif
+//				#if DEBUG
+//				print(response)
+//				#endif
 
 				// handle http status
 				if let code = response.response?.statusCode {
@@ -404,6 +371,46 @@ final class AppealsNetworkService: AppealsNetworkServiceInterface, HasDependenci
 						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
 					}
 				case .failure:
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func changeAppealStatus(with appealId: Int,
+							status: Bool) -> Observable<Result<Any, AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+			let requestReference = AF.request(
+				self.router.changeAppealStatus(id: appealId,
+											   status: status,
+											   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
+			)
+			.response { response in
+				#if DEBUG
+				print(response)
+				#endif
+
+				// handle http status
+				if let code = response.response?.statusCode {
+					switch code {
+					case 401:
+						NotificationCenter.default.post(name: Notification.Name(Constants.NotificationKeys.logout),
+														object: nil)
+					default:
+						break
+					}
+				}
+
+				switch response.result {
+				case .success:
+					observer.onNext(.success(()))
+				case .failure:
+					#if DEBUG
+					print(response.error?.localizedDescription ?? "")
+					#endif
 					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
 				}
 			}

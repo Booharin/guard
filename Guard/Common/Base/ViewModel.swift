@@ -13,7 +13,7 @@ protocol ViewModel {
     mutating func assosiateView(_ view:  ViewType?)
     func viewDidSet()
     func removeBindings()
-    
+
     var view: ViewType! { get set }
 }
 

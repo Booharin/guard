@@ -11,7 +11,6 @@ import SnapKit
 
 /// Protocol of controller for user type choice
 protocol ChooseViewControllerProtocol {
-	var toRegistration: ((UserRole) -> (Void))? { get }
 	var titleLabel: UILabel { get }
 	
 	var lawyerEnterView: UIView { get }
@@ -21,13 +20,14 @@ protocol ChooseViewControllerProtocol {
 	var clientEnterView: UIView { get }
 	var clientTitleLabel: UILabel { get }
 	var clientSubtitleLabel: UILabel { get }
+
+	var loadingView: LottieAnimationView { get }
 }
 
 /// Controller for user type choice
 final class ChooseViewController<modelType: ViewModel>: UIViewController,
 	ChooseViewControllerProtocol where modelType.ViewType == ChooseViewControllerProtocol {
-	/// Pass to registration
-	var toRegistration: ((UserRole) -> (Void))?
+
 	var titleLabel = UILabel()
 
 	var lawyerEnterView = UIView()
@@ -37,32 +37,33 @@ final class ChooseViewController<modelType: ViewModel>: UIViewController,
 	var clientEnterView = UIView()
 	var clientTitleLabel = UILabel()
 	var clientSubtitleLabel = UILabel()
-	
+	var loadingView = LottieAnimationView()
+
 	var viewModel: modelType
-	
+
 	init(viewModel: modelType) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-	
+		self.viewModel = viewModel
+		super.init(nibName: nil, bundle: nil)
+	}
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-		
+	override func viewDidLoad() {
+		super.viewDidLoad()
+
 		self.viewModel.assosiateView(self)
 		view.backgroundColor = Colors.whiteColor
 		addViews()
-    }
-	
+	}
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
-		navigationController?.isNavigationBarHidden = true
+
+		navigationController?.setNavigationBarHidden(true, animated: true)
 	}
-	
+
 	private func addViews() {
 		// ttile
 		view.addSubview(titleLabel)
@@ -147,6 +148,13 @@ final class ChooseViewController<modelType: ViewModel>: UIViewController,
 			$0.top.equalToSuperview().offset(38)
 			$0.leading.equalToSuperview().offset(42)
 			$0.trailing.equalToSuperview().offset(-42)
+		}
+
+		// loading view
+		view.addSubview(loadingView)
+		loadingView.snp.makeConstraints {
+			$0.center.equalToSuperview()
+			$0.width.height.equalTo(300)
 		}
 	}
 }

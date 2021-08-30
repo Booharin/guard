@@ -23,7 +23,7 @@ protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
 	var backButtonView: BackButtonView { get }
 	var skipButton: SkipButton { get }
 	var alreadyRegisteredLabel: UILabel { get }
-	
+
 	var loadingView: LottieAnimationView { get }
 }
 
@@ -181,8 +181,6 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 		loadingView.snp.makeConstraints {
 			$0.center.equalToSuperview()
 			$0.width.height.equalTo(300)
-//			$0.centerX.equalTo(scrollView.snp.centerX)
-//			$0.top.equalTo(scrollView.snp.top).offset(100)
 		}
 	}
 }

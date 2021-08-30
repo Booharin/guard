@@ -19,8 +19,12 @@ final class AppealCreatingViewModel: ViewModel, HasDependencies {
 		HasAppealsNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
-	init(issueType: IssueType) {
+	private let appealCreatedSubject: PublishSubject<Any>
+
+	init(issueType: IssueType,
+		 appealCreatedSubject: PublishSubject<Any>) {
 		self.issueType = issueType
+		self.appealCreatedSubject = appealCreatedSubject
 	}
 
 	func viewDidSet() {
@@ -57,7 +61,7 @@ final class AppealCreatingViewModel: ViewModel, HasDependencies {
 		// client issue title
 		view.issueTitleLabel.font = SFUIDisplay.medium.of(size: 15)
 		view.issueTitleLabel.textColor = Colors.warningColor
-		view.issueTitleLabel.numberOfLines = 2
+		view.issueTitleLabel.numberOfLines = 0
 		view.issueTitleLabel.textAlignment = .center
 		view.issueTitleLabel.text = issueType.title
 
@@ -105,6 +109,7 @@ final class AppealCreatingViewModel: ViewModel, HasDependencies {
 				self?.view.loadingView.stop()
 				switch result {
 				case .success:
+					self?.appealCreatedSubject.onNext(())
 					self?.view.navController?.popToRootViewController(animated: true)
 				case .failure(let error):
 					//TODO: - обработать ошибку
@@ -156,7 +161,9 @@ final class AppealCreatingViewModel: ViewModel, HasDependencies {
 			let description = view.descriptionTextView.text else { return }
 
 		if !title.isEmpty,
-			!description.isEmpty {
+			!description.isEmpty,
+			view.titleTextField.text != "new_appeal.title.textfield.placeholder".localized,
+			view.descriptionTextView.text != "new_appeal.textview.placeholder".localized {
 			view.createAppealButton.isEnabled = true
 			view.createAppealButton.backgroundColor = Colors.greenColor
 		} else {

@@ -9,17 +9,20 @@
 import Alamofire
 import RxSwift
 import KeychainSwift
+import MyTrackerSDK
 
 protocol HasAuthService {
 	var authService: AuthServiceInterface { get set }
 }
 
 protocol AuthServiceInterface {
-	func signIn(email: String, password: String) -> Observable<Result<UserRole, AFError>>
+	func signIn(email: String,
+				password: String) -> Observable<Result<UserRole, AFError>>
 	func forgotPassword(email: String) -> Observable<Result<Any, AFError>>
 	func changePassword(id: Int,
 						oldPassword: String,
 						newPassword: String) -> Observable<Result<Any, AFError>>
+	func signInById(with id: String) -> Observable<Result<Any, AFError>>
 }
 
 final class AuthService: AuthServiceInterface, HasDependencies {
@@ -89,6 +92,7 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 							self.di.localStorageService.saveReviews(reviews)
 						}
 						UserDefaults.standard.set(true, forKey: Constants.UserDefaultsKeys.isLogin)
+						MRMyTracker.trackerParams().customUserId = String(user.id)
 
 						observer.onNext(.success(user.userRole))
 						observer.onCompleted()
@@ -146,6 +150,71 @@ final class AuthService: AuthServiceInterface, HasDependencies {
 						observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
 					}
 				}
+			return Disposables.create(with: {
+				requestReference.cancel()
+			})
+		}
+	}
+
+	func signInById(with id: String) -> Observable<Result<Any, AFError>> {
+		return Observable<Result>.create { (observer) -> Disposable in
+
+			let devicetoken = self.di.keyChainService.getValue(for: Constants.KeyChainKeys.deviceToken)
+
+			let requestReference = AF.request(
+				self.router.signInById(id: id,
+									   deviceToken: devicetoken ?? "")
+			)
+			.responseJSON { response in
+				#if DEBUG
+				print(response)
+				#endif
+
+				switch response.result {
+				case .success:
+					guard let data = response.data else {
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+						return
+					}
+					do {
+						let authResponce = try JSONDecoder().decode(AuthResponse.self, from: data)
+						guard
+							let token = authResponce.token,
+							var user = authResponce.user else {
+							observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+							return
+						}
+						self.di.keyChainService.save(token, for: Constants.KeyChainKeys.token)
+						self.di.keyChainService.save(user.email ?? "",
+													 for: Constants.KeyChainKeys.email)
+						self.di.keyChainService.save(user.password ?? "",
+													 for: Constants.KeyChainKeys.password)
+						self.di.keyChainService.save(user.phoneNumber ?? "",
+													 for: Constants.KeyChainKeys.phoneNumber)
+
+						// MARK: - Save issue codes
+						user.subIssueCodes = user.subIssueTypes?.compactMap { $0.subIssueCode }
+
+						self.di.localStorageService.saveProfile(user)
+						if let reviews = user.reviewList {
+							self.di.localStorageService.saveReviews(reviews)
+						}
+						UserDefaults.standard.set(true,
+												  forKey: Constants.UserDefaultsKeys.isLogin)
+						MRMyTracker.trackerParams().customUserId = String(user.id)
+
+						observer.onNext(.success(()))
+						observer.onCompleted()
+					} catch {
+						#if DEBUG
+						print(error)
+						#endif
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+					}
+				case .failure:
+					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
+				}
+			}
 			return Disposables.create(with: {
 				requestReference.cancel()
 			})

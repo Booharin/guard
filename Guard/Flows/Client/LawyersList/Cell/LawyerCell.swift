@@ -22,20 +22,20 @@ class LawyerCell: UITableViewCell, LawyerCellProtocol {
 	var avatarImageView = UIImageView()
 	var rateLabel = UILabel()
 	var isFreeView = UIView()
-	
+
 	var viewModel: LawyerCellViewModel!
-	
+
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		backgroundColor = .clear
 		selectionStyle = .none
 		addViews()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+
 	private func addViews() {
 		contentView.addSubview(containerView)
 		containerView.snp.makeConstraints {

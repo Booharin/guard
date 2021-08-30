@@ -19,8 +19,7 @@ final class AppealsListViewModel:
 	typealias Dependencies =
 		HasLocalStorageService &
 		HasKeyChainService &
-		HasAppealsNetworkService &
-		HasFilterViewService
+		HasAppealsNetworkService
 	lazy var di: Dependencies = DI.dependencies
 	var clientProfile: UserProfile? {
 		di.localStorageService.getCurrenClientProfile()
@@ -31,10 +30,17 @@ final class AppealsListViewModel:
 	private var appeals = [ClientAppeal]()
 	private var router: AppealsListRouterProtocol
 	private let disposeBag = DisposeBag()
+
 	var appealsListSubject: PublishSubject<Any>?
+	private let filterIssuesSubject = PublishSubject<[Int]>()
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ClientAppeal>]>?
-	var selectedIssues = [Int]()
+
+	private var selectedSubIssuesCodes = [Int]()
 	private var currentCityTitle = ""
+
+	private var nextPage = 0
+	private let pageSize = 20
+	private var isAllappealsDownloaded = false
 
 	init(router: AppealsListRouterProtocol) {
 		self.router = router
@@ -48,6 +54,23 @@ final class AppealsListViewModel:
 			.bind(to: view.tableView
 					.rx
 					.items(dataSource: ClientAppealDataSource.dataSource(toAppealDescriptionSubject: router.toAppealDescriptionSubject)))
+			.disposed(by: disposeBag)
+
+		view.tableView
+			.rx
+			.prefetchRows
+			.filter { _ in
+				self.isAllappealsDownloaded == false
+			}
+			.subscribe(onNext: { [unowned self] rows in
+				if rows.contains([0, 0]) {
+					if self.selectedSubIssuesCodes.isEmpty {
+						self.appealsListSubject?.onNext(())
+					} else {
+						self.filterIssuesSubject.onNext(self.selectedSubIssuesCodes)
+					}
+				}
+			})
 			.disposed(by: disposeBag)
 
 		// back button
@@ -65,33 +88,9 @@ final class AppealsListViewModel:
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.di.filterViewService.showFilterView(with: selectedIssues)
+				self.router.presentFilterScreenViewController(subIssuesCodes: selectedSubIssuesCodes,
+															  filterIssuesSubject: filterIssuesSubject)
 			}).disposed(by: disposeBag)
-
-		di.filterViewService.selectedIssuesSubject
-			.do(onNext: { [weak self] _ in
-				self?.view.loadingView.play()
-			})
-			.do(onNext: { [weak self] issues in
-				// save selected issues
-				self?.selectedIssues = issues
-			})
-			.flatMap { [unowned self] issues in
-				self.di.appealsNetworkService.getAppeals(by: issues,
-														 city: self.currentCityTitle)
-			}
-			.observeOn(MainScheduler.instance)
-			.subscribe(onNext: { [weak self] result in
-				self?.view.loadingView.stop()
-				switch result {
-					case .success(let lawyers):
-						self?.update(with: lawyers)
-					case .failure(let error):
-						//TODO: - обработать ошибку
-						print(error.localizedDescription)
-				}
-			})
-			.disposed(by: disposeBag)
 
 		// back button
 		view.titleView
@@ -140,7 +139,10 @@ final class AppealsListViewModel:
 		appealsListSubject?
 			.asObservable()
 			.flatMap { [unowned self] _ in
-				self.di.appealsNetworkService.getAppeals(by: self.currentCityTitle)
+				self.di.appealsNetworkService.getAppeals(by: nil,
+														 city: self.currentCityTitle,
+														 page: self.nextPage,
+														 pageSize: self.pageSize)
 			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
@@ -156,15 +158,49 @@ final class AppealsListViewModel:
 
 		view.loadingView.play()
 		appealsListSubject?.onNext(())
+
+		filterIssuesSubject
+			.do(onNext: { [weak self] _ in
+				self?.view.loadingView.play()
+			})
+			.do(onNext: { [weak self] subIssuesCodes in
+				if subIssuesCodes != self?.selectedSubIssuesCodes {
+					self?.nextPage = 0
+					self?.appeals.removeAll()
+				}
+				// save selected issues
+				self?.selectedSubIssuesCodes = subIssuesCodes
+			})
+			.flatMap { [unowned self] subIssuesCodes in
+				self.di.appealsNetworkService.getAppeals(by: subIssuesCodes,
+														 city: self.currentCityTitle,
+														 page: self.nextPage,
+														 pageSize: self.pageSize)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				self?.view.loadingView.stop()
+				switch result {
+				case .success(let appeals):
+					self?.update(with: appeals)
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			})
+			.disposed(by: disposeBag)
 	}
 
 	private func update(with appeals: [ClientAppeal]) {
-		self.appeals = appeals
+		self.appeals.append(contentsOf:
+								appeals.filter { ($0.lawyerChoosed ?? false) == false }
+		)
 		let section = SectionModel<String, ClientAppeal>(model: "",
-														items: appeals)
+														items: self.appeals)
 		dataSourceSubject?.onNext([section])
 
-		if appeals.isEmpty {
+		if appeals.isEmpty,
+			self.appeals.isEmpty {
 			view.emptyAppealsLabel.isHidden = false
 		} else {
 			view.emptyAppealsLabel.isHidden = true
@@ -175,6 +211,14 @@ final class AppealsListViewModel:
 		} else {
 			self.view.tableView.isScrollEnabled = true
 		}
+
+		if appeals.isEmpty {
+			isAllappealsDownloaded = true
+		} else {
+			isAllappealsDownloaded = false
+		}
+
+		nextPage += 1
 	}
 
 	func removeBindings() {}

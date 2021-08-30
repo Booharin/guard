@@ -32,4 +32,9 @@ struct Colors {
 	// chat
 	static let outgoingMessageBackground = #colorLiteral(red: 0.9294117647, green: 1, blue: 0.9058823529, alpha: 1)
 	static let incomingMessageBackground = #colorLiteral(red: 0.8705882353, green: 0.968627451, blue: 1, alpha: 1)
+
+	static let subIssuesListBackgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9764705882, alpha: 1)
+	static let subIssueBackgroundColor = #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1)
+	
+	static let textFielfBorderColor = #colorLiteral(red: 0.6092899442, green: 0.6265859008, blue: 0.7047625184, alpha: 1)
 }

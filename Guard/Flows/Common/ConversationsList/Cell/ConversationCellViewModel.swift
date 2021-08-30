@@ -85,7 +85,7 @@ final class ConversationCellViewModel:
 			view.numberMessagesLabel.isHidden = false
 		}
 
-		view.nameTitleLabel.text = chatConversation.fullName.isEmpty ? "chat.noName".localized : chatConversation.fullName
+		view.nameTitleLabel.text = chatConversation.fullName.count <= 1 ? "chat.noName".localized : chatConversation.fullName
 		view.nameTitleLabel.font = SFUIDisplay.regular.of(size: 16)
 		view.nameTitleLabel.textColor = Colors.mainTextColor
 
@@ -95,18 +95,19 @@ final class ConversationCellViewModel:
 
 		view.dateLabel.font = SFUIDisplay.light.of(size: 10)
 		view.dateLabel.textColor = Colors.mainTextColor
-		view.dateLabel.text = Date.getCorrectDate(from: chatConversation.dateCreated, format: "dd.MM.yyyy")
+		view.dateLabel.text = Date.getCorrectDate(from: chatConversation.dateLastMessage ?? chatConversation.dateCreated,
+												  format: "dd.MM.yyyy")
 
 		view.timeLabel.font = SFUIDisplay.light.of(size: 10)
 		view.timeLabel.textColor = Colors.mainTextColor
-		view.timeLabel.text = Date.getCorrectDate(from: chatConversation.dateCreated, format: "HH:mm")
+		view.timeLabel.text = Date.getCorrectDate(from: chatConversation.dateLastMessage ?? chatConversation.dateCreated,
+												  format: "HH:mm")
 
 		lawyerImageSubject
 			.asObservable()
 			.flatMap { [unowned self] _ in
 				self.di.clientNetworkService.getPhoto(profileId: chatConversation.userId)
 			}
-			//.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
 				switch result {
 				case .success(let data):

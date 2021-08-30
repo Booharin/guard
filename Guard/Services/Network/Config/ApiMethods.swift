@@ -9,13 +9,16 @@
 enum ApiMethods {
 	// auth
 	static let login = "auth/login"
+	static let loginWithId = "auth/loginClientById"
 	static let forgotPassword = "common/forgot"
 	static let changePassword = "common/change"
 	static let register = "common/register"
+	static let anonymousRegister = "common/anonymousClientRegister"
 	// lawyers
 	static let getLawyers = "common/lawyers"
 	static let getAllLawyers = "client/alllawyers"
 	static let getLawyer = "common/lawyer"
+	static let getReviews = "review/getByReceiverId"
 	// appeals
 	static let clientAppeals = "appeal/client"
 	static let createAppeal = "appeal/save"
@@ -25,6 +28,7 @@ enum ApiMethods {
 	static let appealsByIssue = "common/iac"
 	static let clientByAppealId = "common/client"
 	static let getAppeal = "appeal/findAppeal"
+	static let changeAppealStatus = "appeal/status"
 	// chat
 	static let createConversation = "chat/createconversation"
 	static let createConversationByAppeal = "chat/createconversationByAppeal"

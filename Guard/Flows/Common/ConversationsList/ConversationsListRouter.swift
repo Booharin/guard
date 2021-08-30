@@ -11,12 +11,14 @@ import RxCocoa
 
 protocol ConversationsListRouterProtocol {
 	var toChatSubject: PublishSubject<ChatConversation> { get }
+	var updateConversationSubject: PublishSubject<ChatConversation> { get }
 }
 
 final class ConversationsListRouter: BaseRouter, ConversationsListRouterProtocol {
 
 	var toChatSubject = PublishSubject<ChatConversation>()
 	private var disposeBag = DisposeBag()
+	var updateConversationSubject = PublishSubject<ChatConversation>()
 
 	override init() {
 		super.init()
@@ -37,6 +39,7 @@ final class ConversationsListRouter: BaseRouter, ConversationsListRouterProtocol
 		let router = ChatRouter()
 		router.navigationController = navigationController
 		let chatViewController = ChatViewController(viewModel: ChatViewModel(chatConversation: conversation,
+																			 updateConversationSubject: updateConversationSubject,
 																			 router: router))
 		chatViewController.hidesBottomBarWhenPushed = true
 

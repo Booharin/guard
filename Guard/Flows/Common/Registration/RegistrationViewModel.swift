@@ -9,6 +9,8 @@
 import RxSwift
 import RxCocoa
 import RxGesture
+import MyTrackerSDK
+import FBSDKCoreKit
 
 final class RegistrationViewModel: ViewModel, HasDependencies {
 	var view: RegistratioViewControllerProtocol!
@@ -363,6 +365,11 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stop()
+
+				let id = "\(self?.di.localStorageService.getCurrenClientProfile()?.id ?? 0)"
+				MRMyTracker.trackRegistrationEvent(id)
+				AppEvents.logEvent(.completedRegistration)
+
 				switch result {
 				case .success:
 					self?.toSelectIssueSubject?.onNext(())

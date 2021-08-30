@@ -9,6 +9,7 @@
 import RxSwift
 import RxCocoa
 import UIKit
+import Alamofire
 
 final class LawyerCellViewModel:
 	ViewModel,
@@ -63,7 +64,7 @@ final class LawyerCellViewModel:
 			view.avatarImageView.tintColor = Colors.lightGreyColor
 		}
 
-		view.nameTitle.text = lawyer.fullName.isEmpty ? "chat.noName".localized : lawyer.fullName
+		view.nameTitle.text = lawyer.fullName.count <= 1 ? "chat.noName".localized : lawyer.fullName
 		view.nameTitle.font = SFUIDisplay.regular.of(size: 16)
 		view.nameTitle.textColor = Colors.mainTextColor
 

@@ -16,15 +16,23 @@ struct ChatNetworkRouter {
 		self.environment = environment
 	}
 
-	func getConversations(profileId: Int, isLawyer: Bool, token: String?) -> URLRequestConvertible {
+	func getConversations(profileId: Int,
+						  isLawyer: Bool,
+						  page: Int,
+						  pageSize: Int,
+						  token: String?) -> URLRequestConvertible {
 		do {
 			return try AllConversations(environment: environment,
 										profileId: profileId,
-										isLawyer: isLawyer).asURLDefaultRequest(with: token)
+										isLawyer: isLawyer,
+										page: page,
+										pageSize: pageSize).asURLDefaultRequest(with: token)
 		} catch {
 			return AllConversations(environment: environment,
 									profileId: profileId,
-									isLawyer: isLawyer)
+									isLawyer: isLawyer,
+									page: page,
+									pageSize: pageSize)
 		}
 	}
 
@@ -98,13 +106,19 @@ extension ChatNetworkRouter {
 		let environment: Environment
 		let profileId: Int
 		let isLawyer: Bool
+		let page: Int
+		let pageSize: Int
 
 		init(environment: Environment,
 			 profileId: Int,
-			 isLawyer: Bool) {
+			 isLawyer: Bool,
+			 page: Int,
+			 pageSize: Int) {
 			self.environment = environment
 			self.profileId = profileId
 			self.isLawyer = isLawyer
+			self.page = page
+			self.pageSize = pageSize
 		}
 
 		var baseUrl: URL {
@@ -116,7 +130,9 @@ extension ChatNetworkRouter {
 		var parameters: Parameters {
 			return [
 				"id": profileId,
-				"isLawyer": isLawyer
+				"isLawyer": isLawyer,
+				"page": page,
+				"pageSize": pageSize
 			]
 		}
 	}

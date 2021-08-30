@@ -15,6 +15,7 @@ protocol AppealViewControllerProtocol: ViewControllerProtocol {
 	var rightBarButtonItem: UIBarButtonItem? { get set }
 	var titleView: UIView { get }
 	var titleTextField: TextField { get }
+	var issueTypeView: UIView { get }
 	var issueTypeLabel: UILabel { get }
 	var descriptionTextView: UITextView { get }
 	var lawyerSelectedButton: ConfirmButton { get }
@@ -43,10 +44,10 @@ final class AppealViewController<modelType: AppealViewModel>:
 	}
 	var titleView = UIView()
 	var titleTextField = TextField()
+	var issueTypeView = UIView()
 	var issueTypeLabel = UILabel()
 	var descriptionTextView = UITextView()
-	var lawyerSelectedButton = ConfirmButton(title: "appeal.lawyerSelectedButton.title".localized.uppercased(),
-											 backgroundColor: Colors.greenColor)
+	var lawyerSelectedButton = ConfirmButton(backgroundColor: Colors.greenColor)
 	var navController: UINavigationController? {
 		self.navigationController
 	}
@@ -98,13 +99,19 @@ final class AppealViewController<modelType: AppealViewModel>:
 			$0.height.equalTo(40)
 		}
 		// issue type
-		view.addSubview(issueTypeLabel)
+
+		view.addSubview(issueTypeView)
+		issueTypeView.snp.makeConstraints {
+			$0.top.equalToSuperview().offset(10)
+			$0.leading.equalToSuperview().offset(20)
+			$0.trailing.equalToSuperview().offset(-20)
+		}
+		issueTypeView.addSubview(issueTypeLabel)
 		issueTypeLabel.snp.makeConstraints {
-			$0.height.equalTo(24)
-			$0.top.equalToSuperview().offset(90)
-			$0.centerX.equalToSuperview()
-			$0.width.lessThanOrEqualTo(300).priority(1000)
-			$0.width.equalTo(issueTypeLabel.intrinsicContentSize.width + 20).priority(900)
+			$0.top.equalToSuperview().offset(5)
+			$0.bottom.equalToSuperview().offset(-5)
+			$0.leading.equalToSuperview().offset(5)
+			$0.trailing.equalToSuperview().offset(-5)
 		}
 		// description text view
 		descriptionTextView.delegate = self
@@ -112,7 +119,7 @@ final class AppealViewController<modelType: AppealViewModel>:
 		descriptionTextView.snp.makeConstraints {
 			$0.leading.equalToSuperview().offset(36)
 			$0.trailing.equalToSuperview().offset(-36)
-			$0.top.equalTo(issueTypeLabel.snp.bottom).offset(23)
+			$0.top.equalTo(issueTypeView.snp.bottom).offset(13)
 			$0.bottom.equalToSuperview().offset(-160)
 		}
 		view.addSubview(lawyerSelectedButton)

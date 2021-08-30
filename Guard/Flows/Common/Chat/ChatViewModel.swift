@@ -18,6 +18,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 	private var chatConversation: ChatConversation
 	private var messages = [ChatMessage]()
 	private let router: ChatRouterProtocol
+	private let updateConversationSubject: PublishSubject<ChatConversation>
 
 	typealias Dependencies =
 		HasNotificationService &
@@ -41,8 +42,10 @@ final class ChatViewModel: ViewModel, HasDependencies {
 	}
 
 	init(chatConversation: ChatConversation,
+		 updateConversationSubject: PublishSubject<ChatConversation>,
 		 router: ChatRouterProtocol) {
 		self.chatConversation = chatConversation
+		self.updateConversationSubject = updateConversationSubject
 		self.router = router
 	}
 
@@ -116,7 +119,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 		// title
 		view.titleLabel.font = SFUIDisplay.bold.of(size: 15)
 		view.titleLabel.textColor = Colors.mainTextColor
-		view.titleLabel.text = chatConversation.fullName.isEmpty ? "chat.noName".localized : chatConversation.fullName
+		view.titleLabel.text = chatConversation.fullName.count <= 1 ? "chat.noName".localized : chatConversation.fullName
 		view.titleLabel
 			.rx
 			.tapGesture()
@@ -226,7 +229,7 @@ final class ChatViewModel: ViewModel, HasDependencies {
 					"senderName": self.di.localStorageService.getCurrenClientProfile()?.firstName ?? "Name",
 					"content": "test content",
 					"senderId": self.di.localStorageService.getCurrenClientProfile()?.id ?? 0,
-					"fileName": "test.file",
+					"fileName": "test.jpg",
 					"fileBase64": strBase64
 				]
 				do {
@@ -240,15 +243,17 @@ final class ChatViewModel: ViewModel, HasDependencies {
 						"""
 
 					self.di.socketStompService.sendMessage(with: jSONText,
-															to: path,
-															receiptId: "",
-															headers: ["content-type": "application/json"])
+														   to: path,
+														   receiptId: "",
+														   headers: ["content-type": "application/json"])
 					self.imageForSending = nil
 					self.messagesListSubject?.onNext(())
+					self.chatConversation.updateLastMessage(with: "chat.file".localized)
 				} catch {
 					print(error.localizedDescription)
 				}
 				self.messagesListSubject?.onNext(())
+				self.updateConversationSubject.onNext(self.chatConversation)
 			}).disposed(by: disposeBag)
 
 		messagesListSubject = PublishSubject<Any>()
@@ -301,25 +306,16 @@ final class ChatViewModel: ViewModel, HasDependencies {
 					.createConversation(lawyerId: self.chatConversation.userId,
 										clientId: currentProfile?.id ?? 0)
 			}
-			.flatMap { [unowned self] _ in
-				self.di.chatNetworkService
-					.getConversations(with: currentProfile?.id ?? 0,
-									  isLawyer: false)
-			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stop()
 				switch result {
-					case .success(let conversations):
-						conversations.forEach { chat in
-							if chat.userId == self?.chatConversation.userId {
-								self?.chatConversation = chat
-								self?.sendMessage(with: self?.messageForSending ?? "")
-							}
-						}
-					case .failure(let error):
-						//TODO: - обработать ошибку
-						print(error.localizedDescription)
+				case .success(let conversation):
+					self?.chatConversation = conversation
+					self?.sendMessage(with: self?.messageForSending ?? "")
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
 
@@ -335,23 +331,13 @@ final class ChatViewModel: ViewModel, HasDependencies {
 												clientId: self.chatConversation.userId,
 												appealId: self.chatConversation.appealId ?? 0)
 			}
-			.flatMap { [unowned self] _ in
-				self.di.chatNetworkService
-					.getConversations(with: currentProfile?.id ?? 0,
-									  isLawyer: true)
-			}
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] result in
 				self?.view.loadingView.stop()
 				switch result {
-				case .success(let conversations):
-					conversations.forEach { chat in
-						// update conversation after saving
-						if chat.userId == self?.chatConversation.userId {
-							self?.chatConversation = chat
-							self?.sendMessage(with: self?.messageForSending ?? "")
-						}
-					}
+				case .success(let conversation):
+					self?.chatConversation = conversation
+					self?.sendMessage(with: self?.messageForSending ?? "")
 				case .failure(let error):
 					//TODO: - обработать ошибку
 					print(error.localizedDescription)
@@ -405,6 +391,8 @@ final class ChatViewModel: ViewModel, HasDependencies {
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 				self.messagesListSubject?.onNext(())
 			}
+			self.chatConversation.updateLastMessage(with: text)
+			self.updateConversationSubject.onNext(self.chatConversation)
 		} catch {
 			print(error.localizedDescription)
 		}

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol AuthViewControllerProtocol: class, ViewControllerProtocol {
+protocol AuthViewControllerProtocol: AnyObject, ViewControllerProtocol {
 	
 	var logoImageView: UIImageView { get }
 	var logoTitleLabel: UILabel { get }
@@ -49,32 +49,31 @@ AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtoco
 	var navController: UINavigationController? {
 		return self.navigationController
 	}
-	
+
 	init(viewModel: modelType) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 	}
-	
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+
 		self.viewModel.assosiateView(self)
 		view.backgroundColor = Colors.whiteColor
 		addViews()
 	}
-	
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
-		navigationController?.isNavigationBarHidden = true
+
+		navigationController?.setNavigationBarHidden(true, animated: true)
 		self.navigationItem.setHidesBackButton(true, animated:false)
 	}
-	
-	
+
 	private func addViews() {
 		// logo imageView
 		view.addSubview(logoImageView)

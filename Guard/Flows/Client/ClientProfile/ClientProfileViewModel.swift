@@ -18,14 +18,12 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 
 	typealias Dependencies =
 		HasLocalStorageService &
+		HasLawyersNetworkService &
 		HasKeyChainService &
 		HasClientNetworkService
 	lazy var di: Dependencies = DI.dependencies
 	var clientProfile: UserProfile? {
 		di.localStorageService.getCurrenClientProfile()
-	}
-	private var clientReviews: [UserReview]? {
-		di.localStorageService.getReviews()
 	}
 
 	private var settingsClient: SettingsModel?
@@ -34,6 +32,8 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 	private var disposeBag = DisposeBag()
 	private var positiveReviewsCount = 0
 	private var negativeReviewsCount = 0
+	let reviewsListSubject = PublishSubject<Any>()
+	private var reviews = [UserReview]()
 
 	init(router: ClientProfileRouterProtocol) {
 		self.router = router
@@ -78,27 +78,19 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 			.tapGesture()
 			.when(.recognized)
 			.subscribe(onNext: { [weak self] _ in
+				guard let reviewsListSubject = self?.reviewsListSubject else { return }
 				self?.router.passageToReviewsList(isMyReviews: true,
+												  reviewsUpdateSubject: reviewsListSubject,
 												  usertId: self?.clientProfile?.id ?? 0,
-												  reviews: self?.clientReviews ?? [])
+												  reviews: self?.reviews ?? [])
 			}).disposed(by: disposeBag)
-		
-		clientReviews?.forEach {
-			if $0.rating > 2 {
-				positiveReviewsCount += 1
-			} else {
-				negativeReviewsCount += 1
-			}
-		}
 
 		// positive review
 		view.reviewsPositiveLabel.textColor = Colors.greenColor
 		view.reviewsPositiveLabel.font = SFUIDisplay.bold.of(size: 18)
-		view.reviewsPositiveLabel.text = "+\(positiveReviewsCount)"
 		// negative review
 		view.reviewsNegativeLabel.textColor = Colors.negativeReview
 		view.reviewsNegativeLabel.font = SFUIDisplay.bold.of(size: 18)
-		view.reviewsNegativeLabel.text = "-\(negativeReviewsCount)"
 		// rating title
 		view.ratingTitleLabel.textColor = Colors.mainTextColor
 		view.ratingTitleLabel.font = SFUIDisplay.light.of(size: 18)
@@ -146,6 +138,37 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 						print(error.localizedDescription)
 				}
 			}).disposed(by: disposeBag)
+
+		reviewsListSubject
+			.asObservable()
+			.flatMap { [unowned self] _ in
+				self.di.lawyersNetworkService.getReviews(for: clientProfile?.id ?? 0,
+														 page: 0,
+														 pageSize: 10000)
+			}
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [weak self] result in
+				switch result {
+				case .success(let reviews):
+					self?.reviews = reviews
+					self?.positiveReviewsCount = 0
+					self?.negativeReviewsCount = 0
+
+					reviews.forEach() {
+						if $0.rating > 2 {
+							self?.positiveReviewsCount += 1
+						} else {
+							self?.negativeReviewsCount += 1
+						}
+					}
+					self?.view.reviewsPositiveLabel.text = "+\(self?.positiveReviewsCount ?? 0)"
+					self?.view.reviewsNegativeLabel.text = "-\(self?.negativeReviewsCount ?? 0)"
+				case .failure(let error):
+					//TODO: - обработать ошибку
+					print(error.localizedDescription)
+				}
+			}).disposed(by: disposeBag)
+		reviewsListSubject.onNext(())
 	}
 
 	private func updateVisability() {
@@ -183,7 +206,9 @@ final class ClientProfileViewModel: ViewModel, HasDependencies {
 		view.emailLabel.textAlignment = .center
 		view.emailLabel.textColor = Colors.mainTextColor
 		view.emailLabel.font = SFUIDisplay.regular.of(size: 15)
-		view.emailLabel.text = self.di.keyChainService.getValue(for: Constants.KeyChainKeys.email)
+		if di.localStorageService.getCurrenClientProfile()?.isAnonymus == false {
+			view.emailLabel.text = self.di.keyChainService.getValue(for: Constants.KeyChainKeys.email)
+		}
 		// phone label
 		view.phoneLabel.textAlignment = .center
 		view.phoneLabel.textColor = Colors.mainTextColor

@@ -16,13 +16,15 @@ protocol HasChatNetworkService {
 
 protocol ChatNetworkServiceInterface {
 	func createConversation(lawyerId: Int,
-							clientId: Int) -> Observable<Result<Any, AFError>>
+							clientId: Int) -> Observable<Result<ChatConversation, AFError>>
 	func createConversationByAppeal(lawyerId: Int,
 									clientId: Int,
-									appealId: Int) -> Observable<Result<Any, AFError>>
-	func deleteConversation(conversationId: Int) -> Observable<Result<Any, AFError>>
+									appealId: Int) -> Observable<Result<ChatConversation, AFError>>
+	func deleteConversation(conversationId: Int) -> Observable<Result<Int?, AFError>>
 	func getConversations(with profileId: Int,
-						  isLawyer: Bool) -> Observable<Result<[ChatConversation], AFError>>
+						  isLawyer: Bool,
+						  page: Int,
+						  pageSize: Int) -> Observable<Result<[ChatConversation], AFError>>
 	func getMessages(with conversationId: Int) -> Observable<Result<[ChatMessage], AFError>>
 	func setMessagesRead(conversationId: Int) -> Observable<Result<Any, AFError>>
 }
@@ -37,14 +39,14 @@ final class ChatNetworkService: ChatNetworkServiceInterface, HasDependencies {
 		router = ChatNetworkRouter(environment: EnvironmentImp())
 	}
 
-	func createConversation(lawyerId: Int, clientId: Int) -> Observable<Result<Any, AFError>> {
+	func createConversation(lawyerId: Int, clientId: Int) -> Observable<Result<ChatConversation, AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.createConversation(lawyerId: lawyerId,
 											   clientId: clientId,
 											   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
 			)
-			.response { response in
+			.responseJSON { response in
 				#if DEBUG
 				print(response)
 				#endif
@@ -62,7 +64,20 @@ final class ChatNetworkService: ChatNetworkServiceInterface, HasDependencies {
 
 				switch response.result {
 				case .success:
-					observer.onNext(.success(()))
+					guard let data = response.data else {
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+						return
+					}
+					do {
+						let conversation = try JSONDecoder().decode(ChatConversation.self, from: data)
+						observer.onNext(.success(conversation))
+						observer.onCompleted()
+					} catch {
+						#if DEBUG
+						print(error)
+						#endif
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+					}
 				case .failure:
 					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
 				}
@@ -75,7 +90,7 @@ final class ChatNetworkService: ChatNetworkServiceInterface, HasDependencies {
 
 	func createConversationByAppeal(lawyerId: Int,
 									clientId: Int,
-									appealId: Int) -> Observable<Result<Any, AFError>> {
+									appealId: Int) -> Observable<Result<ChatConversation, AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.createConversationByAppeal(lawyerId: lawyerId,
@@ -83,7 +98,7 @@ final class ChatNetworkService: ChatNetworkServiceInterface, HasDependencies {
 													   appealId: appealId,
 													   token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
 			)
-			.response { response in
+			.responseJSON { response in
 				#if DEBUG
 				print(response)
 				#endif
@@ -101,7 +116,20 @@ final class ChatNetworkService: ChatNetworkServiceInterface, HasDependencies {
 				
 				switch response.result {
 				case .success:
-					observer.onNext(.success(()))
+					guard let data = response.data else {
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+						return
+					}
+					do {
+						let conversation = try JSONDecoder().decode(ChatConversation.self, from: data)
+						observer.onNext(.success(conversation))
+						observer.onCompleted()
+					} catch {
+						#if DEBUG
+						print(error)
+						#endif
+						observer.onNext(.failure(AFError.createURLRequestFailed(error: NetworkError.common)))
+					}
 				case .failure:
 					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
 				}
@@ -112,7 +140,7 @@ final class ChatNetworkService: ChatNetworkServiceInterface, HasDependencies {
 		}
 	}
 
-	func deleteConversation(conversationId: Int) -> Observable<Result<Any, AFError>> {
+	func deleteConversation(conversationId: Int) -> Observable<Result<Int?, AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.deleteConversation(conversationId: conversationId,
@@ -136,7 +164,7 @@ final class ChatNetworkService: ChatNetworkServiceInterface, HasDependencies {
 
 				switch response.result {
 				case .success:
-					observer.onNext(.success(()))
+					observer.onNext(.success(conversationId))
 				case .failure:
 					observer.onNext(.failure(AFError.createURLRequestFailed(error: response.error ?? NetworkError.common)))
 				}
@@ -148,11 +176,15 @@ final class ChatNetworkService: ChatNetworkServiceInterface, HasDependencies {
 	}
 
 	func getConversations(with profileId: Int,
-						  isLawyer: Bool) -> Observable<Result<[ChatConversation], AFError>> {
+						  isLawyer: Bool,
+						  page: Int,
+						  pageSize: Int) -> Observable<Result<[ChatConversation], AFError>> {
 		return Observable<Result>.create { (observer) -> Disposable in
 			let requestReference = AF.request(
 				self.router.getConversations(profileId: profileId,
 											 isLawyer: isLawyer,
+											 page: page,
+											 pageSize: pageSize,
 											 token: self.di.keyChainService.getValue(for: Constants.KeyChainKeys.token))
 			)
 			.responseJSON { response in
