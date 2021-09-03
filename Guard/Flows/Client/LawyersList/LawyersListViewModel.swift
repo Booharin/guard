@@ -22,11 +22,19 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 
 	private var router: LawyerListRouterProtocol
 	private var selectedSubIssuesCodes = [Int]()
-	private var currentCity: CityModel?
+	private var currentCityTitle: String?
 	private var issueType: IssueType?
 
 	private var cities: [String] {
-		return di.localStorageService.getRussianCities().map { $0.title }
+		return di.localStorageService.getRussianCities()
+			.map {
+				if let locale = Locale.current.languageCode, locale == "ru" {
+					return $0.title
+				} else {
+					return $0.titleEn
+				}
+			}
+			.sorted()
 	}
 
 	var lawyers = [UserProfile]()
@@ -44,6 +52,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 
 	private var toLawyerSubject: PublishSubject<UserProfile>?
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, UserProfile>]>?
+	let updateCitySubject = PublishSubject<String>()
 
 	init(router: LawyerListRouterProtocol,
 		 issueType: IssueType?) {
@@ -126,15 +135,35 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 
 		view.titleLabel.font = Saira.semiBold.of(size: 16)
 		view.titleLabel.textColor = Colors.mainTextColor
-		if let profile = di.localStorageService.getCurrenClientProfile() {
+		
+		if let cityTitle = UserDefaults.standard.string(forKey: Constants.UserDefaultsKeys.currentCityTitle) {
+			view.titleLabel.text = cityTitle
+			currentCityTitle = cityTitle
+
 			di.localStorageService.getRussianCities().forEach() { city in
-				if city.cityCode == profile.cityCode?.first {
+				if city.title == cityTitle {
 					if let locale = Locale.current.languageCode, locale == "ru" {
 						view.titleLabel.text = city.title
 					} else {
 						view.titleLabel.text = city.titleEn
 					}
-					currentCity = city
+				}
+			}
+		} else {
+			if let profile = di.localStorageService.getCurrenClientProfile() {
+				di.localStorageService.getRussianCities().forEach() { city in
+					if city.cityCode == profile.cityCode?.first {
+						if let locale = Locale.current.languageCode, locale == "ru" {
+							view.titleLabel.text = city.title
+						} else {
+							view.titleLabel.text = city.titleEn
+						}
+						currentCityTitle = city.title
+						UserDefaults.standard.setValue(
+							city.title,
+							forKey: Constants.UserDefaultsKeys.currentCityTitle
+						)
+					}
 				}
 			}
 		}
@@ -151,7 +180,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 		lawyersListSubject?
 			.asObservable()
 			.flatMap { [unowned self] _ in
-				self.di.lawyersNetworkService.getAllLawyers(from: currentCity?.title ?? "",
+				self.di.lawyersNetworkService.getAllLawyers(from: currentCityTitle ?? "",
 															page: self.nextPage,
 															pageSize: self.pageSize)
 			}
@@ -181,7 +210,7 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 			})
 			.flatMap { [unowned self] subIssuesCodes in
 				self.di.lawyersNetworkService.getLawyers(by: subIssuesCodes,
-														 city: currentCity?.title ?? "",
+														 city: currentCityTitle ?? "",
 														 page: self.nextPage,
 														 pageSize: self.pageSize)
 			}
@@ -200,6 +229,26 @@ final class LawyersListViewModel: ViewModel, HasDependencies {
 
 		view.loadingView.play()
 		lawyersListSubject?.onNext(())
+
+		updateCitySubject
+			.asObservable()
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [unowned self] city in
+				if self.currentCityTitle != city {
+					self.nextPage = 0
+					self.lawyers.removeAll()
+				}
+				self.currentCityTitle = city
+				UserDefaults.standard.setValue(
+					city,
+					forKey: Constants.UserDefaultsKeys.currentCityTitle
+				)
+				if self.selectedSubIssuesCodes.isEmpty {
+					self.lawyersListSubject?.onNext(())
+				} else {
+					self.filterIssuesSubject.onNext(self.selectedSubIssuesCodes)
+				}
+			}).disposed(by: disposeBag)
 	}
 
 	private func update(with lawyers: [UserProfile]) {

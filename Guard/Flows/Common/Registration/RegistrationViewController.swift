@@ -6,7 +6,7 @@
 //  Copyright © 2020 ds. All rights reserved.
 //
 
-protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
+protocol RegistratioViewControllerProtocol: AnyObject, ViewControllerProtocol {
 	var scrollView: UIScrollView { get }
 	
 	var logoImageView: UIImageView { get }
@@ -16,7 +16,7 @@ protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
 	var loginTextField: TextField { get }
 	var passwordTextField: TextField { get }
 	var confirmationPasswordTextField: TextField { get }
-	var cityTextField: TextField { get }
+	var citySelectView: SelectButtonView { get }
 	var alertLabel: UILabel { get }
 	
 	var enterButton: ConfirmButton { get }
@@ -25,6 +25,7 @@ protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
 	var alreadyRegisteredLabel: UILabel { get }
 
 	var loadingView: LottieAnimationView { get }
+	func showActionSheet(with titles: [String], completion: @escaping (String) -> Void)
 }
 
 import UIKit
@@ -46,7 +47,7 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 	var loginTextField = TextField()
 	var passwordTextField = TextField()
 	var confirmationPasswordTextField = TextField()
-	var cityTextField = TextField()
+	var citySelectView = SelectButtonView()
 	var alertLabel = UILabel()
 
 	var enterButton = ConfirmButton(title: "registration.sign_up.title".localized.uppercased())
@@ -145,18 +146,18 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 			$0.top.equalTo(passwordTextField.snp.bottom)
 		}
 		// city
-		scrollView.addSubview(cityTextField)
-		cityTextField.snp.makeConstraints {
-			$0.height.equalTo(48)
+		scrollView.addSubview(citySelectView)
+		citySelectView.snp.makeConstraints {
+			$0.top.equalTo(confirmationPasswordTextField.snp.bottom)
 			$0.leading.equalToSuperview().offset(20)
 			$0.trailing.equalToSuperview().offset(-20)
+			$0.height.equalTo(48)
 			$0.centerX.equalToSuperview()
-			$0.top.equalTo(confirmationPasswordTextField.snp.bottom)
 		}
 		// alert label
 		scrollView.addSubview(alertLabel)
 		alertLabel.snp.makeConstraints {
-			$0.top.equalTo(cityTextField.snp.bottom).offset(20)
+			$0.top.equalTo(citySelectView.snp.bottom).offset(20)
 			$0.leading.equalToSuperview().offset(20)
 			$0.trailing.equalToSuperview().offset(-20)
 			$0.bottom.equalToSuperview()
@@ -182,5 +183,25 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 			$0.center.equalToSuperview()
 			$0.width.height.equalTo(300)
 		}
+	}
+
+	// MARK: - Show action sheet
+	func showActionSheet(with titles: [String], completion: @escaping (String) -> Void) {
+		let alertController = UIAlertController(title: nil,
+												message: nil,
+												preferredStyle: .actionSheet)
+		alertController.view.tintColor = Colors.mainTextColor
+		titles.forEach { title in
+			let cityAction = UIAlertAction(title: title, style: .default, handler: { _ in
+				completion(title)
+				alertController.dismiss(animated: true)
+			})
+			alertController.addAction(cityAction)
+		}
+		let cancelAction = UIAlertAction(title: "alert.cancel".localized, style: .cancel, handler: { _ in
+			alertController.dismiss(animated: true)
+		})
+		alertController.addAction(cancelAction)
+		self.present(alertController, animated: true)
 	}
 }

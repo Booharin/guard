@@ -225,7 +225,7 @@ class EditLawyerProfileViewController<modelType: EditLawyerProfileViewModel>:
 			$0.trailing.equalToSuperview().offset(-20)
 			$0.height.equalTo(48)
 		}
-		// country
+		// city
 		scrollView.addSubview(citySelectView)
 		citySelectView.snp.makeConstraints {
 			$0.top.equalTo(countrySelectView.snp.bottom)
@@ -241,7 +241,7 @@ class EditLawyerProfileViewController<modelType: EditLawyerProfileViewModel>:
 			$0.width.height.equalTo(300)
 		}
 	}
-	
+
 	// MARK: - Show action sheet
 	func showActionSheet(with titles: [String], completion: @escaping (String) -> Void) {
 		let alertController = UIAlertController(title: nil,

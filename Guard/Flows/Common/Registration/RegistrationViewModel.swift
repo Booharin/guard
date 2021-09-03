@@ -66,6 +66,21 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	let toSelectIssueSubject: PublishSubject<Any>?
 	let toAuthSubject: PublishSubject<Any>?
 
+	var currentCities = [Int]()
+	var currentCityTitle = ""
+
+	private var cities: [String] {
+		return di.localStorageService.getRussianCities()
+			.map {
+				if let locale = Locale.current.languageCode, locale == "ru" {
+					return $0.title
+				} else {
+					return $0.titleEn
+				}
+			}
+			.sorted()
+	}
+
 	init(toSelectIssueSubject: PublishSubject<Any>? = nil,
 		 toAuthSubject: PublishSubject<Any>? = nil,
 		 userRole: UserRole) {
@@ -118,17 +133,55 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			}).disposed(by: disposeBag)
 
 		//city
-		view.cityTextField.configure(placeholderText: "registration.city.placeholder".localized,
-									 isSeparatorHidden: true)
-		view.cityTextField
-			.rx
-			.text
+		let moscowCode = di.localStorageService.getRussianCities()
+			.filter { $0.title == "Москва" }
+			.map { $0.cityCode }
+		currentCities = di.localStorageService.getCurrenClientProfile()?.cityCode ?? moscowCode
+		di.localStorageService.getRussianCities().forEach {
+			if $0.cityCode == currentCities.first {
+				currentCityTitle = $0.title
+			}
+		}
+
+		//MARK: - City select
+		di.localStorageService.getRussianCities().forEach { city in
+			if city.cityCode == currentCities.first {
+				if let locale = Locale.current.languageCode,
+				   locale == "ru" {
+					view.citySelectView.titleLabel.text = city.title
+				} else {
+					view.citySelectView.titleLabel.text = city.titleEn
+				}
+			}
+		}
+		view.citySelectView.rx
+			.tapGesture()
+			.when(.recognized)
+			.do(onNext: { [unowned self] _ in
+				UIView.animate(withDuration: self.animationDuration, animations: {
+					self.view.citySelectView.alpha = 0.5
+				}, completion: { _ in
+					UIView.animate(withDuration: self.animationDuration, animations: {
+						self.view.citySelectView.alpha = 1
+					})
+				})
+			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.checkAreTextFieldsEmpty()
+				self.view.showActionSheet(with: self.cities) { [weak self] title in
+					self?.view.citySelectView.titleLabel.text = title
+					// add cityCode
+					di.localStorageService.getRussianCities().forEach {
+						if $0.title == title || $0.titleEn == title {
+							//TODO: - Change for several cities
+							//if !currentCities.contains($0.cityCode) {
+								//currentCities.append($0.cityCode)
+							//}
+							currentCities = [$0.cityCode]
+							currentCityTitle = $0.title
+						}
+					}
+				}
 			}).disposed(by: disposeBag)
-		// TODO: - change when added city choosing
-		view.cityTextField.text = "Москва"
-		view.cityTextField.isEnabled = false
 
 		// alert label
 		view.alertLabel.numberOfLines = 2
@@ -298,16 +351,14 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 		let credentials = Observable.combineLatest(
 			view.loginTextField.rx.text,
 			view.passwordTextField.rx.text,
-			view.confirmationPasswordTextField.rx.text,
-			view.cityTextField.rx.text
-		).filter { (login, password, confirmedPassword, city) -> Bool in
+			view.confirmationPasswordTextField.rx.text
+		).filter { (login, password, confirmedPassword) -> Bool in
 			return true
 		}
 		.map {(
 			$0?.withoutExtraSpaces ?? "",
 			$1?.withoutExtraSpaces ?? "",
-			$2?.withoutExtraSpaces ?? "",
-			$3?.withoutExtraSpaces ?? ""
+			$2?.withoutExtraSpaces ?? ""
 			)}
 		
 		registrationSubject = PublishSubject<Any>()
@@ -345,7 +396,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			.flatMap { [unowned self] credentials in
 				self.di.registrationService.signUp(email: credentials.0,
 												   password: credentials.1,
-												   city: credentials.3,
+												   city: self.currentCityTitle,
 												   userRole: self.userRole)
 			}
 			.filter { result in
@@ -396,18 +447,16 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 	}
 
 	private func checkAreTextFieldsEmpty() {
-		
+
 		guard
 			let loginText = view.loginTextField.text,
 			let passwordText = view.passwordTextField.text,
-			let repeatedPasswordText = view.confirmationPasswordTextField.text,
-			let cityText = view.cityTextField.text else { return }
-		
+			let repeatedPasswordText = view.confirmationPasswordTextField.text else { return }
+
 		if !loginText.isEmpty,
 			!passwordText.isEmpty,
-			!repeatedPasswordText.isEmpty,
-			!cityText.isEmpty {
-			
+			!repeatedPasswordText.isEmpty {
+
 			view.enterButton.isEnabled = true
 			view.enterButton.backgroundColor = Colors.mainColor
 		} else {
@@ -426,15 +475,13 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 			view.loginTextField.textColor = Colors.mainTextColor
 			view.passwordTextField.textColor = Colors.mainTextColor
 			view.confirmationPasswordTextField.textColor = Colors.mainTextColor
-			view.cityTextField.textColor = Colors.mainTextColor
 		} else {
 			view.view.endEditing(true)
 			view.alertLabel.text = text
-			
+
 			view.loginTextField.textColor = Colors.warningColor
 			view.passwordTextField.textColor = Colors.warningColor
 			view.confirmationPasswordTextField.textColor = Colors.warningColor
-			view.cityTextField.textColor = Colors.warningColor
 		}
 	}
 

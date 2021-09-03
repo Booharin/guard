@@ -37,6 +37,18 @@ final class EditLawyerProfileViewModel: ViewModel {
 		HasLawyersNetworkService
 	lazy var di: Dependencies = DI.dependencies
 
+	private var cities: [String] {
+		return di.localStorageService.getRussianCities()
+			.map {
+				if let locale = Locale.current.languageCode, locale == "ru" {
+					return $0.title
+				} else {
+					return $0.titleEn
+				}
+			}
+			.sorted()
+	}
+
 	init(userProfile: UserProfile,
 		 router: EditProfileRouterProtocol) {
 		self.userProfile = userProfile
@@ -212,14 +224,16 @@ final class EditLawyerProfileViewModel: ViewModel {
 				})
 			})
 			.subscribe(onNext: { [unowned self] _ in
-				self.view.showActionSheet(with: [view.citySelectView.titleLabel.text ?? ""]) { [weak self] title in
+				self.view.showActionSheet(with: self.cities) { [weak self] title in
 					self?.view.citySelectView.titleLabel.text = title
 					// add cityCode
 					di.localStorageService.getRussianCities().forEach {
 						if $0.title == title || $0.titleEn == title {
-							if !currentCities.contains($0.cityCode) {
-								currentCities.append($0.cityCode)
-							}
+							//TODO: - Change for several cities
+							//if !currentCities.contains($0.cityCode) {
+								//currentCities.append($0.cityCode)
+							//}
+							currentCities = [$0.cityCode]
 						}
 					}
 				}

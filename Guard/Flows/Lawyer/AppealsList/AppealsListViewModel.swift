@@ -25,7 +25,15 @@ final class AppealsListViewModel:
 		di.localStorageService.getCurrenClientProfile()
 	}
 	private var cities: [String] {
-		return di.localStorageService.getRussianCities().map { $0.title }
+		return di.localStorageService.getRussianCities()
+			.map {
+				if let locale = Locale.current.languageCode, locale == "ru" {
+					return $0.title
+				} else {
+					return $0.titleEn
+				}
+			}
+			.sorted()
 	}
 	private var appeals = [ClientAppeal]()
 	private var router: AppealsListRouterProtocol
@@ -34,6 +42,7 @@ final class AppealsListViewModel:
 	var appealsListSubject: PublishSubject<Any>?
 	private let filterIssuesSubject = PublishSubject<[Int]>()
 	private var dataSourceSubject: BehaviorSubject<[SectionModel<String, ClientAppeal>]>?
+	let updateCitySubject = PublishSubject<String>()
 
 	private var selectedSubIssuesCodes = [Int]()
 	private var currentCityTitle = ""
@@ -113,16 +122,37 @@ final class AppealsListViewModel:
 
 		view.titleLabel.font = Saira.semiBold.of(size: 16)
 		view.titleLabel.textColor = Colors.mainTextColor
-		if let profile = di.localStorageService.getCurrenClientProfile() {
+
+		//MARK: - Setting city title
+		if let cityTitle = UserDefaults.standard.string(forKey: Constants.UserDefaultsKeys.currentCityTitle) {
+			view.titleLabel.text = cityTitle
+			currentCityTitle = cityTitle
+			
 			di.localStorageService.getRussianCities().forEach() { city in
-				if city.cityCode == profile.cityCode?.first {
+				if city.title == cityTitle {
 					if let locale = Locale.current.languageCode, locale == "ru" {
 						view.titleLabel.text = city.title
 					} else {
 						view.titleLabel.text = city.titleEn
 					}
-
-					currentCityTitle = city.title
+				}
+			}
+		} else {
+			if let profile = di.localStorageService.getCurrenClientProfile() {
+				di.localStorageService.getRussianCities().forEach() { city in
+					if city.cityCode == profile.cityCode?.first {
+						if let locale = Locale.current.languageCode, locale == "ru" {
+							view.titleLabel.text = city.title
+						} else {
+							view.titleLabel.text = city.titleEn
+						}
+						
+						currentCityTitle = city.title
+						UserDefaults.standard.setValue(
+							city.title,
+							forKey: Constants.UserDefaultsKeys.currentCityTitle
+						)
+					}
 				}
 			}
 		}
@@ -189,6 +219,26 @@ final class AppealsListViewModel:
 				}
 			})
 			.disposed(by: disposeBag)
+
+		updateCitySubject
+			.asObservable()
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { [unowned self] city in
+				if self.currentCityTitle != city {
+					self.nextPage = 0
+					self.appeals.removeAll()
+				}
+				self.currentCityTitle = city
+				UserDefaults.standard.setValue(
+					city,
+					forKey: Constants.UserDefaultsKeys.currentCityTitle
+				)
+				if self.selectedSubIssuesCodes.isEmpty {
+					self.appealsListSubject?.onNext(())
+				} else {
+					self.filterIssuesSubject.onNext(self.selectedSubIssuesCodes)
+				}
+			}).disposed(by: disposeBag)
 	}
 
 	private func update(with appeals: [ClientAppeal]) {

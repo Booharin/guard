@@ -12,6 +12,7 @@ enum Constants {
 		static let selectedIssues = "selected_issues"
 		static let notReadCount = "not_read_count"
 		static let userId = "user_id"
+		static let currentCityTitle = ""
 	}
 	enum KeyChainKeys {
 		static let token = "network_token"
