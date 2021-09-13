@@ -25,6 +25,9 @@ struct UserProfile: Codable {
 	var subIssueCodes: [Int]?
 	var complaint: Int?
 	var isAnonymus: Bool?
+	var subscription_product_id: String?
+	var subscription_expires_date: String?
+	var subscription_expired: Bool?
 
 	var fullName: String {
 		guard

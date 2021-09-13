@@ -47,7 +47,7 @@ final class MainCoordinator: BaseCoordinator {
 		case .lawyer:
 			setLawyerControllers()
 		case .admin:
-			setClientControllers()
+			setAdminControllers()
 		}
 		
 		tabBarController.tabBar.items?.enumerated().forEach {
@@ -105,6 +105,28 @@ final class MainCoordinator: BaseCoordinator {
 		tabBarController.viewControllers = [
 			// appeals list
 			AppealsListModuleFactory.createModule(),
+			// conversations list
+			ConversationsListModuleFactory.createModule(toChatWithLawyer: toChatWithLawyer),
+			// lawyer profile
+			LawyerProfileModuleFactory.createModule(toAuthSubject: toAuthSubject)
+		]
+	}
+
+	private func setAdminControllers() {
+		// to auth
+		let toAuthSubject = PublishSubject<Any>()
+		toAuthSubject
+			.observeOn(MainScheduler.instance)
+			.subscribe(onNext: { _ in
+				self.toChoose()
+			})
+			.disposed(by: disposeBag)
+
+		let toChatWithLawyer = PublishSubject<ChatConversation>()
+
+		tabBarController.viewControllers = [
+			// clients list
+			ClientsListModuleFactory.createModule(),
 			// conversations list
 			ConversationsListModuleFactory.createModule(toChatWithLawyer: toChatWithLawyer),
 			// lawyer profile

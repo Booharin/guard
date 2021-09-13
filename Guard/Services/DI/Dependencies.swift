@@ -27,8 +27,9 @@ struct Dependencies:
 	HasClientNetworkService,
 	HasSocketStompService,
 	HasKeyChainService,
-	HasNotificationService {
-	
+	HasNotificationService,
+	HasStoreService {
+
 	var locationService: LocationServiceInterface
 	var localStorageService: LocalStorageServiceInterface
 	var alertService: AlertServiceInterface
@@ -42,29 +43,33 @@ struct Dependencies:
 	var socketStompService: SocketStompServiceInterface
 	var keyChainService: KeyChainServiceInterface
 	var notificationService: NotificationServiceInterface
+	var storeService: StoreServiceInterface
 }
 
 enum DI {
 	static var dependencies: Dependencies!
 }
 
-class AppDIContainer {
-	
+final class AppDIContainer {
+
 	func createAppDependencies(launchOptions: [AnyHashable: Any]) -> Dependencies {
 
-		let d = Dependencies(locationService: LocationSerice(),
-							 localStorageService: LocalStorageService(),
-							 alertService: AlertService(),
-							 authService: AuthService(),
-							 registrationService: RegistrationService(),
-							 lawyersNetworkService: LawyersNetworkService(),
-							 appealsNetworkService: AppealsNetworkService(),
-							 commonDataNetworkService: CommonDataNetworkService(),
-							 chatNetworkService: ChatNetworkService(),
-							 clientNetworkService: ClientNetworkService(),
-							 socketStompService: SocketStompService(environment: EnvironmentImp()),
-							 keyChainService: KeyChainService(),
-							 notificationService: NotificationService())
+		let d = Dependencies(
+			locationService: LocationSerice(),
+			localStorageService: LocalStorageService(),
+			alertService: AlertService(),
+			authService: AuthService(),
+			registrationService: RegistrationService(),
+			lawyersNetworkService: LawyersNetworkService(),
+			appealsNetworkService: AppealsNetworkService(),
+			commonDataNetworkService: CommonDataNetworkService(),
+			chatNetworkService: ChatNetworkService(),
+			clientNetworkService: ClientNetworkService(),
+			socketStompService: SocketStompService(environment: EnvironmentImp()),
+			keyChainService: KeyChainService(),
+			notificationService: NotificationService(),
+			storeService: StoreService()
+		)
 		return d
 	}
 }

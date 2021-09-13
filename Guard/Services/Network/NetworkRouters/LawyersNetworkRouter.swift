@@ -106,6 +106,20 @@ struct LawyersNetworkRouter {
 							  pageSize: pageSize)
 		}
 	}
+
+	func getAllClients(page: Int,
+					   pageSize: Int,
+					   token: String?) -> URLRequestConvertible {
+		do {
+			return try AllClients(environment: environment,
+								  page: page,
+								  pageSize: pageSize).asURLDefaultRequest(with: token)
+		} catch {
+			return AllClients(environment: environment,
+							  page: page,
+							  pageSize: pageSize)
+		}
+	}
 }
 
 extension LawyersNetworkRouter {
@@ -285,6 +299,34 @@ extension LawyersNetworkRouter {
 				"page": page,
 				"pageSize": pageSize
 			]
+		}
+	}
+
+	private struct AllClients: RequestRouter {
+
+		let environment: Environment
+		let page: Int
+		let pageSize: Int
+
+		init(environment: Environment,
+			 page: Int,
+			 pageSize: Int) {
+			self.environment = environment
+			self.page = page
+			self.pageSize = pageSize
+		}
+
+		var baseUrl: URL {
+			return environment.baseUrl
+		}
+
+		var method: HTTPMethod = .get
+		var path = ApiMethods.getAllClients
+		var parameters: Parameters {
+			return [:]
+//				"page": page,
+//				"pageSize": pageSize
+			//]
 		}
 	}
 }

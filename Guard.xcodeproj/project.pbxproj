@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5205A2CA26EDEC7700216E8D /* ClientsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205A2C926EDEC7700216E8D /* ClientsListViewController.swift */; };
+		5205A2CC26EDEC8900216E8D /* ClientsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205A2CB26EDEC8900216E8D /* ClientsListViewModel.swift */; };
+		5205A2CE26EDEC9C00216E8D /* ClientsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205A2CD26EDEC9C00216E8D /* ClientsListRouter.swift */; };
+		5205A2D026EDECB000216E8D /* ClientsListModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205A2CF26EDECB000216E8D /* ClientsListModuleFactory.swift */; };
+		5205A2D326EDF5B700216E8D /* ClientsListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205A2D226EDF5B700216E8D /* ClientsListDataSource.swift */; };
+		5205A2D626EDF5FA00216E8D /* ClientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205A2D526EDF5FA00216E8D /* ClientCell.swift */; };
+		5205A2D826EDF60900216E8D /* ClientCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5205A2D726EDF60900216E8D /* ClientCellViewModel.swift */; };
 		520A92D626A7E21A0038108F /* DefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520A92D526A7E21A0038108F /* DefaultCell.swift */; };
 		520A92D826A7E2310038108F /* DefaultCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520A92D726A7E2310038108F /* DefaultCellViewModel.swift */; };
 		520A92DA26A7F74C0038108F /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520A92D926A7F74C0038108F /* LaunchViewController.swift */; };
@@ -180,6 +187,7 @@
 		52AFF0FC25BA0A5500D365C2 /* EditLawyerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AFF0FB25BA0A5500D365C2 /* EditLawyerProfileViewController.swift */; };
 		52AFF0FE25BA0AE300D365C2 /* EditLawyerProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AFF0FD25BA0AE300D365C2 /* EditLawyerProfileViewModel.swift */; };
 		52AFF10125BA10E300D365C2 /* EditIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AFF10025BA10E300D365C2 /* EditIssueView.swift */; };
+		52B123E626EE55AC00B3055F /* StoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B123E526EE55AC00B3055F /* StoreService.swift */; };
 		52B1EE3E25A46A290088B8AF /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5251AFA124A281F100467E84 /* Alamofire.framework */; };
 		52B1EE3F25A46A290088B8AF /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5251AFA124A281F100467E84 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52B1EE4125A46A2B0088B8AF /* Differentiator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5222B68724C7594C000BEE13 /* Differentiator.framework */; };
@@ -288,6 +296,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5205A2C926EDEC7700216E8D /* ClientsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsListViewController.swift; sourceTree = "<group>"; };
+		5205A2CB26EDEC8900216E8D /* ClientsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsListViewModel.swift; sourceTree = "<group>"; };
+		5205A2CD26EDEC9C00216E8D /* ClientsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsListRouter.swift; sourceTree = "<group>"; };
+		5205A2CF26EDECB000216E8D /* ClientsListModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsListModuleFactory.swift; sourceTree = "<group>"; };
+		5205A2D226EDF5B700216E8D /* ClientsListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientsListDataSource.swift; sourceTree = "<group>"; };
+		5205A2D526EDF5FA00216E8D /* ClientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientCell.swift; sourceTree = "<group>"; };
+		5205A2D726EDF60900216E8D /* ClientCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientCellViewModel.swift; sourceTree = "<group>"; };
 		520A92D526A7E21A0038108F /* DefaultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCell.swift; sourceTree = "<group>"; };
 		520A92D726A7E2310038108F /* DefaultCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCellViewModel.swift; sourceTree = "<group>"; };
 		520A92D926A7F74C0038108F /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
@@ -473,6 +488,7 @@
 		52AFF0FB25BA0A5500D365C2 /* EditLawyerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLawyerProfileViewController.swift; sourceTree = "<group>"; };
 		52AFF0FD25BA0AE300D365C2 /* EditLawyerProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLawyerProfileViewModel.swift; sourceTree = "<group>"; };
 		52AFF10025BA10E300D365C2 /* EditIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditIssueView.swift; sourceTree = "<group>"; };
+		52B123E526EE55AC00B3055F /* StoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreService.swift; sourceTree = "<group>"; };
 		52B2685725110DFB00111864 /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		52B2685925110E1400111864 /* ChatCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCellViewModel.swift; sourceTree = "<group>"; };
 		52B2685B25110E3300111864 /* ChatDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDataSource.swift; sourceTree = "<group>"; };
@@ -570,6 +586,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5205A2C726EDEC2F00216E8D /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				5205A2C826EDEC4D00216E8D /* ClientsList */,
+			);
+			path = Admin;
+			sourceTree = "<group>";
+		};
+		5205A2C826EDEC4D00216E8D /* ClientsList */ = {
+			isa = PBXGroup;
+			children = (
+				5205A2D426EDF5E800216E8D /* Cell */,
+				5205A2D126EDF59F00216E8D /* DataSource */,
+				5205A2C926EDEC7700216E8D /* ClientsListViewController.swift */,
+				5205A2CB26EDEC8900216E8D /* ClientsListViewModel.swift */,
+				5205A2CD26EDEC9C00216E8D /* ClientsListRouter.swift */,
+				5205A2CF26EDECB000216E8D /* ClientsListModuleFactory.swift */,
+			);
+			path = ClientsList;
+			sourceTree = "<group>";
+		};
+		5205A2D126EDF59F00216E8D /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				5205A2D226EDF5B700216E8D /* ClientsListDataSource.swift */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
+		5205A2D426EDF5E800216E8D /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				5205A2D526EDF5FA00216E8D /* ClientCell.swift */,
+				5205A2D726EDF60900216E8D /* ClientCellViewModel.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		520A92D426A7E1C00038108F /* DefaultCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1029,6 +1083,7 @@
 		52483BAB24A279340003A56A /* Flows */ = {
 			isa = PBXGroup;
 			children = (
+				5205A2C726EDEC2F00216E8D /* Admin */,
 				52760C4425016BCD00080152 /* Common */,
 				52760C45250172A000080152 /* Lawyer */,
 				52760C46250172CE00080152 /* Client */,
@@ -1039,6 +1094,7 @@
 		52483BAD24A279470003A56A /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				52B123E426EE559800B3055F /* StoreService */,
 				527E4D49258FA02000744A40 /* NotificationService */,
 				52F749312565A82D009CD041 /* KeyChainService */,
 				5273744C2563C00000912769 /* SocketService */,
@@ -1493,6 +1549,14 @@
 			path = EditLawyerProfile;
 			sourceTree = "<group>";
 		};
+		52B123E426EE559800B3055F /* StoreService */ = {
+			isa = PBXGroup;
+			children = (
+				52B123E526EE55AC00B3055F /* StoreService.swift */,
+			);
+			path = StoreService;
+			sourceTree = "<group>";
+		};
 		52B2685525110DCA00111864 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1868,6 +1932,7 @@
 				523C8CD52562705B006DECAB /* EnvironmentImp.swift in Sources */,
 				523AEAF9251E4F8E00F1E607 /* SwitcherCellViewModel.swift in Sources */,
 				52ADE3C8258FCFB600F0B067 /* CityObject+CoreDataProperties.swift in Sources */,
+				5205A2D826EDF60900216E8D /* ClientCellViewModel.swift in Sources */,
 				52614F88257F6EFB0087962B /* LawyersNetworkRouter.swift in Sources */,
 				523CD30925B6D141000E5078 /* AppealsListViewModel.swift in Sources */,
 				52FFF4A7250B873800957356 /* ClientAppealsListModuleFactory.swift in Sources */,
@@ -1876,6 +1941,7 @@
 				5251AFB724A2853A00467E84 /* NavigationController.swift in Sources */,
 				52B26866251112E100111864 /* ConversationCell.swift in Sources */,
 				52483B9524A2774E0003A56A /* AppDelegate.swift in Sources */,
+				5205A2CA26EDEC7700216E8D /* ClientsListViewController.swift in Sources */,
 				5210399724C4D673004560FD /* SelectIssueViewController.swift in Sources */,
 				523AEAF3251E465B00F1E607 /* LogoutCellViewModel.swift in Sources */,
 				523C8CDC25627227006DECAB /* AuthNetworkRouter.swift in Sources */,
@@ -1883,6 +1949,7 @@
 				52212F8524FFDD41003FA67E /* ForgotPasswordViewModel.swift in Sources */,
 				52A4258625221DC900E2FE7B /* SettingHeaderCellViewModel.swift in Sources */,
 				5222B69424C761C3000BEE13 /* TableViewItem.swift in Sources */,
+				5205A2D326EDF5B700216E8D /* ClientsListDataSource.swift in Sources */,
 				5212680A26A615C100BFBB31 /* ChooseRouter.swift in Sources */,
 				523E62DC2519E00500757FE3 /* String+Size.swift in Sources */,
 				521017022582181F002A696E /* LawyersListModuleFactory.swift in Sources */,
@@ -1907,6 +1974,7 @@
 				526AC48325738D260041B571 /* UITextField+Autofill.swift in Sources */,
 				5251AFBA24A287CB00467E84 /* TextField.swift in Sources */,
 				5233EE242619BF3E00897458 /* SubIssueSelected.swift in Sources */,
+				5205A2CE26EDEC9C00216E8D /* ClientsListRouter.swift in Sources */,
 				523CD31625B733CC000E5078 /* LawyerProfileRouter.swift in Sources */,
 				52AFF0FE25BA0AE300D365C2 /* EditLawyerProfileViewModel.swift in Sources */,
 				5283CB712517CA71005DEDA8 /* ClientProfileViewModel.swift in Sources */,
@@ -1954,6 +2022,7 @@
 				52C4DBCC25C07BB800CDC148 /* ReviewsListViewModel.swift in Sources */,
 				52507E2D25861DFF00C8B213 /* CountryModel.swift in Sources */,
 				526DDD0925724DEB00CF68F7 /* RegistrationService.swift in Sources */,
+				52B123E626EE55AC00B3055F /* StoreService.swift in Sources */,
 				520A92DA26A7F74C0038108F /* LaunchViewController.swift in Sources */,
 				5283CB752517CC43005DEDA8 /* ClientProfileRouter.swift in Sources */,
 				52E62F26253238F8007FB1BE /* EditTextField.swift in Sources */,
@@ -1966,7 +2035,9 @@
 				5210838625C1BF3300CFA016 /* LawyerFromListRouter.swift in Sources */,
 				52F0F5732536DA5900FE2B14 /* AppealViewModel.swift in Sources */,
 				52BCC3B425C182E40020F9F3 /* StarsStackView.swift in Sources */,
+				5205A2D026EDECB000216E8D /* ClientsListModuleFactory.swift in Sources */,
 				521EA39325B5A76700B00413 /* ChangePasswordCellViewModel.swift in Sources */,
+				5205A2CC26EDEC8900216E8D /* ClientsListViewModel.swift in Sources */,
 				5251AFAA24A2823200467E84 /* AuthViewController.swift in Sources */,
 				5253753124B84CFC00CC729C /* ChooseCoordinator.swift in Sources */,
 				526DDD0725724C7600CF68F7 /* RegistrationNetworkRouter.swift in Sources */,
@@ -2028,6 +2099,7 @@
 				52760C4A2501731C00080152 /* LawyersListViewController.swift in Sources */,
 				52E96FDA25BDC2F50014F0D0 /* AppealFromListViewController.swift in Sources */,
 				52E3D4E324C8AB4200FD67C9 /* TabBarController.swift in Sources */,
+				5205A2D626EDF5FA00216E8D /* ClientCell.swift in Sources */,
 				521EA39825B5D39700B00413 /* ChangePasswordViewModel.swift in Sources */,
 				52A271B92508F27A0050FB60 /* AddButtonView.swift in Sources */,
 				52B654B6251B3063003D2465 /* SettingsViewModel.swift in Sources */,

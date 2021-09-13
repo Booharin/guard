@@ -22,7 +22,8 @@ final class AuthViewModel: ViewModel,
 		HasLocalStorageService &
 		HasAuthService &
 		HasKeyChainService &
-		HasSocketStompService
+		HasSocketStompService &
+		HasStoreService
 	lazy var di: Dependencies = DI.dependencies
 
 	var view: AuthViewControllerProtocol!
