@@ -17,7 +17,7 @@ protocol ReviewDetailsViewControllerProtocol: ViewControllerProtocol {
 	var reviewerName: UILabel { get }
 	var descriptionTextView: UITextView { get }
 	var createReviewButton: ConfirmButton { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 }
 
 final class ReviewDetailsViewController<modelType: ReviewDetailsViewModel>:
@@ -34,7 +34,7 @@ final class ReviewDetailsViewController<modelType: ReviewDetailsViewModel>:
 	var descriptionTextView = UITextView()
 	var createReviewButton = ConfirmButton(title: "new_review.create_button.titile".localized.uppercased())
 
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 	var navController: UINavigationController? {
 		self.navigationController
 	}

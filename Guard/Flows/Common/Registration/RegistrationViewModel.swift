@@ -9,7 +9,7 @@
 import RxSwift
 import RxCocoa
 import RxGesture
-import MyTrackerSDK
+//import MyTrackerSDK
 import FBSDKCoreKit
 
 final class RegistrationViewModel: ViewModel, HasDependencies {
@@ -367,7 +367,7 @@ final class RegistrationViewModel: ViewModel, HasDependencies {
 				self?.view.loadingView.stop()
 
 				let id = "\(self?.di.localStorageService.getCurrenClientProfile()?.id ?? 0)"
-				MRMyTracker.trackRegistrationEvent(id)
+				//MRMyTracker.trackRegistrationEvent(id)
 				AppEvents.logEvent(.completedRegistration)
 
 				switch result {

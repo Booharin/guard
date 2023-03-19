@@ -15,7 +15,7 @@ protocol SettingsViewControllerProtocol: ViewControllerProtocol {
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
 	func showActionSheet(toAuthSubject: PublishSubject<Any>)
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 }
 
 class SettingsViewController<modelType: SettingsViewModel>:
@@ -31,7 +31,7 @@ class SettingsViewController<modelType: SettingsViewModel>:
 	var navController: UINavigationController? {
 		self.navigationController
 	}
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 
 	var viewModel: modelType
 

@@ -17,7 +17,7 @@ protocol AppealCreatingViewControllerProtocol: class, ViewControllerProtocol {
 	var titleTextField: TextField { get }
 	var descriptionTextView: UITextView { get }
 	var createAppealButton: ConfirmButton { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 }
 
 final class AppealCreatingViewController<modelType: AppealCreatingViewModel>:
@@ -36,7 +36,7 @@ final class AppealCreatingViewController<modelType: AppealCreatingViewModel>:
 	var navController: UINavigationController? {
 		return self.navigationController
 	}
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 	var viewModel: modelType
 
 	init(viewModel: modelType) {

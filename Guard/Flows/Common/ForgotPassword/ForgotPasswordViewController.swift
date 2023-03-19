@@ -18,7 +18,7 @@ protocol ForgotPasswordViewControllerProtocol: class, ViewControllerProtocol {
 	var alertLabel: UILabel { get }
 	var sendButton: ConfirmButton { get }
 	var backButtonView: BackButtonView { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 }
 
 final class ForgotPasswordViewController<modelType: ViewModel>: UIViewController,
@@ -40,7 +40,7 @@ ForgotPasswordViewControllerProtocol where modelType.ViewType == ForgotPasswordV
 		return self.navigationController
 	}
 
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel

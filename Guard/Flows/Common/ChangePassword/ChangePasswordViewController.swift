@@ -16,7 +16,7 @@ protocol ChangePasswordViewControllerProtocol: ViewControllerProtocol {
 	var oldPasswordTextField: TextField { get }
 	var newPasswordTextField: TextField { get }
 	var saveButton: ConfirmButton { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 }
 
 final class ChangePasswordViewController<modelType: ChangePasswordViewModel>:
@@ -33,7 +33,7 @@ final class ChangePasswordViewController<modelType: ChangePasswordViewModel>:
 	var navController: UINavigationController? {
 		self.navigationController
 	}
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 
 	var viewModel: modelType
 

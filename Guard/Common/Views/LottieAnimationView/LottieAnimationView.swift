@@ -9,18 +9,21 @@
 import Lottie
 import UIKit
 
-final class LottieAnimationView: UIView {
-	private let animationView = AnimationView()
-	private let animation = Animation.named("ifegughi", subdirectory: "LottieAnimations")
+final class AnimationView: UIView {
+    private var animationView: LottieAnimationView?
+	//private let animation = Animation.named("ifegughi", subdirectory: "LottieAnimations")
 
 	init() {
 		super.init(frame: .zero)
+
+        animationView = .init(name: "ifegughi")
+        guard let animationView = animationView else { return }
 		addSubview(animationView)
 		animationView.snp.makeConstraints {
 			$0.edges.equalToSuperview()
 		}
 
-		animationView.animation = animation
+		//animationView.animation = animation
 		animationView.contentMode = .scaleAspectFit
 		animationView.loopMode = .loop
 		isHidden = true
@@ -32,11 +35,11 @@ final class LottieAnimationView: UIView {
 
 	func play() {
 		isHidden = false
-		animationView.play()
+		animationView?.play()
 	}
 
 	func stop() {
 		isHidden = true
-		animationView.stop()
+		animationView?.stop()
 	}
 }

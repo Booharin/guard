@@ -14,7 +14,7 @@ protocol ReviewsListViewControllerProtocol: ViewControllerProtocol {
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 }
 
 class ReviewsListViewController<modelType: ReviewsListViewModel>:
@@ -28,7 +28,7 @@ class ReviewsListViewController<modelType: ReviewsListViewModel>:
 	var titleLabel = UILabel()
 	var tableView = UITableView()
 	private var gradientView: UIView?
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 	var navController: UINavigationController? {
 		self.navigationController
 	}

@@ -1,0 +1,6 @@
+module Pods_Guard {
+  umbrella header "Pods-Guard-umbrella.h"
+
+  export *
+  module * { export * }
+}

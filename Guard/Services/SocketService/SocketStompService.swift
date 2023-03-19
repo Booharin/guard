@@ -8,7 +8,7 @@
 
 import Foundation
 import RxSwift
-import MyTrackerSDK
+//import MyTrackerSDK
 import FBSDKCoreKit
 
 protocol HasSocketStompService {
@@ -215,8 +215,8 @@ extension SocketStompService: SwiftStompDelegate {
 				"userId": String(id),
 				"isLayer": di.localStorageService.getCurrenClientProfile()?.userRole == .lawyer ? "YES" : "NO",
 			]
-			MRMyTracker.trackEvent(withName: Constants.MyTracker.Events.userSentMessageFirstTime,
-								   eventParams: parameters)
+			//MRMyTracker.trackEvent(withName: Constants.MyTracker.Events.userSentMessageFirstTime,
+								   //eventParams: parameters)
 			AppEvents.logEvent(.init(Constants.Facebook.Events.userSentMessageFirstTime),
 							   parameters: parameters)
 

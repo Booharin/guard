@@ -9,7 +9,7 @@
 import RxSwift
 import RxCocoa
 import RxGesture
-import MyTrackerSDK
+//import MyTrackerSDK
 import FBSDKCoreKit
 import Alamofire
 
@@ -114,7 +114,7 @@ final class ChooseViewModel:
 				self?.view.loadingView.stop()
 
 				let id = "\(self?.di.localStorageService.getCurrenClientProfile()?.id ?? 0)"
-				MRMyTracker.trackRegistrationEvent(id)
+				//MRMyTracker.trackRegistrationEvent(id)
 				AppEvents.logEvent(.completedRegistration)
 
 				switch result {

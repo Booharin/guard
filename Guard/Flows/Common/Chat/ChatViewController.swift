@@ -15,7 +15,7 @@ protocol ChatViewControllerProtocol: ViewControllerProtocol {
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
 	var chatBarView: ChatBarViewProtocol { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 	func takePhotoFromGallery()
 }
 
@@ -37,7 +37,7 @@ final class ChatViewController<modelType: ChatViewModel>:
 		self.navigationController
 	}
 	var viewModel: modelType
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 	private var imagePicker = UIImagePickerController()
 
 	init(viewModel: modelType) {

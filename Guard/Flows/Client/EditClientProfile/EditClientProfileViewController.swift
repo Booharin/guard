@@ -21,7 +21,7 @@ protocol EditClientProfileViewControllerProtocol: ViewControllerProtocol {
 	var emailTextField: EditTextField { get }
 	var countrySelectView: SelectButtonView { get }
 	var citySelectView: SelectButtonView { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 	func showActionSheet(with titles: [String], completion: @escaping (String) -> Void)
 	func takePhotoFromGallery()
 }
@@ -50,7 +50,7 @@ final class EditClientProfileViewController<modelType: EditClientProfileViewMode
 	var countrySelectView = SelectButtonView()
 	var citySelectView = SelectButtonView()
 	private var imagePicker = UIImagePickerController()
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 
 	var viewModel: modelType
 

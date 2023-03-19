@@ -21,7 +21,7 @@ protocol AuthViewControllerProtocol: AnyObject, ViewControllerProtocol {
 	var faceIDButton: ConfirmButton { get }
 	var forgetPasswordLabel: UILabel { get }
 	var alertLabel: UILabel { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 }
 /// Controller for auth screen
 final class AuthViewController<modelType: ViewModel>: UIViewController,
@@ -42,7 +42,7 @@ AuthViewControllerProtocol where modelType.ViewType == AuthViewControllerProtoco
 									 cornerRadius: 20,
 									 image: #imageLiteral(resourceName: "icn_face_id").withRenderingMode(.alwaysTemplate))
 	var forgetPasswordLabel = UILabel()
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 	var alertLabel = UILabel()
 	
 	var viewModel: modelType

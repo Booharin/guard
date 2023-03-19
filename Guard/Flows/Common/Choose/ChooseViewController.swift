@@ -21,7 +21,7 @@ protocol ChooseViewControllerProtocol {
 	var clientTitleLabel: UILabel { get }
 	var clientSubtitleLabel: UILabel { get }
 
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 }
 
 /// Controller for user type choice
@@ -37,7 +37,7 @@ final class ChooseViewController<modelType: ViewModel>: UIViewController,
 	var clientEnterView = UIView()
 	var clientTitleLabel = UILabel()
 	var clientSubtitleLabel = UILabel()
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 
 	var viewModel: modelType
 

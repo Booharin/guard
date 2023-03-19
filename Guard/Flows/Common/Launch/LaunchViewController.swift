@@ -10,7 +10,7 @@ import UIKit
 
 final class LaunchViewController: UIViewController {
 
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()

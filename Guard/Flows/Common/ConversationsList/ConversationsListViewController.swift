@@ -12,7 +12,7 @@ protocol ConversationsListViewControllerProtocol: ViewControllerProtocol {
 	var greetingLabel: UILabel { get }
 	var greetingDescriptionLabel: UILabel { get }
 	var tableView: UITableView { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 }
 
 final class ConversationsListViewController<modelType: ConversationsListViewModel>:
@@ -24,7 +24,7 @@ final class ConversationsListViewController<modelType: ConversationsListViewMode
 	var greetingDescriptionLabel = UILabel()
 	var tableView = UITableView()
 	private var gradientView: UIView?
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 	var viewModel: modelType
 	var navController: UINavigationController? {
 		self.navigationController

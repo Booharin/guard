@@ -13,7 +13,7 @@ protocol AppealsListViewControllerProtocol: class, ViewControllerProtocol {
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 	var selectedIssues: [Int] { get set }
 	var emptyAppealsLabel: UILabel { get }
 	func showActionSheet(with cities: [String])
@@ -30,7 +30,7 @@ class AppealsListViewController<modelType: AppealsListViewModel>:
 	var titleView = UIView()
 	var titleLabel = UILabel()
 	var tableView = UITableView()
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 	var selectedIssues = [Int]()
 	var navController: UINavigationController? {
 		self.navigationController

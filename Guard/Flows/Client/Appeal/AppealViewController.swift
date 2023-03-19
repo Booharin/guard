@@ -19,7 +19,7 @@ protocol AppealViewControllerProtocol: ViewControllerProtocol {
 	var issueTypeLabel: UILabel { get }
 	var descriptionTextView: UITextView { get }
 	var lawyerSelectedButton: ConfirmButton { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 	func showActionSheet()
 }
 
@@ -51,7 +51,7 @@ final class AppealViewController<modelType: AppealViewModel>:
 	var navController: UINavigationController? {
 		self.navigationController
 	}
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel

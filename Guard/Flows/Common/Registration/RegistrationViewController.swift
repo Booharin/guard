@@ -24,7 +24,7 @@ protocol RegistratioViewControllerProtocol: class, ViewControllerProtocol {
 	var skipButton: SkipButton { get }
 	var alreadyRegisteredLabel: UILabel { get }
 
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 }
 
 import UIKit
@@ -55,7 +55,7 @@ RegistratioViewControllerProtocol where modelType.ViewType == RegistratioViewCon
 								font: Saira.light.of(size: 15))
 	var alreadyRegisteredLabel = UILabel()
 
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 	
 	init(viewModel: modelType) {
 		self.viewModel = viewModel

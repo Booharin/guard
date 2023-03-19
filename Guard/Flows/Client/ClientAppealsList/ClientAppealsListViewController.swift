@@ -15,7 +15,7 @@ protocol ClientAppealsListViewControllerProtocol {
 	var tableView: UITableView { get }
 	var greetingLabel: UILabel { get }
 	var greetingDescriptionLabel: UILabel { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 }
 
 final class ClientAppealsListViewController<modelType: ClientAppealsListViewModel>: UIViewController,
@@ -27,7 +27,7 @@ final class ClientAppealsListViewController<modelType: ClientAppealsListViewMode
 	var tableView = UITableView(frame: .zero, style: .grouped)
 	var greetingLabel = UILabel()
 	var greetingDescriptionLabel = UILabel()
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 	private var gradientView: UIView?
 	
 	var viewModel: modelType

@@ -13,7 +13,7 @@ protocol LawyersListViewControllerProtocol: class, ViewControllerProtocol {
 	var titleView: UIView { get }
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 	var selectedIssues: [Int] { get set }
 	var emptyLawyersLabel: UILabel { get }
 	func showActionSheet(with cities: [String])
@@ -30,7 +30,7 @@ final class LawyersListViewController<modelType: LawyersListViewModel>:
 	var titleView = UIView()
 	var titleLabel = UILabel()
 	var tableView = UITableView()
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 	var selectedIssues = [Int]()
 	var navController: UINavigationController? {
 		self.navigationController

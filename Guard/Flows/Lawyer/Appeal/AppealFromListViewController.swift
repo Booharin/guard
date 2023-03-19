@@ -19,7 +19,7 @@ protocol AppealFromListViewControllerProtocol: ViewControllerProtocol {
 	var profileView: UIView { get }
 	var profileImageView: UIImageView { get }
 	var profileNameLabel: UILabel { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 	var tabBarViewController: UITabBarController? { get }
 }
 
@@ -49,7 +49,7 @@ final class AppealFromListViewController<modelType: AppealFromListViewModel>:
 	var tabBarViewController: UITabBarController? {
 		self.tabBarController
 	}
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 
 	init(viewModel: modelType) {
 		self.viewModel = viewModel

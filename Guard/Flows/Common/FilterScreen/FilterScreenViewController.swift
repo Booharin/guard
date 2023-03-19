@@ -13,7 +13,7 @@ protocol FilterScreenViewControllerProtocol: class, ViewControllerProtocol {
 	var closeButton: UIButton { get }
 	var titleLabel: UILabel { get }
 	var tableView: UITableView { get }
-	var loadingView: LottieAnimationView { get }
+	var loadingView: AnimationView { get }
 	var searchTextField: SearchTextField { get }
 }
 
@@ -26,7 +26,7 @@ final class FilterScreenViewController<modelType: FilterScreenViewModel>:
 	var closeButton = UIButton()
 	var titleLabel = UILabel()
 	var tableView = UITableView()
-	var loadingView = LottieAnimationView()
+	var loadingView = AnimationView()
 	var searchTextField = SearchTextField(placeHolderTitle: "filter.search.placeholder.title".localized)
 
 	private var gradientView: UIView?
